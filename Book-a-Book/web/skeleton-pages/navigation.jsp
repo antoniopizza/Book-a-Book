@@ -31,16 +31,49 @@
     <div class="collapse navbar-collapse navbar-toggleable-sm navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav list-group">           
             <li class="list-group-item">
-                <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown <i class="fa fa-fw fa-caret-down"></i></a>
-                <ul id="demo" class="list-group collapse">
+                <a href="javascript:;" data-toggle="collapse" data-target="#biblioteche"> Biblioteche <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="biblioteche" class="list-group collapse">
                     <li class="list-group-item">
-                        <a href="javascript:;">Dropdown Item</a>
+                        <a href="javascript:;"> Biblioteca di Fisciano</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="javascript:;">Dropdown Item</a>
+                        <a href="javascript:;">Biblioteca di Cicciano</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="javascript:;">Biblioteca di Nola</a>
                     </li>
                 </ul>
             </li>
+            <li class="list-group-item">
+                <a href="javascript:;" data-toggle="collapse" data-target="#autori">Autori <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="autori" class="list-group collapse">
+                    <li class="list-group-item">
+                        <a href="javascript:;"> Dan Brown</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="javascript:;"> Luigi Pirandello </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="javascript:;"> Gabriele d'Annunzio </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="javascript:;"> Johnatan Swift </a>
+                    </li>
+                </ul>
+            </li>
+            
+            <li class="list-group-item">
+                <a href="javascript:;" data-toggle="collapse" data-target="#editori">Editori <i class="fa fa-fw fa-caret-down"></i></a>
+                <ul id="editori" class="list-group collapse">
+                    <li class="list-group-item">
+                        <a href="javascript:;"> Einaudi</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="javascript:;"> Mondadori </a>
+                    </li>                    
+                </ul>
+            </li>
+            
             <li class="list-group-item">
                 <a href="javascript:;"><i class="fa fa-fw fa-file"></i>Info</a>
             </li>

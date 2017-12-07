@@ -8,7 +8,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item search-filter" href="#">Isbn</a>
-                    <a class="dropdown-item search-filter" href="#">Editore</a>
+                    <a class="dropdown-item search-filter" href="#">Titolo</a>
                     <a class="dropdown-item search-filter" href="#">Autore</a>
                     <a class="dropdown-item search-filter" href="#">Editore</a>                    
                 </div>

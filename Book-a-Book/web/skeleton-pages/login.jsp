@@ -36,10 +36,10 @@
 
                     <%@include file="searchbar.jsp" %>
                     
-                    <div class="row">
+                    <div class="row ">
                         <div class="col-lg-4"></div>
                         
-                        <div class="col-lg-4">
+                        <div class="col-lg-4 jumbotron">
                             <form>
                                 <fieldset class="form-group">
                                     
@@ -63,6 +63,7 @@
                     
                 </div>
                 <!-- /.container-fluid -->
+                <div style="min-height: 300px"></div>
 
             </div>
             <!-- /#page-wrapper -->
