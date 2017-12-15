@@ -105,6 +105,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                        <br> <!-- Stacca la sidebar dalla barra di ricerca principale -->
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
