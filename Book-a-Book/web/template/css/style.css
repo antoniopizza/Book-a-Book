@@ -2388,9 +2388,17 @@ article.single-post p {
   padding-right: 10px;
 }
 
+.footer .block about img {
+      height: 80px;
+  }
+
 @media (max-width: 768px) {
   .footer .block:last-child {
     margin-bottom: 30px;
+  }
+  
+  .footer .block about img {
+      height: 32px;
   }
 }
 

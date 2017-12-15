@@ -304,11 +304,11 @@
             <!-- Container Start -->
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-9 offset-md-1 offset-lg-0">
+                    <div class="col-lg-7 col-md-13 offset-md-1 offset-lg-0">
                         <!-- About -->
                         <div class="block about">
                             <!-- footer logo -->
-                            <img src="../template/images/logo-with-name.png" alt="" height="64px">
+                            <img src="../template/images/logo-with-name.png" alt="" height="32px">
                             <!-- description -->
                             <p class="alt-color">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                         </div>
