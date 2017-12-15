@@ -436,12 +436,12 @@ button {
 }
 
 .btn-main, .btn-main-sm {
-  background: #5672f9;
+  background: rgb(186, 106, 37);
   color: #fff;
 }
 
 .btn-main:hover, .btn-main-sm:hover {
-  background: #082de1;
+  background: rgb(168, 78, 0);
   color: #fff;
 }
 
@@ -635,7 +635,8 @@ ul.pagination .active a {
 }
 
 .bg-1 {
-  background: url("../images/home/hero.jpg");
+  //background: url("../images/home/hero.jpg");
+  background: url("../images/home/hero2.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -664,6 +665,10 @@ ul.pagination .active a {
   border: 2px solid #dedede;
   margin-right: 8px;
   padding: 6px 20px !important;
+}
+
+.login-button:hover{
+    color: #a84e00;
 }
 
 .add-button {
@@ -696,7 +701,11 @@ ul.pagination .active a {
 }
 
 .main-nav .nav-item.active .nav-link {
-  color: #5672f9;
+  color: #a84e00;
+}
+
+.main-nav .nav-item .nav-link:hover{
+    color: #a84e00;
 }
 
 .main-nav .search .nav-link i {
