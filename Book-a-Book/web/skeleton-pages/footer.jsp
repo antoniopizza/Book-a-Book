@@ -74,8 +74,8 @@
         </div>
     </div>
     <!-- Container End -->
-    <!-- To Top -->
+    <!-- To Top TOLTO PERCHE' BUGGATO
     <div class="top-to">
-        <a id="top" class="" href=""><i class="fa fa-angle-up"></i></a>
-    </div>
+        <a id="top" class="" href="#"><i class="fa fa-angle-up"></i></a>
+    </div> -->
 </footer>

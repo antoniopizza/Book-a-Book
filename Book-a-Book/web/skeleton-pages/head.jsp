@@ -9,7 +9,7 @@
   <title>Book a Book | <%=nomePagina %></title>
   
   <!-- PLUGINS CSS STYLE -->
-  <link href="<%=path%>plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+  <link href="<%=path%>plugins/jquery-ui/jquery-ui.css" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="<%=path%>plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
@@ -35,7 +35,7 @@
   <![endif]-->
 
    <!-- JAVASCRIPTS -->
-  <script src="<%=path%>plugins/jquery/jquery.min.js"></script>
+  <script src="<%=path%>plugins/jquery/dist/jquery.min.js"></script>
   <script src="<%=path%>plugins/jquery-ui/jquery-ui.min.js"></script>
   <script src="<%=path%>plugins/tether/js/tether.min.js"></script>
   <script src="<%=path%>plugins/raty/jquery.raty-fa.js"></script>

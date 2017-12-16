@@ -317,6 +317,7 @@ button {
 
 .section {
   padding: 100px 0;
+  background-color: rgba(238, 238, 238, 0.30);
 }
 
 .section-sm {
@@ -464,12 +465,12 @@ button {
 
 .btn-transparent {
   background: transparent;
-  color: #5672f9;
-  border: 1px solid #5672f9;
+  color: rgb(186, 106, 37);
+  border: 1px solid rgb(186, 106, 37);
 }
 
 .btn-transparent:hover {
-  background: #082de1;
+  background: rgb(186, 106, 37);
   color: #fff;
 }
 
@@ -1307,7 +1308,7 @@ ul.pagination .active a {
 }
 
 .category-search-filter {
-  background: #f7f7f7;
+  background: #e0e0e0;
   padding: 20px;
 }
 
