@@ -11,9 +11,14 @@
                     <option>ISBN</option>
                 </select>
             </div>
-            <div class="col-lg-8 col-md-12">
+            <div class="col-lg-7 col-md-12">
                 <div class="block d-flex">
                     <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Cerca il tuo libro">
+                    
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-12">
+                <div class="block d-flex">
                     <!-- Search Button -->
                     <button class="btn btn-main">CERCA</button>
                 </div>

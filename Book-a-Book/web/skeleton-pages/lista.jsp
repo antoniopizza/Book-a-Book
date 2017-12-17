@@ -11,7 +11,7 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
                       
                         <div class="widget dashboard-container my-adslist">
                             <h3 class="widget-header">Cerca un libro</h3>
