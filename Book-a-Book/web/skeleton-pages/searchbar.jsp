@@ -1,34 +1,30 @@
-<div class="row">
-    <div class="col-lg-3"></div>   
-    <div class="col-lg-6">
-        <div class="form-group input-group">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-secondary dropdown-toggle" id="selected-filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Filtra
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item search-filter" href="#">Isbn</a>
-                    <a class="dropdown-item search-filter" href="#">Editore</a>
-                    <a class="dropdown-item search-filter" href="#">Autore</a>
-                    <a class="dropdown-item search-filter" href="#">Editore</a>                    
+<div class="advance-search">
+    <form action="#">
+        <div class="row">
+            <!-- Store Search -->
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 col-md-12">
+                <select class="form-control mb-2 mr-sm-2 mb-sm-0">
+                    <option>Titolo</option>
+                    <option>Autore</option>
+                    <option>Editore</option>
+                    <option>ISBN</option>
+                </select>
+            </div>
+            <div class="col-lg-7 col-md-12">
+                <div class="block d-flex">
+                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Cerca il tuo libro">
+                    
                 </div>
             </div>
-            <input type="text" name="valore-ricerca" class="form-control" />
-            <input type="hidden" name="chiave-ricerca" id="valore-ricerca" />
-            <span class="input-group-btn">
-                <button class="btn btn-secondary" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-            </span>
+            <div class="col-lg-2 col-md-12">
+                <div class="block d-flex">
+                    <!-- Search Button -->
+                    <button class="btn btn-main">CERCA</button>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
         </div>
-    </div>
-    <div class="col-lg-3"></div>
-</div>
+    </form>
 
-<script type="text/javascript">
-    $(".search-filter").click(function() {
-        var filter = $(this).text();
-        $("#selected-filter").text(filter);
-        $("#valore-ricerca").val(filter);
-    });
-</script>
+</div>
