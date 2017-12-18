@@ -10,13 +10,32 @@ package core.DAO;
  * @author manuel
  */
 public abstract class AbstractDAO<T> {
-    
+    /**
+     * 
+     * @param id
+     * @return 
+     */
     public abstract T doRetriveById(int id);
     
+    /**
+     * 
+     * @return 
+     */
     public abstract T doRetriveAll();
     
+    /**
+     * 
+     * @param entity
+     * @return 
+     */
     public abstract int doInsert( T entity);
     
+    
+    /**
+     * 
+     * @param entity
+     * @return 
+     */
     public abstract int doUpdate(T entity);
     
     
