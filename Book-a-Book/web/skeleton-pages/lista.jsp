@@ -11,7 +11,7 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
                       
                         <div class="widget dashboard-container my-adslist">
                             <h3 class="widget-header">Cerca un libro</h3>
@@ -47,6 +47,111 @@
                                         <th class="text-center">Azioni</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <tr>
+
+                                        <td class="product-thumb">
+                                            <img width="80px" height="auto" src="http://alessandria.bookrepublic.it/api/books/9788852044458/cover" alt="image description"></td>
+                                        <td class="product-details">
+                                            <h3 class="title">Il conte di Montecristo</h3>
+                                            <span class="location"><strong>ISBN:</strong>9788673881126</span>
+                                            <span class="add-id"><strong>Autore: </strong>Alexandre Dumas</span>
+                                            <span><strong>Editore: </strong>Oscar Mondadori</span>
+                                            <span class="status active"><strong>Status</strong>Disponibile</span>                                            
+                                        </td>                                       
+                                        <td class="action" data-title="Action">
+                                            <div class="">
+                                                <ul class="list-inline justify-content-center">
+                                                    <li class="list-inline-item">
+                                                        <a data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="view" href="">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>		
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a class="edit" href="">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>		
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a class="delete" href="">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>                                   
+                                </tbody>
+                                <tbody>
+                                    <tr>
+
+                                        <td class="product-thumb">
+                                            <img width="80px" height="auto" src="http://alessandria.bookrepublic.it/api/books/9788852044458/cover" alt="image description"></td>
+                                        <td class="product-details">
+                                            <h3 class="title">Il conte di Montecristo</h3>
+                                            <span class="location"><strong>ISBN:</strong>9788673881126</span>
+                                            <span class="add-id"><strong>Autore: </strong>Alexandre Dumas</span>
+                                            <span><strong>Editore: </strong>Oscar Mondadori</span>
+                                            <span class="status active"><strong>Status</strong>Disponibile</span>                                            
+                                        </td>                                       
+                                        <td class="action" data-title="Action">
+                                            <div class="">
+                                                <ul class="list-inline justify-content-center">
+                                                    <li class="list-inline-item">
+                                                        <a data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="view" href="">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>		
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a class="edit" href="">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>		
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a class="delete" href="">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>                                   
+                                </tbody>
+                                <tbody>
+                                    <tr>
+
+                                        <td class="product-thumb">
+                                            <img width="80px" height="auto" src="http://alessandria.bookrepublic.it/api/books/9788852044458/cover" alt="image description"></td>
+                                        <td class="product-details">
+                                            <h3 class="title">Il conte di Montecristo</h3>
+                                            <span class="location"><strong>ISBN:</strong>9788673881126</span>
+                                            <span class="add-id"><strong>Autore: </strong>Alexandre Dumas</span>
+                                            <span><strong>Editore: </strong>Oscar Mondadori</span>
+                                            <span class="status active"><strong>Status</strong>Disponibile</span>                                            
+                                        </td>                                       
+                                        <td class="action" data-title="Action">
+                                            <div class="">
+                                                <ul class="list-inline justify-content-center">
+                                                    <li class="list-inline-item">
+                                                        <a data-toggle="tooltip" data-placement="top" title="Tooltip on top" class="view" href="">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>		
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a class="edit" href="">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>		
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a class="delete" href="">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>                                   
+                                </tbody>
                                 <tbody>
                                     <tr>
 

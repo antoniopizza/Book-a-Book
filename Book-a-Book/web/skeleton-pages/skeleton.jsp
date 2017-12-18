@@ -13,7 +13,7 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
@@ -34,25 +34,25 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
                       
                         <div class="widget dashboard-container my-adslist">
                             <h3 class="widget-header">Cerca un libro</h3>
                             <%@include file="searchbar.jsp" %>
                             <br>
                             <h3 class="widget-header"></h3>
+                            
+                            <!-- Da qui in poi puoi inserire codice per creare la pagina da questo scheletro -->                    
+                            
+                            <!--=================================
+                            =      Contenuto della pagine      =
+                            ==================================-->      
 
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <!-- Da qui in poi puoi inserire codice per creare la pagina da questo scheletro -->                    
-                            
-        <!--=================================
-        =      Contenuto della pagine      =
-        ==================================-->                    
+        </section>                 
 
         <%@include file="footer.jsp" %>
     </body>

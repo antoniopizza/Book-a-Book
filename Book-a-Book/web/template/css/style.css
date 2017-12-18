@@ -320,6 +320,12 @@ button {
   background-color: rgba(238, 238, 238, 0.30);
 }
 
+.scroll-page{
+    overflow-y: scroll;
+    z-index: 999;
+    height: 70vh;
+}
+
 .section-sm {
   padding: 70px 0;
 }
