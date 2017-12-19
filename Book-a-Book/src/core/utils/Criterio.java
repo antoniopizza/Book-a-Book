@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core.Entities;
+package core.utils;
 
 /**
  *
- * @author mirko
+ * @author manuel
  */
-public class Admin extends Utente{
-
-    public Admin() {
-        
-    }
-        
+public interface Criterio {
+    
 }
