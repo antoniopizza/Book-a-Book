@@ -6,6 +6,7 @@
 package core.DAO;
 
 /**
+
  * Superclasse astratta di tutte le DAO, obbliga
  * l'implementazione dei metodi CRUD.
  * @author manuel
@@ -17,7 +18,9 @@ public abstract class AbstractDAO<T> {
      * @param id
      * @return 
      */
+
     public abstract T doRetriveById( Object ... id );
+
     
     /**
      * 
