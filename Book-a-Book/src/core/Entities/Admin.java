@@ -14,13 +14,5 @@ public class Admin extends Utente{
     public Admin() {
         
     }
-
-    public Admin(String nome, String cognome) {
-        super(nome, cognome);
-    }
-
-    public Admin(String nome, String cognome, Account account) {
-        super(nome, cognome, account);
-    }
         
 }

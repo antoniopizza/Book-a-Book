@@ -31,6 +31,13 @@ public class Utente {
         this.account = account;
     }
 
+    public Utente(int id, String nome, String cognome, Account account) {
+        this.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.account = account;
+    }
+    
     public int getId() {
         return id;
     }

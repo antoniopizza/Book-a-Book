@@ -19,14 +19,6 @@ public class Bibliotecario extends Utente{
         
     }
 
-    public Bibliotecario(String nome, String cognome) {
-        super(nome, cognome);
-    }
-
-    public Bibliotecario(String nome, String cognome, Account account) {
-        super(nome, cognome, account);
-    }
-
     public Bibliotecario(String status, String tipo, String nome, String cognome) {
         super(nome, cognome);
         this.status = status;
@@ -35,6 +27,13 @@ public class Bibliotecario extends Utente{
 
     public Bibliotecario(String status, String tipo, Biblioteca biblioteca, String nome, String cognome, Account account) {
         super(nome, cognome, account);
+        this.status = status;
+        this.tipo = tipo;
+        this.biblioteca = biblioteca;
+    }
+
+    public Bibliotecario(String status, String tipo, Biblioteca biblioteca, int id, String nome, String cognome, Account account) {
+        super(id, nome, cognome, account);
         this.status = status;
         this.tipo = tipo;
         this.biblioteca = biblioteca;

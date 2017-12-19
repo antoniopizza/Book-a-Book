@@ -18,14 +18,6 @@ public class Persona extends Utente{
         
     }
 
-    public Persona(String nome, String cognome) {
-        super(nome, cognome);
-    }
-
-    public Persona(String nome, String cognome, Account account) {
-        super(nome, cognome, account);
-    }
-
     public Persona(String numDocumento, String nome, String cognome) {
         super(nome, cognome);
         this.numDocumento = numDocumento;
@@ -33,6 +25,12 @@ public class Persona extends Utente{
 
     public Persona(String numDocumento, Indirizzo indirizzo, String nome, String cognome, Account account) {
         super(nome, cognome, account);
+        this.numDocumento = numDocumento;
+        this.indirizzo = indirizzo;
+    }
+
+    public Persona(String numDocumento, Indirizzo indirizzo, int id, String nome, String cognome, Account account) {
+        super(id, nome, cognome, account);
         this.numDocumento = numDocumento;
         this.indirizzo = indirizzo;
     }

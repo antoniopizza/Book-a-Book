@@ -40,6 +40,16 @@ public class Prenotazione {
         this.libro = libro;
     }
 
+    public Prenotazione(int id, Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, Biblioteca biblioteca, Libro libro) {
+        this.id = id;
+        this.dataCreazione = dataCreazione;
+        this.dataScadenza = dataScadenza;
+        this.dataConsegna = dataConsegna;
+        this.persona = persona;
+        this.biblioteca = biblioteca;
+        this.libro = libro;
+    }
+    
     public int getId() {
         return id;
     }
