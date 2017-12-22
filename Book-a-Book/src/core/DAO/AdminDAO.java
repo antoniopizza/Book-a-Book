@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Admin;
+import java.util.List;
 
 /**
  *
@@ -27,7 +28,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
     }
 
     @Override
-    public Admin doRetriveAll() {
+    public List<Admin> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Prenotazione;
+import java.util.List;
 
 /**
  *
@@ -27,7 +28,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione>{
     }
 
     @Override
-    public Prenotazione doRetriveAll() {
+    public List<Prenotazione> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

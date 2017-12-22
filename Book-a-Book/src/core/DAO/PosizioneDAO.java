@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Posizione;
+import java.util.List;
 
 /**
  *
@@ -29,7 +30,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione>{
     }
 
     @Override
-    public Posizione doRetriveAll() {
+    public List<Posizione> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

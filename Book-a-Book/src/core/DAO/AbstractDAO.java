@@ -5,6 +5,8 @@
  */
 package core.DAO;
 
+import java.util.List;
+
 /**
 
  * Superclasse astratta di tutte le DAO, obbliga
@@ -26,7 +28,7 @@ public abstract class AbstractDAO<T> {
      * 
      * @return 
      */
-    public abstract T doRetriveAll();
+    public abstract List<T> doRetriveAll();
     
     /**
      * 

@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Libro;
+import java.util.List;
 
 /**
  *
@@ -27,7 +28,7 @@ public class LibroDAO extends AbstractDAO<Libro>{
     }
 
     @Override
-    public Libro doRetriveAll() {
+    public List<Libro> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

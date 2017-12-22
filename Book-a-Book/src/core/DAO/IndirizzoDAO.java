@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Indirizzo;
+import java.util.List;
 
 /**
  *
@@ -29,7 +30,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
     }
 
     @Override
-    public Indirizzo doRetriveAll() {
+    public List<Indirizzo> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Autore;
+import java.util.List;
 
 /**
  *
@@ -27,7 +28,7 @@ public class AutoreDAO extends AbstractDAO<Autore>{
     }
 
     @Override
-    public Autore doRetriveAll() {
+    public List<Autore> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

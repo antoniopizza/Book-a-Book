@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Telefono;
+import java.util.List;
 
 /**
  *
@@ -28,7 +29,7 @@ public class TelefonoDAO extends AbstractDAO<Telefono>{
     }
 
     @Override
-    public Telefono doRetriveAll() {
+    public List<Telefono> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Bibliotecario;
+import java.util.List;
 
 /**
  *
@@ -27,7 +28,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
     }
 
     @Override
-    public Bibliotecario doRetriveAll() {
+    public List<Bibliotecario> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

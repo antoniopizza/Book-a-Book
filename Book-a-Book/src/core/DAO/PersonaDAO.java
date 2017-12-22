@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Persona;
+import java.util.List;
 
 /**
  *
@@ -27,7 +28,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
     }
 
     @Override
-    public Persona doRetriveAll() {
+    public List<Persona> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
