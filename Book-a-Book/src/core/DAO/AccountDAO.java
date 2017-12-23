@@ -6,6 +6,13 @@
 package core.DAO;
 
 import core.entities.Account;
+import core.entities.Indirizzo;
+import core.utils.DriverManagerConnectionPool;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +20,11 @@ import java.util.List;
  * @author mirko
  */
 public class AccountDAO extends AbstractDAO<Account>{
+    private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE email = ?";
+    private final String doRetriveAllQuery = "SELECT * FROM Account";
+    private final String doInsertQuery = "INSERT INTO Account(email,password,path_foto,tipo)" 
+                                            + "VALUES(?,?,?,?);";
+    private final String doUpdateQuery = "UPDATE Account SET email = ?, password = ?, path_foto = ?, tipo = ?, cap = ? WHERE email = ?";
     
     /**
      * 
@@ -23,23 +35,117 @@ public class AccountDAO extends AbstractDAO<Account>{
     @Override
     public Account doRetriveById(Object... id) {
         String email = (String) id[0];
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
+            prst.setString(1, email);
+           
+                
+
+            try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+                Account account = null;
+                if (rs.next()) {
+                    account = new Account(rs.getString("email"), rs.getString("password"), rs.getString("path_foto"), rs.getString("tipo"));
+                }
+                rs.close();
+                return account;
+
+            } catch (SQLException e) {
+                con.rollback();
+                return null;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public List<Account> doRetriveAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Account> accounts = new ArrayList<Account>();
+        
+        Connection con;
+        try {
+            con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetriveAllQuery);
+            
+        try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+                Account account = null;
+                
+                while(rs.next()) {
+                    account = new Account(rs.getString("email"), rs.getString("password"), rs.getString("path_foto"), rs.getString("tipo"));
+                    accounts.add(account);
+                }
+                rs.close();
+                return accounts;
+
+            } catch (SQLException e) {
+                con.rollback();
+                return null;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+           
     }
 
     @Override
     public int doInsert(Account account) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            Connection con = DriverManagerConnectionPool.getConnection();            
+            PreparedStatement prst = con.prepareStatement(doInsertQuery);
+            prst.setString(1, account.getEmail());
+            prst.setString(2,account.getPassword());
+            prst.setString(3,account.getPathFoto());
+            prst.setString(4,account.getTipo());
+            
+            try{
+                prst.execute();
+                return 0;
+            } catch(SQLException e){
+                return -1;
+            }
+            
+            
+        } catch(SQLException e){
+            return -1;
+        }
     }
 
     @Override
     public int doUpdate(Account account) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try{
+            Connection con = DriverManagerConnectionPool.getConnection();            
+            PreparedStatement prst = con.prepareStatement(doUpdateQuery);
+            prst.setString(1, account.getEmail());
+            prst.setString(2,account.getPassword());
+            prst.setString(3,account.getPathFoto());
+            prst.setString(4,account.getTipo());
+            
+            try{
+                prst.execute();
+                return 0;
+            } catch(SQLException e){
+                return -1;
+            }
+            
+            
+        } catch(SQLException e){
+            return -1;
+        }
     }
     
 }
