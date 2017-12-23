@@ -98,7 +98,7 @@ public class ManagerRegistrazione {
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(idBiblioteca);
         
         biblioteca.setStatus(change);
-        if(bibliotecaDAO.doInsert(biblioteca) == 1) {
+        if(bibliotecaDAO.doInsert(biblioteca)>=0) {
             return true;
         } else {
             return false;
