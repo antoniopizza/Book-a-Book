@@ -31,6 +31,10 @@ public class AutoreDAO extends AbstractDAO<Autore>{
     public List<Autore> doRetriveAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public List<Autore> doRetriveByLibro(String isbn){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public int doInsert(Autore autore) {
