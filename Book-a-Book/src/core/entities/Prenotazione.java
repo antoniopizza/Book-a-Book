@@ -18,6 +18,7 @@ public class Prenotazione {
     protected Calendar dataScadenza;
     protected Calendar dataConsegna;
     protected Persona persona;
+    protected String status;
     protected Biblioteca biblioteca;
     protected Libro libro;
 
@@ -25,27 +26,38 @@ public class Prenotazione {
         
     }
 
-    public Prenotazione(Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna) {
+    public Prenotazione(Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, String status) {
         this.dataCreazione = dataCreazione;
         this.dataScadenza = dataScadenza;
         this.dataConsegna = dataConsegna;
+        this.status = status;
     }
 
-    public Prenotazione(Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, Biblioteca biblioteca, Libro libro) {
+    public Prenotazione(Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, String status, Biblioteca biblioteca, Libro libro) {
         this.dataCreazione = dataCreazione;
         this.dataScadenza = dataScadenza;
         this.dataConsegna = dataConsegna;
         this.persona = persona;
+        this.status = status;
         this.biblioteca = biblioteca;
         this.libro = libro;
     }
 
-    public Prenotazione(int id, Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, Biblioteca biblioteca, Libro libro) {
+    public Prenotazione(int id, Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, String status) {
+        this.id = id;
+        this.dataCreazione = dataCreazione;
+        this.dataScadenza = dataScadenza;
+        this.dataConsegna = dataConsegna;
+        this.status = status;
+    }
+    
+    public Prenotazione(int id, Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, String status, Biblioteca biblioteca, Libro libro) {
         this.id = id;
         this.dataCreazione = dataCreazione;
         this.dataScadenza = dataScadenza;
         this.dataConsegna = dataConsegna;
         this.persona = persona;
+        this.status = status;
         this.biblioteca = biblioteca;
         this.libro = libro;
     }
@@ -82,6 +94,14 @@ public class Prenotazione {
         this.dataConsegna = dataConsegna;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     public Persona getPersona() {
         return persona;
     }
