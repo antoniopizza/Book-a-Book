@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mirko
  */
-@WebServlet(name = "AnnullaPrenotazioneServlet", urlPatterns = {"/prenotazioni/annulla-prenotazione"})
-public class AnnullaPrenotazioneServlet extends HttpServlet {
+@WebServlet(name = "ConfermaRestituzioneLibroServlet", urlPatterns = {"/prenotazioni/conferma-restituzione"})
+public class ConfermaRestituzioneLibroServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,7 +38,7 @@ public class AnnullaPrenotazioneServlet extends HttpServlet {
         
         int idPrenotazione = Integer.parseInt(request.getParameter("id_prenotazione"));
         String email = request.getParameter("email");
-        String status = "Annullata";
+        String status = "Restituito";
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         
         if(manPren.controlloPrenotazione(idPrenotazione, email, status) == false){
