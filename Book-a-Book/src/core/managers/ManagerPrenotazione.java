@@ -5,10 +5,14 @@
  */
 package core.managers;
 
+import core.DAO.*;
+import core.entities.*;
 import core.entities.Persona;
 import core.entities.Prenotazione;
 import core.utils.Criterio;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -17,10 +21,26 @@ import java.util.Collection;
 public class ManagerPrenotazione {
     
     public boolean prenotareLibro(Persona p,String isbn,String isil){
-        throw new UnsupportedOperationException("Not implemennted yet");
+        LibroDAO libroDAO = new LibroDAO();
+        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+        PrenotazioneDAO prenDAO = new PrenotazioneDAO();
+        
+        Calendar dataCreazione = new GregorianCalendar(); 
+        Calendar dataScadenza = new GregorianCalendar();
+        dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
+        Libro libroPrenotato;
+        libroPrenotato = libroDAO.doRetriveById(isbn);
+        Biblioteca bib;
+        bib = bibliotecaDAO.doRetriveById(isil);
+        Prenotazione prenot;
+        prenot = new Prenotazione(dataCreazione,dataScadenza, null, p, "Da ritirare", bib, libroPrenotato);
+        prenDAO.doInsert(prenot);
+        
+        return true;
     }
     
     public Collection<Prenotazione> visualizzaPrenotazioni(Criterio cp){
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
