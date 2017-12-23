@@ -6,7 +6,7 @@
 package core.entities;
 
 import java.util.Calendar;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -20,7 +20,7 @@ public class Libro {
     protected Calendar dataPubblicazione;
     protected String descrizione;
     protected boolean disponibilta;
-    protected Set<Autore> autori;
+    protected List<Autore> autori;
 
     public Libro() {
         
@@ -35,7 +35,7 @@ public class Libro {
         this.disponibilta = disponibilta;
     }
 
-    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta, Set<Autore> autori) {
+    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta, List<Autore> autori) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.editore = editore;
@@ -93,11 +93,11 @@ public class Libro {
         this.disponibilta = disponibilta;
     }
 
-    public Set<Autore> getAutori() {
+    public List<Autore> getAutori() {
         return autori;
     }
 
-    public void setAutori(Set<Autore> autori) {
+    public void setAutori(List<Autore> autori) {
         this.autori = autori;
     }
 

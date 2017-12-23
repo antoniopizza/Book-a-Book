@@ -5,7 +5,7 @@
  */
 package core.entities;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Autore {
     
     protected int id;
     protected String nome;
-    protected Set<Libro> libri;
+    protected List<Libro> libri;
 
     public Autore() {
         
@@ -25,12 +25,12 @@ public class Autore {
         this.nome = nome;
     }
 
-    public Autore(String nome, Set<Libro> libri) {
+    public Autore(String nome, List<Libro> libri) {
         this.nome = nome;
         this.libri = libri;
     }
 
-    public Autore(int id, String nome, Set<Libro> libri) {
+    public Autore(int id, String nome, List<Libro> libri) {
         this.id = id;
         this.nome = nome;
         this.libri = libri;
@@ -52,11 +52,11 @@ public class Autore {
         this.nome = nome;
     }
 
-    public Set<Libro> getLibri() {
+    public List<Libro> getLibri() {
         return libri;
     }
 
-    public void setLibri(Set<Libro> libri) {
+    public void setLibri(List<Libro> libri) {
         this.libri = libri;
     }
 
