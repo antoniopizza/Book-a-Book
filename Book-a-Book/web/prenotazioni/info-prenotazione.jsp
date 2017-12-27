@@ -1,3 +1,4 @@
+<%@page import="core.entities.Bibliotecario"%>
 <%@page import="core.entities.Utente"%>
 <%@page import="core.entities.Autore"%>
 <%@page import="core.entities.Persona"%>
@@ -96,8 +97,9 @@
                                 %>
                                 
                                 <%
+                                    Utente user = (Utente) session.getAttribute("Utente");
                                     if(prenotazione.getStatus().equals("Da ritirare")){
-                                        if(user.equals((Utente) session.getAttribute("persona"))){
+                                        if(user instanceof Persona){
                                             %>
                                             <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">
                                                 <form class="form-group" action="/prenotazioni/annulla-prenotazione">
@@ -105,7 +107,7 @@
                                                 </form>
                                             </div>
                                             <%
-                                        } else if(user.equals((Utente) session.getAttribute("bibliotecario"))){
+                                        } else if(user instanceof Bibliotecario){
                                             %>
                                             <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                                 <form class="form-group" action="/prenotazioni/annulla-prenotazione">
