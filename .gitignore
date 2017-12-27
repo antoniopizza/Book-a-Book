@@ -4,3 +4,4 @@ BookaBook/nbbuild/
 BookaBook/dist/
 BookaBook/nbdist/
 BookaBook/.nb-gradle/
+/Book-a-Book/nbproject/private/
