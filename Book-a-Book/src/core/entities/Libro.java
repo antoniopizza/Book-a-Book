@@ -7,6 +7,7 @@ package core.entities;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -115,6 +116,46 @@ public class Libro {
     @Override
     public String toString() {
         return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", disponibilta=" + disponibilta + ", autori=" + autori + ", pathFoto=" + pathFoto + '}';
+    }
+
+  
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Libro other = (Libro) obj;
+        if (this.disponibilta != other.disponibilta) {
+            return false;
+        }
+        if (!Objects.equals(this.isbn, other.isbn)) {
+            return false;
+        }
+        if (!Objects.equals(this.titolo, other.titolo)) {
+            return false;
+        }
+        if (!Objects.equals(this.editore, other.editore)) {
+            return false;
+        }
+        if (!Objects.equals(this.descrizione, other.descrizione)) {
+            return false;
+        }
+        if (!Objects.equals(this.pathFoto, other.pathFoto)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataPubblicazione, other.dataPubblicazione)) {
+            return false;
+        }
+        if (!Objects.equals(this.autori, other.autori)) {
+            return false;
+        }
+        return true;
     }
 
     

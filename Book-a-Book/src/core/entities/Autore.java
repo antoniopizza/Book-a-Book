@@ -6,6 +6,7 @@
 package core.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -64,5 +65,32 @@ public class Autore {
     public String toString() {
         return "Autore{" + "id=" + id + ", nome=" + nome + ", libri=" + libri + '}';
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Autore other = (Autore) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.libri, other.libri)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

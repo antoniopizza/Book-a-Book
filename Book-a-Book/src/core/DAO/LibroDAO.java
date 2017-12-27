@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -29,15 +28,16 @@ public class LibroDAO extends AbstractDAO<Libro> {
     private final String doRetriveAllQuery = "SELECT * FROM Libro";
     private final String doInsertQuery = "INSERT INTO Libro(isbn,titolo,editore,data_pubblicazione,descrizione,disponibilita,path_foto)"
             + "VALUES (?,?,?,?,?,?,?)";
-    private final String doInsertAutoreQuery = "INSERT INTO Libro_Autore VALUES (?,?)";
-
+    private final String doInsertAutoreQuery = "INSERT INTO Libro_Autore(id_autore,isbn) VALUES (?,?)";
+    private final String doUpdateQuery = "UPDATE Libro SET titolo= ? ,editore= ?,data_pubblicazione= ?,"
+                                       + "descrizione=?,disponibilita= ?,path_foto=? WHERE isbn = ?";
+    
     /**
      * Metodo che dato una stringa corrispondente all'isbn restituisce un
      * oggetto libro completo
      *
-     * @param id[0] si aspetta un isbn
-     * @return un libro in base all'id oppure null se c'è qualche errore oppure
-     * il libro non viene trovato
+     * @param id[0] si aspetta un isbn(String)
+     * @return il libro corrispondente all'isbn, altrimenti null.
      */
     @Override
     public Libro doRetriveById(Object... id) {
@@ -117,9 +117,10 @@ public class LibroDAO extends AbstractDAO<Libro> {
     }
 
     /**
-     *
+     * Metodo che inserisce un libro nel Database e crea la relazione
+     * tra libro e autori.
      * @param libro da inserire. N.B. Gli autori sono già stati inseriti.
-     * @return
+     * @return 0 se tutto ok altrimenti -1
      */
     @Override
     public int doInsert(Libro libro) {
@@ -146,8 +147,9 @@ public class LibroDAO extends AbstractDAO<Libro> {
                     prst2.execute();
                 }
 
+                con.commit();
                 prst.close();
-                prst.close();
+                prst2.close();
                 return 0;
                 
             } catch (SQLException e) {
@@ -165,7 +167,34 @@ public class LibroDAO extends AbstractDAO<Libro> {
 
     @Override
     public int doUpdate(Libro libro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            try {
+
+                PreparedStatement prst = con.prepareStatement(doUpdateQuery);                
+                prst.setString(1, libro.getTitolo());
+                prst.setString(2, libro.getEditore());
+                prst.setDate(3, new Date(libro.getDataPubblicazione().getTimeInMillis()));
+                prst.setString(4, libro.getDescrizione());
+                prst.setBoolean(5, libro.isDisponibilta());
+                prst.setString(6, libro.getPathFoto());
+                prst.setString(7, libro.getIsbn());
+
+                prst.execute();                
+                con.commit();
+                prst.close();                
+                return 0;
+                
+            } catch (SQLException e) {
+                con.rollback();                
+                return -1;
+            } finally{
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException e) {
+            return -1;
+        }
     }
 
 }
