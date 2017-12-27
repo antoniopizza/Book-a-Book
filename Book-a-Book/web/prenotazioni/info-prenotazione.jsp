@@ -6,8 +6,7 @@
 <%@page import="core.entities.Prenotazione"%>
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
-<% String nomePagina = "Informazioni Prenotazione";
-%>
+<% String nomePagina = "Informazioni Prenotazione";%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
