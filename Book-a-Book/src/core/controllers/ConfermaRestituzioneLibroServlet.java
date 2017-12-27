@@ -42,9 +42,9 @@ public class ConfermaRestituzioneLibroServlet extends HttpServlet {
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         
         if(manPren.controlloPrenotazione(idPrenotazione, email, status) == false){
-            message = "C'è stato qualche problema che non ha fatto concludere l'operazione";
+            message = "C'è stato un errore durante qualche operazione.";
         } else {
-            message = "L'operazione è andata a buon fine";
+            message = "correct";
         }
         
         request.setAttribute("message", message);
