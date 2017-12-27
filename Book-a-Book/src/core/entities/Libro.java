@@ -7,6 +7,7 @@ package core.entities;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -21,21 +22,23 @@ public class Libro {
     protected String descrizione;
     protected boolean disponibilta;
     protected List<Autore> autori;
+    protected String pathFoto;
 
     public Libro() {
         
     }
 
-    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta) {
+    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta,String pathFoto) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.editore = editore;
         this.dataPubblicazione = dataPubblicazione;
         this.descrizione = descrizione;
         this.disponibilta = disponibilta;
+        this.pathFoto = pathFoto;
     }
 
-    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta, List<Autore> autori) {
+    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta, List<Autore> autori,String pathFoto) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.editore = editore;
@@ -43,6 +46,7 @@ public class Libro {
         this.descrizione = descrizione;
         this.disponibilta = disponibilta;
         this.autori = autori;
+        this.pathFoto = pathFoto;
     }
     
     public String getIsbn() {
@@ -101,9 +105,59 @@ public class Libro {
         this.autori = autori;
     }
 
+    public String getPathFoto() {
+        return pathFoto;
+    }
+
+    public void setPathFoto(String pathFoto) {
+        this.pathFoto = pathFoto;
+    }
+
     @Override
     public String toString() {
-        return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", disponibilta=" + disponibilta + ", autori=" + autori + '}';
+        return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", disponibilta=" + disponibilta + ", autori=" + autori + ", pathFoto=" + pathFoto + '}';
     }
+
+  
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Libro other = (Libro) obj;
+        if (this.disponibilta != other.disponibilta) {
+            return false;
+        }
+        if (!Objects.equals(this.isbn, other.isbn)) {
+            return false;
+        }
+        if (!Objects.equals(this.titolo, other.titolo)) {
+            return false;
+        }
+        if (!Objects.equals(this.editore, other.editore)) {
+            return false;
+        }
+        if (!Objects.equals(this.descrizione, other.descrizione)) {
+            return false;
+        }
+        if (!Objects.equals(this.pathFoto, other.pathFoto)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataPubblicazione, other.dataPubblicazione)) {
+            return false;
+        }
+        if (!Objects.equals(this.autori, other.autori)) {
+            return false;
+        }
+        return true;
+    }
+
+    
             
 }
