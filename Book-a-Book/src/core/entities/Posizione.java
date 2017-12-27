@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -79,5 +81,37 @@ public class Posizione {
     public String toString() {
         return "Posizione{" + "etichetta=" + etichetta + ", numCopie=" + numCopie + ", numCopieTotali=" + numCopieTotali + ", biblioteca=" + biblioteca + ", libro=" + libro + '}';
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Posizione other = (Posizione) obj;
+        if (this.numCopie != other.numCopie) {
+            return false;
+        }
+        if (this.numCopieTotali != other.numCopieTotali) {
+            return false;
+        }
+        if (!Objects.equals(this.etichetta, other.etichetta)) {
+            return false;
+        }
+        if (!Objects.equals(this.biblioteca.getIsil(), other.biblioteca.getIsil())) {
+            return false;
+        }
+        if (!Objects.equals(this.libro.getIsbn(), other.libro.getIsbn())) {
+            return false;
+        }
+        return true;
+    }
+    
     
 }
