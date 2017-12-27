@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author mirko
+ * @author Manuel De Stefano
  */
 public class LibroDAO extends AbstractDAO<Libro> {
 

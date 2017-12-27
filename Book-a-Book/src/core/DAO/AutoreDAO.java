@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * @author mirko
+ * @author Manuel De Stefano
  */
 public class AutoreDAO extends AbstractDAO<Autore> {
 
