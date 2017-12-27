@@ -45,8 +45,16 @@ public class ManagerPrenotazione {
     }
     
     
-    public boolean controlloPrenotazione(String idPrenotazione,String email){
-       throw new UnsupportedOperationException("Not implemented yet"); 
+    public boolean controlloPrenotazione(int idPrenotazione, String email, String status){
+       PrenotazioneDAO prenDAO = new PrenotazioneDAO();
+       Prenotazione prenotazione = prenDAO.doRetriveById(idPrenotazione);
+       prenotazione.setStatus(status);
+       
+       if(prenDAO.doUpdate(prenotazione) == -1){
+           return false;
+       } else {
+           return true;
+       }
     }
     
 }
