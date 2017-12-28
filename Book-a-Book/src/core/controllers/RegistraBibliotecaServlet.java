@@ -5,6 +5,7 @@
  */
 package core.controllers;
 
+import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -72,7 +73,30 @@ public class RegistraBibliotecaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            
+        ManagerRegistrazione mr = new ManagerRegistrazione();
+        
+        //Dati Biblioteca
+        String isil = request.getParameter("isil");
+        String nomeBiblioteca = request.getParameter("nomeBiblioteca");
+        String provincia = request.getParameter("provincia");
+        String citta = request.getParameter("citta");
+        String via = request.getParameter("via");
+        String numeroCivico = request.getParameter("civico");
+        String CAP = request.getParameter("cap");
+        String numero = request.getParameter("numero");
+        
+        //Dati Bibliotecario
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String nomeBibliotecario = request.getParameter("nomeBibliotecario");
+        String cognome = request.getParameter("cognome");
+        String tipo = request.getParameter("tipo");
+        String pathFoto = request.getParameter("foto");
+ 
+               
+       // mr.registra(isil,nomeBiblioteca,  nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome );
+       mr.registra(isil, cognome, via, citta, numeroCivico);
     }
 
     /**

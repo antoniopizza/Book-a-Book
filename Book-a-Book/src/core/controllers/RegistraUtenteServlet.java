@@ -5,6 +5,7 @@
  */
 package core.controllers;
 
+import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -37,11 +38,10 @@ public class RegistraUtenteServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegistraUtenteServlet</title>");            
+            out.println("<title>Servlet RegistraUtenteServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet RegistraUtenteServlet at " + request.getContextPath() + "</h1>");
-            out.println("<h2> nome: "+ request.getParameter("nome")+"</h2>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,7 +73,30 @@ public class RegistraUtenteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        ManagerRegistrazione mr = new ManagerRegistrazione();
+
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String confermaPassword = request.getParameter("confermapass");
+        String nome = request.getParameter("nome");
+        String cognome = request.getParameter("cognome");
+        String numeroDocumento = request.getParameter("documento");
+        String provincia = request.getParameter("provincia");
+        String citta = request.getParameter("citta");
+        String via = request.getParameter("via");
+        String numeroCivico = request.getParameter("civico");
+        String CAP = request.getParameter("cap");
+        String pathFoto = request.getParameter("foto");
+        String numero = request.getParameter("numero");
+        
+      //  System.out.println("String nome: "+nome+", String cognome: "+cognome+",String email: "+email+",String numeroDocumento: "+numeroDocumento+""
+      //                      + " ,String via: "+via+",String citta: "+citta+",String numeroCivico: "+numeroCivico+","
+      //                      + "String password: "+password+", String ConfermaPass: "+confermaPassword+",String pathFoto: "+pathFoto+""
+      //                      + ", String provincia: "+provincia+",String CAP: "+CAP+", String numero: "+numero);
+
+       mr.registra(nome, cognome, email, numeroDocumento, via, citta, numeroCivico, password, confermaPassword);
+
     }
 
     /**

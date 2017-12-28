@@ -26,18 +26,27 @@
 
                             <form action="registra-utente" method="post">
 
-
-
                                 <!-- email -->
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control" nome="email">
+                                    <input type="text" class="form-control" name="email">
                                 </div>
 
-                                <!-- Password -->
+
                                 <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="text" class="form-control" nome="password">
+                                    <div class="row">
+                                        <!-- Password -->
+                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                            <label for="password">Password</label>
+                                            <input type="text" class="form-control" name="password">
+                                        </div>
+
+                                        <!-- Conferma Password -->
+                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                            <label for="password">Conferma Password</label>
+                                            <input type="text" class="form-control" name="confermapass">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Nome -->
@@ -48,18 +57,63 @@
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
-                                    <input type="text" class="form-control" nome="cognome" >
+                                    <input type="text" class="form-control" name="cognome" >
                                 </div>
 
                                 <!-- Documento d'Identità -->
                                 <div class="form-group">
                                     <label for="documento">Documento di Identita'</label>
-                                    <input type="text" class="form-control" nome="documento">
+                                    <input type="text" class="form-control" name="documento">
                                 </div>
+
+                                <!-- Indirizzo -->
+                                <div class="form-group">
+                                    <label for="indirizzo"> Indirizzo</label>
+                                    <div class="row">
+
+
+                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                            <label for="cap">Provincia</label>
+                                            <input type="text" class="form-control" name="provincia">
+                                        </div>  
+
+
+                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                            <label for="citta">Citta'</label>
+                                            <input type="text" class="form-control" name="citta">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                                            <label for="via">Via</label>
+                                            <input type="text" class="form-control" name="via">
+                                        </div>
+
+                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                                            <label for="cap">Numero Civico</label>
+                                            <input type="text" class="form-control" name="civico">
+                                        </div>
+
+                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                                            <label for="cap">CAP</label>
+                                            <input type="text" class="form-control" name="cap">
+                                        </div>    
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Path Foto -->
+                                <div class="form-group">
+                                    <label for="foto">Path Foto</label>
+                                    <input type="text" class="form-control" name="foto">
+                                </div>
+
                                 <!-- Number -->
                                 <div class="form-group">
                                     <label for="numero">Numero di Telefono</label>
-                                    <input type="text" class="form-control" nome="numero">
+                                    <input type="text" class="form-control" name="numero">
                                 </div>
 
                                 <!-- Submit button -->
