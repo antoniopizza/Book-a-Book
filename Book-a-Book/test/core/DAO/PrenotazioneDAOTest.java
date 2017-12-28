@@ -5,7 +5,16 @@
  */
 package core.DAO;
 
+import core.entities.Biblioteca;
+import core.entities.Libro;
+import core.entities.Persona;
 import core.entities.Prenotazione;
+import core.utils.DriverManagerConnectionPool;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,15 +29,30 @@ import static org.junit.Assert.*;
  */
 public class PrenotazioneDAOTest {
     
+    private static Connection con;
+    private static Prenotazione prenotazione;
+            
     public PrenotazioneDAOTest() {
+        Libro book = new Libro();
+        Biblioteca bib = new Biblioteca();
+        Persona person = new Persona();
+        prenotazione = new Prenotazione(new GregorianCalendar(2017,20,12),new GregorianCalendar(2018,28,3),new GregorianCalendar(2017,28,12),person,"Da ritirare",bib,book);
+        
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws SQLException {
+        con = DriverManagerConnectionPool.getConnection();
     }
     
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass() throws SQLException {
+        PreparedStatement prst = con.prepareStatement("DELETE FROM prenotazione WHERE id = '"+ prenotazione.getId()+"'");
+        prst.execute();
+        con.commit();
+        prst.close();
+        DriverManagerConnectionPool.releaseConnection(con);
+        System.out.println("Database cleared");
     }
     
     @Before
@@ -45,12 +69,10 @@ public class PrenotazioneDAOTest {
     @Test
     public void testDoRetriveById() {
         System.out.println("doRetriveById");
-        Object[] id = null;
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        Prenotazione expResult = null;
-        Prenotazione result = instance.doRetriveById(id);
+        Prenotazione expResult = prenotazione;
+        Prenotazione result = instance.doRetriveById(prenotazione.getId());
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -61,10 +83,11 @@ public class PrenotazioneDAOTest {
     public void testDoRetriveAll() {
         System.out.println("doRetriveAll");
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        List<Prenotazione> expResult = null;
+        List<Prenotazione> expResult = new ArrayList<>();
+        expResult.add(prenotazione);
         List<Prenotazione> result = instance.doRetriveAll();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        assertEquals(expResult.size(), result.size());
         fail("The test case is a prototype.");
     }
 
@@ -74,12 +97,10 @@ public class PrenotazioneDAOTest {
     @Test
     public void testDoInsert() {
         System.out.println("doInsert");
-        Prenotazione prenotazione = null;
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        int expResult = 0;
+        int expResult = prenotazione.getId();
         int result = instance.doInsert(prenotazione);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -89,12 +110,10 @@ public class PrenotazioneDAOTest {
     @Test
     public void testDoUpdate() {
         System.out.println("doUpdate");
-        Prenotazione prenotazione = null;
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        int expResult = 0;
+        int expResult = prenotazione.getId();
         int result = instance.doUpdate(prenotazione);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
     
