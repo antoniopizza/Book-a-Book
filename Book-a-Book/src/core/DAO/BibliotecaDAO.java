@@ -22,11 +22,12 @@ import java.util.logging.Logger;
  * @author mirko
  */
 public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
+    
     private final String doRetriveByIdQuery = "SELECT * FROM Biblioteca WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";
     private final String doInsertQuery = "INSERT INTO Biblioteca(isil,nome,status,via,citta,civico,id_admin)" 
                                             + "VALUES(?,?,?,?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Biblioteca SET isil = ?, nome = ?, status = ?, via = ?, citta = ?, civico = ?, id_admin = ? WHERE id = ?";
+    private final String doUpdateQuery = "UPDATE Biblioteca SET  nome = ?, status = ?, via = ?, citta = ?, civico = ? WHERE isil = ?";
     /**
      * 
      * @param id[0] si aspetta un codice isil per identificare una biblioteca
@@ -118,7 +119,9 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             prst.setString(4,biblioteca.getIndirizzo().getVia());
             prst.setString(5,biblioteca.getIndirizzo().getCitta());
             prst.setString(6, biblioteca.getIndirizzo().getCivico());
-            prst.setInt(6, biblioteca.getAdmin().getId());
+            prst.setInt(7, biblioteca.getAdmin().getId());
+            
+            
            
             try{
                 prst.execute();
@@ -138,14 +141,13 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
         try{
             Connection con = DriverManagerConnectionPool.getConnection();            
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
-            prst.setString(1, biblioteca.getIsil());
-            prst.setString(2,biblioteca.getNome());
-            prst.setString(3,biblioteca.getStatus());
-            prst.setString(4,biblioteca.getIndirizzo().getVia());
-            prst.setString(5,biblioteca.getIndirizzo().getCitta());
-            prst.setString(6, biblioteca.getIndirizzo().getCivico());
-            prst.setInt(6, biblioteca.getAdmin().getId());
-           
+            prst.setString(1,biblioteca.getNome());
+            prst.setString(2,biblioteca.getStatus());
+            prst.setString(3,biblioteca.getIndirizzo().getVia());
+            prst.setString(4,biblioteca.getIndirizzo().getCitta());
+            prst.setString(5, biblioteca.getIndirizzo().getCivico());
+            
+            prst.setString(6, biblioteca.getIsil());
             try{
                 prst.execute();
                 return 0;

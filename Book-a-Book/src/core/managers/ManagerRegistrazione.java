@@ -41,7 +41,7 @@ public class ManagerRegistrazione {
     }
     
         
-    public Biblioteca registra(String isil,String nome,String via,String citta,String numeroCivico,String provincia, String CAP,String email,String password,String pathFoto,String tipo,String cognome){
+    public Biblioteca registra(String isil,String nomeBiblioteca,String nomeBibliotecario,String via,String citta,String numeroCivico,String provincia, String CAP,String email,String password,String pathFoto,String tipo,String cognome){
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
         AccountDAO accountDAO = new AccountDAO();
@@ -49,8 +49,8 @@ public class ManagerRegistrazione {
         
         Indirizzo indirizzo = new Indirizzo(via, citta, numeroCivico, provincia, CAP);
         Account account = new Account(email, password, pathFoto, "Bibliotecario");
-        Biblioteca biblioteca = new Biblioteca(isil, nome, "In Sospeso", indirizzo, null);
-        Bibliotecario bibliotecario = new Bibliotecario("In Sospeso","Gestore",biblioteca,nome,cognome,account);
+        Biblioteca biblioteca = new Biblioteca(isil, nomeBiblioteca, "In Sospeso", indirizzo, null);
+        Bibliotecario bibliotecario = new Bibliotecario("In Sospeso","Gestore",biblioteca,nomeBibliotecario,cognome,account);
         
         indirizzoDAO.doInsert(indirizzo);
         accountDAO.doInsert(account);

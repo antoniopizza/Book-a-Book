@@ -24,8 +24,8 @@ public class AccountDAO extends AbstractDAO<Account>{
     private final String doRetriveAllQuery = "SELECT * FROM Account";
     private final String doInsertQuery = "INSERT INTO Account(email,password,path_foto,tipo)" 
                                             + "VALUES(?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Account SET email = ?, password = ?, path_foto = ?, tipo = ?, cap = ? WHERE email = ?";
-    
+    private final String doUpdateQuery = "UPDATE Account SET password = ?, path_foto = ?, tipo = ? WHERE email = ?";
+    private final String doUpdateEmail = "UPDATE Account SET email = ? WHERE email = ?";
     /**
      * 
      * @param id[0] si aspetta una email
@@ -112,6 +112,8 @@ public class AccountDAO extends AbstractDAO<Account>{
             prst.setString(3,account.getPathFoto());
             prst.setString(4,account.getTipo());
             
+            
+            
             try{
                 prst.execute();
                 return 0;
@@ -130,10 +132,12 @@ public class AccountDAO extends AbstractDAO<Account>{
         try{
             Connection con = DriverManagerConnectionPool.getConnection();            
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
-            prst.setString(1, account.getEmail());
-            prst.setString(2,account.getPassword());
-            prst.setString(3,account.getPathFoto());
-            prst.setString(4,account.getTipo());
+            
+            prst.setString(1,account.getPassword());
+            prst.setString(2,account.getPathFoto());
+            prst.setString(3,account.getTipo());
+            
+            prst.setString(4, account.getEmail());
             
             try{
                 prst.execute();
@@ -147,5 +151,24 @@ public class AccountDAO extends AbstractDAO<Account>{
             return -1;
         }
     }
-    
+   
+   public int doUpdateEmail(String vecchiaMail,String nuovaMail) {
+       try{
+            Connection con = DriverManagerConnectionPool.getConnection();            
+            PreparedStatement prst = con.prepareStatement(doUpdateQuery);
+            prst.setString(1, nuovaMail);
+            prst.setString(2, vecchiaMail);
+            
+            try{
+                prst.execute();
+                return 0;
+            } catch(SQLException e){
+                return -1;
+            }
+            
+            
+        } catch(SQLException e){
+            return -1;
+        }
+   } 
 }

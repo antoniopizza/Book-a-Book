@@ -140,5 +140,32 @@ public class ManagerRegistrazioneTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of registra method, of class ManagerRegistrazione.
+     */
+    @Test
+    public void testRegistra_13args() {
+        System.out.println("registra");
+        String isil = "";
+        String nomeBiblioteca = "";
+        String nomeBibliotecario = "";
+        String via = "";
+        String citta = "";
+        String numeroCivico = "";
+        String provincia = "";
+        String CAP = "";
+        String email = "";
+        String password = "";
+        String pathFoto = "";
+        String tipo = "";
+        String cognome = "";
+        ManagerRegistrazione instance = new ManagerRegistrazione();
+        Biblioteca expResult = null;
+        Biblioteca result = instance.registra(isil, nomeBiblioteca, nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

@@ -23,7 +23,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
     private final String doRetriveAllQuery = "SELECT * FROM Indirizzo";
     private final String doInsertQuery = "INSERT INTO Indirizzo(via,citta,civico,provincia,cap)" 
                                             + "VALUES(?,?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Indirizzo SET via = ?, citta = ?, civico = ?, provincia = ?, cap = ? WHERE via = ?,citta = ?,civico = ?";
+    private final String doUpdateQuery = "UPDATE Indirizzo SET via = ?, citta = ?, civico = ?, provincia = ?, cap = ? WHERE via = ? AND citta = ? AND civico = ?";
     /**
      * 
      * @param id[0] si aspetta una string che corrisponde alla via, id[1] si aspetta una stringa che corrisponde alla città, id[2] si aspetta una stringa che corrisponde al civico di ua strada.
@@ -113,7 +113,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
             prst.setString(4,indirizzo.getProvincia());
             prst.setString(5,indirizzo.getCap());
             
-           
+            
             try{
                 prst.execute();
                 return 0;
@@ -129,15 +129,24 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
 
     @Override
     public int doUpdate(Indirizzo indirizzo) {
+    
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    }
+    
+    public int doUpdateIndirizzo(Indirizzo vecchioIndirizzo, Indirizzo nuovoIndirizzo) {
         try{
             Connection con = DriverManagerConnectionPool.getConnection();            
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
-            prst.setString(1, indirizzo.getVia());
-            prst.setString(2,indirizzo.getCitta());
-            prst.setString(3,indirizzo.getCivico());
-            prst.setString(4,indirizzo.getProvincia());
-            prst.setString(5,indirizzo.getCap());
+            prst.setString(1,nuovoIndirizzo.getVia());
+            prst.setString(2,nuovoIndirizzo.getCitta());
+            prst.setString(3,nuovoIndirizzo.getCivico());
+            prst.setString(4,nuovoIndirizzo.getProvincia());
+            prst.setString(5,nuovoIndirizzo.getCap());
            
+            prst.setString(6,vecchioIndirizzo.getVia());
+            prst.setString(7,vecchioIndirizzo.getCitta());
+            prst.setString(8,vecchioIndirizzo.getCivico());
             try{
                 prst.execute();
                 return 0;
@@ -150,5 +159,4 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
             return -1;
         }
     }
-    
-}
+    }

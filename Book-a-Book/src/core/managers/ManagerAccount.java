@@ -5,9 +5,14 @@
  */
 package core.managers;
 
+import core.DAO.AccountDAO;
+import core.DAO.BibliotecarioDAO;
+import core.DAO.PersonaDAO;
+import core.entities.Account;
 import core.entities.Admin;
 import core.entities.Biblioteca;
 import core.entities.Bibliotecario;
+import core.entities.Indirizzo;
 import core.entities.Persona;
 import java.util.Calendar;
 
@@ -16,23 +21,49 @@ import java.util.Calendar;
  * @author manuel
  */
 public class ManagerAccount {
-    public boolean modificaPassword(String email,String oldPsw,String newPsw){
-        throw new UnsupportedOperationException("Not implemented yet");
+    
+    public boolean modificaPassword(String email,String newPsw){
+        
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.doRetriveById(email);
+        account.setPassword(newPsw);
+        if(accountDAO.doUpdate(account) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
     }
     
     
     public Bibliotecario modificaDatiPersonali
-        (String email,String provincia,String cap,String via,String numeroCivico,String citta){
+        (String vecchiaMail,String email,String provincia,String cap,String via,String numeroCivico,String citta){
+         BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
+         Bibliotecario bibliotecario = bibliotecarioDAO.doRetriveByEmail(vecchiaMail);
          
-            throw new UnsupportedOperationException("Not implemented yet");
+         bibliotecario.getBiblioteca().setIndirizzo(new Indirizzo(via, citta, numeroCivico, provincia, cap));
+         bibliotecario.getAccount().setEmail(email);
+         
+         
+         bibliotecarioDAO.doUpdate(bibliotecario);
+         
+         return bibliotecario;
     }
 
         
     public Persona modificaDatiPersonali
-        (String email, String nome,String cognome,String codiceFiscale,Calendar dataNascita,String provincia,String cap,String via,String numeroCivico,String citta,String recapitoTelefonico,String sesso){
+        (String vecchiaMail,String email, String nome,String cognome,String codiceFiscale,Calendar dataNascita,String provincia,String cap,String via,String numeroCivico,String citta,String recapitoTelefonico,String sesso){
+            PersonaDAO personaDAO = new PersonaDAO();
+            Persona persona = personaDAO.doRetriveByEmail(vecchiaMail);
             
-             throw new UnsupportedOperationException("Not implemented yet");
+            persona.setCognome(cognome);
+            persona.setNome(nome);
+            persona.setNumDocumento(codiceFiscale);
+            persona.setIndirizzo(new Indirizzo(via, citta, numeroCivico, provincia, cap));
+            persona.getAccount().setEmail(email);
             
+            personaDAO.doUpdate(persona);
+            return persona;
         }
         
         
