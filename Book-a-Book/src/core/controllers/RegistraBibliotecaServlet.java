@@ -5,9 +5,11 @@
  */
 package core.controllers;
 
+import core.entities.Biblioteca;
 import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -96,7 +98,13 @@ public class RegistraBibliotecaServlet extends HttpServlet {
  
                
        // mr.registra(isil,nomeBiblioteca,  nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome );
-       mr.registra(isil, cognome, via, citta, numeroCivico);
+      // Biblioteca biblioteca = mr.registra(isil, cognome, via, citta, numeroCivico);
+       
+       Biblioteca biblioteca = new Biblioteca (isil, cognome, tipo);
+       request.getSession().setAttribute("biblioteca", biblioteca);
+       
+       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
+       dispatcher.forward(request, response);
     }
 
     /**

@@ -26,13 +26,13 @@
                                 <!-- Isil -->
                                 <div class="form-group">
                                     <label for="isil">Isil</label>
-                                    <input type="text" class="form-control" name="isil">
-                                </div>
+                                    <input type="text" class="form-control" name="isil" required>
+                                </div> 
 
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome Biblioteca</label>
-                                    <input type="text" class="form-control" name="nomeBiblioteca">
+                                    <input type="text" class="form-control" name="nomeBiblioteca" required>
                                 </div>
 
                                 <!-- Indirizzo -->
@@ -43,30 +43,30 @@
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="cap">Provincia</label>
-                                            <input type="text" class="form-control" name="provincia">
+                                            <input type="text" class="form-control" name="provincia" required>
                                         </div>  
 
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
-                                            <input type="text" class="form-control" name="citta">
+                                            <input type="text" class="form-control" name="citta" required>
                                         </div>
                                     </div>
                                     <div class="row">
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
-                                            <input type="text" class="form-control" name="via">
+                                            <input type="text" class="form-control" name="via" required>
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
-                                            <input type="text" class="form-control" name="civico">
+                                            <input type="text" class="form-control" name="civico" required>
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">CAP</label>
-                                            <input type="text" class="form-control" name="cap">
+                                            <input type="text" class="form-control" name="cap" required>
                                         </div>    
                                     </div>
 
@@ -75,7 +75,7 @@
                                 <!-- Number -->
                                 <div class="form-group">
                                     <label for="numero">Numero di Telefono</label>
-                                    <input type="text" class="form-control" name="numero">
+                                    <input type="text" class="form-control" name="numero" required pattern="[0-9]{9,11}$">
                                 </div>
 
 
@@ -88,47 +88,51 @@
 
                                 <h3 class="widget-header user">Inserire dati Registrazione Bibliotecario</h3>
 
-
-
-                                <!-- String isil,String nome,String via,String citta,
-                                String numeroCivico,String provincia, String CAP,
-                                
-                                String email,String password,String pathFoto,
-                                String tipo,String cognome, String nome -->
-
                                 <!-- email -->
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control" name="email">
+                                    <input type="text" class="form-control" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 </div>
 
-                                <!-- Password -->
                                 <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="text" class="form-control" name="password">
+                                    <div class="row">
+                                        <!-- Password -->
+                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                            <label for="password">Password</label>
+                                            <input type="password" class="form-control" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                   title="Deve avere una lunghezza di almeno 8 caratteri che devono essere almeno un numero, una letterea maiuscola ed una lettera minuscola."
+                                                   id="password">
+                                        </div>
+
+                                        <!-- Conferma Password -->
+                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
+                                            <label for="password">Conferma Password</label>
+                                            <input type="password" class="form-control" name="confermapass" required id="confermapass">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
-                                    <input type="text" class="form-control" name="nomeBibliotecario">
+                                    <input type="text" class="form-control" name="nomeBibliotecario" required>
                                 </div>
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
-                                    <input type="text" class="form-control" name="cognome" >
+                                    <input type="text" class="form-control" name="cognome" required>
                                 </div>
 
                                 <!-- Tipo-->
                                 <div class="form-group">
                                     <label for="tipo">Tipo</label>
-                                    <input type="text" class="form-control" name="tipo">
+                                    <input type="text" class="form-control" name="tipo" required>
                                 </div>
 
                                 <!-- Path Foto -->
                                 <div class="form-group">
                                     <label for="foto">Path Foto</label>
-                                    <input type="text" class="form-control" name="foto">
+                                    <input type="text" class="form-control" name="foto" required>
                                 </div>
 
                             </div>
@@ -160,5 +164,22 @@
 
 
         <%@include file="../skeleton-pages/footer.jsp" %>
+        
+         <script>
+            var password = document.getElementById("password");
+            var confirm_password = document.getElementById("confermapass");
+
+            function validatePassword() {
+                if (password.value != confirm_password.value) {
+                    confirm_password.setCustomValidity("La password non combacia!");
+                } else {
+                    confirm_password.setCustomValidity('');
+                }
+            }
+
+            password.onchange = validatePassword;
+            confirm_password.onkeyup = validatePassword;
+
+        </script>
     </body>
 </html>

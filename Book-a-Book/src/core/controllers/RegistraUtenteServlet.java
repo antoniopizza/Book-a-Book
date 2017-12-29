@@ -5,9 +5,11 @@
  */
 package core.controllers;
 
+import core.entities.Persona;
 import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -95,7 +97,12 @@ public class RegistraUtenteServlet extends HttpServlet {
       //                      + "String password: "+password+", String ConfermaPass: "+confermaPassword+",String pathFoto: "+pathFoto+""
       //                      + ", String provincia: "+provincia+",String CAP: "+CAP+", String numero: "+numero);
 
-       mr.registra(nome, cognome, email, numeroDocumento, via, citta, numeroCivico, password, confermaPassword);
+       // Persona persona =  mr.registra(nome, cognome, email, numeroDocumento, via, citta, numeroCivico, password, confermaPassword);
+        Persona persona = new Persona(numeroDocumento, nome, cognome);
+        request.getSession().setAttribute("persona", persona);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
+        dispatcher.forward(request, response);
 
     }
 
