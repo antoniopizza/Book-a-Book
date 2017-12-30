@@ -20,6 +20,7 @@ import java.util.List;
  * @author mirko
  */
 public class AccountDAO extends AbstractDAO<Account>{
+    private final String doDeleteQuery = "DELETE FROM Account WHERE email = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE email = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Account";
     private final String doInsertQuery = "INSERT INTO Account(email,password,path_foto,tipo)" 
@@ -170,5 +171,24 @@ public class AccountDAO extends AbstractDAO<Account>{
         } catch(SQLException e){
             return -1;
         }
-   } 
+   }
+   
+   public int doDelete(String email) {
+        try{
+            Connection con = DriverManagerConnectionPool.getConnection();            
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1, email);
+            
+            try{
+                prst.execute();
+                return 0;
+            } catch(SQLException e){
+                return -1;
+            }
+            
+            
+        } catch(SQLException e){
+            return -1;
+        }
+   }
 }

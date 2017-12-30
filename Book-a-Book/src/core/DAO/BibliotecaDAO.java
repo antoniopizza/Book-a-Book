@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author mirko
  */
 public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
-    
+    private final String doDeleteQuery = "DELETE FROM Biblioteca WHERE isil = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Biblioteca WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";
     private final String doInsertQuery = "INSERT INTO Biblioteca(isil,nome,status,via,citta,civico,id_admin)" 
@@ -160,5 +160,25 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             return -1;
         }
     }
+    
+    
+   public int doDelete(String isil) {
+        try{
+            Connection con = DriverManagerConnectionPool.getConnection();            
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1, isil);
+            
+            try{
+                prst.execute();
+                return 0;
+            } catch(SQLException e){
+                return -1;
+            }
+            
+            
+        } catch(SQLException e){
+            return -1;
+        }
+   }
     
 }

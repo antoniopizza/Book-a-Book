@@ -10,9 +10,15 @@ package core.entities;
  * @author mirko
  */
 public class Admin extends Utente{
-
-    public Admin() {
+    
+    public Admin(String nome,String cognome,Account account) {
+        super(nome, cognome, account);
         
     }
+
+    public Admin() {
+    }
+    
+    
         
 }

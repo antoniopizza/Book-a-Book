@@ -22,6 +22,7 @@ import java.util.List;
  * @author mirko
  */
 public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
+    private final String doDeleteQuery = "DELETE FROM Bibliotecario WHERE isil = ?";
     private final String doRetrieveByEmailQuery = "SELECT * FROM Bibliotecario WHERE email = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Bibliotecario WHERE id = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Bibliotecario";
@@ -206,6 +207,26 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             return -1;
         }
     }  
+    
+    
+   public int doDelete(String isil) {
+        try{
+            Connection con = DriverManagerConnectionPool.getConnection();            
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1, isil);
+            
+            try{
+                prst.execute();
+                return 0;
+            } catch(SQLException e){
+                return -1;
+            }
+            
+            
+        } catch(SQLException e){
+            return -1;
+        }
+   }
     }
     
 

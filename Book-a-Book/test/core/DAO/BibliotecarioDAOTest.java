@@ -37,7 +37,7 @@ public class BibliotecarioDAOTest {
     
     public BibliotecarioDAOTest() {
         biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", new Indirizzo("Via pozzuoli", "Marigliano", "18", "NA", "83057"), new Admin());
-        bibliotecario = new Bibliotecario("Accettato", "Dipendente", biblioteca, 0, "Paolo", "Bilotto", new Account("paolobilotto@gmail.com", "ciaonepaolo", "iberfnjf", "BIbliotecario"));
+        bibliotecario = new Bibliotecario("Accettato", "Dipendente", biblioteca, 0, "Paolo", "Bilotto", new Account("paolobilotto@gmail.com", "ciaonepaolo", "iberfnjf", "Bibliotecario"));
     }
     
     @BeforeClass
@@ -47,7 +47,7 @@ public class BibliotecarioDAOTest {
     
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst2 = con.prepareStatement("delete from bibliotecario where id = '"+ bibliotecario.getId() + ";");
+        PreparedStatement prst2 = con.prepareStatement("delete from Bibliotecario where id = '"+ bibliotecario.getId() + ";");
         prst2.execute();
         con.commit();
         prst2.close(); 
@@ -115,8 +115,7 @@ public class BibliotecarioDAOTest {
         int expResult = 0;
         int result = instance.doInsert(bibliotecario);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -129,8 +128,21 @@ public class BibliotecarioDAOTest {
         int expResult = 0;
         int result = instance.doUpdate(bibliotecario);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+    }
+    
+       /**
+     * Test of doDelete method, of class BibliotecarioDAO.
+     */
+    @Test
+    public void testDoDelete() {
+        System.out.println("doDelete");
+        String isil = bibliotecario.getBiblioteca().getIsil();
+        BibliotecarioDAO instance = new BibliotecarioDAO();
+        int expResult = 0;
+        int result = instance.doDelete(isil);
+        assertEquals(expResult, result);
     }
     
 }
+

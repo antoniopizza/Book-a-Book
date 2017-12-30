@@ -128,5 +128,18 @@ public class AccountDAOTest {
         int result = instance.doUpdateEmail(vecchiaMail, nuovaMail);
         assertEquals(expResult, result);
     }
+   
+    /**
+     * Test of doDelete method, of class AccountDAO.
+     */
+    @Test
+    public void testDoDelete() {
+        System.out.println("doDelete");
+        String email = account.getEmail();
+        AccountDAO instance = new AccountDAO();
+        int expResult = 0;
+        int result = instance.doDelete(email);
+        assertEquals(expResult, result);
+    }
     
 }

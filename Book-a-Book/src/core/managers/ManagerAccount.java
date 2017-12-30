@@ -6,6 +6,8 @@
 package core.managers;
 
 import core.DAO.AccountDAO;
+import core.DAO.AdminDAO;
+import core.DAO.BibliotecaDAO;
 import core.DAO.BibliotecarioDAO;
 import core.DAO.PersonaDAO;
 import core.entities.Account;
@@ -67,28 +69,69 @@ public class ManagerAccount {
         }
         
         
-    public Admin modificaDatiPersonali(String email,String nome,String cognome){
-        throw new UnsupportedOperationException("Not implemented yet");
+    public Admin modificaDatiPersonali(String vecchiaMail,String email,String nome,String cognome){
+        AdminDAO adminDAO = new AdminDAO();
+        Admin admin = adminDAO.doRetriveByEmail(vecchiaMail);
+        
+        admin.setNome(nome);
+        admin.setCognome(cognome);
+        admin.getAccount().setEmail(email);
+        
+        adminDAO.doUpdate(admin);
+        return admin;
     }
 
-    public Biblioteca modificaDatiBiblioteca(String nome,String via,String citta,String numeroCivico){
+    public Biblioteca modificaDatiBiblioteca(String isil,String nome,String via,String citta,String numeroCivico){
+        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+        Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
         
-        throw new UnsupportedOperationException("Not implemented yet");
+        biblioteca.setNome(nome);
+        biblioteca.getIndirizzo().setCitta(citta);
+        biblioteca.getIndirizzo().setCivico(numeroCivico);
+        biblioteca.getIndirizzo().setVia(via);
         
+        bibliotecaDAO.doUpdate(biblioteca);
+        return biblioteca;
     }
 
     
-    public boolean recuperaPassword(String email){
-        throw new UnsupportedOperationException("Not implemented yet");
+    public boolean recuperaPassword(String email,String nuovaPassword){
+        AccountDAO accountDAO = new AccountDAO();
+        Account account = accountDAO.doRetriveById(email);
+        
+        account.setPassword(nuovaPassword);
+        
+        if(accountDAO.doUpdate(account) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+        
+
     }
 
     
     boolean richiestaRimozioneAccount(String isil){
-        throw new UnsupportedOperationException("Not implemented yet");
+        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+        BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
+        
+        if(bibliotecaDAO.doDelete(isil) == 0 && bibliotecarioDAO.doDelete(isil) == 0) {
+            return true;
+        } else 
+            return false;
+        
+        
     }
     
+    
+    
     boolean rimozioneAccountUtente(String email){
-        throw new UnsupportedOperationException("Not implemented yet");
+        AccountDAO accountDAO = new AccountDAO();
+        if(accountDAO.doDelete(email) == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
 }
