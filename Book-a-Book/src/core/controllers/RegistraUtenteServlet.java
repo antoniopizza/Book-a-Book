@@ -97,8 +97,8 @@ public class RegistraUtenteServlet extends HttpServlet {
       //                      + "String password: "+password+", String ConfermaPass: "+confermaPassword+",String pathFoto: "+pathFoto+""
       //                      + ", String provincia: "+provincia+",String CAP: "+CAP+", String numero: "+numero);
 
-       // Persona persona =  mr.registra(nome, cognome, email, numeroDocumento, via, citta, numeroCivico, password, confermaPassword);
-        Persona persona = new Persona(numeroDocumento, nome, cognome);
+        Persona persona =  mr.registra(nome, cognome, email, numeroDocumento, via, citta, numeroCivico, password, pathFoto, provincia, CAP);
+        
         request.getSession().setAttribute("persona", persona);
         
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");

@@ -97,10 +97,10 @@ public class RegistraBibliotecaServlet extends HttpServlet {
         String pathFoto = request.getParameter("foto");
  
                
-       // mr.registra(isil,nomeBiblioteca,  nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome );
-      // Biblioteca biblioteca = mr.registra(isil, cognome, via, citta, numeroCivico);
+      
+      Biblioteca biblioteca = mr.registra(isil, nomeBiblioteca, nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome);
        
-       Biblioteca biblioteca = new Biblioteca (isil, nomeBiblioteca, tipo);
+       
        request.getSession().setAttribute("biblioteca", biblioteca);
        
        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");

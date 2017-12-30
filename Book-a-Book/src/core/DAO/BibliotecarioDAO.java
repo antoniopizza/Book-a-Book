@@ -38,6 +38,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
     @Override
     public Bibliotecario doRetriveById(Object... id) {
         int idBibliotecario = (int) id[0];
+        Bibliotecario bibliotecario = null;
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
@@ -47,13 +48,12 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Bibliotecario bibliotecario = null;
+                
                 if (rs.next()) {
                     BibliotecaDAO biblioteca = new BibliotecaDAO();
                     Biblioteca biblioteca2 = biblioteca.doRetriveById(rs.getString("isil"));
                     AccountDAO account = new AccountDAO();
                     Account account2 = account.doRetriveById(rs.getString("email"));
-                    
                     bibliotecario = new Bibliotecario(rs.getString("status"), rs.getString("tipo"),biblioteca2,rs.getString("nome"),rs.getString("cognome"),account2);
                 }
                 rs.close();
@@ -61,7 +61,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -71,10 +71,11 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
+        return bibliotecario;
     }
     
     public Bibliotecario doRetriveByEmail(String email) {
-        
+        Bibliotecario bibliotecario = null;
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetrieveByEmailQuery);
@@ -84,7 +85,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Bibliotecario bibliotecario = null;
+                
                 if (rs.next()) {
                     BibliotecaDAO biblioteca = new BibliotecaDAO();
                     Biblioteca biblioteca2 = biblioteca.doRetriveById(rs.getString("isil"));
@@ -98,7 +99,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -108,6 +109,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
+        return bibliotecario;
     }
        
     
@@ -139,7 +141,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -149,7 +151,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
-           
+           return bibliotecari;
     }
 
 
@@ -169,15 +171,20 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
            
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+      return 0;
     }  
     
     @Override
@@ -197,15 +204,20 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
            
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+          return 0;
     }  
     
     
@@ -217,15 +229,20 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+               con.rollback();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+        return 0;
    }
     }
     

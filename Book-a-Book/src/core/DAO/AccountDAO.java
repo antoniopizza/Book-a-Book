@@ -23,8 +23,7 @@ public class AccountDAO extends AbstractDAO<Account>{
     private final String doDeleteQuery = "DELETE FROM Account WHERE email = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE email = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Account";
-    private final String doInsertQuery = "INSERT INTO Account(email,password,path_foto,tipo)" 
-                                            + "VALUES(?,?,?,?);";
+    private final String doInsertQuery = "INSERT INTO Account(email,password,path_foto,tipo) VALUES(?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Account SET password = ?, path_foto = ?, tipo = ? WHERE email = ?";
     private final String doUpdateEmail = "UPDATE Account SET email = ? WHERE email = ?";
     /**
@@ -36,6 +35,7 @@ public class AccountDAO extends AbstractDAO<Account>{
     @Override
     public Account doRetriveById(Object... id) {
         String email = (String) id[0];
+        Account account = null;
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
@@ -46,7 +46,7 @@ public class AccountDAO extends AbstractDAO<Account>{
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Account account = null;
+                
                 if (rs.next()) {
                     account = new Account(rs.getString("email"), rs.getString("password"), rs.getString("path_foto"), rs.getString("tipo"));
                 }
@@ -55,7 +55,7 @@ public class AccountDAO extends AbstractDAO<Account>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -65,6 +65,7 @@ public class AccountDAO extends AbstractDAO<Account>{
             ex.printStackTrace();
             return null;
         }
+        return account;
     }
 
     @Override
@@ -90,7 +91,6 @@ public class AccountDAO extends AbstractDAO<Account>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -100,7 +100,7 @@ public class AccountDAO extends AbstractDAO<Account>{
             ex.printStackTrace();
             return null;
         }
-           
+         return accounts; 
     }
 
     @Override
@@ -113,19 +113,25 @@ public class AccountDAO extends AbstractDAO<Account>{
             prst.setString(3,account.getPathFoto());
             prst.setString(4,account.getTipo());
             
-            
-            
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
+                
+            } finally {
+                prst.close();
+                
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+        
+        return 0;
     }
 
     @Override
@@ -142,15 +148,21 @@ public class AccountDAO extends AbstractDAO<Account>{
             
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
+            } finally {
+                prst.close();
+                
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+        return 0;
     }
    
    public int doUpdateEmail(String vecchiaMail,String nuovaMail) {
@@ -162,15 +174,20 @@ public class AccountDAO extends AbstractDAO<Account>{
             
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+       return 0;
    }
    
    public int doDelete(String email) {
@@ -183,12 +200,17 @@ public class AccountDAO extends AbstractDAO<Account>{
                 prst.execute();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
+            } finally {
+                prst.close();
+                con.commit();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+        return 0;
    }
 }

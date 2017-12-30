@@ -128,12 +128,16 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                 return 0;
             } catch(SQLException e){
                 return -1;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+        
     }
 
     @Override
@@ -153,6 +157,9 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                 return 0;
             } catch(SQLException e){
                 return -1;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
@@ -173,6 +180,9 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                 return 0;
             } catch(SQLException e){
                 return -1;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             

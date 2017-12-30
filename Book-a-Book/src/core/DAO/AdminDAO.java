@@ -37,6 +37,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
     @Override
     public Admin doRetriveById(Object... id) {
         int idAdmin = (int) id[0];
+        Admin admin = null;
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
@@ -46,7 +47,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Admin admin = null;
+                
                 if (rs.next()) {
                     AccountDAO account = new AccountDAO();
                     Account account2 = account.doRetriveById(rs.getString("email"));
@@ -58,7 +59,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -68,9 +69,11 @@ public class AdminDAO extends AbstractDAO<Admin>{
             ex.printStackTrace();
             return null;
         }
+        return admin;
     }
     
     public Admin doRetriveByEmail(String email) {
+        Admin admin = null;
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetrieveByEmailQuery);
@@ -80,7 +83,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Admin admin = null;
+                
                 if (rs.next()) {
                     AccountDAO account = new AccountDAO();
                     Account account2 = account.doRetriveById(rs.getString("email"));
@@ -92,7 +95,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -102,6 +105,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
             ex.printStackTrace();
             return null;
         }
+        return admin;
     }
 
     @Override
@@ -127,7 +131,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+               
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -137,6 +141,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
             ex.printStackTrace();
             return null;
         }
+       return admins;
     }
 
     @Override
@@ -159,15 +164,20 @@ public class AdminDAO extends AbstractDAO<Admin>{
            
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
             }
             
             
         } catch(SQLException e){
             return -1;
         }
+       return 0;
     }  
 }
     

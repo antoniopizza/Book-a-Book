@@ -22,11 +22,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 /**
  *
  * @author stefanosolda
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BibliotecaDAOTest {
     
     public static Connection con;
@@ -43,7 +46,7 @@ public class BibliotecaDAOTest {
     
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst2 = con.prepareStatement("delete from Biblioteca where isil = '"+ biblioteca.getIsil() + ";");
+        PreparedStatement prst2 = con.prepareStatement("delete from Biblioteca where isil = '"+ biblioteca.getIsil() + "';");
         prst2.execute();
         con.commit();
         prst2.close(); 

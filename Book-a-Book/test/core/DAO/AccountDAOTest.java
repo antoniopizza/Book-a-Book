@@ -19,11 +19,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 /**
  *
  * @author stefanosolda
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AccountDAOTest {
     public static Account account;
     public static Connection con;
@@ -42,7 +45,7 @@ public class AccountDAOTest {
     
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst2 = con.prepareStatement("delete from Account where email = '"+ account.getEmail() + ";");
+        PreparedStatement prst2 = con.prepareStatement("delete from Account where email = '"+ account.getEmail() + "';");
         prst2.execute();
         con.commit();
         prst2.close(); 
@@ -83,8 +86,8 @@ public class AccountDAOTest {
         expResult.add(account);
         List<Account> result = instance.doRetriveAll();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+     
+     
     }
 
     /**
@@ -97,8 +100,6 @@ public class AccountDAOTest {
         int expResult = 0;
         int result = instance.doInsert(account);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -111,8 +112,6 @@ public class AccountDAOTest {
         int expResult = 0;
         int result = instance.doUpdate(account);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -132,14 +131,14 @@ public class AccountDAOTest {
     /**
      * Test of doDelete method, of class AccountDAO.
      */
-    @Test
-    public void testDoDelete() {
-        System.out.println("doDelete");
-        String email = account.getEmail();
-        AccountDAO instance = new AccountDAO();
-        int expResult = 0;
-        int result = instance.doDelete(email);
-        assertEquals(expResult, result);
-    }
+   // @Test
+   // public void testDoDelete() {
+     //   System.out.println("doDelete");
+       // String email = account.getEmail();
+        //AccountDAO instance = new AccountDAO();
+       // int expResult = 0;
+       // int result = instance.doDelete(email);
+       // assertEquals(expResult, result);
+    //}
     
 }
