@@ -35,8 +35,7 @@ public class PosizioneDAOTest {
     private static Posizione posizione;
     
     public PosizioneDAOTest() {
-        Biblioteca biblioteca = new Biblioteca();
-        biblioteca.setIsil("12345");
+        Biblioteca biblioteca = new BibliotecaDAOStub().doRetriveById("12345");
         
         List<Copia> copie = new ArrayList<Copia>();
         Copia copia = new Copia("abc", "prenotabile", "si");
@@ -133,7 +132,7 @@ public class PosizioneDAOTest {
         System.out.println("doInsert");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setLibroDAO(new LibroDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub()); 
         int expResult = 0;
         int result = instance.doInsert(posizione);
         assertEquals(expResult, result);
@@ -147,12 +146,12 @@ public class PosizioneDAOTest {
         System.out.println("doUpdate");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setLibroDAO(new LibroDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub());
         int expResult = 0;
         int result = instance.doUpdate(posizione);
         assertEquals(expResult, result); //Check if doUpdate is done
         
-        Posizione retrivedPosizione = instance.doRetriveById(posizione.getEtichetta(), posizione.getBiblioteca().getIsil(), posizione.getLibro().getIsbn());
+        Posizione retrivedPosizione = instance.doRetriveById(posizione.getEtichetta(), posizione.getBiblioteca().getIsil());
         assertEquals(posizione, retrivedPosizione);
     }
     
