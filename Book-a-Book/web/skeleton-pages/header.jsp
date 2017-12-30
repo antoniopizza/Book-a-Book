@@ -39,7 +39,7 @@
                             <li class="nav-link"> Benvenuto,</li>
                             <li class="nav-item dropdown dropdown-slide" style=" display: inline;">
                                 <a class="nav-link" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <%=((Persona) session.getAttribute("persona")).getNome()%><span> <i class="fa fa-angle-down"></i></span>
+                                    <%=((Persona) request.getSession().getAttribute("persona")).getNome()%><span> <i class="fa fa-angle-down"></i></span>
                                 </a>
                                 <!-- Dropdown list -->
                                 <div class="dropdown-menu dropdown-menu-right">
@@ -50,10 +50,10 @@
                             </li>
                             <%   } else if ((Biblioteca) request.getSession().getAttribute("biblioteca") != null) {
 
-                            %> <li class="nav-link"> Benvenuto,</li>
+                            %> <li class="nav-link"> Benvenuta,</li>
                             <li class="nav-item dropdown dropdown-slide" style=" display: inline;">
                                 <a class="nav-link" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   <%=((Biblioteca) session.getAttribute("biblioteca")).getNome()%><span> <i class="fa fa-angle-down"></i></span>
+                                   <%=((Biblioteca) request.getSession().getAttribute("biblioteca")).getNome()%><span> <i class="fa fa-angle-down"></i></span>
                                 </a>
                                 <!-- Dropdown list -->
                                 <div class="dropdown-menu dropdown-menu-right">

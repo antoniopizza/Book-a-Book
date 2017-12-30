@@ -100,7 +100,7 @@ public class RegistraBibliotecaServlet extends HttpServlet {
        // mr.registra(isil,nomeBiblioteca,  nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome );
       // Biblioteca biblioteca = mr.registra(isil, cognome, via, citta, numeroCivico);
        
-       Biblioteca biblioteca = new Biblioteca (isil, cognome, tipo);
+       Biblioteca biblioteca = new Biblioteca (isil, nomeBiblioteca, tipo);
        request.getSession().setAttribute("biblioteca", biblioteca);
        
        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
