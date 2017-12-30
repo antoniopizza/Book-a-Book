@@ -48,12 +48,7 @@
                             <br>
                             <h3 class="widget-header"></h3>
                             
-                            <!-- Da qui in poi puoi inserire codice per creare la pagina da questo scheletro -->                    
-                            
-                            <!--=================================
-                            =      Contenuto della pagine      =
-                            ==================================-->      
-
+                          
                             <h3>Dettagli prenotazione</h3>
                             <%
                                 String message = (String) request.getAttribute("message");

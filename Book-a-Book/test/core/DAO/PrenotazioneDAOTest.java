@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Biblioteca;
+import core.entities.Copia;
 import core.entities.Libro;
 import core.entities.Persona;
 import core.entities.Prenotazione;
@@ -22,22 +23,30 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 /**
  *
  * @author Mery
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class PrenotazioneDAOTest {
     
     private static Connection con;
     private static Prenotazione prenotazione;
             
     public PrenotazioneDAOTest() {
-        Libro book = new Libro();
+        Libro libro = new Libro();
+        libro.setIsbn("654325");
+        Copia copia = new Copia();
+        copia.setId("987678");
+        copia.setLibro(libro);
         Biblioteca bib = new Biblioteca();
+        bib.setIsil("gfdsdfgvb");
         Persona person = new Persona();
-        prenotazione = new Prenotazione(new GregorianCalendar(2017,20,12),new GregorianCalendar(2018,28,3),new GregorianCalendar(2017,28,12),person,"Da ritirare",bib,book);
-        
+        person.setId(0);
+        prenotazione = new Prenotazione(0,new GregorianCalendar(2017,20,12),new GregorianCalendar(2018,28,3),new GregorianCalendar(2018,28,12),person,"Da ritirare",bib,copia);
     }
     
     @BeforeClass
@@ -47,7 +56,7 @@ public class PrenotazioneDAOTest {
     
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst = con.prepareStatement("DELETE FROM prenotazione WHERE id = '"+ prenotazione.getId()+"'");
+        PreparedStatement prst = con.prepareStatement("DELETE FROM Prenotazione WHERE id = '"+ prenotazione.getId()+"'");
         prst.execute();
         con.commit();
         prst.close();
@@ -63,33 +72,7 @@ public class PrenotazioneDAOTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of doRetriveById method, of class PrenotazioneDAO.
-     */
-    @Test
-    public void testDoRetriveById() {
-        System.out.println("doRetriveById");
-        PrenotazioneDAO instance = new PrenotazioneDAO();
-        Prenotazione expResult = prenotazione;
-        Prenotazione result = instance.doRetriveById(prenotazione.getId());
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of doRetriveAll method, of class PrenotazioneDAO.
-     */
-    @Test
-    public void testDoRetriveAll() {
-        System.out.println("doRetriveAll");
-        PrenotazioneDAO instance = new PrenotazioneDAO();
-        List<Prenotazione> expResult = new ArrayList<>();
-        expResult.add(prenotazione);
-        List<Prenotazione> result = instance.doRetriveAll();
-        assertEquals(expResult, result);
-        assertEquals(expResult.size(), result.size());
-        fail("The test case is a prototype.");
-    }
+    
 
     /**
      * Test of doInsert method, of class PrenotazioneDAO.
@@ -98,23 +81,53 @@ public class PrenotazioneDAOTest {
     public void testDoInsert() {
         System.out.println("doInsert");
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        int expResult = prenotazione.getId();
+        int expResult = 0;
         int result = instance.doInsert(prenotazione);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
+     * Test of doRetriveById method, of class PrenotazioneDAO.
+     */
+    @Test
+    public void testDoRetriveById() {
+        System.out.println("doRetriveById");
+        PrenotazioneDAO instance = new PrenotazioneDAO();
+        instance.setBibDAO(new BibliotecaDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub());
+        instance.setPersDAO(new PersonaDAOStub());
+        Prenotazione expResult = prenotazione;
+        Prenotazione result = instance.doRetriveById(prenotazione.getId());
+        assertEquals(expResult, result);
+        //fail("The test case is a prototype.");
+    }
+/**
+     * Test of doRetriveAll method, of class PrenotazioneDAO.
+     */
+    @Test
+    public void testDoRetriveAll() {
+        System.out.println("doRetriveAll");
+        PrenotazioneDAO instance = new PrenotazioneDAO();
+        List<Prenotazione> expResult = new ArrayList<>();
+        prenotazione.setId(0);
+        expResult.add(prenotazione);
+        List<Prenotazione> result = instance.doRetriveAll();
+        assertEquals(expResult, result);
+        //fail("The test case is a prototype.");
+    }
+
+/**
      * Test of doUpdate method, of class PrenotazioneDAO.
      */
     @Test
     public void testDoUpdate() {
         System.out.println("doUpdate");
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        int expResult = prenotazione.getId();
+        int expResult = 0;
         int result = instance.doUpdate(prenotazione);
         assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }

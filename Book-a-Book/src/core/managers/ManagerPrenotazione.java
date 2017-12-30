@@ -20,20 +20,20 @@ import java.util.GregorianCalendar;
  */
 public class ManagerPrenotazione {
     
-    public boolean prenotareLibro(Persona p,String isbn,String isil){
-        LibroDAO libroDAO = new LibroDAO();
+    public boolean prenotareLibro(Persona p,Copia copia,String isil){
+        CopiaDAO copiaDAO = new CopiaDAO();
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         PrenotazioneDAO prenDAO = new PrenotazioneDAO();
         
         Calendar dataCreazione = new GregorianCalendar(); 
         Calendar dataScadenza = new GregorianCalendar();
         dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
-        Libro libroPrenotato;
-        libroPrenotato = libroDAO.doRetriveById(isbn);
+        Copia copiaPrenotata;
+        copiaPrenotata = copiaDAO.doRetriveById(copia.getId(),copia.getLibro().getIsbn());
         Biblioteca bib;
         bib = bibliotecaDAO.doRetriveById(isil);
         Prenotazione prenot;
-        prenot = new Prenotazione(dataCreazione,dataScadenza, null, p, "Da ritirare", bib, libroPrenotato);
+        prenot = new Prenotazione(dataCreazione,dataScadenza, null, p, "Da ritirare", bib, copiaPrenotata);
         prenDAO.doInsert(prenot);
         
         return true;

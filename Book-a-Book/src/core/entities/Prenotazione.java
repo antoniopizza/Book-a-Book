@@ -6,6 +6,7 @@
 package core.entities;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Prenotazione {
     protected Persona persona;
     protected String status;
     protected Biblioteca biblioteca;
-    protected Libro libro;
+    protected Copia copia;
 
     public Prenotazione() {
         
@@ -33,14 +34,14 @@ public class Prenotazione {
         this.status = status;
     }
 
-    public Prenotazione(Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, String status, Biblioteca biblioteca, Libro libro) {
+    public Prenotazione(Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, String status, Biblioteca biblioteca, Copia copia) {
         this.dataCreazione = dataCreazione;
         this.dataScadenza = dataScadenza;
         this.dataConsegna = dataConsegna;
         this.persona = persona;
         this.status = status;
         this.biblioteca = biblioteca;
-        this.libro = libro;
+        this.copia = copia;
     }
 
     public Prenotazione(int id, Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, String status) {
@@ -51,7 +52,7 @@ public class Prenotazione {
         this.status = status;
     }
     
-    public Prenotazione(int id, Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, String status, Biblioteca biblioteca, Libro libro) {
+    public Prenotazione(int id, Calendar dataCreazione, Calendar dataScadenza, Calendar dataConsegna, Persona persona, String status, Biblioteca biblioteca, Copia copia) {
         this.id = id;
         this.dataCreazione = dataCreazione;
         this.dataScadenza = dataScadenza;
@@ -59,7 +60,7 @@ public class Prenotazione {
         this.persona = persona;
         this.status = status;
         this.biblioteca = biblioteca;
-        this.libro = libro;
+        this.copia = copia;
     }
     
     public int getId() {
@@ -118,17 +119,56 @@ public class Prenotazione {
         this.biblioteca = biblioteca;
     }
 
-    public Libro getLibro() {
-        return libro;
+    public Copia getCopia() {
+        return copia;
     }
 
-    public void setLibro(Libro libro) {
-        this.libro = libro;
+    public void setCopia(Copia copia) {
+        this.copia = copia;
     }
 
     @Override
     public String toString() {
-        return "Prenotazione{" + "id=" + id + ", dataCreazione=" + dataCreazione + ", dataScadenza=" + dataScadenza + ", dataConsegna=" + dataConsegna + ", persona=" + persona + ", biblioteca=" + biblioteca + ", libro=" + libro + '}';
+        return "Prenotazione{" + "id=" + id + ", dataCreazione=" + dataCreazione + ", dataScadenza=" + dataScadenza + ", dataConsegna=" + dataConsegna + ", persona=" + persona + ", status=" + status + ", biblioteca=" + biblioteca + ", copia=" + copia + '}';
     }
-        
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Prenotazione other = (Prenotazione) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataCreazione, other.dataCreazione)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataScadenza, other.dataScadenza)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataConsegna, other.dataConsegna)) {
+            return false;
+        }
+        if (!Objects.equals(this.persona, other.persona)) {
+            return false;
+        }
+        if (!Objects.equals(this.biblioteca, other.biblioteca)) {
+            return false;
+        }
+        if (!Objects.equals(this.copia, other.copia)) {
+            return false;
+        }
+        return true;
+    }
+    
 }
