@@ -6,11 +6,13 @@
 package core.managers;
 
 import core.entities.Autore;
+import core.entities.Copia;
 import core.entities.Libro;
 import core.entities.Posizione;
 import core.utils.Criterio;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -26,15 +28,18 @@ public class ManagerLibri {
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
-    public boolean aggiuntaLibro
-        (String isil,String isbn,String titolo,String editore,String disponibilita,Calendar dataPubblicazione,String descrizione,Autore autore){
+    public Libro aggiuntaLibro
+        (String isil,String isbn,String titolo,String editore,Calendar dataPubblicazione,String descrizione,List<Autore> autori,List<Posizione> posizioni){
             throw new UnsupportedOperationException("Not implemented yet");
     }
         
-    //TODO
-    public boolean modificaNumeroCopie(String isbn,String isil,int numeroCopie,String etichetta){
+    public Copia aggiungiCopia(String isbn, String isil, String idPosizione, String idCopia){
         throw new UnsupportedOperationException("Not implemented yet");
-    }
+    } 
+    
+    public boolean eliminaCopia(String isbn, String isil, String idPosizione,String idCopia){
+        throw new UnsupportedOperationException("Not implemented yet");
+    }        
     
     //TODO
     public boolean eliminaLibro(String isbn,String isil){
@@ -42,11 +47,15 @@ public class ManagerLibri {
     }
 
     //TODO
-    public boolean spostamentoCopieLibro(String isbn,String isil,String numeroCopie,Posizione vecchiaPosizione,Posizione nuovaPosizione){
+    public boolean spostaCopie(String isbn,String isil,String idCopia,Posizione vecchiaPosizione,Posizione nuovaPosizione){
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
     public Libro visualizzaLibro(String isbn){
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+    
+    public Posizione aggiungiPosizione(String etichetta, String isil){
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
