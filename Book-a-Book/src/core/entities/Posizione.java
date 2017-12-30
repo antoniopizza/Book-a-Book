@@ -5,6 +5,7 @@
  */
 package core.entities;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,27 +15,29 @@ import java.util.Objects;
 public class Posizione {
     
     protected String etichetta;
-    protected int numCopie;
-    protected int numCopieTotali;
     protected Biblioteca biblioteca;
-    protected Libro libro;
+    protected List<Copia> copie;
 
     public Posizione() {
         
     }
 
-    public Posizione(String etichetta, int numCopie, int numCopieTotali) {
+    public Posizione(String etichetta) {
         this.etichetta = etichetta;
-        this.numCopie = numCopie;
-        this.numCopieTotali = numCopieTotali;
     }
 
-    public Posizione(String etichetta, int numCopie, int numCopieTotali, Biblioteca biblioteca, Libro libro) {
+    public Posizione(String etichetta, Biblioteca biblioteca, List<Copia> copie) {
         this.etichetta = etichetta;
-        this.numCopie = numCopie;
-        this.numCopieTotali = numCopieTotali;
         this.biblioteca = biblioteca;
-        this.libro = libro;
+        this.copie = copie;
+    }
+
+    public List<Copia> getCopie() {
+        return copie;
+    }
+
+    public void setCopie(List<Copia> copie) {
+        this.copie = copie;
     }
 
     public String getEtichetta() {
@@ -45,22 +48,6 @@ public class Posizione {
         this.etichetta = etichetta;
     }
 
-    public int getNumCopie() {
-        return numCopie;
-    }
-
-    public void setNumCopie(int numCopie) {
-        this.numCopie = numCopie;
-    }
-
-    public int getNumCopieTotali() {
-        return numCopieTotali;
-    }
-
-    public void setNumCopieTotali(int numCopieTotali) {
-        this.numCopieTotali = numCopieTotali;
-    }
-
     public Biblioteca getBiblioteca() {
         return biblioteca;
     }
@@ -69,19 +56,10 @@ public class Posizione {
         this.biblioteca = biblioteca;
     }
 
-    public Libro getLibro() {
-        return libro;
-    }
-
-    public void setLibro(Libro libro) {
-        this.libro = libro;
-    }
-
     @Override
     public String toString() {
-        return "Posizione{" + "etichetta=" + etichetta + ", numCopie=" + numCopie + ", numCopieTotali=" + numCopieTotali + ", biblioteca=" + biblioteca + ", libro=" + libro + '}';
+        return "Posizione{" + "etichetta=" + etichetta + ", biblioteca=" + biblioteca + ", copie=" + copie + '}';
     }
-
 
     @Override
     public boolean equals(Object obj) {
@@ -95,23 +73,17 @@ public class Posizione {
             return false;
         }
         final Posizione other = (Posizione) obj;
-        if (this.numCopie != other.numCopie) {
-            return false;
-        }
-        if (this.numCopieTotali != other.numCopieTotali) {
-            return false;
-        }
         if (!Objects.equals(this.etichetta, other.etichetta)) {
             return false;
         }
-        if (!Objects.equals(this.biblioteca.getIsil(), other.biblioteca.getIsil())) {
+        if (!Objects.equals(this.biblioteca, other.biblioteca)) {
             return false;
         }
-        if (!Objects.equals(this.libro.getIsbn(), other.libro.getIsbn())) {
+        if (!Objects.equals(this.copie, other.copie)) {
             return false;
         }
         return true;
     }
-    
+
     
 }

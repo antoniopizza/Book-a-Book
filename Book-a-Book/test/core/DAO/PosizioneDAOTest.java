@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Biblioteca;
+import core.entities.Copia;
 import core.entities.Libro;
 import core.entities.Posizione;
 import core.utils.DriverManagerConnectionPool;
@@ -37,10 +38,11 @@ public class PosizioneDAOTest {
         Biblioteca biblioteca = new Biblioteca();
         biblioteca.setIsil("12345");
         
-        Libro book = new Libro();
-        book.setIsbn("978881919");
+        List<Copia> copie = new ArrayList<Copia>();
+        Copia copia = new Copia("abc", "prenotabile", "si");
+        copie.add(copia);
         
-        posizione = new Posizione("et1", 5, 5, biblioteca, book);
+        posizione = new Posizione("et1", biblioteca, copie);
     }
     
     @BeforeClass
@@ -54,12 +56,12 @@ public class PosizioneDAOTest {
         PreparedStatement prst1 = con.prepareStatement("DELETE FROM Posizione WHERE etichetta = " + posizione.getEtichetta() +
                 " AND isbn = " + posizione.getLibro().getIsbn() + " AND isil = " + posizione.getBiblioteca().getIsil());
         */
-        String queryDelete = "DELETE FROM Posizione WHERE etichetta = ? AND isil = ? AND isbn = ?";
+        String queryDelete = "DELETE FROM Posizione WHERE etichetta = ? AND isil = ?";
         
         PreparedStatement prst1 = con.prepareStatement(queryDelete);
         prst1.setString(1, posizione.getEtichetta());
         prst1.setString(2, posizione.getBiblioteca().getIsil());
-        prst1.setString(3, posizione.getLibro().getIsbn());
+
         prst1.execute();
         con.commit();
         prst1.close();
@@ -83,10 +85,10 @@ public class PosizioneDAOTest {
         System.out.println("doRetriveById");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setLibroDAO(new LibroDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub());
         Posizione expResult = posizione;
-        Posizione result = instance.doRetriveById(posizione.getEtichetta(), posizione.getBiblioteca().getIsil(), posizione.getLibro().getIsbn());
-        assertEquals(expResult, result);        
+        Posizione result = instance.doRetriveById(posizione.getEtichetta(), posizione.getBiblioteca().getIsil());
+        assertEquals(expResult, result); 
     }
 
     /**
@@ -97,7 +99,7 @@ public class PosizioneDAOTest {
         System.out.println("doRetriveAll");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setLibroDAO(new LibroDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub());
         List<Posizione> expResult = new ArrayList<>();
         expResult.add(posizione);
         List<Posizione> result = instance.doRetriveAll();
@@ -109,16 +111,15 @@ public class PosizioneDAOTest {
      * Test of doRetriveAllByIsilIsbn method, of class PosizioneDAO.
      */
     @Test
-    public void testDoRetriveAllByIsilIsbn() {
+    public void testDoRetriveAllByIsil() {
         System.out.println("doRetriveAllByIsilIsbn");
         String isil = posizione.getBiblioteca().getIsil();
-        String isbn = posizione.getLibro().getIsbn();
         PosizioneDAO instance = new PosizioneDAO();     
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setLibroDAO(new LibroDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub());
         List<Posizione> expResult = new ArrayList<>();
         expResult.add(posizione);
-        List<Posizione> result = instance.doRetriveAllByIsilIsbn(isil, isbn);
+        List<Posizione> result = instance.doRetriveAllByIsil(isil);
         assertEquals(expResult, result);
         assertEquals("Le liste non sono uguali", expResult, result);
         assertEquals("Le dimensioni delle liste non sono uguali", expResult.size(), result.size());

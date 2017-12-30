@@ -31,14 +31,17 @@ public class ManagerLibri {
             throw new UnsupportedOperationException("Not implemented yet");
     }
         
+    //TODO
     public boolean modificaNumeroCopie(String isbn,String isil,int numeroCopie,String etichetta){
         throw new UnsupportedOperationException("Not implemented yet");
     }
- 
+    
+    //TODO
     public boolean eliminaLibro(String isbn,String isil){
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    //TODO
     public boolean spostamentoCopieLibro(String isbn,String isil,String numeroCopie,Posizione vecchiaPosizione,Posizione nuovaPosizione){
         throw new UnsupportedOperationException("Not implemented yet");
     }

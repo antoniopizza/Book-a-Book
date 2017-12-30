@@ -7,6 +7,7 @@ package core.DAO;
 
 import core.entities.Posizione;
 import core.entities.Biblioteca;
+import core.entities.Copia;
 import core.entities.Libro;
 import core.utils.DriverManagerConnectionPool;
 import java.sql.Connection;
@@ -14,34 +15,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 /**
- *
+ * 
  * @author mirko
  */
 public class PosizioneDAO extends AbstractDAO<Posizione> {
     
-    private final String doRetriveByIdQuery = "SELECT * FROM Posizione WHERE etichetta = ? AND isbn = ? AND isil = ?";
+    private final String doRetriveByIdQuery = "SELECT * FROM Posizione WHERE etichetta = ? AND isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Posizione";
-    private final String doRetriveAllIsilIsbnQuery = "SELECT * FROM Posizione WHERE isbn = ? AND isil = ?";
-    private final String doInsertQuery = "INSERT INTO Posizione(etichetta, num_copie, num_copie_totali, isil, isbn) VALUES (?, ?, ?, ?, ?)";
-    private final String doUpdateQuery = "UPDATE Posizione SET num_copie = ?, num_copie_totali = ? WHERE etichetta = ? AND isbn = ? AND isil = ?";
+    private final String doRetriveAllIsilQuery = "SELECT * FROM Posizione WHERE isil = ?";
+    private final String doInsertQuery = "INSERT INTO Posizione(etichetta, isil) VALUES (?, ?)";
+//    private final String doUpdateQuery = "UPDATE Posizione SET num_copie = ?, num_copie_totali = ? WHERE etichetta = ? AND isbn = ? AND isil = ?"; //NON IMPLEMENTATA AL MOMENTO
 
     
-    LibroDAO libroDAO;
     BibliotecaDAO bibliotecaDAO;
+    CopiaDAO copiaDAO;
 
-    public LibroDAO getLibroDAO() {
-        return libroDAO;
+    public CopiaDAO getCopiaDAO() {
+        return copiaDAO;
     }
 
-    public void setLibroDAO(LibroDAO libroDAO) {
-        this.libroDAO = libroDAO;
+    public void setCopiaDAO(CopiaDAO copiaDAO) {
+        this.copiaDAO = copiaDAO;
     }
 
     public BibliotecaDAO getBibliotecaDAO() {
@@ -60,22 +59,20 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
      * @param id[0] si aspetta un codice che identifica la posizione di un
      * libro, 
      * @param id[1] si aspetta il codice identificativo di una biblioteca, 
-     * @param id[2] si apsetta il codice di un libro.
      * @return la posizione di un libro in base ai parametri passati.
      */
     @Override
     public Posizione doRetriveById(Object... id) {
         String etichetta = (String) id[0];
         String isil = (String) id[1];
-        String isbn = (String) id[2];
+        
 
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
 
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
             prst.setString(1, etichetta); 
-            prst.setString(2, isbn);
-            prst.setString(3, isil);
+            prst.setString(2, isil);
 
             try {
                 ResultSet rs = prst.executeQuery();
@@ -84,13 +81,13 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                 Posizione posizione = null;
 
                 if (rs.next()) {
+                    posizione = new Posizione(rs.getString("etichetta"));
                     
                     Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
-                    
-                    Libro libro = libroDAO.doRetriveById(rs.getString("isbn"));
-
-                    posizione = new Posizione(rs.getString("etichetta"), rs.getInt("num_copie"), rs.getInt("num_copie_totali"), biblioteca, libro);
+                    posizione.setBiblioteca(biblioteca);
+                    posizione.setCopie(copie);
                 }
                 rs.close();
                 return posizione;
@@ -130,15 +127,13 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                 con.commit();
 
                 while (rs.next()) {
-                    
+                    Posizione posizione = new Posizione(rs.getString("etichetta"));
                     
                     Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
-                    
-                    Libro libro = libroDAO.doRetriveById(rs.getString("isbn"));
-                    
-                    Posizione posizione = new Posizione(rs.getString("etichetta"), rs.getInt("num_copie"), rs.getInt("num_copie_totali"), biblioteca, libro);
-                    
+                    posizione.setBiblioteca(biblioteca);
+                    posizione.setCopie(copie);
                   
                     posizioneList.add(posizione);
                 }
@@ -164,34 +159,31 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
      * 
      * @param isil si aspetta un codice (String) che identifica la Biblioteca
      * contenente la posizione desiderata, 
-     * @param isbn si aspetta il codice (String) che identifica il Libro
-     * contenuto nella posizione desiderata.
      * @return la List di Posizione in base ai parametri passati.
      */
-    public List<Posizione> doRetriveAllByIsilIsbn(String isil, String isbn){
+    public List<Posizione> doRetriveAllByIsil(String isil){
 
         List<Posizione> posizioneList = new ArrayList<>();
 
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             
-            PreparedStatement prst = con.prepareStatement(doRetriveAllIsilIsbnQuery);
-            prst.setString(1, isbn);
-            prst.setString(2, isil);
+            PreparedStatement prst = con.prepareStatement(doRetriveAllIsilQuery);
+            prst.setString(1, isil);
             
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
                 
                 while(rs.next()) {
+                    Posizione posizione = new Posizione(rs.getString("etichetta"));
                     
                     Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
+                    posizione.setBiblioteca(biblioteca);
+                    posizione.setCopie(copie);
                     
-                    Libro libro = libroDAO.doRetriveById(rs.getString("isbn"));
-
-                    Posizione posizione = new Posizione(rs.getString("etichetta"), rs.getInt("num_copie"), rs.getInt("num_copie_totali"), biblioteca, libro);
-
                     posizioneList.add(posizione);
                 }
                 rs.close();
@@ -227,13 +219,9 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
             PreparedStatement prst = con.prepareStatement(doInsertQuery);
             
             prst.setString(1, posizione.getEtichetta());
-            prst.setInt(2, posizione.getNumCopie());
-            prst.setInt(3, posizione.getNumCopieTotali());
-            prst.setString(4, posizione.getBiblioteca().getIsil());
-            prst.setString(5, posizione.getLibro().getIsbn());
+            prst.setString(2, posizione.getBiblioteca().getIsil());
             
             System.out.println(prst.toString());
-            System.out.println("ISIL: " + posizione.getBiblioteca().getIsil() + ", ISBN: " + posizione.getLibro().getIsbn());
             
             try {
                 prst.executeUpdate();
@@ -265,7 +253,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
      */
     @Override
     public int doUpdate(Posizione posizione) {
-        
+    /*    
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
@@ -296,6 +284,9 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
         }
         
         return -1;
+    */
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    
 }
