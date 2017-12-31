@@ -23,17 +23,13 @@ public class PersonaDAOStub extends PersonaDAO{
         String numdoc = "numdoc";
         String nome= "nome";
         String cognome ="cognome";
-        Account account = new Account();
-        account.setEmail(null);
-        account.setPassword("pass");
-        account.setPathFoto("foto");
-        account.setTipo("Persona");
+        Account account = null;
         Indirizzo ind = new Indirizzo();
-        ind.setCitta("citta");
-        ind.setCivico("432");
-        ind.setVia("Via");
-        ind.setCap("543");
-        ind.setProvincia("NA");
+        ind.setCitta("citta boh");
+        ind.setCivico("12");
+        ind.setVia("Via boh");
+        ind.setCap("09876");
+        ind.setProvincia("BO");
         
         return new Persona(numdoc,ind,nome,cognome,account);
     }

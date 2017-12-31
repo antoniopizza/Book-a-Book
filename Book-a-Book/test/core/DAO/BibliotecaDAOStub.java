@@ -18,9 +18,10 @@ public class BibliotecaDAOStub extends BibliotecaDAO{
     @Override
     public Biblioteca doRetriveById(Object... id){
         String isil = (String) id[0];
-        String nome = "nomeBib";
+        String nome = "biblioteche";
         String status = "Accettato";
-        return new Biblioteca(isil,nome,status);
+        Indirizzo ind = new Indirizzo("via boh","citta boh","12","BO","09876");
+        return new Biblioteca(isil,nome,status,ind,null);
         
     }
     

@@ -38,15 +38,15 @@ public class PrenotazioneDAOTest {
             
     public PrenotazioneDAOTest() {
         Libro libro = new Libro();
-        libro.setIsbn("654325");
+        libro.setIsbn("567890");
         Copia copia = new Copia();
-        copia.setId("987678");
+        copia.setId("1");
         copia.setLibro(libro);
         Biblioteca bib = new Biblioteca();
-        bib.setIsil("gfdsdfgvb");
+        bib.setIsil("1234567890");
         Persona person = new Persona();
-        person.setId(0);
-        prenotazione = new Prenotazione(0,new GregorianCalendar(2017,20,12),new GregorianCalendar(2018,28,3),new GregorianCalendar(2018,28,12),person,"Da ritirare",bib,copia);
+        person.setId(1);
+        prenotazione = new Prenotazione(new GregorianCalendar(2017,20,12),new GregorianCalendar(2018,28,3),new GregorianCalendar(2018,28,12),person,"Da ritirare",bib,copia);
     }
     
     @BeforeClass
@@ -81,10 +81,11 @@ public class PrenotazioneDAOTest {
     public void testDoInsert() {
         System.out.println("doInsert");
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        int expResult = 0;
+        int expResult = -1;
         int result = instance.doInsert(prenotazione);
-        assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
+        assertNotEquals(expResult, result);
+        prenotazione.setId(result);
+        
     }
 
     /**
@@ -98,9 +99,10 @@ public class PrenotazioneDAOTest {
         instance.setCopiaDAO(new CopiaDAOStub());
         instance.setPersDAO(new PersonaDAOStub());
         Prenotazione expResult = prenotazione;
+        prenotazione.setId(14);
         Prenotazione result = instance.doRetriveById(prenotazione.getId());
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
+        
     }
 /**
      * Test of doRetriveAll method, of class PrenotazioneDAO.
@@ -114,7 +116,7 @@ public class PrenotazioneDAOTest {
         expResult.add(prenotazione);
         List<Prenotazione> result = instance.doRetriveAll();
         assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
+        
     }
 
 /**
@@ -124,10 +126,10 @@ public class PrenotazioneDAOTest {
     public void testDoUpdate() {
         System.out.println("doUpdate");
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        int expResult = 0;
+        int expResult = -1;
         int result = instance.doUpdate(prenotazione);
-        assertEquals(expResult, result);
-        //fail("The test case is a prototype.");
+        assertNotEquals(expResult, result);
+        
     }
     
 }
