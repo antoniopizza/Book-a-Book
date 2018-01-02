@@ -60,7 +60,10 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
                 return bibliotecario;
 
             } catch (SQLException e) {
+                e.printStackTrace();
                 con.rollback();
+                
+                return null;
                 
             } finally {
                 prst.close();
@@ -71,7 +74,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
-        return bibliotecario;
+        
     }
     
     public Bibliotecario doRetriveByEmail(String email) {
@@ -99,7 +102,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
 
             } catch (SQLException e) {
                 con.rollback();
-                
+                return null;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -109,7 +112,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
-        return bibliotecario;
+        
     }
        
     
@@ -141,6 +144,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
 
             } catch (SQLException e) {
                 con.rollback();
+                return null;
                 
             } finally {
                 prst.close();
@@ -151,7 +155,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
-           return bibliotecari;
+           
     }
 
 
@@ -161,7 +165,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
       try{
             
             Connection con = DriverManagerConnectionPool.getConnection();            
-            PreparedStatement prst = con.prepareStatement(doInsertQuery);
+            PreparedStatement prst = con.prepareStatement(doInsertQuery,PreparedStatement.RETURN_GENERATED_KEYS);
             prst.setString(1, bibliotecario.getNome());
             prst.setString(2,bibliotecario.getCognome());
             prst.setString(3,bibliotecario.getStatus());
@@ -172,9 +176,14 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             try{
                 prst.execute();
                 con.commit();
-                return 0;
+                ResultSet rs = prst.getGeneratedKeys();
+                rs.next();
+                int id = rs.getInt(1);
+                return id;
             } catch(SQLException e){
                 con.rollback();
+                e.printStackTrace();
+                return -1;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -184,7 +193,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
         } catch(SQLException e){
             return -1;
         }
-      return 0;
+      
     }  
     
     @Override
@@ -208,6 +217,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
                 return 0;
             } catch(SQLException e){
                 con.rollback();
+                return -1;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -217,7 +227,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
         } catch(SQLException e){
             return -1;
         }
-          return 0;
+          
     }  
     
     
@@ -233,6 +243,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
                 return 0;
             } catch(SQLException e){
                con.rollback();
+               return -1;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -242,7 +253,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
         } catch(SQLException e){
             return -1;
         }
-        return 0;
+        
    }
     }
     

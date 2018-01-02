@@ -28,7 +28,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
     private final String doRetriveAllQuery = "SELECT * FROM Persona";
     private final String doInsertQuery = "INSERT INTO Persona(nome,cognome,email,num_documento,via,civico,citta)" 
                                             + "VALUES(?,?,?,?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Persona SET nome = ?, cognome = ?,email = ?, num_documento = ?,via = ?, civico = ?,citta = ? WHERE id = ?";
+    private final String doUpdateQuery = "UPDATE Persona SET nome = ?, cognome = ?,email = ?, num_documento = ?, via = ?, citta = ?, civico = ? WHERE id = ?";
     
     /**
      * 
@@ -63,6 +63,8 @@ public class PersonaDAO extends AbstractDAO<Persona>{
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
+                return null;
                
             } finally {
                 prst.close();
@@ -73,7 +75,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             ex.printStackTrace();
             return null;
         }
-        return persona;
+        
     }
 
     public Persona doRetriveByEmail(String email) {
@@ -101,6 +103,8 @@ public class PersonaDAO extends AbstractDAO<Persona>{
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
+                return null;
                 
             } finally {
                 prst.close();
@@ -111,7 +115,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             ex.printStackTrace();
             return null;
         }
-        return persona;
+        
     }
        
     
@@ -142,6 +146,8 @@ public class PersonaDAO extends AbstractDAO<Persona>{
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
+                return null;
                 
             } finally {
                 prst.close();
@@ -153,7 +159,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             return null;
         }
         
-    return persone;
+    
     }
 
     @Override
@@ -161,7 +167,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
         try{
             
             Connection con = DriverManagerConnectionPool.getConnection();            
-            PreparedStatement prst = con.prepareStatement(doInsertQuery);
+            PreparedStatement prst = con.prepareStatement(doInsertQuery,PreparedStatement.RETURN_GENERATED_KEYS);
             
             prst.setString(1, persona.getNome());
             prst.setString(2,persona.getCognome());
@@ -175,9 +181,15 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             try{
                 prst.execute();
                 con.commit();
-                return 0;
+                ResultSet rs = prst.getGeneratedKeys();
+                rs.next();
+                int id = rs.getInt(1);
+                //System.out.println("ID generato = "+id);
+                return id;
             } catch(SQLException e){
                 con.rollback();
+                e.printStackTrace();
+                return 0;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -187,7 +199,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
         } catch(SQLException e){
             return -1;
         }
-        return 0;
+        
     }
 
     @Override
@@ -200,9 +212,9 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             prst.setString(2,persona.getCognome());
             prst.setString(3,persona.getAccount().getEmail());
             prst.setString(4,persona.getNumDocumento());
-            prst.setString(5,persona.getIndirizzo().getVia());
-            prst.setString(6,persona.getIndirizzo().getCivico());
-            prst.setString(7, persona.getIndirizzo().getCitta());
+            prst.setString(5, persona.getIndirizzo().getVia());
+            prst.setString(6, persona.getIndirizzo().getCitta());
+            prst.setString(7, persona.getIndirizzo().getCivico());
            
             prst.setInt(8, persona.getId());
             try{
@@ -211,6 +223,8 @@ public class PersonaDAO extends AbstractDAO<Persona>{
                 return 0;
             } catch(SQLException e){
                 con.rollback();
+                e.printStackTrace();
+                return -1;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -220,7 +234,7 @@ public class PersonaDAO extends AbstractDAO<Persona>{
         } catch(SQLException e){
             return -1;
         }
-         return 0;
+         
     }
     
 }

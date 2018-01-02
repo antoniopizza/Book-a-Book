@@ -5,6 +5,10 @@
  */
 package core.DAO;
 
+import static core.DAO.AccountDAOTest.account;
+import static core.DAO.AccountDAOTest.con;
+import static core.DAO.IndirizzoDAOTest.con;
+import static core.DAO.IndirizzoDAOTest.indirizzo;
 import core.entities.Account;
 import core.entities.Indirizzo;
 import core.entities.Persona;
@@ -32,10 +36,20 @@ public class PersonaDAOTest {
     
     public static Connection con;
     public static Persona persona;
-    
+    public static IndirizzoDAO indirizzoDAO;
+    public static AccountDAO accountDAO;
+    public static Indirizzo indirizzo;
+    public static Account account;
+    public static int id;
     
     public PersonaDAOTest() {
-        persona = new Persona("123456", new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "Avellino", "83042"), 0, "Stefano", "Soldà", new Account("stefasolda@gmail.com", "ciaone", "isfhwfn", "Utente"));
+       // indirizzoDAO = new IndirizzoDAO();
+       // indirizzo = new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042");
+       // indirizzoDAO.doInsert(indirizzo);
+       // account = new Account("stefasolda@gmail.com", "ciaone", "isfhwfn", "Utente");
+       // accountDAO = new AccountDAO();
+       // accountDAO.doInsert(account);
+        persona = new Persona("123456", new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042"), "Stefano", "Soldà", new Account("stefasolda@gmail.com", "ciaone", "ciaone", "Utente"));
     }
     
     @BeforeClass
@@ -45,8 +59,13 @@ public class PersonaDAOTest {
     
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst2 = con.prepareStatement("delete from Persona where id = '"+ 0 + ";");
+        //System.out.println("id dentro tear down=" + id);
+        PreparedStatement prst2 = con.prepareStatement("delete from Persona where id = '"+ id + "';");
+       // PreparedStatement prst4 = con.prepareStatement("delete from Account where email = '"+ account.getEmail() + "';");
+       // PreparedStatement prst3 = con.prepareStatement("delete from Indirizzo where via = '"+ indirizzo.getVia() + "' AND citta = '" + indirizzo.getCitta() + "' AND civico = '" + indirizzo.getCivico() +"';");
         prst2.execute();
+        //prst3.execute();
+        //prst4.execute();
         con.commit();
         prst2.close(); 
         DriverManagerConnectionPool.releaseConnection(con);
@@ -66,8 +85,8 @@ public class PersonaDAOTest {
      */
     @Test
     public void testDoRetriveById() {
-        System.out.println("doRetriveById");
-        int id = persona.getId();
+        //System.out.println("doRetriveById");
+        //System.out.println("ID persona nel test  = "+ id);
         PersonaDAO instance = new PersonaDAO();
         Persona expResult = persona;
         Persona result = instance.doRetriveById(id);
@@ -110,9 +129,13 @@ public class PersonaDAOTest {
     public void testDoInsert() {
         System.out.println("doInsert");
         PersonaDAO instance = new PersonaDAO();
-        int expResult = 0;
+        int expResult = -1;
         int result = instance.doInsert(persona);
-        assertEquals(expResult, result);
+        //System.out.println("Risultato doinsert:" + result);
+        persona.setId(result);
+        id = result;
+       // System.out.println("id= " + id);
+        assertNotEquals(expResult, result);
         
     }
 

@@ -25,8 +25,8 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
     private final String doDeleteQuery = "DELETE FROM Biblioteca WHERE isil = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Biblioteca WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";
-    private final String doInsertQuery = "INSERT INTO Biblioteca(isil,nome,status,via,citta,civico,id_admin)" 
-                                            + "VALUES(?,?,?,?,?,?,?);";
+    private final String doInsertQuery = "INSERT INTO Biblioteca(isil,nome,status,via,citta,civico)" 
+                                            + "VALUES(?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Biblioteca SET  nome = ?, status = ?, via = ?, citta = ?, civico = ? WHERE isil = ?";
     /**
      * 
@@ -37,6 +37,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
     @Override
     public Biblioteca doRetriveById(Object... id) {
         String isil = (String) id[0];
+         Biblioteca biblioteca = null;
           try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
@@ -45,12 +46,12 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Biblioteca biblioteca = null;
+               
                 IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
                 AdminDAO adminDAO = new AdminDAO();
                 Indirizzo indirizzoB = null;
                 if (rs.next()) {
-                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico")),adminDAO.doRetriveById(rs.getString("id_admin")));
+                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico")),null);
                     
                 }
                 rs.close();
@@ -58,7 +59,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
 
             } catch (SQLException e) {
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -68,34 +69,41 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             ex.printStackTrace();
             return null;
         }
+          return biblioteca;
     }
 
     @Override
     public List<Biblioteca> doRetriveAll() {
         List<Biblioteca> biblioteche = new ArrayList<Biblioteca>();
-        
+        //System.err.println("Sono dentro il doretrieveall");
         Connection con;
         try {
             con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveAllQuery);
-            
+            //System.err.println("Sono dentro il primo try");
         try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Biblioteca biblioteca = null;
+                
                 IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
                 AdminDAO adminDAO = new AdminDAO();
-                Indirizzo indirizzoB = null;
+                
                 while(rs.next()) {
-                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico")),adminDAO.doRetriveById(rs.getString("id_admin")));
+                    //System.err.println("Voglio le biblio mlmlmlmlml");
+                    Biblioteca biblioteca = null;
+                    Indirizzo indirizzo = indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico"));
+                    System.out.println(""+indirizzo);
+                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,null);
+                    System.out.println(""+biblioteca);
                     biblioteche.add(biblioteca);
                 }
                 rs.close();
                 return biblioteche;
 
             } catch (SQLException e) {
+                e.printStackTrace();
                 con.rollback();
-                return null;
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -105,7 +113,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             ex.printStackTrace();
             return null;
         }
-           
+         return biblioteche;  
     }
 
     @Override
@@ -119,14 +127,17 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             prst.setString(4,biblioteca.getIndirizzo().getVia());
             prst.setString(5,biblioteca.getIndirizzo().getCitta());
             prst.setString(6, biblioteca.getIndirizzo().getCivico());
-            prst.setInt(7, biblioteca.getAdmin().getId());
+            
             
             
            
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
+                con.rollback();
+                e.printStackTrace();
                 return -1;
             } finally {
                 prst.close();
@@ -137,6 +148,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
         } catch(SQLException e){
             return -1;
         }
+        
         
     }
 
@@ -154,9 +166,10 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             prst.setString(6, biblioteca.getIsil());
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -166,6 +179,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
         } catch(SQLException e){
             return -1;
         }
+        return 0;
     }
     
     
@@ -177,9 +191,10 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             
             try{
                 prst.execute();
+                con.commit();
                 return 0;
             } catch(SQLException e){
-                return -1;
+                con.rollback();
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -189,6 +204,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
         } catch(SQLException e){
             return -1;
         }
+        return 0;
    }
     
 }

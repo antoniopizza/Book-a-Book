@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -46,9 +48,31 @@ public class Persona extends Utente{
     public Indirizzo getIndirizzo() {
         return indirizzo;
     }
-
+    
+    
     public void setIndirizzo(Indirizzo indirizzo) {
         this.indirizzo = indirizzo;
     }
-        
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Persona other = (Persona) obj;
+        if (!Objects.equals(this.numDocumento, other.numDocumento)) {
+            return false;
+        }
+        if (!Objects.equals(this.indirizzo, other.indirizzo)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

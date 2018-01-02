@@ -71,7 +71,7 @@ public class AccountDAO extends AbstractDAO<Account>{
     @Override
     public List<Account> doRetriveAll() {
         List<Account> accounts = new ArrayList<Account>();
-        
+        Account account = null;
         Connection con;
         try {
             con = DriverManagerConnectionPool.getConnection();
@@ -80,7 +80,7 @@ public class AccountDAO extends AbstractDAO<Account>{
         try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                Account account = null;
+                
                 
                 while(rs.next()) {
                     account = new Account(rs.getString("email"), rs.getString("password"), rs.getString("path_foto"), rs.getString("tipo"));
@@ -91,6 +91,7 @@ public class AccountDAO extends AbstractDAO<Account>{
 
             } catch (SQLException e) {
                 con.rollback();
+                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -119,7 +120,7 @@ public class AccountDAO extends AbstractDAO<Account>{
                 return 0;
             } catch(SQLException e){
                 con.rollback();
-                
+                return -1;
             } finally {
                 prst.close();
                 
@@ -131,7 +132,7 @@ public class AccountDAO extends AbstractDAO<Account>{
             return -1;
         }
         
-        return 0;
+        
     }
 
     @Override
@@ -152,6 +153,7 @@ public class AccountDAO extends AbstractDAO<Account>{
                 return 0;
             } catch(SQLException e){
                 con.rollback();
+                return -1;
             } finally {
                 prst.close();
                 
@@ -162,7 +164,7 @@ public class AccountDAO extends AbstractDAO<Account>{
         } catch(SQLException e){
             return -1;
         }
-        return 0;
+        
     }
    
    public int doUpdateEmail(String vecchiaMail,String nuovaMail) {

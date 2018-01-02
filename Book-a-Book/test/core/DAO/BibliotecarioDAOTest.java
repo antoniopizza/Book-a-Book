@@ -37,10 +37,14 @@ public class BibliotecarioDAOTest {
     public static Connection con;
     public static Bibliotecario bibliotecario;
     public static Biblioteca biblioteca;
+    public static int id;
+    public static BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
     
     public BibliotecarioDAOTest() {
-        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", new Indirizzo("Via pozzuoli", "Marigliano", "18", "NA", "83057"), new Admin());
-        bibliotecario = new Bibliotecario("Accettato", "Dipendente", biblioteca, 0, "Paolo", "Bilotto", new Account("paolobilotto@gmail.com", "ciaonepaolo", "iberfnjf", "Bibliotecario"));
+        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042"), null);
+        
+        bibliotecaDAO.doInsert(biblioteca);
+        bibliotecario = new Bibliotecario("Accettato", "Dipendente", biblioteca, "Paolo", "Bilotto", new Account("stefasolda@gmail.com", "ciaone", "ciaone", "Utente"));
     }
     
     @BeforeClass
@@ -50,7 +54,8 @@ public class BibliotecarioDAOTest {
     
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        PreparedStatement prst2 = con.prepareStatement("delete from Bibliotecario where id = '"+ bibliotecario.getId() + ";");
+        PreparedStatement prst2 = con.prepareStatement("delete from Bibliotecario where id = '"+ id + "';");
+        //bibliotecaDAO.doDelete("ITNA02");
         prst2.execute();
         con.commit();
         prst2.close(); 
@@ -73,7 +78,7 @@ public class BibliotecarioDAOTest {
     @Test
     public void testDoRetriveById() {
         System.out.println("doRetriveById");
-        int id = bibliotecario.getId();
+        //System.out.println(""+id);
         BibliotecarioDAO instance = new BibliotecarioDAO();
         Bibliotecario expResult = bibliotecario;
         Bibliotecario result = instance.doRetriveById(id);
@@ -87,7 +92,7 @@ public class BibliotecarioDAOTest {
     @Test
     public void testDoRetriveByEmail() {
         System.out.println("doRetriveByEmail");
-        String email = "paolobilotto@gmail.com";
+        String email = "stefasolda@gmail.com";
         BibliotecarioDAO instance = new BibliotecarioDAO();
         Bibliotecario expResult = bibliotecario;
         Bibliotecario result = instance.doRetriveByEmail(email);
@@ -115,9 +120,12 @@ public class BibliotecarioDAOTest {
     public void testDoInsert() {
         System.out.println("doInsert");
         BibliotecarioDAO instance = new BibliotecarioDAO();
-        int expResult = 0;
+        int expResult = -1;
         int result = instance.doInsert(bibliotecario);
-        assertEquals(expResult, result);
+        //System.out.println("Result:"+result);
+        bibliotecario.setId(result);
+        id = result;
+        assertNotEquals(expResult, result);
         
     }
 

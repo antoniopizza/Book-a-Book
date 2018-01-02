@@ -32,9 +32,11 @@ public class IndirizzoDAOTest {
     
     public static Connection con;
     public static Indirizzo indirizzo;
+    public static Indirizzo nuovoIndirizzo;
     
     public IndirizzoDAOTest() {
         indirizzo = new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042");
+        nuovoIndirizzo = new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030");
     }
     
     @BeforeClass
@@ -45,7 +47,9 @@ public class IndirizzoDAOTest {
     @AfterClass
     public static void tearDownClass() throws SQLException {
         PreparedStatement prst2 = con.prepareStatement("delete from Indirizzo where via = '"+ indirizzo.getVia() + "' AND citta = '" + indirizzo.getCitta() + "' AND civico = '" + indirizzo.getCivico() +"';");
+        PreparedStatement prst = con.prepareStatement("delete from Indirizzo where via = '"+ nuovoIndirizzo.getVia() + "' AND citta = '" + nuovoIndirizzo.getCitta() + "' AND civico = '" + nuovoIndirizzo.getCivico() +"';");
         prst2.execute();
+        prst.execute();
         con.commit();
         prst2.close(); 
         DriverManagerConnectionPool.releaseConnection(con);
@@ -70,7 +74,7 @@ public class IndirizzoDAOTest {
         String citta = indirizzo.getCitta();
         String civico = indirizzo.getCivico();
         IndirizzoDAO instance = new IndirizzoDAO();
-        Indirizzo expResult = null;
+        Indirizzo expResult = indirizzo;
         Indirizzo result = instance.doRetriveById(via,citta,civico);
         assertEquals(expResult, result);
        
@@ -111,7 +115,6 @@ public class IndirizzoDAOTest {
     public void testDoUpdateIndirizzo() {
         System.out.println("doUpdateIndirizzo");
         Indirizzo vecchioIndirizzo = indirizzo;
-        Indirizzo nuovoIndirizzo = new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030");
         IndirizzoDAO instance = new IndirizzoDAO();
         int expResult = 0;
         int result = instance.doUpdateIndirizzo(vecchioIndirizzo, nuovoIndirizzo);

@@ -19,7 +19,7 @@ import java.util.List;
  * @author mirko
  */
 public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
-    private final String doRetriveByIdQuery = "SELECT * FROM Indirizzo WHERE via = ?,citta = ?,civico = ?";
+    private final String doRetriveByIdQuery = "SELECT * FROM Indirizzo WHERE via = ? AND citta = ? AND civico = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Indirizzo";
     private final String doInsertQuery = "INSERT INTO Indirizzo(via,citta,civico,provincia,cap)" 
                                             + "VALUES(?,?,?,?,?);";
@@ -54,6 +54,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
 
             } catch (SQLException e) {
                 con.rollback();
+                return null;
                 
             } finally {
                 prst.close();
@@ -64,7 +65,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
             ex.printStackTrace();
             return null;
         }
-        return indirizzo;
+        
     }
 
     @Override
@@ -90,6 +91,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
 
             } catch (SQLException e) {
                 con.rollback();
+                return null;
                 
             } finally {
                 prst.close();
@@ -100,7 +102,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
             ex.printStackTrace();
             return null;
         }
-        return indirizzi;
+        
            
     }
 
@@ -122,6 +124,8 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
                 return 0;
             } catch(SQLException e){
                 con.rollback();
+                e.printStackTrace();
+                return -1;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -131,7 +135,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
         } catch(SQLException e){
             return -1;
         }
-        return 0;
+        
     }
 
     @Override
@@ -159,7 +163,9 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
                 con.commit();
                 return 0;
             } catch(SQLException e){
+                e.printStackTrace();
                 con.rollback();
+                return -1;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -169,7 +175,7 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
         } catch(SQLException e){
             return -1;
         }
-        return 0;
+        
     }
     
     }
