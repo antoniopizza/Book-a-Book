@@ -84,7 +84,7 @@ public class PosizioneDAOTest {
         System.out.println("doRetriveById");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub(new LibroDAO(), instance));
         Posizione expResult = posizione;
         Posizione result = instance.doRetriveById(posizione.getEtichetta(), posizione.getBiblioteca().getIsil());
         assertEquals(expResult, result); 
@@ -98,7 +98,7 @@ public class PosizioneDAOTest {
         System.out.println("doRetriveAll");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub(new LibroDAO(), instance));
         List<Posizione> expResult = new ArrayList<>();
         expResult.add(posizione);
         List<Posizione> result = instance.doRetriveAll();
@@ -115,7 +115,7 @@ public class PosizioneDAOTest {
         String isil = posizione.getBiblioteca().getIsil();
         PosizioneDAO instance = new PosizioneDAO();     
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAOStub());
+         instance.setCopiaDAO(new CopiaDAOStub(new LibroDAO(), instance));
         List<Posizione> expResult = new ArrayList<>();
         expResult.add(posizione);
         List<Posizione> result = instance.doRetriveAllByIsil(isil);
@@ -132,7 +132,7 @@ public class PosizioneDAOTest {
         System.out.println("doInsert");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAOStub()); 
+        instance.setCopiaDAO(new CopiaDAOStub(new LibroDAO(), instance)); 
         int expResult = 0;
         int result = instance.doInsert(posizione);
         assertEquals(expResult, result);
@@ -146,7 +146,7 @@ public class PosizioneDAOTest {
         System.out.println("doUpdate");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAOStub());
+        instance.setCopiaDAO(new CopiaDAOStub(new LibroDAO(), instance));
         int expResult = 0;
         int result = instance.doUpdate(posizione);
         assertEquals(expResult, result); //Check if doUpdate is done

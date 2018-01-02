@@ -16,7 +16,11 @@ public class Copia {
     protected String id;
     protected String status;
     protected String disponibilita;
+    
+    //realizza la relazione molti-a-uno con posizione
     protected Posizione posizione;
+    
+    //realizza la relazione molti-a-uno con libro
     protected Libro libro;
 
     public Copia() {
@@ -64,8 +68,20 @@ public class Copia {
         return posizione;
     }
 
-    public void setPosizione(Posizione posizione) {
-        this.posizione = posizione;
+    public void setPosizione(Posizione newPosizione) {
+        if(this.posizione != newPosizione){
+            Posizione old = this.posizione;
+            this.posizione = newPosizione;
+            
+            if(newPosizione != null){
+              posizione.addCopia(this);
+            }
+            
+            if(old != null){
+                old.removeCopia(this);
+            }
+        }       
+        
     }
 
     public Libro getLibro() {

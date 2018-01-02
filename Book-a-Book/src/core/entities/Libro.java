@@ -5,6 +5,7 @@
  */
 package core.entities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,7 @@ public class Libro {
     protected String pathFoto;
 
     public Libro() {
-        
+        this.autori = new ArrayList<>();
     }
 
     public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta,String pathFoto) {
@@ -36,6 +37,7 @@ public class Libro {
         this.descrizione = descrizione;
         this.disponibilta = disponibilta;
         this.pathFoto = pathFoto;
+        this.autori = new ArrayList<>();
     }
 
     public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta, List<Autore> autori,String pathFoto) {
@@ -103,6 +105,20 @@ public class Libro {
 
     public void setAutori(List<Autore> autori) {
         this.autori = autori;
+    }
+    
+    public void addAutore(Autore a){
+        if(!autori.contains(a)){
+            autori.add(a);
+            a.addLibro(this);
+        }
+    }
+    
+    public void removeAutore(Autore a){
+        if(autori.contains(a)){
+            autori.remove(a);
+            a.removeLibro(this);
+        }
     }
 
     public String getPathFoto() {

@@ -59,4 +59,8 @@ public class ManagerLibri {
         throw new UnsupportedOperationException("Not implemented yet");
     }
     
+    public Collection<Posizione> visualizzaPosizioniLibro(String isbn, String isil){
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+    
 }

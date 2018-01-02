@@ -16,6 +16,8 @@ public class Posizione {
     
     protected String etichetta;
     protected Biblioteca biblioteca;
+    
+    //realizza la relazione uno a molti con copia
     protected List<Copia> copie;
 
     public Posizione() {
@@ -36,8 +38,22 @@ public class Posizione {
         return copie;
     }
 
-    public void setCopie(List<Copia> copie) {
-        this.copie = copie;
+//    public void setCopie(List<Copia> copie) {
+//        this.copie = copie;
+//    }
+    
+    public void addCopia(Copia c){
+        if(!copie.contains(c)){
+            copie.add(c);
+            c.setPosizione(this);
+        }        
+    }
+    
+    public void removeCopia(Copia c){
+        if(copie.contains(c)){
+            copie.remove(c);
+            c.setPosizione(null);
+        }
     }
 
     public String getEtichetta() {

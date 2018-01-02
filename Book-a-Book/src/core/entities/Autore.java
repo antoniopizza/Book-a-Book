@@ -5,6 +5,7 @@
  */
 package core.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,11 +20,12 @@ public class Autore {
     protected List<Libro> libri;
 
     public Autore() {
-        
+        this.libri = new ArrayList<>();
     }
 
     public Autore(String nome) {
         this.nome = nome;
+        this.libri = new ArrayList<>();
     }
 
     public Autore(String nome, List<Libro> libri) {
@@ -59,6 +61,20 @@ public class Autore {
 
     public void setLibri(List<Libro> libri) {
         this.libri = libri;
+    }
+    
+    public void addLibro(Libro b){
+        if(!libri.contains(b)){
+            libri.add(b);
+            b.addAutore(this);
+        }
+    }
+    
+    public void removeLibro(Libro b){
+        if(libri.contains(b)){
+            libri.remove(b);
+            b.removeAutore(this);
+        }
     }
 
     @Override

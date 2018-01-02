@@ -87,7 +87,10 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                     List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
                     posizione.setBiblioteca(biblioteca);
-                    posizione.setCopie(copie);
+                    
+                    for(Copia c : copie){
+                        posizione.addCopia(c);
+                    }
                 }
                 rs.close();
                 return posizione;
@@ -133,7 +136,10 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                     List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
                     posizione.setBiblioteca(biblioteca);
-                    posizione.setCopie(copie);
+                   
+                    for(Copia c : copie){
+                        posizione.addCopia(c);
+                    }
                   
                     posizioneList.add(posizione);
                 }
@@ -182,7 +188,10 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                     List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
                     posizione.setBiblioteca(biblioteca);
-                    posizione.setCopie(copie);
+                   
+                    for(Copia c : copie){
+                        posizione.addCopia(c);
+                    }
                     
                     posizioneList.add(posizione);
                 }

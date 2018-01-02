@@ -16,6 +16,10 @@ import java.util.List;
  */
 public class CopiaDAOStub extends CopiaDAO{
 
+    public CopiaDAOStub(LibroDAO libroDao, PosizioneDAO posizioneDAO) {
+        super(libroDao, posizioneDAO);
+    }
+
     @Override
     public List<Copia> doRetriveByPosizione(Posizione posizione) {
         List<Copia> copie = new ArrayList<Copia>();
