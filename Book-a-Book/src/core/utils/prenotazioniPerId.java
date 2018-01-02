@@ -21,6 +21,9 @@ public class prenotazioniPerId implements Criterio{
         this.id = id;
     }
 
+    public prenotazioniPerId() {
+        }
+
     @Override
     public boolean isValid(Object ob) {
         Prenotazione pren = (Prenotazione) ob;

@@ -5,11 +5,13 @@
  */
 package core.controllers;
 
-import core.entities.Copia;
-import core.entities.Persona;
+import core.entities.Prenotazione;
 import core.managers.ManagerPrenotazione;
+import core.utils.Criterio;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mery
  */
-@WebServlet(name = "PrenotazioneLibroServlet", urlPatterns = {"/PrenotazioneLibroServlet"})
-public class PrenotazioneLibroServlet extends HttpServlet {
+@WebServlet(name = "PrenotazioniPerCriterioServlet", urlPatterns = {"/PrenotazioniPerCriterioServlet"})
+public class PrenotazioniPerCriterioServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,18 +39,17 @@ public class PrenotazioneLibroServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         String message;
-        //Persona persona = new Persona(request.getParameter("numDocumento"),request.getParameter("nome"),request.getParameter("cognome"));
-        Persona persona = (Persona) request.getAttribute("persona");
-        Copia copia = (Copia) request.getAttribute("copia");
-        String isil = request.getParameter("isil"); //??????????????
+        Collection<Prenotazione> lista = new ArrayList<>();
+        Criterio criterio = (Criterio) request.getAttribute("criterio");
         ManagerPrenotazione manPren = new ManagerPrenotazione();
-        if(manPren.prenotareLibro(persona, copia, isil)==false){
-            message = "C'è stato un errore durante qualche operazione.";
+        lista = manPren.visualizzaPrenotazioni(criterio);
+        if(lista.isEmpty()){
+            message = "Nessun dato corrispondente al criterio selezionato.";
         } else {
             message = "correct";
         }
         
-        
+        //classe da rivedere. Dalla request si deve prendere l'oggetto Criterio? O l'oggetto lo dovra' creare la servlet? 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

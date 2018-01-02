@@ -83,10 +83,15 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
                     dataScadenza.setTimeInMillis(rs.getDate("data_scadenza").getTime());
+                    if(rs.getDate("data_consegna")!=null){
                     Calendar dataConsegna = new GregorianCalendar();
                     dataConsegna.setTimeInMillis(rs.getDate("data_consegna").getTime());
-
                     prenotazione = new Prenotazione(dataCreazione, dataScadenza, dataConsegna, rs.getString("status"));
+                    }
+                    else{
+                        prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
+                    
+                    }
                     prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
                     prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
                     prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn")));
@@ -96,9 +101,11 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                 rs.close();
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
+                return prenotazione;
 
             } catch (SQLException e) {
                 con.rollback();
+                return null;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -106,9 +113,8 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return null;
         }
-
-        return prenotazione;
     }
 
     @Override
@@ -127,30 +133,37 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
                     dataScadenza.setTimeInMillis(rs.getDate("data_scadenza").getTime());
+                    if(rs.getDate("data_consegna")!=null){
                     Calendar dataConsegna = new GregorianCalendar();
                     dataConsegna.setTimeInMillis(rs.getDate("data_consegna").getTime());
                     prenotazione = new Prenotazione(dataCreazione, dataScadenza, dataConsegna, rs.getString("status"));
-                    prenotazione.setPersona(new PersonaDAO().doRetriveById(rs.getInt("id_persona")));
-                    prenotazione.setBiblioteca(new BibliotecaDAO().doRetriveById(rs.getString("isil")));
-                    prenotazione.setCopia(new CopiaDAO().doRetriveById(rs.getString("id_copia"), rs.getString("isbn")));
+                    }
+                    else{
+                        prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
+                    
+                    }
+                    prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
+                    prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
+                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn")));
                     listaPrenotazioni.add(prenotazione);
                 }
 
                 con.commit();
                 stt.close();
                 DriverManagerConnectionPool.releaseConnection(con);
+                return listaPrenotazioni;
 
             } catch (SQLException e) {
                 con.rollback();
-                e.printStackTrace();
+                return null;
             } finally {
                 stt.close();
                 DriverManagerConnectionPool.releaseConnection(con);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
-        return listaPrenotazioni;
     }
 
     @Override

@@ -10,51 +10,64 @@ import core.entities.*;
 import core.entities.Persona;
 import core.entities.Prenotazione;
 import core.utils.Criterio;
+import core.utils.prenotazioniPerId;
+import core.utils.prenotazioniSuDataDiConsegna;
+import core.utils.prenotazioniSuDataDiCreazione;
+import core.utils.prenotazioniSuDataDiScadenza;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  *
  * @author manuel
  */
 public class ManagerPrenotazione {
-    
-    public boolean prenotareLibro(Persona p,Copia copia,String isil){
+
+    public boolean prenotareLibro(Persona p, Copia copia, String isil) {
         CopiaDAO copiaDAO = new CopiaDAO();
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         PrenotazioneDAO prenDAO = new PrenotazioneDAO();
-        
-        Calendar dataCreazione = new GregorianCalendar(); 
+        Calendar dataCreazione = new GregorianCalendar();
         Calendar dataScadenza = new GregorianCalendar();
         dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
         Copia copiaPrenotata;
-        copiaPrenotata = copiaDAO.doRetriveById(copia.getId(),copia.getLibro().getIsbn());
+        copiaPrenotata = copiaDAO.doRetriveById(copia.getId(), copia.getLibro().getIsbn());
         Biblioteca bib;
         bib = bibliotecaDAO.doRetriveById(isil);
         Prenotazione prenot;
-        prenot = new Prenotazione(dataCreazione,dataScadenza, null, p, "Da ritirare", bib, copiaPrenotata);
+        prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, "Da ritirare", bib, copiaPrenotata);
         prenDAO.doInsert(prenot);
-        
+
         return true;
     }
-    
-    public Collection<Prenotazione> visualizzaPrenotazioni(Criterio cp){
+
+    public Collection<Prenotazione> visualizzaPrenotazioni(Criterio cp) {
+        PrenotazioneDAO prenDAO = new PrenotazioneDAO();
+        Collection<Prenotazione> lista = new ArrayList<>();
+        List<Prenotazione> listaPrenotazione = new ArrayList<>();
+        listaPrenotazione = prenDAO.doRetriveAll();
+            for (int i = 0; i <= listaPrenotazione.size(); i++) {
+                if (cp.isValid(listaPrenotazione.get(i))) {
+                    lista.add(listaPrenotazione.get(i));
+                }
+            }
         
-        throw new UnsupportedOperationException("Not implemented yet");
+        return lista;
     }
-    
-    
-    public boolean controlloPrenotazione(int idPrenotazione, String email, String status){
-       PrenotazioneDAO prenDAO = new PrenotazioneDAO();
-       Prenotazione prenotazione = prenDAO.doRetriveById(idPrenotazione);
-       prenotazione.setStatus(status);
-       
-       if(prenDAO.doUpdate(prenotazione) == -1){
-           return false;
-       } else {
-           return true;
-       }
+
+    public boolean controlloPrenotazione(int idPrenotazione, String email, String status) {
+        PrenotazioneDAO prenDAO = new PrenotazioneDAO();
+        Prenotazione prenotazione = prenDAO.doRetriveById(idPrenotazione);
+        prenotazione.setStatus(status);
+
+        if (prenDAO.doUpdate(prenotazione) == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
-    
+
 }

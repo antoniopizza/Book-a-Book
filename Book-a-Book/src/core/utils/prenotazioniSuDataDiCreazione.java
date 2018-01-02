@@ -21,6 +21,9 @@ public class prenotazioniSuDataDiCreazione implements Criterio {
         this.data = data;
     }
 
+    public prenotazioniSuDataDiCreazione() {
+         }
+
     @Override
     public boolean isValid(Object ob) {
         Prenotazione pren = (Prenotazione) ob;

@@ -23,6 +23,9 @@ public class prenotazioniSuDataDiScadenza implements Criterio {
         this.data = data;
     }
 
+    public prenotazioniSuDataDiScadenza() {
+         }
+
     @Override
     public boolean isValid(Object ob) {
         Prenotazione pren = (Prenotazione) ob;
