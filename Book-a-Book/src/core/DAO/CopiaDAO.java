@@ -90,8 +90,8 @@ public class CopiaDAO extends AbstractDAO<Copia> {
                     c.setId(rs.getString("id"));
                     c.setDisponibilita(rs.getString("disponibilita"));
                     c.setStatus(rs.getString("status"));
-                    //c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
-                    //c.setPosizione(posizioneDAO.doRetriveById(rs.getString("id_posizione"), rs.getString("isil")));
+                    c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
+                    c.setPosizione(posizioneDAO.doRetriveById(rs.getString("id_posizione"), rs.getString("isil")));
                 }
 
                 
@@ -160,7 +160,7 @@ public class CopiaDAO extends AbstractDAO<Copia> {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByPosizioneQuery);
             prst.setString(1, posizione.getEtichetta());
-            prst.setString(1, posizione.getBiblioteca().getIsil());
+            prst.setString(2, posizione.getBiblioteca().getIsil());
             
             try (ResultSet rs = prst.executeQuery()) {
                 while (rs.next()) {
@@ -169,8 +169,8 @@ public class CopiaDAO extends AbstractDAO<Copia> {
                     c.setId(rs.getString("id"));
                     c.setDisponibilita(rs.getString("disponibilita"));
                     c.setStatus(rs.getString("status"));
-                    //c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
-                    //c.setPosizione(posizioneDAO.doRetriveById(rs.getString("id_posizione"), rs.getString("isil")));
+                    c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
+                    c.setPosizione(posizione);
                 }
 
                 

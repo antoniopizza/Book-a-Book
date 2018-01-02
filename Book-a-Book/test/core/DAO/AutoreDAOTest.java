@@ -36,7 +36,7 @@ public class AutoreDAOTest {
     @BeforeClass
     public static void setUpClass() throws SQLException {
         con = DriverManagerConnectionPool.getConnection();
-        autore = new Autore("Luigi Pirandello");
+        autore = new Autore("Alexandre Dumas");
     }
 
     @AfterClass

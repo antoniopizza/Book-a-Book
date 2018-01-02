@@ -30,11 +30,20 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
     private final String doRetriveAllIsilQuery = "SELECT * FROM Posizione WHERE isil = ?";
     private final String doInsertQuery = "INSERT INTO Posizione(etichetta, isil) VALUES (?, ?)";
 //    private final String doUpdateQuery = "UPDATE Posizione SET num_copie = ?, num_copie_totali = ? WHERE etichetta = ? AND isbn = ? AND isil = ?"; //NON IMPLEMENTATA AL MOMENTO
-
+    private final String doRetriveByLibroAndBibliotecaQuery = "SELECT * FROM Posizione WHERE etichetta IN (SELECT id_posizione FROM Copia WHERE isbn = ? AND isil = ?)";
     
     BibliotecaDAO bibliotecaDAO;
     CopiaDAO copiaDAO;
 
+    public PosizioneDAO() {
+        copiaDAO = new CopiaDAO(new LibroDAO(), this);
+    }
+
+    
+
+    
+    
+    
     public CopiaDAO getCopiaDAO() {
         return copiaDAO;
     }
@@ -84,10 +93,10 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                     posizione = new Posizione(rs.getString("etichetta"));
                     
                     Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    posizione.setBiblioteca(biblioteca);                    
+                    
                     List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
-                    posizione.setBiblioteca(biblioteca);
-                    
                     for(Copia c : copie){
                         posizione.addCopia(c);
                     }
@@ -295,6 +304,53 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
         return -1;
     */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+    public List<Posizione> doRetriveByLibroAndBiblioteca(String isbn, String isil){
+          List<Posizione> posizioneList = new ArrayList<>();
+
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            
+            PreparedStatement prst = con.prepareStatement(doRetriveByLibroAndBibliotecaQuery);
+            prst.setString(1,isbn);
+            prst.setString(2, isil);
+            
+            try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+                
+                while(rs.next()) {
+                    Posizione posizione = new Posizione(rs.getString("etichetta"));
+                    
+                    Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
+
+                    posizione.setBiblioteca(biblioteca);
+                   
+                    for(Copia c : copie){
+                        posizione.addCopia(c);
+                    }
+                    
+                    posizioneList.add(posizione);
+                }
+                rs.close();
+                return posizioneList;
+            }
+            catch (SQLException e) {
+                con.rollback();
+                e.printStackTrace();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return posizioneList;
     }
     
     

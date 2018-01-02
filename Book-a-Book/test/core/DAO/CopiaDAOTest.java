@@ -19,11 +19,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
 /**
  *
  * @author manuel
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CopiaDAOTest {
     
     private static Copia copia;
@@ -36,10 +39,17 @@ public class CopiaDAOTest {
     
     @BeforeClass
     public static void setUpClass() throws SQLException {
-        con = DriverManagerConnectionPool.getConnection();
-        copia = new Copia("abc123","NonPrenotata", "disponibile");
+        con = DriverManagerConnectionPool.getConnection();        
+        
         libroDAO = new LibroDAO();
         posizioneDAO = new PosizioneDAO();
+        posizioneDAO.setBibliotecaDAO(new BibliotecaDAOStub());
+        
+        
+        copia = new Copia("abc123","NonPrenotata", "disponibile");                               
+        copia.setLibro(libroDAO.doRetriveById("9788804492504"));
+        copia.setPosizione(posizioneDAO.doRetriveById("Ripiano Basso A", "IT-321"));
+        
     }
     
     @AfterClass
@@ -71,11 +81,12 @@ public class CopiaDAOTest {
      */
     @Test
     public void testDoRetriveById() {
-        System.out.println("doRetriveById");        
+        System.out.println("doRetriveById");    
+        
         CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
-        Copia expResult = copia;
-        copia.setLibro(libroDAO.doRetriveById("978-8804630739"));
-        copia.setPosizione(posizioneDAO.doRetriveById("AO1","SPBBT01"));
+        posizioneDAO.setCopiaDAO(instance);
+        
+        Copia expResult = copia;        
         Copia result = instance.doRetriveById(copia.getId());
         assertEquals(expResult, result);        
     }
@@ -86,7 +97,9 @@ public class CopiaDAOTest {
     @Test
     public void testDoRetriveAll() {
         System.out.println("doRetriveAll");
-        CopiaDAO instance = null;
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        posizioneDAO.setCopiaDAO(instance);
+        
         List<Copia> expResult = null;
         List<Copia> result = instance.doRetriveAll();
         assertEquals(expResult, result);
@@ -99,9 +112,7 @@ public class CopiaDAOTest {
      */
     @Test
     public void testDoInsert() {
-        System.out.println("doInsert");
-        copia.setLibro(libroDAO.doRetriveById("978-8804630739"));
-        copia.setPosizione(posizioneDAO.doRetriveById("AO1","SPBBT01"));
+        System.out.println("doInsert");       
         CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
         int expResult = -1;
         int result = instance.doInsert(copia);
@@ -116,7 +127,8 @@ public class CopiaDAOTest {
     public void testDoUpdate() {
         System.out.println("doUpdate");
         Copia entity = null;
-        CopiaDAO instance = null;
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        posizioneDAO.setCopiaDAO(instance);
         int expResult = 0;
         int result = instance.doUpdate(entity);
         assertEquals(expResult, result);
@@ -131,7 +143,8 @@ public class CopiaDAOTest {
     public void testDoRetriveByPosizione() {
         System.out.println("doRetriveByPosizione");
         Posizione posizione = null;
-        CopiaDAO instance = null;
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        posizioneDAO.setCopiaDAO(instance);
         List<Copia> expResult = null;
         List<Copia> result = instance.doRetriveByPosizione(posizione);
         assertEquals(expResult, result);

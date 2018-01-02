@@ -100,7 +100,7 @@ public class Biblioteca {
 
     @Override
     public String toString() {
-        return "Biblioteca{" + "isil=" + isil + ", nome=" + nome + ", status=" + status + ", indirizzo=" + indirizzo + ", admin=" + admin + ", posizioni=" + posizioni + '}';
+        return "Biblioteca{" + "isil=" + isil + ", nome=" + nome + ", status=" + status + ", indirizzo=" + indirizzo + ", admin=" + admin + '}';
     }
 
     @Override
@@ -129,10 +129,7 @@ public class Biblioteca {
         }
         if (!Objects.equals(this.admin, other.admin)) {
             return false;
-        }
-        if (!Objects.equals(this.posizioni, other.posizioni)) {
-            return false;
-        }
+        }       
         return true;
     }
 

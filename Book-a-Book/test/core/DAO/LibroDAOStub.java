@@ -23,7 +23,7 @@ public class LibroDAOStub extends LibroDAO{
         Calendar dataPubblicazione = new GregorianCalendar(2017, 11, 27);
         String descrizione = "Descrizione libro";
         
-        return new Libro(isbn, titolo, editore, dataPubblicazione, descrizione, true,"");
+        return new Libro(isbn, titolo, editore, dataPubblicazione, descrizione,"");
     }
     
     

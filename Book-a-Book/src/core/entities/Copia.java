@@ -97,6 +97,8 @@ public class Copia {
         return "Copia{" + "id=" + id + ", status=" + status + ", disponibilita=" + disponibilita + ", posizione=" + posizione + ", libro=" + libro + '}';
     }
 
+   
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

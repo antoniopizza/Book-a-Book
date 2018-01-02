@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Biblioteca;
+import core.entities.Indirizzo;
 
 /**
  *
@@ -15,10 +16,11 @@ public class BibliotecaDAOStub extends BibliotecaDAO {
 
     @Override
     public Biblioteca doRetriveById(Object... id) {
-        String isil = (String) id[0];
-        String nome = "Biblioteca 12345";
+        String isil = "IT-321";
+        String nome = "Biblioteca Svevo";
         String status = "Accettata";
-        return new Biblioteca(isil, nome, status);
+        Indirizzo ind = new Indirizzo("via Roma", "Nocera Inferiore","21","SA", "84014");
+        return new Biblioteca(isil, nome, status,ind,null);
     }
     
     

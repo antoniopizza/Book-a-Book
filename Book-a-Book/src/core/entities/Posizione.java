@@ -5,6 +5,7 @@
  */
 package core.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,11 +22,12 @@ public class Posizione {
     protected List<Copia> copie;
 
     public Posizione() {
-        
+        this.copie = new ArrayList<>();
     }
 
     public Posizione(String etichetta) {
         this.etichetta = etichetta;
+        this.copie = new ArrayList<>();
     }
 
     public Posizione(String etichetta, Biblioteca biblioteca, List<Copia> copie) {
@@ -45,14 +47,14 @@ public class Posizione {
     public void addCopia(Copia c){
         if(!copie.contains(c)){
             copie.add(c);
-            c.setPosizione(this);
+            //c.setPosizione(this);
         }        
     }
     
     public void removeCopia(Copia c){
         if(copie.contains(c)){
             copie.remove(c);
-            c.setPosizione(null);
+            //c.setPosizione(null);
         }
     }
 
@@ -74,7 +76,15 @@ public class Posizione {
 
     @Override
     public String toString() {
-        return "Posizione{" + "etichetta=" + etichetta + ", biblioteca=" + biblioteca + ", copie=" + copie + '}';
+        return "Posizione{" + "etichetta=" + etichetta + ", biblioteca=" + biblioteca + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.etichetta);
+        hash = 53 * hash + Objects.hashCode(this.biblioteca);
+        return hash;
     }
 
     @Override
@@ -95,11 +105,10 @@ public class Posizione {
         if (!Objects.equals(this.biblioteca, other.biblioteca)) {
             return false;
         }
-        if (!Objects.equals(this.copie, other.copie)) {
-            return false;
-        }
         return true;
     }
+
+    
 
     
 }

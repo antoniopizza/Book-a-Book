@@ -26,11 +26,11 @@ public class LibroDAO extends AbstractDAO<Libro> {
 
     private final String doRetriveByIdQuery = "SELECT * FROM Libro WHERE isbn = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Libro";
-    private final String doInsertQuery = "INSERT INTO Libro(isbn,titolo,editore,data_pubblicazione,descrizione,disponibilita,path_foto)"
-            + "VALUES (?,?,?,?,?,?,?)";
+    private final String doInsertQuery = "INSERT INTO Libro(isbn,titolo,editore,data_pubblicazione,descrizione,path_foto)"
+            + "VALUES (?,?,?,?,?,?)";
     private final String doInsertAutoreQuery = "INSERT INTO Libro_Autore(id_autore,isbn) VALUES (?,?)";
     private final String doUpdateQuery = "UPDATE Libro SET titolo= ? ,editore= ?,data_pubblicazione= ?,"
-                                       + "descrizione=?,disponibilita= ?,path_foto=? WHERE isbn = ?";
+                                       + "descrizione=?,path_foto=? WHERE isbn = ?";
     
     /**
      * Metodo che dato una stringa corrispondente all'isbn restituisce un
@@ -55,7 +55,7 @@ public class LibroDAO extends AbstractDAO<Libro> {
                 if (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("data_pubblicazione").getTime());
-                    book = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getString("editore"), dataPubblicazione, rs.getString("descrizione"), rs.getBoolean("disponibilita"), rs.getString("path_foto"));
+                    book = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getString("editore"), dataPubblicazione, rs.getString("descrizione"),rs.getString("path_foto"));
                     book.setAutori(new AutoreDAO().doRetriveByLibro(isbn));
                 }
                 rs.close();
@@ -94,7 +94,7 @@ public class LibroDAO extends AbstractDAO<Libro> {
                 while (rs.next()) {
                     GregorianCalendar dataPubblicazione = new GregorianCalendar();
                     dataPubblicazione.setTimeInMillis(rs.getDate("data_pubblicazione").getTime());
-                    Libro book = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getString("editore"), dataPubblicazione, rs.getString("descrizione"), rs.getBoolean("disponibilita"), rs.getString("path_foto"));
+                    Libro book = new Libro(rs.getString("isbn"), rs.getString("titolo"), rs.getString("editore"), dataPubblicazione, rs.getString("descrizione"), rs.getString("path_foto"));
                     book.setAutori(new AutoreDAO().doRetriveByLibro(book.getIsbn()));
                     libri.add(book);
                 }
@@ -133,9 +133,8 @@ public class LibroDAO extends AbstractDAO<Libro> {
                 prst.setString(2, libro.getTitolo());
                 prst.setString(3, libro.getEditore());
                 prst.setDate(4, new Date(libro.getDataPubblicazione().getTimeInMillis()));
-                prst.setString(5, libro.getDescrizione());
-                prst.setBoolean(6, libro.isDisponibilta());
-                prst.setString(7, libro.getPathFoto());
+                prst.setString(5, libro.getDescrizione());                
+                prst.setString(6, libro.getPathFoto());
 
                 prst.execute();
 
@@ -175,10 +174,9 @@ public class LibroDAO extends AbstractDAO<Libro> {
                 prst.setString(1, libro.getTitolo());
                 prst.setString(2, libro.getEditore());
                 prst.setDate(3, new Date(libro.getDataPubblicazione().getTimeInMillis()));
-                prst.setString(4, libro.getDescrizione());
-                prst.setBoolean(5, libro.isDisponibilta());
-                prst.setString(6, libro.getPathFoto());
-                prst.setString(7, libro.getIsbn());
+                prst.setString(4, libro.getDescrizione());                
+                prst.setString(5, libro.getPathFoto());
+                prst.setString(6, libro.getIsbn());
 
                 prst.execute();                
                 con.commit();
