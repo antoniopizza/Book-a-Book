@@ -79,7 +79,7 @@ public class Autore {
 
     @Override
     public String toString() {
-        return "Autore{" + "id=" + id + ", nome=" + nome + ", libri=" + libri + '}';
+        return "Autore{" + "id=" + id + ", nome=" + nome + '}';
     }
 
 
@@ -101,9 +101,7 @@ public class Autore {
         if (!Objects.equals(this.nome, other.nome)) {
             return false;
         }
-        if (!Objects.equals(this.libri, other.libri)) {
-            return false;
-        }
+       
         return true;
     }
     

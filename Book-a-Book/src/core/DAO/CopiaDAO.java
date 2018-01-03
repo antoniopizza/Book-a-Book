@@ -113,6 +113,11 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         return copie;
     }
 
+    /**
+     * Metodo per inserire una copia nel database
+     * @param entity la copia da inserire
+     * @return 0 se l'inserimento va a buon fine, -1 altrimenti
+     */
     @Override
     public int doInsert(Copia entity) {
         
