@@ -39,11 +39,6 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
         copiaDAO = new CopiaDAO(new LibroDAO(), this);
     }
 
-    
-
-    
-    
-    
     public CopiaDAO getCopiaDAO() {
         return copiaDAO;
     }
@@ -66,9 +61,9 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
      * corrispondente all'etichetta di tale posizione.
      * 
      * @param id[0] si aspetta un codice che identifica la posizione di un
-     * libro, 
-     * @param id[1] si aspetta il codice identificativo di una biblioteca, 
-     * @return la posizione di un libro in base ai parametri passati.
+     * libro, id[1] si aspetta il codice identificativo di una biblioteca,
+     * 
+     * @return la posizione di un libro in base ai parametri passati, oppure null se non è presente.
      */
     @Override
     public Posizione doRetriveById(Object... id) {
@@ -309,7 +304,14 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    
+     /**
+     * Metodo che restituisce una List di Posizione in base ai parametri ricevuti.
+     * 
+     * @param isbn (String) codice ISBN del libro che dovrà essere in quella posizione.
+     * @param isil (String) codice ISIL della biblioteca che conterrà quella posizione.
+     * 
+     * @return una List contenente le posizioni
+     */
     public List<Posizione> doRetriveByLibroAndBiblioteca(String isbn, String isil){
           List<Posizione> posizioneList = new ArrayList<>();
 

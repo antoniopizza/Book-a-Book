@@ -77,8 +77,9 @@ public class LibroDAO extends AbstractDAO<Libro> {
     }
 
     /**
-     *
-     * @return
+     * Metodo che restituisce una List di Libro contenente tutti i libri all'interno del database.
+     * 
+     * @return List<Libro> contenente tutti i libri.
      */
     @Override
     public List<Libro> doRetriveAll() {
