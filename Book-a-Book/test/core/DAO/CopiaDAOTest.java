@@ -153,4 +153,33 @@ public class CopiaDAOTest {
         
     }
     
+    
+    /**
+     * Test of doDelete method, of class CopiaDAO.
+     */
+    @Test
+    public void testzDoDelete() {
+        System.out.println("doDelete");
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        posizioneDAO.setCopiaDAO(instance);
+        int expResult = 0;
+        int result = instance.doDelete(copia);
+        
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of doUpdatePosizione method, of class CopiaDAO.
+     */
+    @Test
+    public void testDoUpdatePosizione() {
+        System.out.println("doUpdatePosizione");
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        posizioneDAO.setCopiaDAO(instance);
+        int expResult = 0;
+        int result = instance.doUpdatePosizione(copia, "Ripiano Basso B");
+        
+        assertEquals(expResult, result);
+    }
+    
 }

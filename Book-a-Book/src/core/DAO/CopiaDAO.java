@@ -22,9 +22,11 @@ import java.util.List;
 public class CopiaDAO extends AbstractDAO<Copia> {
 
     private final String doInsertQuery = "INSERT INTO Copia(id,status,disponibilita,isbn,id_posizione,isil) VALUES(?,?,?,?,?,?)";
-    private final String doRetriveByIdQuery = "SELECT * FROM Copia WHERE id = ?";
+    private final String doRetriveByIdQuery = "SELECT * FROM Copia WHERE id = ? AND isbn = ? AND isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Copia";
     private final String doRetriveByPosizioneQuery = "SELECT * FROM Copia WHERE id_posizione = ? AND isil = ?";
+    private final String doDeleteQuery = "DELETE FROM Copia WHERE id = ? AND isbn = ? AND isil = ?";
+    private final String doUpdatePosizioneQuery = "UPDATE Copia SET id_posizione = ? WHERE id = ? AND isbn = ? AND isil = ?";
 
     private LibroDAO libroDao;
     private PosizioneDAO posizioneDAO;
@@ -33,7 +35,17 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         this.libroDao = libroDao;
         this.posizioneDAO = posizioneDAO;
     }
-
+    
+    /**
+     * Metodo che date delle stringhe identificantia i parametri di una copia, 
+     * restituisce l'oggetto copia corrispodente a tali parametri
+     *
+     * @param id[0] si aspetta un idCopia(String),
+     * id[1] si aspetta un isbn(String),
+     * id[2] si aspetta un isil(String).
+     * 
+     * @return la copia corrispondente ai parametri, altrimenti null.
+     */
     @Override
     public Copia doRetriveById(Object... id) {
         String idCopia = (String) id[0];
@@ -44,6 +56,8 @@ public class CopiaDAO extends AbstractDAO<Copia> {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
             prst.setString(1, idCopia);
+            prst.setString(2, isbn);
+            prst.setString(3, isil);
 
             try (ResultSet rs = prst.executeQuery()) {
                 con.commit();
@@ -75,6 +89,11 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         return null;
     }
 
+    /**
+     * Metodo restituisce una lista contenente tutte le copie presenti nel database
+     * 
+     * @return la List di Copia completa se presenti nel db, altrimenti null.
+     */
     @Override
     public List<Copia> doRetriveAll() {
         List<Copia> copie = new ArrayList<>();
@@ -114,9 +133,12 @@ public class CopiaDAO extends AbstractDAO<Copia> {
     }
 
     /**
-     * Metodo per inserire una copia nel database
-     * @param entity la copia da inserire
-     * @return 0 se l'inserimento va a buon fine, -1 altrimenti
+     * Metodo che dato un oggetto Copia, 
+     * inserisce i dati di tale oggetto all'interno del database.
+     *
+     * @param entity (Copia) oggetto da inserire nel db.
+     * 
+     * @return 0 se le operazioni sono andate a buon fine, -1 altrimenti.
      */
     @Override
     public int doInsert(Copia entity) {
@@ -159,6 +181,13 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Metodo restituisce una lista contenente tutte le copie presenti nel database in base ad una posizione.
+     * 
+     * @param posizione (Posizione) oggetto contenente la posizione della quale si desidera ricevere le copie.
+     * 
+     * @return la List di Copia completa in base ad una Posizione se presente nel db, altrimenti null.
+     */
     public List<Copia> doRetriveByPosizione(Posizione posizione) {
         List<Copia> copie = new ArrayList<>();
         
@@ -196,5 +225,80 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         }
 
         return copie;
+    }
+    
+    /**
+     * Metodo che elimina una tupla dal db corrispondente all'oggetto Copia ricevuto.
+     * 
+     * @param entity (Copia) oggetto che si desidera eliminare dal db.
+     * 
+     * @return 0 se l'operazione è andata a buon fine, -1 altrimenti.
+     */
+    public int doDelete(Copia entity) {
+        
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1, entity.getId());
+            prst.setString(2, entity.getLibro().getIsbn());
+            prst.setString(3, entity.getPosizione().getBiblioteca().getIsil());
+            
+            try{
+                prst.execute();
+                con.commit();
+                return 0;
+                
+            } catch(SQLException ex){
+                con.rollback();
+                ex.printStackTrace();
+            } finally{
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+    
+    /**
+     * Metodo che modifica il riferimento (id) ad una Posizione di una Copia
+     * con un altro riferimento (id) ad una Posizione uguale a quello passato.
+     * 
+     * @param copia (Copia) oggetto che si desidera eliminare dal db,
+     * @param idNuovaPosizione (String) stringa contenente l'id dove si desidera spostare la copia passata.
+     * 
+     * @return 0 se l'operazione è andata a buon fine, -1 altrimenti.
+     */
+    public int doUpdatePosizione(Copia copia, String idNuovaPosizione) {
+        //private final String doUpdatePosizioneQuery = "UPDATE Copia SET id_posizione = ? WHERE id = ? AND isbn = ? AND isil = ?";
+        
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doUpdatePosizioneQuery);
+            prst.setString(1, idNuovaPosizione);
+            prst.setString(2, copia.getId());
+            prst.setString(3, copia.getLibro().getIsbn());
+            prst.setString(4, copia.getPosizione().getBiblioteca().getIsil());
+            
+            try {
+                prst.execute();
+                con.commit();
+                return 0;
+            }
+            catch(SQLException e) {
+                con.rollback();
+                e.printStackTrace();
+            }
+            finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return -1;
     }
 }
