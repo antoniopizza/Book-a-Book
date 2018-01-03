@@ -33,6 +33,7 @@ public class CopiaDAOTest {
     private static LibroDAO libroDAO;
     private static PosizioneDAO posizioneDAO;
     private static Connection con;
+    private static Posizione pos;
     
     public CopiaDAOTest() {
     }
@@ -48,7 +49,8 @@ public class CopiaDAOTest {
         
         copia = new Copia("abc123","NonPrenotata", "disponibile");                               
         copia.setLibro(libroDAO.doRetriveById("9788804492504"));
-        copia.setPosizione(posizioneDAO.doRetriveById("Ripiano Basso A", "IT-321"));
+        pos = posizioneDAO.doRetriveById("Ripiano Basso A", "IT-321");
+        copia.setPosizione(pos);
         
     }
     
@@ -58,7 +60,8 @@ public class CopiaDAOTest {
         
         PreparedStatement prst1 = con.prepareStatement(queryDelete);
         prst1.setString(1, copia.getId());
-        prst1.setString(2, copia.getPosizione().getEtichetta());
+        prst1.setString(2, copia.getPosizione().getBiblioteca().getIsil());
+        prst1.setString(3, copia.getLibro().getIsbn());
         
 
         prst1.execute();
@@ -87,7 +90,7 @@ public class CopiaDAOTest {
         posizioneDAO.setCopiaDAO(instance);
         
         Copia expResult = copia;        
-        Copia result = instance.doRetriveById(copia.getId());
+        Copia result = instance.doRetriveById(copia.getId(),copia.getLibro().getIsbn(),copia.getPosizione().getBiblioteca().getIsil());
         assertEquals(expResult, result);        
     }
 
@@ -97,14 +100,12 @@ public class CopiaDAOTest {
     @Test
     public void testDoRetriveAll() {
         System.out.println("doRetriveAll");
-        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
-        posizioneDAO.setCopiaDAO(instance);
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);   
         
-        List<Copia> expResult = null;
+        //dovrebbero esserci 5 copie nel db a questo punto
+        int expResult = 5;
         List<Copia> result = instance.doRetriveAll();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result.size());        
     }
 
     /**
@@ -122,7 +123,7 @@ public class CopiaDAOTest {
 
     /**
      * Test of doUpdate method, of class CopiaDAO.
-     */
+     *
     @Test
     public void testDoUpdate() {
         System.out.println("doUpdate");
@@ -134,22 +135,22 @@ public class CopiaDAOTest {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
+    } */
 
     /**
      * Test of doRetriveByPosizione method, of class CopiaDAO.
      */
     @Test
     public void testDoRetriveByPosizione() {
-        System.out.println("doRetriveByPosizione");
-        Posizione posizione = null;
+        System.out.println("doRetriveByPosizione");       
         CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
         posizioneDAO.setCopiaDAO(instance);
-        List<Copia> expResult = null;
-        List<Copia> result = instance.doRetriveByPosizione(posizione);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //dovrebbero esserci 3 copie corrispondenti a questa posizione
+        int expResult = 3;
+        List<Copia> result = instance.doRetriveByPosizione(pos);
+        
+        assertEquals(expResult, result.size());
+        
     }
     
 }

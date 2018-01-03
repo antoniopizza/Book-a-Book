@@ -92,6 +92,7 @@ public class CopiaDAO extends AbstractDAO<Copia> {
                     c.setStatus(rs.getString("status"));
                     c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
                     c.setPosizione(posizioneDAO.doRetriveById(rs.getString("id_posizione"), rs.getString("isil")));
+                    copie.add(c);
                 }
 
                 
@@ -171,6 +172,7 @@ public class CopiaDAO extends AbstractDAO<Copia> {
                     c.setStatus(rs.getString("status"));
                     c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
                     c.setPosizione(posizione);
+                    copie.add(c);
                 }
 
                 
