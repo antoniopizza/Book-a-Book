@@ -25,6 +25,9 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <li>
+                                        <a href="dashboard-my-ads.html"> Prenotazioni</a>
+                                    </li>
+                                    <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
                                     </li>
                                     <li>
@@ -46,11 +49,12 @@
                             <h3 class="widget-header">Cerca un libro</h3>
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <br>
+                            
                             <h3 class="widget-header"></h3>
                             
                           
                             <h3>Dettagli prenotazione</h3>
-                            <%
+                            <%--
                                 String message = (String) request.getAttribute("message");
                                 
                                 if(!message.equals("correct")){
@@ -59,7 +63,7 @@
                                     Prenotazione prenotazione = (Prenotazione) request.getAttribute("prenotazione");
                                     Libro libro = (Libro) request.getAttribute("libro");
                                     Persona persona = (Persona) request.getAttribute("persona");
-                            %>
+                           %>
                             <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                 <img src="<%=libro.getPathFoto()%>" alt="">
                             </div>
@@ -134,7 +138,7 @@
                             </div>
                             <%
                                 } //fine else più esterno
-                            %>
+                            --%>
                         </div>
                     </div>
                 </div>

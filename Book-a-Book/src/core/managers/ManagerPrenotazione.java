@@ -34,7 +34,7 @@ public class ManagerPrenotazione {
         Calendar dataScadenza = new GregorianCalendar();
         dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
         Copia copiaPrenotata;
-        copiaPrenotata = copiaDAO.doRetriveById(copia.getId(), copia.getLibro().getIsbn());
+        copiaPrenotata = copiaDAO.doRetriveById(copia.getId(), copia.getLibro().getIsbn(), copia.getPosizione().getBiblioteca().getIsil());
         Biblioteca bib;
         bib = bibliotecaDAO.doRetriveById(isil);
         Prenotazione prenot;
