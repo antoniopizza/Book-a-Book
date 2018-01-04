@@ -11,6 +11,7 @@ import core.DAO.PersonaDAO;
 import core.entities.Account;
 import core.entities.Bibliotecario;
 import core.entities.Persona;
+import core.entities.Utente;
 import core.utils.Criterio;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,19 +23,25 @@ import java.util.List;
  */
 public class ManagerUtenti {
 
-    public Collection<Account> visualizzaRegistrati(Criterio cr) {
-        AccountDAO accountDAO = new AccountDAO();
-        List<Account> listaUtenti = new ArrayList<>();
-        Collection<Account> lista = new ArrayList<Account>();
-        listaUtenti = accountDAO.doRetrivePersoneAndBibliotecari();
+    public Collection<Utente> visualizzaRegistrati(Criterio cr) {
+        PersonaDAO personaDAO = new PersonaDAO();
+        BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
 
-        for (int i = 0; i <= listaUtenti.size(); i++) {
-            if (cr.isValid(listaUtenti.get(i))) {
-                lista.add(listaUtenti.get(i));
+        Collection<Utente> listaUtenti = new ArrayList<Utente>();
+        List<Utente> lista = new ArrayList<>();
+        List<Persona> listaPersone = personaDAO.doRetriveAll();
+        List<Bibliotecario> listaBibliotecari = bibliotecarioDAO.doRetriveAll();
+        
+        lista.addAll(listaPersone);
+        lista.addAll(listaBibliotecari);
+
+        for (int i = 0; i <= lista.size(); i++) {
+            if (cr.isValid(lista.get(i))) {
+                listaUtenti.add(lista.get(i));
             }
         }
-        
-        return lista;
+
+        return listaUtenti;
     }
 
     public boolean eliminaRegistrati(String email) {
