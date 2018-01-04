@@ -19,19 +19,21 @@ import java.util.List;
  *
  * @author mirko
  */
-public class AccountDAO extends AbstractDAO<Account>{
+public class AccountDAO extends AbstractDAO<Account> {
+
     private final String doDeleteQuery = "DELETE FROM Account WHERE email = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Account WHERE email = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Account";
     private final String doInsertQuery = "INSERT INTO Account(email,password,path_foto,tipo) VALUES(?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Account SET password = ?, path_foto = ?, tipo = ? WHERE email = ?";
     private final String doUpdateEmail = "UPDATE Account SET email = ? WHERE email = ?";
+    private final String doRetrivePersonaAndBibliotecarioQuery = "SELECT * FROM Account WHERE NOT tipo = ?";
+
     /**
-     * 
+     *
      * @param id[0] si aspetta una email
      * @return un account in base all'email inserita.
      */
-
     @Override
     public Account doRetriveById(Object... id) {
         String email = (String) id[0];
@@ -40,13 +42,11 @@ public class AccountDAO extends AbstractDAO<Account>{
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
             prst.setString(1, email);
-           
-                
 
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                
+
                 if (rs.next()) {
                     account = new Account(rs.getString("email"), rs.getString("password"), rs.getString("path_foto"), rs.getString("tipo"));
                 }
@@ -55,7 +55,7 @@ public class AccountDAO extends AbstractDAO<Account>{
 
             } catch (SQLException e) {
                 con.rollback();
-                
+
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -76,13 +76,12 @@ public class AccountDAO extends AbstractDAO<Account>{
         try {
             con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveAllQuery);
-            
-        try {
+
+            try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                
-                
-                while(rs.next()) {
+
+                while (rs.next()) {
                     account = new Account(rs.getString("email"), rs.getString("password"), rs.getString("path_foto"), rs.getString("tipo"));
                     accounts.add(account);
                 }
@@ -91,7 +90,7 @@ public class AccountDAO extends AbstractDAO<Account>{
 
             } catch (SQLException e) {
                 con.rollback();
-                
+
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -101,118 +100,150 @@ public class AccountDAO extends AbstractDAO<Account>{
             ex.printStackTrace();
             return null;
         }
-         return accounts; 
+        return accounts;
     }
 
     @Override
     public int doInsert(Account account) {
-        try{
-            Connection con = DriverManagerConnectionPool.getConnection();            
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doInsertQuery);
             prst.setString(1, account.getEmail());
-            prst.setString(2,account.getPassword());
-            prst.setString(3,account.getPathFoto());
-            prst.setString(4,account.getTipo());
-            
-            try{
+            prst.setString(2, account.getPassword());
+            prst.setString(3, account.getPathFoto());
+            prst.setString(4, account.getTipo());
+
+            try {
                 prst.execute();
                 con.commit();
                 return 0;
-            } catch(SQLException e){
+            } catch (SQLException e) {
                 con.rollback();
                 return -1;
             } finally {
                 prst.close();
-                
+
                 DriverManagerConnectionPool.releaseConnection(con);
             }
-            
-            
-        } catch(SQLException e){
+
+        } catch (SQLException e) {
             return -1;
         }
-        
-        
+
     }
 
     @Override
     public int doUpdate(Account account) {
-        try{
-            Connection con = DriverManagerConnectionPool.getConnection();            
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
-            
-            prst.setString(1,account.getPassword());
-            prst.setString(2,account.getPathFoto());
-            prst.setString(3,account.getTipo());
-            
+
+            prst.setString(1, account.getPassword());
+            prst.setString(2, account.getPathFoto());
+            prst.setString(3, account.getTipo());
+
             prst.setString(4, account.getEmail());
-            
-            try{
+
+            try {
                 prst.execute();
                 con.commit();
                 return 0;
-            } catch(SQLException e){
+            } catch (SQLException e) {
                 con.rollback();
                 return -1;
             } finally {
                 prst.close();
-                
+
                 DriverManagerConnectionPool.releaseConnection(con);
             }
-            
-            
-        } catch(SQLException e){
+
+        } catch (SQLException e) {
             return -1;
         }
-        
+
     }
-   
-   public int doUpdateEmail(String vecchiaMail,String nuovaMail) {
-       try{
-            Connection con = DriverManagerConnectionPool.getConnection();            
-            PreparedStatement prst = con.prepareStatement(doUpdateQuery);
+
+    public int doUpdateEmail(String vecchiaMail, String nuovaMail) {
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doUpdateEmail);
             prst.setString(1, nuovaMail);
             prst.setString(2, vecchiaMail);
-            
-            try{
+
+            try {
                 prst.execute();
                 con.commit();
                 return 0;
-            } catch(SQLException e){
+            } catch (SQLException e) {
                 con.rollback();
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
             }
-            
-            
-        } catch(SQLException e){
-            return -1;
-        }
-       return 0;
-   }
-   
-   public int doDelete(String email) {
-        try{
-            Connection con = DriverManagerConnectionPool.getConnection();            
-            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
-            prst.setString(1, email);
-            
-            try{
-                prst.execute();
-                return 0;
-            } catch(SQLException e){
-                con.rollback();
-            } finally {
-                prst.close();
-                con.commit();
-                DriverManagerConnectionPool.releaseConnection(con);
-            }
-            
-            
-        } catch(SQLException e){
+
+        } catch (SQLException e) {
             return -1;
         }
         return 0;
-   }
+    }
+
+    public int doDelete(String email) {
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1, email);
+
+            try {
+                prst.execute();
+                return 0;
+            } catch (SQLException e) {
+                con.rollback();
+            } finally {
+                prst.close();
+                con.commit();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException e) {
+            return -1;
+        }
+        return 0;
+    }
+
+    public List<Account> doRetrivePersoneAndBibliotecari() {
+        List<Account> accounts = new ArrayList<Account>();
+        Account account = null;
+        Connection con;
+        
+        try {
+            con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetrivePersonaAndBibliotecarioQuery);
+            prst.setString(1, "Admin");
+            
+            try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+
+                while (rs.next()) {
+                    account = new Account(rs.getString("email"), rs.getString("password"), rs.getString("path_foto"), rs.getString("tipo"));
+                    accounts.add(account);
+                }
+                rs.close();
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+                return accounts;
+
+            } catch (SQLException ex) {
+                con.rollback();
+                return null;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+            
+        } catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -1,19 +1,9 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  stefanosolda
- * Created: 30-dic-2017
- */
-
 -- phpMyAdmin SQL Dump
 -- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 29, 2017 at 02:24 PM
+-- Generation Time: Dec 30, 2017 at 06:36 PM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -115,7 +105,8 @@ CREATE TABLE `Copia` (
   `status` varchar(64) NOT NULL,
   `disponibilita` varchar(64) NOT NULL,
   `isbn` varchar(16) NOT NULL,
-  `id_posizione` varchar(64) NOT NULL
+  `id_posizione` varchar(64) NOT NULL,
+  `isil` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -200,7 +191,8 @@ CREATE TABLE `Prenotazione` (
   `id_persona` int(16) NOT NULL,
   `isil` varchar(32) NOT NULL,
   `status` varchar(64) NOT NULL,
-  `id_copia` varchar(64) NOT NULL
+  `id_copia` varchar(64) NOT NULL,
+  `isbn` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -259,9 +251,10 @@ ALTER TABLE `Bibliotecario`
 -- Indexes for table `Copia`
 --
 ALTER TABLE `Copia`
-  ADD PRIMARY KEY (`id`,`isbn`),
+  ADD PRIMARY KEY (`id`,`isbn`,`isil`),
   ADD KEY `id_posizione` (`id_posizione`),
-  ADD KEY `isbn` (`isbn`);
+  ADD KEY `isbn` (`isbn`),
+  ADD KEY `isil` (`isil`);
 
 --
 -- Indexes for table `Indirizzo`
@@ -305,7 +298,9 @@ ALTER TABLE `Prenotazione`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_persona` (`id_persona`),
   ADD KEY `isil` (`isil`),
-  ADD KEY `id_copia` (`id_copia`);
+  ADD KEY `id_copia` (`id_copia`),
+  ADD KEY `isbn` (`isbn`),
+  ADD KEY `id_copia_2` (`id_copia`,`isbn`);
 
 --
 -- Indexes for table `Telefono`
@@ -372,7 +367,7 @@ ALTER TABLE `Bibliotecario`
 -- Constraints for table `Copia`
 --
 ALTER TABLE `Copia`
-  ADD CONSTRAINT `Copia_ibfk_1` FOREIGN KEY (`id_posizione`) REFERENCES `Posizione` (`etichetta`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `Copia_ibfk_1` FOREIGN KEY (`id_posizione`,`isil`) REFERENCES `Posizione` (`etichetta`,`isil`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Copia_ibfk_2` FOREIGN KEY (`isbn`) REFERENCES `Libro` (`isbn`) ON UPDATE CASCADE;
 
 --
@@ -401,7 +396,7 @@ ALTER TABLE `Posizione`
 ALTER TABLE `Prenotazione`
   ADD CONSTRAINT `Prenotazione_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `Persona` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `Prenotazione_ibfk_2` FOREIGN KEY (`isil`) REFERENCES `Biblioteca` (`isil`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `Prenotazione_ibfk_3` FOREIGN KEY (`id_copia`) REFERENCES `Copia` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `Prenotazione_ibfk_3` FOREIGN KEY (`id_copia`,`isbn`) REFERENCES `Copia` (`id`, `isbn`);
 
 --
 -- Constraints for table `Telefono`
@@ -414,5 +409,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-

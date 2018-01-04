@@ -131,14 +131,25 @@ public class AccountDAOTest {
     /**
      * Test of doDelete method, of class AccountDAO.
      */
-   // @Test
-   // public void testDoDelete() {
-     //   System.out.println("doDelete");
-       // String email = account.getEmail();
-        //AccountDAO instance = new AccountDAO();
-       // int expResult = 0;
-       // int result = instance.doDelete(email);
-       // assertEquals(expResult, result);
-    //}
+    @Test
+   public void testDoDelete() {
+       System.out.println("doDelete");
+       String email = account.getEmail();
+       AccountDAO instance = new AccountDAO();
+       int expResult = 0;
+       int result = instance.doDelete(email);
+       assertEquals(expResult, result);
+    }
     
+     @Test
+    public void testDoRetrivePersoneAndBibliotecari() {
+        System.out.println("doRetrivePersoneAndBibliotecari");
+        AccountDAO instance = new AccountDAO();
+        List<Account> expResult = new ArrayList<>();
+        expResult.add(account);
+        List<Account> result = instance.doRetrivePersoneAndBibliotecari();
+        assertEquals(expResult, result);
+     
+     
+    }
 }
