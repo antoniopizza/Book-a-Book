@@ -10,5 +10,6 @@ package core.utils;
  * @author manuel
  */
 public interface Criterio {
-    
+   
+    public boolean isValid(Object ob);
 }
