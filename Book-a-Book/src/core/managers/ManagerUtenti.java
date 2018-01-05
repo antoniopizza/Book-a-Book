@@ -31,7 +31,7 @@ public class ManagerUtenti {
         List<Utente> lista = new ArrayList<>();
         List<Persona> listaPersone = personaDAO.doRetriveAll();
         List<Bibliotecario> listaBibliotecari = bibliotecarioDAO.doRetriveAll();
-        
+
         lista.addAll(listaPersone);
         lista.addAll(listaBibliotecari);
 
@@ -67,6 +67,21 @@ public class ManagerUtenti {
         }
 
         return true;
+    }
+
+    public Collection<Bibliotecario> visualizzaDipendenti(Criterio cr, String isil) {
+        BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
+        Collection<Bibliotecario> listaDipendenti = new ArrayList<Bibliotecario>();
+        List<Bibliotecario> lista = new ArrayList<Bibliotecario>();
+        lista = bibliotecarioDAO.doRetriveDipendentiByIsil(isil);
+
+        for (int i = 0; i <= lista.size(); i++) {
+            if (cr.isValid(lista.get(i))) {
+                lista.add(lista.get(i));
+            }
+        }
+
+        return listaDipendenti;
     }
 
 }
