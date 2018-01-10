@@ -48,7 +48,7 @@ public class ConfermaRitiroLibroServlet extends HttpServlet {
         }
         
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("info-prenotazione.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("visualizzaPrenotazioni.jsp");
         view.forward(request, response);
     }
 

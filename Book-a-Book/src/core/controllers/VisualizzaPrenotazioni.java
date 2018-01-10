@@ -6,19 +6,17 @@
 package core.controllers;
 
 import core.entities.Prenotazione;
+import core.entities.Utente;
 import core.managers.ManagerPrenotazione;
 import core.utils.Criterio;
-import core.utils.prenotazioniPerCodice;
 import core.utils.prenotazioniPerId;
-import core.utils.prenotazioniSuDataDiConsegna;
-import core.utils.prenotazioniSuDataDiCreazione;
-import core.utils.prenotazioniSuDataDiScadenza;
+import core.utils.prenotazioniPerIsil;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.GregorianCalendar;
+import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mery
  */
-@WebServlet(name = "PrenotazioniPerCriterioServlet", urlPatterns = {"/PrenotazioniPerCriterioServlet"})
-public class PrenotazioniPerCriterioServlet extends HttpServlet {
+@WebServlet(name = "VisualizzaPrenotazioni", urlPatterns = {"/VisualizzaPrenotazioni"})
+public class VisualizzaPrenotazioni extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,35 +42,38 @@ public class PrenotazioniPerCriterioServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String message;
-        Criterio ricerca = null;
         Collection<Prenotazione> lista = new ArrayList<>();
-        String criterio = request.getParameter("criterio");
-        if(criterio.equals("Per id utente"))
-             ricerca = new prenotazioniPerId(Integer.parseInt(request.getParameter("valore")));
-        else if(criterio.equals("Per codice")){
-            ricerca = new prenotazioniPerCodice(Integer.parseInt(request.getParameter("valore")));
-        }
-        else if(criterio.equals("Per data di consegna")){
-            ricerca = new prenotazioniSuDataDiConsegna((GregorianCalendar) request.getAttribute("valore"));
-        }
-        else if(criterio.equals("Per data di creazione")){
-            ricerca = new prenotazioniSuDataDiCreazione((GregorianCalendar) request.getAttribute("valore"));
-        }
-        else if(criterio.equals("Per data di scadenza")){
-            ricerca = new prenotazioniSuDataDiScadenza((GregorianCalendar) request.getAttribute("valore"));
-        }
-        
+        Criterio cr;
+        int id_Persona = Integer.parseInt(request.getParameter("id_persona"));
+        String isil = request.getParameter("isil");
+        String user = request.getParameter("user");
         ManagerPrenotazione manPren = new ManagerPrenotazione();
-        lista = manPren.visualizzaPrenotazioni(ricerca);
-        if(lista.isEmpty()){
-            message = "Nessun dato corrispondente al criterio selezionato.";
+        //In questa servlet verra' passato L'id_persona, o il l'isil, e il tipo di utente(Persona,Biblioteca) con un setParameter.
+        if (user.equalsIgnoreCase("Biblioteca")) {
+            cr = new prenotazioniPerIsil(isil);
+            lista = manPren.visualizzaPrenotazioni(cr);
+            if (lista.isEmpty()) {
+                message = "Nessun dato corrispondente.";
+            } else {
+                message = "correct";
+            }
+        } else if (user.equalsIgnoreCase("Persona")) {
+            cr = new prenotazioniPerId(id_Persona);
+            lista = manPren.visualizzaPrenotazioni(cr);
+            if (lista.isEmpty()) {
+                message = "Nessun dato corrispondente.";
+            } else {
+                message = "correct";
+            }
         } else {
-            message = "correct";
+            message = "Il tipo di utente non e' definito.";
         }
-        
-        //classe da rivedere. Dalla request si deve prendere l'oggetto Criterio? O l'oggetto lo dovra' creare la servlet? 
+        request.setAttribute("lista", lista);
+        request.setAttribute("message", message);
+        RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
