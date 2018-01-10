@@ -32,7 +32,6 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
      * prenotazione.
      * @return una prenotazione in base al codice id
      */
-    
     PersonaDAO persDAO;
     BibliotecaDAO bibDAO;
     CopiaDAO copiaDAO;
@@ -60,10 +59,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
     public void setCopiaDAO(CopiaDAO copiaDAO) {
         this.copiaDAO = copiaDAO;
     }
-    
-    
-    
-    
+
     @Override
     public Prenotazione doRetriveById(Object... id) {
         int idPrenotazione = (int) id[0];
@@ -83,14 +79,13 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
                     dataScadenza.setTimeInMillis(rs.getDate("data_scadenza").getTime());
-                    if(rs.getDate("data_consegna")!=null){
-                    Calendar dataConsegna = new GregorianCalendar();
-                    dataConsegna.setTimeInMillis(rs.getDate("data_consegna").getTime());
-                    prenotazione = new Prenotazione(dataCreazione, dataScadenza, dataConsegna, rs.getString("status"));
-                    }
-                    else{
+                    if (rs.getDate("data_consegna") != null) {
+                        Calendar dataConsegna = new GregorianCalendar();
+                        dataConsegna.setTimeInMillis(rs.getDate("data_consegna").getTime());
+                        prenotazione = new Prenotazione(dataCreazione, dataScadenza, dataConsegna, rs.getString("status"));
+                    } else {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
-                    
+
                     }
                     prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
                     prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
@@ -133,18 +128,16 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
                     dataScadenza.setTimeInMillis(rs.getDate("data_scadenza").getTime());
-                    if(rs.getDate("data_consegna")!=null){
-                    Calendar dataConsegna = new GregorianCalendar();
-                    dataConsegna.setTimeInMillis(rs.getDate("data_consegna").getTime());
-                    prenotazione = new Prenotazione(dataCreazione, dataScadenza, dataConsegna, rs.getString("status"));
-                    }
-                    else{
+                    if (rs.getDate("data_consegna") != null) {
+                        Calendar dataConsegna = new GregorianCalendar();
+                        dataConsegna.setTimeInMillis(rs.getDate("data_consegna").getTime());
+                        prenotazione = new Prenotazione(dataCreazione, dataScadenza, dataConsegna, rs.getString("status"));
+                    } else {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
-                    
                     }
                     prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
                     prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
-                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"),rs.getString("isil")));
+                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
                     listaPrenotazioni.add(prenotazione);
                 }
 

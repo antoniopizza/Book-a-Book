@@ -141,8 +141,12 @@
                             <%
                                 } //fine else più esterno
                             %>
-                            </section>                 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>                 
 
-                            <%@include file="../skeleton-pages/footer.jsp" %>
-                            </body>
-                            </html>
+        <%@include file="../skeleton-pages/footer.jsp" %>
+    </body>
+</html>
