@@ -13,7 +13,6 @@ import core.entities.Biblioteca;
 import core.entities.Copia;
 import core.entities.Libro;
 import core.entities.Posizione;
-import core.utils.Criterio;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -27,6 +26,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
+import core.utils.Criterio;
+import core.utils.CriterioPerAutore;
 
 /**
  *
@@ -58,7 +59,7 @@ public class ManagerLibriTest {
         autori.add(a);
         libroDAO = new LibroDAO();
         libro = libroDAO.doRetriveById("9788804681960");
-        copia = new Copia("C-005", "Non prenotato", "Disponibile", posizione, libro);
+        copia = new Copia("C-005", "Non prenotato", Copia.DISPONIBILE_SI, posizione, libro);
         posizione.addCopia(copia);
         
         posizioneNew = new Posizione("Ripiano Basso A");
@@ -86,61 +87,57 @@ public class ManagerLibriTest {
     /**
      * Test of cercaLibro method, of class ManagerLibri.
      */
-/*
+
     @Test
-    public void testCercaLibro() {
+    public void test7CercaLibro() {
         System.out.println("cercaLibro");
-        Criterio c = null;
-        String val = "";
-        ManagerLibri instance = new ManagerLibri();
-        Collection<Libro> expResult = null;
-        Collection<Libro> result = instance.cercaLibro(c, val);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Criterio c = new CriterioPerAutore("Dan Brown");        
+        ManagerLibri instance = new ManagerLibri();       
+        Collection<Libro> result = instance.cercaLibro(c);
+        assertFalse(result.isEmpty());
+        assertTrue(result.size() == 1);
+        assertTrue(result.contains(libro));
     }
-*/
+
     /**
      * Test of modificaDisponibilita method, of class ManagerLibri.
      */
-/*
+
     @Test
-    public void testModificaDisponibilita() {
-        System.out.println("modificaDisponibilita");
-        String isbn = "";
-        String idBiblioteca = "";
+    public void test8ModificaDisponibilita() {
+        System.out.println("modificaDisponibilita");        
         boolean flag = false;
-        ManagerLibri instance = new ManagerLibri();
-        boolean expResult = false;
-        boolean result = instance.modificaDisponibilita(isbn, idBiblioteca, flag);
+        ManagerLibri instance = new ManagerLibri(new BibliotecaDAOStub(), posizioneDAO, libroDAO);
+        boolean expResult = true;
+        boolean result = instance.modificaDisponibilita(libro.getIsbn(),biblioteca.getIsil(), flag);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-*/
+
     /**
      * Test of aggiuntaLibro method, of class ManagerLibri.
      */
-/*
+
     @Test
-    public void testAggiuntaLibro() {
+    public void test6AggiuntaLibro() {
         System.out.println("aggiuntaLibro");
-        String isil = "";
-        String isbn = "";
-        String titolo = "";
-        String editore = "";
-        Calendar dataPubblicazione = null;
-        String descrizione = "";
-        List<Autore> autori = null;
-        List<Posizione> posizioni = null;
+        String isbn = "9780553103540"; //9788804681960
+        String titolo = "A Game of Thrones";
+        String editore = "Spectra";
+        String pathFoto = "https://covers.openlibrary.org/b/id/368052-M.jpg";
+        Calendar dataPubblicazione = new GregorianCalendar(2002,4,28);
+        String descrizione = "The first book of the songs of ice and fire";
+        
         ManagerLibri instance = new ManagerLibri();
-        Libro expResult = null;
-        Libro result = instance.aggiuntaLibro(isil, isbn, titolo, editore, dataPubblicazione, descrizione, autori, posizioni);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Libro expResult = new Libro(isbn, titolo, editore, dataPubblicazione, descrizione, pathFoto);
+        
+        Autore autore = new Autore("George R.R. Martin");
+        autore.setId(4);
+        expResult.addAutore(autore);
+        
+        Libro result = instance.aggiuntaLibro(isbn, titolo, editore, dataPubblicazione, descrizione, pathFoto, expResult.getAutori());
+        assertEquals(expResult, result);        
     }
-*/
+
     /**
      * Test of aggiungiCopia method, of class ManagerLibri.
      */
@@ -255,5 +252,7 @@ public class ManagerLibriTest {
         //assertEquals("Le liste non sono uguali", expResult, result);
         assertEquals("Le dimensioni delle liste non sono uguali", 1, result.size());
     }
+    
+    
     
 }

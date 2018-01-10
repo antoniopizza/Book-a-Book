@@ -57,7 +57,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
     
     
     /**
-     * Metodo che restituisce un oggetto Posizione in base ad un id(String) passato,
+     * Metodo che restituisce un oggetto Posizione in base ad un id (etichetta e isil) passato,
      * corrispondente all'etichetta di tale posizione.
      * 
      * @param id[0] si aspetta un codice che identifica la posizione di un

@@ -13,6 +13,12 @@ import java.util.Objects;
  */
 public class Copia {
     
+    public static final String DISPONIBILE_SI = "Disponibile";
+    public static final String DISPONIBILE_NO = "Non disponibile";
+    public static final String STATUS_PRENOTATO = "Prenotato";
+    public static final String STATUS_NON_PRENOTATO = "Non Prenotato";
+    public static final String STATUS_ELIMINATO = "Eliminato";
+    
     protected String id;
     protected String status;
     protected String disponibilita;

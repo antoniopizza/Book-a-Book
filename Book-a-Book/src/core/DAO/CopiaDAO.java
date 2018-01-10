@@ -27,7 +27,8 @@ public class CopiaDAO extends AbstractDAO<Copia> {
     private final String doRetriveByPosizioneQuery = "SELECT * FROM Copia WHERE id_posizione = ? AND isil = ?";
     private final String doDeleteQuery = "DELETE FROM Copia WHERE id = ? AND isbn = ? AND isil = ?";
     private final String doUpdatePosizioneQuery = "UPDATE Copia SET id_posizione = ? WHERE id = ? AND isbn = ? AND isil = ?";
-
+    private final String doUpdate = "UPDATE Copia SET disponibilita = ? , status = ?  WHERE id = ? AND isbn = ? AND isil = ?";
+    
     private LibroDAO libroDao;
     private PosizioneDAO posizioneDAO;
 
@@ -176,9 +177,40 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         return -1;
     }
 
+    /**
+     * Metodo che aggiorna status e disponibilita di una copia
+     * @param copia
+     * @return 0 se tutto ok, -1 altrimenti
+     */
     @Override
-    public int doUpdate(Copia entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int doUpdate(Copia copia) {
+         try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doUpdate);
+            prst.setString(1,copia.getDisponibilita());
+            prst.setString(2,copia.getStatus());            
+            prst.setString(3, copia.getId());
+            prst.setString(4, copia.getLibro().getIsbn());
+            prst.setString(5, copia.getPosizione().getBiblioteca().getIsil());
+            
+            try {
+                prst.execute();
+                con.commit();
+                return 0;
+            }
+            catch(SQLException e) {
+                con.rollback();
+                e.printStackTrace();
+            }
+            finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return -1;
     }
 
     /**
