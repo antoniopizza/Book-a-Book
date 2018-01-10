@@ -26,8 +26,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
     private final String doRetrieveByEmailQuery = "SELECT * FROM Bibliotecario WHERE email = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Bibliotecario WHERE id = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Bibliotecario";
-    private final String doInsertQuery = "INSERT INTO Bibliotecario(nome,cognome,status,email,isil,tipo)" 
-                                            + "VALUES(?,?,?,?,?,?);";
+    private final String doInsertQuery = "INSERT INTO Bibliotecario(nome,cognome,status,email,isil,tipo) VALUES(?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Bibliotecario SET nome = ?, cognome = ?, status = ?,email = ?, isil = ?, tipo = ? WHERE id = ?";
     /**
      * 

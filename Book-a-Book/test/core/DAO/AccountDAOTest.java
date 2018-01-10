@@ -32,7 +32,7 @@ public class AccountDAOTest {
     public static Connection con;
     
     public AccountDAOTest() {
-        account = new Account("stefasolda@gmail.com", "ciaone", "eirbfreifnwe", "Utente");
+        account = new Account("stefano-solda@hotmail.com", "ciaone", "ciaone", "Utente");
         
         
     }

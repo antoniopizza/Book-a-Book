@@ -122,7 +122,11 @@
                                     <label for="cognome">Cognome</label>
                                     <input type="text" class="form-control" name="cognome" required>
                                 </div>
-
+                                <!-- Foto -->
+                                <div class="form-group">
+                                    <label for="foto">Foto</label>
+                                    <input type="text" class="form-control" name="foto" required>
+                                </div>
                                
 
   

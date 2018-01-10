@@ -15,6 +15,7 @@ public class Persona extends Utente{
 
     protected String numDocumento;
     protected Indirizzo indirizzo;
+    protected Telefono telefono;
 
     public Persona() {
         
@@ -29,12 +30,15 @@ public class Persona extends Utente{
         super(nome, cognome, account);
         this.numDocumento = numDocumento;
         this.indirizzo = indirizzo;
+        this.telefono = telefono;
+        
     }
 
     public Persona(String numDocumento, Indirizzo indirizzo, int id, String nome, String cognome, Account account) {
         super(id, nome, cognome, account);
         this.numDocumento = numDocumento;
         this.indirizzo = indirizzo;
+        
     }
     
     public String getNumDocumento() {

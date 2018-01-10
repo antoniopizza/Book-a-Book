@@ -98,7 +98,7 @@ public class RegistraBibliotecaServlet extends HttpServlet {
  
                
       
-      Biblioteca biblioteca = mr.registra(isil, nomeBiblioteca, nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome);
+      Biblioteca biblioteca = mr.registra(isil, nomeBiblioteca, nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome,numero);
        
        
        request.getSession().setAttribute("biblioteca", biblioteca);

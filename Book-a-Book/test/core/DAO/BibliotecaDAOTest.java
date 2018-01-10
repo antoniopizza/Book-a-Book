@@ -34,9 +34,14 @@ public class BibliotecaDAOTest {
     
     public static Connection con;
     public static Biblioteca biblioteca;
+    public static IndirizzoDAO indirizzoDAO;
+    public static Indirizzo indirizzo;
     
     public BibliotecaDAOTest() {
-        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030"), null);
+        indirizzoDAO = new IndirizzoDAO();
+        indirizzo = new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030");
+        indirizzoDAO.doInsert(indirizzo);
+        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", indirizzo, null);
     }
     
     @BeforeClass
@@ -47,6 +52,7 @@ public class BibliotecaDAOTest {
     @AfterClass
     public static void tearDownClass() throws SQLException {
         PreparedStatement prst2 = con.prepareStatement("delete from Biblioteca where isil = '"+ biblioteca.getIsil() + "';");
+        indirizzoDAO.doDelete(indirizzo);
         prst2.execute();
         con.commit();
         prst2.close(); 

@@ -5,6 +5,7 @@
  */
 package core.DAO;
 
+import static core.DAO.AccountDAOTest.account;
 import static core.DAO.PersonaDAOTest.con;
 import core.entities.Indirizzo;
 import core.utils.DriverManagerConnectionPool;
@@ -120,6 +121,18 @@ public class IndirizzoDAOTest {
         int result = instance.doUpdateIndirizzo(vecchioIndirizzo, nuovoIndirizzo);
         assertEquals(expResult, result);
         
+    }
+    
+     /**
+     * Test of doDelete method, of class AccountDAO.
+     */
+    @Test
+   public void testDoDelete() {
+       System.out.println("doDelete");
+       IndirizzoDAO instance = new IndirizzoDAO();
+       int expResult = 0;
+       int result = instance.doDelete(indirizzo);
+       assertEquals(expResult, result);
     }
     
 }

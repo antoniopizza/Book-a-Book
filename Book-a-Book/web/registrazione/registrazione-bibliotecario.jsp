@@ -60,13 +60,20 @@
                                     <label for="cognome">Cognome</label>
                                     <input type="text" class="form-control" name="cognome" required>
                                 </div>
-
+                                
+                                
+                                <!-- pathFoto-->
+                                <div class="form-group">
+                                    <label for="pathfoto">Foto</label>
+                                    <input type="text" class="form-control" name="foto" required>
+                                </div>
+                                
                                 <!-- Campo Nascosto Isil Biblioteca -->
                                 <div class="form-group">
                                     <label for="isil" hidden="true">Isil</label>
                                     <input type="text" class="form-control" name="isil" value="<%= ((Biblioteca) request.getSession().getAttribute("biblioteca")).getIsil()%>" hidden="true">
                                 </div>
-
+                                
                                 <!-- Submit button -->
                                 <input type="submit" 
                                        class="btn btn-transparent" 

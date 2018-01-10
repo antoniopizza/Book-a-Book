@@ -86,14 +86,14 @@ public class RegistraBibliotecarioServlet extends HttpServlet {
         String password = request.getParameter("password");
         String nomeBibliotecario = request.getParameter("nomeBibliotecario");
         String cognome = request.getParameter("cognome");
-        
+        String path_foto = request.getParameter("foto");
         String isil = request.getParameter("isil");
        
         System.out.println("isil="+isil);
       
        
         
-        mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password);
+        mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password,path_foto);
        
        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
        dispatcher.forward(request, response);

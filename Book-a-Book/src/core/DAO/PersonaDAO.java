@@ -52,9 +52,12 @@ public class PersonaDAO extends AbstractDAO<Persona>{
                 
                 IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
                 AccountDAO accountDAO = new AccountDAO();
+                TelefonoDAO telefonoDAO = new TelefonoDAO();
+                
                 if (rs.next()) {
                     Account account = accountDAO.doRetriveById(rs.getString("email"));
                     Indirizzo indirizzo = indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico"));
+                    
                     persona = new Persona(rs.getString("num_documento"), indirizzo, idPersona, rs.getString("nome"), rs.getString("cognome"), account);
                     
                 }

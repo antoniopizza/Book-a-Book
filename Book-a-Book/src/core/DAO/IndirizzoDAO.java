@@ -19,6 +19,7 @@ import java.util.List;
  * @author mirko
  */
 public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
+    private final String doDeleteQuery = "DELETE FROM Indirizzo WHERE via = ? AND citta = ? AND civico = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Indirizzo WHERE via = ? AND citta = ? AND civico = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Indirizzo";
     private final String doInsertQuery = "INSERT INTO Indirizzo(via,citta,civico,provincia,cap)" 
@@ -178,4 +179,28 @@ public class IndirizzoDAO extends AbstractDAO<Indirizzo>{
         
     }
     
+    public int doDelete(Indirizzo indirizzo) {
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1, indirizzo.getVia());
+            prst.setString(2, indirizzo.getCitta());
+            prst.setString(3, indirizzo.getCivico());
+
+            try {
+                prst.execute();
+                return 0;
+            } catch (SQLException e) {
+                con.rollback();
+            } finally {
+                prst.close();
+                con.commit();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException e) {
+            return -1;
+        }
+        return 0;
+    }
     }
