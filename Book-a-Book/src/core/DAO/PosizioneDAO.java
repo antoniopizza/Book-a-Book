@@ -35,7 +35,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
     CopiaDAO copiaDAO;
 
     public PosizioneDAO() {
-        copiaDAO = new CopiaDAO(new LibroDAO(), this);
+        copiaDAO = new CopiaDAO(new LibroDAO(), this, new BibliotecaDAO());
     }
 
     public CopiaDAO getCopiaDAO() {

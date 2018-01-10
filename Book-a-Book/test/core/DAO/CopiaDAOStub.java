@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class CopiaDAOStub extends CopiaDAO{
 
-    public CopiaDAOStub(LibroDAO libroDao, PosizioneDAO posizioneDAO) {
-        super(libroDao, posizioneDAO);
+    public CopiaDAOStub(LibroDAO libroDao, PosizioneDAO posizioneDAO, BibliotecaDAO bibliotecaDAO) {
+        super(libroDao, posizioneDAO, bibliotecaDAO);
     }
 
     @Override

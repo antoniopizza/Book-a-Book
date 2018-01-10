@@ -5,6 +5,7 @@
  */
 package core.DAO;
 
+import core.entities.Biblioteca;
 import core.entities.Copia;
 import core.entities.Posizione;
 import core.utils.DriverManagerConnectionPool;
@@ -31,6 +32,7 @@ public class CopiaDAOTest {
     private static Copia copia;
     private static LibroDAO libroDAO;
     private static PosizioneDAO posizioneDAO;
+    private static BibliotecaDAO bibliotecaDAO;
     private static Connection con;
     private static Posizione pos;
     
@@ -45,6 +47,7 @@ public class CopiaDAOTest {
         posizioneDAO = new PosizioneDAO();
         posizioneDAO.setBibliotecaDAO(new BibliotecaDAOStub());
         
+        bibliotecaDAO = new BibliotecaDAOStub();
         
         copia = new Copia("abc123","NonPrenotata", "disponibile");                               
         copia.setLibro(libroDAO.doRetriveById("9788804492504"));
@@ -85,7 +88,7 @@ public class CopiaDAOTest {
     public void testDoRetriveById() {
         System.out.println("doRetriveById");    
         
-        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO, bibliotecaDAO);
         posizioneDAO.setCopiaDAO(instance);
         
         Copia expResult = copia;        
@@ -99,10 +102,10 @@ public class CopiaDAOTest {
     @Test
     public void testDoRetriveAll() {
         System.out.println("doRetriveAll");
-        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);   
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO, bibliotecaDAO);   
         
         //dovrebbero esserci 5 copie nel db a questo punto
-        int expResult = 5;
+        int expResult = 6;
         List<Copia> result = instance.doRetriveAll();
         assertEquals(expResult, result.size());        
     }
@@ -113,7 +116,7 @@ public class CopiaDAOTest {
     @Test
     public void testDoInsert() {
         System.out.println("doInsert");       
-        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO, bibliotecaDAO);
         int expResult = -1;
         int result = instance.doInsert(copia);
         assertNotEquals(expResult, result);
@@ -142,7 +145,7 @@ public class CopiaDAOTest {
     @Test
     public void testDoRetriveByPosizione() {
         System.out.println("doRetriveByPosizione");       
-        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO, bibliotecaDAO);
         posizioneDAO.setCopiaDAO(instance);
         //dovrebbero esserci 3 copie corrispondenti a questa posizione
         int expResult = 3;
@@ -159,7 +162,7 @@ public class CopiaDAOTest {
     @Test
     public void testzDoDelete() {
         System.out.println("doDelete");
-        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO, bibliotecaDAO);
         posizioneDAO.setCopiaDAO(instance);
         int expResult = 0;
         int result = instance.doDelete(copia);
@@ -173,12 +176,27 @@ public class CopiaDAOTest {
     @Test
     public void testDoUpdatePosizione() {
         System.out.println("doUpdatePosizione");
-        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO);
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO, bibliotecaDAO);
         posizioneDAO.setCopiaDAO(instance);
         int expResult = 0;
         int result = instance.doUpdatePosizione(copia, "Ripiano Basso B");
         
         assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of doRetriveIsilByCopia, of class CopiaDAO
+     */
+    @Test
+    public void testDoRetriveIsilByCopia() {
+        System.out.println("doRetriveIsilByCopia");
+        CopiaDAO instance = new CopiaDAO(libroDAO, posizioneDAO, bibliotecaDAO);
+        
+        String isbn = "9788804492504";
+        int expResult = 2;
+        List<Biblioteca> result = instance.doRetriveIsilByCopia(isbn);
+        
+        assertEquals(expResult, result.size());
     }
     
 }

@@ -84,7 +84,7 @@ public class PosizioneDAOTest {
         System.out.println("doRetriveById");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance));
+        instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance, new BibliotecaDAO()));
         Posizione expResult = posizione;
         Posizione result = instance.doRetriveById(posizione.getEtichetta(), posizione.getBiblioteca().getIsil());
         assertEquals(expResult.getBiblioteca(), result.getBiblioteca());
@@ -100,13 +100,13 @@ public class PosizioneDAOTest {
         String isil = posizione.getBiblioteca().getIsil();
         PosizioneDAO instance = new PosizioneDAO();     
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-         instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance));
+         instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance, new BibliotecaDAO()));
         List<Posizione> expResult = new ArrayList<>();
         expResult.add(posizione);
         List<Posizione> result = instance.doRetriveAll();
         //assertEquals(expResult, result);
         //assertEquals("Le liste non sono uguali", expResult, result);
-        assertEquals("Le dimensioni delle liste non sono uguali", 4, result.size());
+        assertEquals("Le dimensioni delle liste non sono uguali", 6, result.size());
     }
 
     /**
@@ -118,13 +118,13 @@ public class PosizioneDAOTest {
         String isil = posizione.getBiblioteca().getIsil();
         PosizioneDAO instance = new PosizioneDAO();     
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-         instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance));
+         instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance, new BibliotecaDAO()));
         List<Posizione> expResult = new ArrayList<>();
         expResult.add(posizione);
         List<Posizione> result = instance.doRetriveAllByIsil(isil);
         //assertEquals(expResult, result);
         //assertEquals("Le liste non sono uguali", expResult, result);
-        assertEquals("Le dimensioni delle liste non sono uguali", 2, result.size());
+        assertEquals("Le dimensioni delle liste non sono uguali", 4, result.size());
     }
 
     /**
@@ -135,7 +135,7 @@ public class PosizioneDAOTest {
         System.out.println("doInsert");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance)); 
+        instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance, new BibliotecaDAO())); 
         int expResult = 0;
         int result = instance.doInsert(posizione);
         assertEquals(expResult, result);
@@ -166,7 +166,7 @@ public class PosizioneDAOTest {
         System.out.println("DoRetriveLibroAndBiblioteca");
         PosizioneDAO instance = new PosizioneDAO();
         instance.setBibliotecaDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance));
+        instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), instance, new BibliotecaDAO()));
         int expResult = 1;
         List<Posizione> result = instance.doRetriveByLibroAndBiblioteca("9788804492504",posizione.getBiblioteca().getIsil());
         assertEquals(expResult, result.size());
