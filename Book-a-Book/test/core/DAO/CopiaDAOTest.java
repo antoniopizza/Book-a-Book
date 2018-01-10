@@ -6,7 +6,6 @@
 package core.DAO;
 
 import core.entities.Copia;
-import core.entities.Libro;
 import core.entities.Posizione;
 import core.utils.DriverManagerConnectionPool;
 import java.sql.Connection;

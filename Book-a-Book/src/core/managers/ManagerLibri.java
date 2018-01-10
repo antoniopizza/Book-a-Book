@@ -9,6 +9,7 @@ import core.DAO.BibliotecaDAO;
 import core.DAO.CopiaDAO;
 import core.DAO.LibroDAO;
 import core.DAO.PosizioneDAO;
+import core.DAO.PrenotazioneDAO;
 import core.entities.Autore;
 import core.entities.Biblioteca;
 import core.entities.Copia;
@@ -30,6 +31,7 @@ public class ManagerLibri {
     private PosizioneDAO posizioneDAO;
     private LibroDAO libroDAO;
     private CopiaDAO copiaDAO;
+    private PrenotazioneDAO prenotazioneDAO;
 
     public ManagerLibri() {
         this.bibliotecaDAO = new BibliotecaDAO();
@@ -116,8 +118,15 @@ public class ManagerLibri {
         return true;
     }        
     
-    //da fare
+    /**
+     * Metodo che permette di eliminare tutti i riferimenti di un Libro da una biblioteca,
+     * eliminando tutte le Copie possedute e rimuovendo tutti i riferimenti dalle Prenotazioni.
+     * @param isbn (String) codice ISBN del Libro che si desidera eliminare
+     * @param isil (String) codice ISIL della Biblioteca che desidera eliminare il Libro
+     * @return true se l'operazione è andata a buon fine, false altrimenti
+     */
     public boolean eliminaLibro(String isbn,String isil){
+        
         throw new UnsupportedOperationException("Not implemented yet");
     }
 
@@ -149,7 +158,11 @@ public class ManagerLibri {
         return true;
     }
     
-    //da fare
+    /**
+     * Metodo che restituisce un oggetto Libro corrispondente al codice isbn ricevuto.
+     * @param isbn (String) Codice ISBN del Libro di cui si desidera ricevere l'oggetto.
+     * @return un oggetto Libro corrispondente all'SIBN, null altrimenti.
+     */
     public Libro visualizzaLibro(String isbn){
         throw new UnsupportedOperationException("Not implemented yet");
     }

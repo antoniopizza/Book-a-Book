@@ -25,7 +25,7 @@ public class CopiaDAO extends AbstractDAO<Copia> {
     private final String doRetriveByIdQuery = "SELECT * FROM Copia WHERE id = ? AND isbn = ? AND isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Copia";
     private final String doRetriveByPosizioneQuery = "SELECT * FROM Copia WHERE id_posizione = ? AND isil = ?";
-    private final String doDeleteQuery = "DELETE FROM Copia WHERE id = ? AND isbn = ? AND isil = ?";
+    private final String doDeleteQuery = "UPDATE Copia SET status = ? WHERE id = ? AND isbn = ? AND isil = ?";
     private final String doUpdatePosizioneQuery = "UPDATE Copia SET id_posizione = ? WHERE id = ? AND isbn = ? AND isil = ?";
 
     private LibroDAO libroDao;
@@ -227,24 +227,27 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         return copie;
     }
     
+    
     /**
      * Metodo che elimina una tupla dal db corrispondente all'oggetto Copia ricevuto.
+     * L'eliminazione viene effettuata settando il parametro 'status' nel db a "Eliminato". 
      * 
      * @param entity (Copia) oggetto che si desidera eliminare dal db.
      * 
      * @return 0 se l'operazione è andata a buon fine, -1 altrimenti.
      */
     public int doDelete(Copia entity) {
-        
+        //private final String doDeleteQuery = "UPDATE Copia SET status = ? WHERE id = ? AND isbn = ? AND isil = ?";
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doDeleteQuery);
-            prst.setString(1, entity.getId());
-            prst.setString(2, entity.getLibro().getIsbn());
-            prst.setString(3, entity.getPosizione().getBiblioteca().getIsil());
+            prst.setString(1, "Eliminato");
+            prst.setString(2, entity.getId());
+            prst.setString(3, entity.getLibro().getIsbn());
+            prst.setString(4, entity.getPosizione().getBiblioteca().getIsil());
             
             try{
-                prst.execute();
+                prst.executeUpdate();
                 con.commit();
                 return 0;
                 
@@ -301,4 +304,6 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         
         return -1;
     }
+    
+    
 }
