@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -68,7 +69,9 @@ public class CercaDipendenteServlet extends HttpServlet {
             message = "correct";
         }
         
-        //Da continuare...
+        request.setAttribute("message", message);
+        RequestDispatcher view = request.getRequestDispatcher("cercaDipendenteBiblioteca.jsp");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

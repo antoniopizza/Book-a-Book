@@ -67,7 +67,8 @@ public class RicercaRegistratiServlet extends HttpServlet {
             message = "correct";
         }
         
-        RequestDispatcher view = request.getRequestDispatcher("visualizzaRegistrati.jsp");
+        request.setAttribute("message", message);
+        RequestDispatcher view = request.getRequestDispatcher("ricercaRegistrati.jsp");
         view.forward(request, response);
     }
 
