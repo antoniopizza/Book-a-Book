@@ -128,7 +128,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
             try {
                 ResultSet rs = stt.executeQuery();
 
-                if (rs.next()) {
+                while (rs.next()) {
                     Calendar dataCreazione = new GregorianCalendar();
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
@@ -144,7 +144,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                     }
                     prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
                     prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
-                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn")));
+                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"),rs.getString("isil")));
                     listaPrenotazioni.add(prenotazione);
                 }
 

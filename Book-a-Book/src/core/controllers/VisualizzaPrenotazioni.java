@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -71,6 +72,8 @@ public class VisualizzaPrenotazioni extends HttpServlet {
         }
         request.setAttribute("lista", lista);
         request.setAttribute("message", message);
+        RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

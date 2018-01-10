@@ -10,6 +10,7 @@ import core.entities.Persona;
 import core.managers.ManagerPrenotazione;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,6 +48,9 @@ public class PrenotareLibriServlet extends HttpServlet {
             message = "correct";
         }
         
+        request.setAttribute("message", message);
+        RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
+        view.forward(request, response);
         
     }
 

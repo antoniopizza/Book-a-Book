@@ -14,11 +14,10 @@ import core.utils.prenotazioniSuDataDiConsegna;
 import core.utils.prenotazioniSuDataDiCreazione;
 import core.utils.prenotazioniSuDataDiScadenza;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -69,7 +68,9 @@ public class RicercaPrenotazioniPerCriterioServlet extends HttpServlet {
             message = "correct";
         }
 
-        //classe da rivedere. Dalla request si deve prendere l'oggetto Criterio? O l'oggetto lo dovra' creare la servlet? 
+        request.setAttribute("message", message);
+        RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
+        view.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
