@@ -89,7 +89,7 @@
                                         <a href="dashboard-favourite-ads.html"></i> Biblioteca</a>
                                     </li>
                                     <li>
-                                        <a href="dashboard-favourite-ads.html"></i> Biblioteca</a>
+                                        <a href="registrazione-scelta?tipo=bibliotecario"></i> Registra Dipendente</a>
                                     </li>
                                     <li>
                                         <a href="dashboard-favourite-ads.html"></i> Biblioteca</a>

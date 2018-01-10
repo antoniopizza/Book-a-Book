@@ -3,7 +3,7 @@
     Created on : 23-dic-2017, 18.00.17
     Author     : salva
 --%>
-<% String nomePagina = "registrazione-utente";
+<% String nomePagina = "registrazione-bibliotecario";
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,16 +22,15 @@
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
                         <div class="widget personal-info">
 
-                            <h3 class="widget-header user">Inserire dati Registrazione</h3>
+                            <h3 class="widget-header user">Inserire dati Nuovo Dipendente</h3>
 
-                            <form action="registra-utente" method="post">
+                            <form action="registra-bibliotecario" method="post">
 
                                 <!-- email -->
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 </div>
-
 
                                 <div class="form-group">
                                     <div class="row">
@@ -54,7 +53,7 @@
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
-                                    <input type="text" class="form-control" name="nome" required>
+                                    <input type="text" class="form-control" name="nomeBibliotecario" required>
                                 </div>
                                 <!-- Cognome -->
                                 <div class="form-group">
@@ -62,60 +61,10 @@
                                     <input type="text" class="form-control" name="cognome" required>
                                 </div>
 
-                                <!-- Documento d'Identità -->
+                                <!-- Campo Nascosto Isil Biblioteca -->
                                 <div class="form-group">
-                                    <label for="documento">Documento di Identita'</label>
-                                    <input type="text" class="form-control" name="documento" required>
-                                </div>
-
-                                <!-- Indirizzo -->
-                                <div class="form-group">
-                                    <label for="indirizzo"> Indirizzo</label>
-                                    <div class="row">
-
-
-                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                            <label for="cap">Provincia</label>
-                                            <input type="text" class="form-control" name="provincia" required pattern="[A-Z]{2,3}$">
-                                        </div>  
-
-
-                                        <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                            <label for="citta">Citta'</label>
-                                            <input type="text" class="form-control" name="citta" required>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-
-                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                                            <label for="via">Via</label>
-                                            <input type="text" class="form-control" name="via" required>
-                                        </div>
-
-                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                                            <label for="cap">Numero Civico</label>
-                                            <input type="text" class="form-control" name="civico" required>
-                                        </div>
-
-                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                                            <label for="cap">CAP</label>
-                                            <input type="text" class="form-control" name="cap" required>
-                                        </div>    
-                                    </div>
-
-                                </div>
-
-
-                                <!-- Path Foto -->
-                                <div class="form-group">
-                                    <label for="foto">Path Foto</label>
-                                    <input type="text" class="form-control" name="foto" >
-                                </div>
-
-                                <!-- Number -->
-                                <div class="form-group">
-                                    <label for="numero">Numero di Telefono</label>
-                                    <input type="text" class="form-control" name="numero" required pattern="[0-9]{9,11}$">
+                                    <label for="isil" hidden="true">Isil</label>
+                                    <input type="text" class="form-control" name="isil" value="<%= ((Biblioteca) request.getSession().getAttribute("biblioteca")).getIsil()%>" hidden="true">
                                 </div>
 
                                 <!-- Submit button -->

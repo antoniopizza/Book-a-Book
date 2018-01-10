@@ -5,6 +5,10 @@
  */
 package core.controllers;
 
+import core.entities.Account;
+import core.entities.Biblioteca;
+import core.entities.Bibliotecario;
+import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -18,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author salva
  */
-@WebServlet(name = "RegistrazioneSceltaServlet", urlPatterns = {"/registrazione/registrazione-scelta"})
-public class RegistrazioneSceltaServlet extends HttpServlet {
+@WebServlet(name = "RegistraBibliotecarioServlet", urlPatterns = {"/registrazione/registra-bibliotecario"})
+public class RegistraBibliotecarioServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,23 +36,19 @@ public class RegistrazioneSceltaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String url = "";
-        if (request.getParameter("tipo").equals("utente")) {
-            
-            url = "/registrazione/registrazione-utente.jsp";
-        } else if (request.getParameter("tipo").equals("biblioteca")) {
-
-            url = "/registrazione/registrazione-biblioteca.jsp";
-        } else if (request.getParameter("tipo").equals("bibliotecario")) {
-
-            url = "/registrazione/registrazione-bibliotecario.jsp";
-        }else {
-            url = "/registrazione/error.jsp";
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet RegistrazioneBibliotecarioServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet RegistrazioneBibliotecarioServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
-        dispatcher.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -77,7 +77,26 @@ public class RegistrazioneSceltaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+         ManagerRegistrazione mr = new ManagerRegistrazione();
+
+        
+        //Dati Bibliotecario
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String nomeBibliotecario = request.getParameter("nomeBibliotecario");
+        String cognome = request.getParameter("cognome");
+        
+        String isil = request.getParameter("isil");
+       
+        System.out.println("isil="+isil);
+      
+       
+        
+        mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password);
+       
+       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
+       dispatcher.forward(request, response);
     }
 
     /**

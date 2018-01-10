@@ -50,7 +50,7 @@ public class ManagerRegistrazione {
         Indirizzo indirizzo = new Indirizzo(via, citta, numeroCivico, provincia, CAP);
         Account account = new Account(email, password, pathFoto, "Bibliotecario");
         Biblioteca biblioteca = new Biblioteca(isil, nomeBiblioteca, "In Sospeso", indirizzo, null);
-        Bibliotecario bibliotecario = new Bibliotecario("In Sospeso","Gestore",biblioteca,nomeBibliotecario,cognome,account);
+        Bibliotecario bibliotecario = new Bibliotecario("In Sospeso","Responsabile",biblioteca,nomeBibliotecario,cognome,account);
         
         indirizzoDAO.doInsert(indirizzo);
         accountDAO.doInsert(account);
@@ -70,6 +70,7 @@ public class ManagerRegistrazione {
         Account account = new Account(email, password, null, null);
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
         Bibliotecario bibliotecario = new Bibliotecario("Accettato","Dipendente",nome,cognome);
+        bibliotecario.setAccount(account);
         bibliotecario.setBiblioteca(biblioteca);
         
         accountDAO.doInsert(account);

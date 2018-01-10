@@ -43,7 +43,7 @@
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="cap">Provincia</label>
-                                            <input type="text" class="form-control" name="provincia" required>
+                                            <input type="text" class="form-control" name="provincia" required pattern="[A-Z]{2,3}$">
                                         </div>  
 
 
@@ -123,17 +123,9 @@
                                     <input type="text" class="form-control" name="cognome" required>
                                 </div>
 
-                                <!-- Tipo-->
-                                <div class="form-group">
-                                    <label for="tipo">Tipo</label>
-                                    <input type="text" class="form-control" name="tipo" required>
-                                </div>
+                               
 
-                                <!-- Path Foto -->
-                                <div class="form-group">
-                                    <label for="foto">Path Foto</label>
-                                    <input type="text" class="form-control" name="foto" required>
-                                </div>
+  
 
                             </div>
 
