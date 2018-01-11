@@ -1,10 +1,10 @@
 <div class="advance-search">
-    <form action="#">
+    <form action="#" name="cercaLibro">
         <div class="row">
             <!-- Store Search -->
             <div class="col-lg-1"></div>
             <div class="col-lg-2 col-md-12">
-                <select class="form-control mb-2 mr-sm-2 mb-sm-0">
+                <select id="selected" class="form-control mb-2 mr-sm-2 mb-sm-0">
                     <option id="idTitolo">Titolo</option>
                     <option id="idAutore">Autore</option>
                     <option id="idEditore">Editore</option>
@@ -20,7 +20,7 @@
             <div class="col-lg-2 col-md-12">
                 <div class="block d-flex">
                     <!-- Search Button -->
-                    <button class="btn btn-main" onclick="controlloSearchLibro()">CERCA</button>
+                    <button type="button" class="btn btn-main" onclick="controlloSearchLibro()">CERCA</button>
                 </div>
             </div>
             <div class="col-lg-1"></div>
@@ -51,7 +51,7 @@
                 boolean = false;
             }
         }
-        else if(editore.selected && !search.value != ""){
+        else if(editore.selected && search.value != ""){
             if(!search.value.match(regexLettere)){
                 $("#search").focus();
                 $("#erroreSearchLibro").text("Il campo può contenere solo lettere.");
