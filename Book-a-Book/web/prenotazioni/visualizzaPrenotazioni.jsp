@@ -141,13 +141,16 @@ String pathServlet = application.getContextPath() + "/core.controllers/";
                             </div>
                             <%
                                 } //fine else più esterno
-%>
+
+                            %>
                         </div>
                     </div>
                 </div>
+            </div>
 
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>
     </body>
+
 </html>
