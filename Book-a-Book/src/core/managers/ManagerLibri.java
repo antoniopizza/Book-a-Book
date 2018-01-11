@@ -58,55 +58,55 @@ public class ManagerLibri {
      * @return una Collection di libri.
      */
     public Collection<Libro> cercaLibro(Criterio c) {
-        
+
         List<Libro> listToReturn = new ArrayList<>();
         List<Libro> allBooks = libroDAO.doRetriveAll();
-        
-        for(Libro b : allBooks){
-            if(c.isValid(b)){
+
+        for (Libro b : allBooks) {
+            if (c.isValid(b)) {
                 listToReturn.add(b);
             }
         }
-        
+
         return listToReturn;
     }
 
     /**
-     * Metodo che modifica la disponibilità di un libro in 
-     * una biblioteca
+     * Metodo che modifica la disponibilità di un libro in una biblioteca
+     *
      * @param isbn
      * @param idBiblioteca
      * @param flag
-     * @return 
+     * @return
      */
     public boolean modificaDisponibilita(String isbn, String idBiblioteca, boolean flag) {
         Biblioteca biblio = bibliotecaDAO.doRetriveById(idBiblioteca);
-        if(biblio == null){
+        if (biblio == null) {
             return false;
         }
-        
-        List<Posizione> posizioni = posizioneDAO.doRetriveAllByIsil(idBiblioteca); 
-        if(posizioni == null || posizioni.isEmpty()){
+
+        List<Posizione> posizioni = posizioneDAO.doRetriveAllByIsil(idBiblioteca);
+        if (posizioni == null || posizioni.isEmpty()) {
             return false;
         }
         biblio.setPosizioni(posizioni);
-        
-        for(Posizione p : biblio.getPosizioni()){
-            for(Copia c : p.getCopie()){
-                if(flag){
+
+        for (Posizione p : biblio.getPosizioni()) {
+            for (Copia c : p.getCopie()) {
+                if (flag) {
                     c.setDisponibilita(Copia.DISPONIBILE_SI);
                 } else {
                     c.setDisponibilita(Copia.DISPONIBILE_NO);
                 }
-                
-                if(copiaDAO.doUpdate(c) == -1){
+
+                if (copiaDAO.doUpdate(c) == -1) {
                     return false;
                 }
             }
         }
-        
+
         return true;
-        
+
     }
 
     /**
@@ -140,11 +140,10 @@ public class ManagerLibri {
             }
 
             book.addAutore(a);
-            
-            if(libroDAO.doInsert(book) == -1){
+
+            if (libroDAO.doInsert(book) == -1) {
                 return null;
             }
-            
 
         }
 
@@ -168,14 +167,14 @@ public class ManagerLibri {
             //inserisco la posizione
             p = aggiungiPosizione(p.getEtichetta(), isil);
 
-            if (p == null ||p.getCopie() == null || p.getCopie().isEmpty()) {
+            if (p == null || p.getCopie() == null || p.getCopie().isEmpty()) {
                 return false;
             }
 
             for (Copia cop : p.getCopie()) {
                 cop.setLibro(book);
                 cop = aggiungiCopia(book.getIsbn(), isil, p.getEtichetta(), cop.getId());
-                if(cop == null){
+                if (cop == null) {
                     return false;
                 }
             }
@@ -236,20 +235,55 @@ public class ManagerLibri {
         Posizione posizione = posizioneDAO.doRetriveById(idPosizione, isil);
         Libro libro = libroDAO.doRetriveById(isbn);
 
-        Copia copia = new Copia(idCopia, "Non prenotato", "Disponibile", posizione, libro);
+        Copia copia;
 
-        if (copiaDAO.doRetriveById(idCopia, isbn, isil) != null) { //controlla se la copia è già presente nel database
-            //Se è presente
-            if (copiaDAO.doDelete(copia) == -1) { //elimina la copia dal db
+        if ((copia = copiaDAO.doRetriveById(idCopia, isbn, isil)) != null) { //controlla se la copia è già presente nel database
+            //Se è presente e non è stata prenotata
+            if (copia.getStatus().equals(Copia.STATUS_PRENOTATO) || copia.getStatus().equals(Copia.STATUS_ELIMINATO)) {
+                return false;
+            }
+
+            copia.setStatus(Copia.STATUS_ELIMINATO);
+
+            if (copiaDAO.doUpdate(copia) == -1) { //elimina la copia dal db
                 return false; //return false se fallisce l'eliminazione
             }
         }
         return true;
     }
 
-    //da fare
+    /**
+     * Metodo che permette di elimiare un libro da una biblioteca
+     *
+     * @param isbn
+     * @param isil
+     * @return
+     */
     public boolean eliminaLibro(String isbn, String isil) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Biblioteca biblio = bibliotecaDAO.doRetriveById(isil);
+        if (biblio == null) {
+            return false;
+        }
+
+        List<Posizione> posizioni = posizioneDAO.doRetriveAllByIsil(isil);
+        if (posizioni == null || posizioni.isEmpty()) {
+            return false;
+        }
+        biblio.setPosizioni(posizioni);
+
+        for (Posizione p : biblio.getPosizioni()) {
+            for (Copia c : p.getCopie()) {
+                if (c.getLibro().getIsbn().equals(isbn)) {
+                    c.setStatus(Copia.STATUS_ELIMINATO);
+                    if (copiaDAO.doUpdate(c) == -1) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+
     }
 
     /**
@@ -286,7 +320,12 @@ public class ManagerLibri {
         return true;
     }
 
-    //da fare
+    /**
+     * Metodo che permette di visualizare uno specifico libro
+     *
+     * @param isbn
+     * @return
+     */
     public Libro visualizzaLibro(String isbn) {
         return libroDAO.doRetriveById(isbn);
     }

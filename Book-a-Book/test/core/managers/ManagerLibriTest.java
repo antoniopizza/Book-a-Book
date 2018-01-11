@@ -59,7 +59,7 @@ public class ManagerLibriTest {
         autori.add(a);
         libroDAO = new LibroDAO();
         libro = libroDAO.doRetriveById("9788804681960");
-        copia = new Copia("C-005", "Non prenotato", Copia.DISPONIBILE_SI, posizione, libro);
+        copia = new Copia("C-006", "Non prenotato", Copia.DISPONIBILE_SI, posizione, libro);
         posizione.addCopia(copia);
         
         posizioneNew = new Posizione("Ripiano Basso A");
@@ -175,20 +175,16 @@ public class ManagerLibriTest {
     /**
      * Test of eliminaLibro method, of class ManagerLibri.
      */
-/*
+
     @Test
-    public void testEliminaLibro() {
-        System.out.println("eliminaLibro");
-        String isbn = "";
-        String isil = "";
-        ManagerLibri instance = new ManagerLibri();
-        boolean expResult = false;
-        boolean result = instance.eliminaLibro(isbn, isil);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void test9EliminaLibro() {
+        System.out.println("eliminaLibro");       
+        ManagerLibri instance = new ManagerLibri(new BibliotecaDAOStub(), posizioneDAO, libroDAO);
+        boolean expResult = true;
+        boolean result = instance.eliminaLibro(libro.getIsbn(), biblioteca.getIsil());
+        assertEquals(expResult, result);       
     }
-*/
+
     /**
      * Test of spostaCopie method, of class ManagerLibri.
      */
@@ -250,7 +246,7 @@ public class ManagerLibriTest {
         Collection<Posizione> result = instance.visualizzaPosizioniLibro(isbn, isil);
         
         //assertEquals("Le liste non sono uguali", expResult, result);
-        assertEquals("Le dimensioni delle liste non sono uguali", 1, result.size());
+        assertEquals("Le dimensioni delle liste non sono uguali", 2, result.size());
     }
     
     
