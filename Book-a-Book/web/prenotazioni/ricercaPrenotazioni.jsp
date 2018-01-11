@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.ArrayList"%>
@@ -30,7 +31,7 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <li>
-                                        <a href="<%=pathPrenotazione%>ricercaPrenotazioni.jsp"> Prenotazioni</a>
+                                        <a href="<%=pathServlet%>VisualizzaPrenotazioni.java"> Prenotazioni</a>
                                     </li>
                                     <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
@@ -59,29 +60,32 @@
 
                             <h3>Cerca la tua prenotazione</h3>
                             <div class="advance-search">
-                                <form action="<%=pathServlet%>PrenotazioniPerCriterioServlet.java">
+                                <form id="cercaPren" name = "cercaPren" action="RicercaPrenotazioniPerCriterioServlet" method="post">
                                     <div class="row">
                                         <!-- Store Search -->
-                                        <div class="col-lg-1"></div>
+
                                         <div class="col-lg-2 col-md-12">
-                                            <select class="form-control mb-2 mr-sm-2 mb-sm-0">
-                                                <option id="idUtente">Per id utente</option>
-                                                <option id="idCodice">Per codice</option>
-                                                <option id="dataConferma">Per data di conferma</option>
-                                                <option id="dataCreazione">Per data di creazione</option>
-                                                <option id="dataScadenza">Per data di scadenza</option>
+                                            <select  id="select" name="criterio "class="form-control mb-2 mr-sm-2 mb-sm-0">
+                                                <option id="idUtente" value="utente">Per id utente</option>
+                                                <option id="idCodice" value="codice">Per codice</option>
+                                                <option id="dataRitiro" value="ritiro">Per data di ritiro</option>
+                                                <option id="dataCreazione" value="creazione">Per data di creazione</option>
+                                                <option id="dataScadenza" value="scadenza">Per data di scadenza</option>
                                             </select>
                                         </div>
+                                        <div class="col-lg-1"></div>
                                         <div class="col-lg-7 col-md-12">
-                                            <div class="block d-flex">
-                                                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchPren" placeholder="Cerca la tua prenotazione">
-
+                                            <div style="position:relative" class="block d-flex">
+                                                <input style="position:absolute" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchData" name="valore" placeholder="Cerca la tua prenotazione">
+                                            </div>
+                                            <div style="position:relative" class="block d-flex">
+                                                <input style="position:absolute" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchPren" name="valore" placeholder="Cerca la tua prenotazione">
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-12">
                                             <div class="block d-flex">
                                                 <!-- Search Button -->
-                                                <button class="btn btn-main" onclick="controlloSearch()">CERCA</button>
+                                                <button type="button" class="btn btn-main" onclick="controlloSearch()">CERCA</button>
                                             </div>
                                         </div>
                                         <div class="col-lg-1"></div>
@@ -93,7 +97,7 @@
                                 </br>
                             </div>
                             <div class = "row"> 
-                                <%--
+                                <%
                                     int i;
                                     String message = (String) request.getAttribute("message");
                                     List<Prenotazione> lista = null;
@@ -103,122 +107,112 @@
                                         lista = new ArrayList<>();
                                         lista = (ArrayList<Prenotazione>) request.getAttribute("lista");
                                     }
-                                --%>
-                                <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center">
-                                    Codice
-                                    <% for (int i = 0; i < 10; i++) {%>
-
-                                    <div class="row" onclick="scrivi()" class="widget user-dashboard-menu">
-                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"><a href="<%=pathPrenotazione%>ricercaPrenotazioni.jsp"> <%= "a"%></a> 
-
-                                            <%    }%>
-                                            <% for (int i = 0; i < 10 * 2; i++) {
-                                                    out.println("</div>");
-                                                }%>
-                                        </div>
-                                        <%--
+                                %>
+                                <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
+                                    <div class = "row"> 
+                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center">
+                                            Codice </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
+                                            ISBN </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
+                                            Titolo</div>
                                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
-                                            ISBN
-                                            <% for (i = 0; i < lista.size(); i++) {%>
-
-                                            <div class="row">
-                                                <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getIsbn()%> 
-
-                                                    <%    }%>
-                                                    <% for (i = 0; i < lista.size() * 2; i++) {
-                                                            out.println("</div>");
-                                                        }%>
-                                                </div>
-                                                <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
-                                                    Titolo
-                                                    <% for (i = 0; i < lista.size(); i++) {%>
-
-                                                    <div class="row">
-                                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getTitolo()%> 
-
-                                                            <%    }%>
-                                                            <% for (i = 0; i < lista.size() * 2; i++) {
-                                                                    out.println("</div>");
-                                                                }%>
-                                                        </div>
-                                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center">
-                                                            Biblioteca
-                                                            <% for (i = 0; i < lista.size(); i++) {%>
-
-                                                            <div class="row">
-                                                                <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center"> <%= lista.get(i).getBiblioteca().getNome()%> 
-
-                                                                    <%    }%>
-                                                                    <% for (i = 0; i < lista.size() * 2; i++) {
-                                                                            out.println("</div>");
-                                                                        }%>
-                                                                </div>
-                                                                <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0 scroll-page" align="center">
-                                                                    Scadenza
-                                                                    <% for (i = 0; i < lista.size(); i++) {%>
-
-                                                                    <div class="row">
-                                                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= lista.get(i).getDataScadenza()%> 
-
-                                                                            <%    }%>
-                                                                            <% for (i = 0; i < lista.size() * 2; i++) {
-                                                                                    out.println("</div>");
-                                                                                }%>
-                                        --%>
+                                            Scadenza</div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"></div>
                                     </div>
                                 </div>
+                                <% for (i = 0; i < lista.size(); i++) {
+                                    String data = ""+lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH)+"-"+lista.get(i).getDataScadenza().get(Calendar.MONTH)+"-"+lista.get(i).getDataScadenza().get(Calendar.YEAR)+"";
+                                %>
+                                <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
+                                    <div class = "row"> 
+                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= lista.get(i).getId()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getIsbn()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getTitolo()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= data%></div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
+                                            <div class="form-group">
+                                            <a class="btn btn-main" href="/prenotazioni/dettaglio-prenotazione?id=<%=lista.get(i).getId()%>">DETTAGLI</a> 
+                                        </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                              <%    }%>
                             </div>
+                           
                         </div>
                     </div>
                 </div>
             </div>
-        </section>                 
-        <script>
-            function scrivi() {
-                console.log("scrivo");
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        $("#searchData").hide();
+        $("#searchData").datepicker({dateFormat: "dd-mm-yy",
+            onSelect: function () {
+                selectedDate = $.datepicker.formatDate("dd-mm-yy", $(this).datepicker('getDate'));
             }
-
-            function controlloSearch() {
-                var boolean = true;
-                var idUtente = document.getElementById("idUtente");
-                var idCodice = document.getElementById("idCodice");
-                var dataConferma = document.getElementById("dataConferma");
-                var dataCreazione = document.getElementById("dataCreazione");
-                var dataScadenza = document.getElementById("dataScadenza");
-                var search = document.getElementById("search");
-                var regexLettere = /^[A-Za-z ]{1,30}$/;
-                var regexNumeri = /^[0-9 ]{13}$/;
-                document.getElementById("erroreSearchPren").innerHTML = "";
-                if (search.value == "") {
-                    $("#searchPren").focus();
-                    $("#erroreSearchPren").text("Il campo non può essere vuoto.");
-                    boolean = false;
-                } else if (autore.selected && search.value != "") {
-                    if (!search.value.match(regexLettere)) {
-                        $("#searchPren").focus();
-                        $("#erroreSearchPren").text("Il campo deve contenere solo lettere.");
-                        boolean = false;
-                    }
-                } else if (editore.selected && !search.value != "") {
-                    if (!search.value.match(regexLettere)) {
-                        $("#searchPren").focus();
-                        $("#erroreSearchPren").text("Il campo può contenere solo lettere.");
-                        boolean = false;
-                    }
-                } else if (isbn.selected && search.value != "") {
-                    if (!search.value.match(regexNumeri)) {
-                        $("#searchPren").focus();
-                        $("#erroreSearchPren").text("Il dato inserito non corrisponde al formato desiderato.");
-                        boolean = false;
-                    }
-                }
-                if (boolean == true) {
-                    document.cercaPren.submit();
-                }
+        });
+        $("#select").change(function () {
+            var str = "";
+            $("#select option:selected").each(function () {
+                str += $(this).text();
+            });
+            if (str == "Per data di ritiro" || str == "Per data di scadenza" || str == "Per data di creazione") {
+                $("#searchPren").val("");
+                $("#searchData").val("");
+                $("#searchPren").hide();
+                $("#searchData").show();
+            } else if (str == "Per id utente" || str == "Per codice") {
+                $("#searchPren").val("");
+                $("#searchData").val("");
+                $("#searchData").hide();
+                $("#searchPren").show();
             }
+        });
+        $("#selected").change(function () {
+            $("#search").val("");
+        });
+    });
 
-        </script>
+    function controlloSearch() {
+        var bool = true;
+        var searchPren = document.getElementById("searchPren");
+        var searchData = document.getElementById("searchData");
+        var date = new Date();
+        var str = "";
+        $("#select option:selected").each(function () {
+            str += $(this).text();
+        });
+        var regex = /^[0-9]+$/;
+        document.getElementById("erroreSearchPren").innerHTML = "";
+        if (searchPren.value == "" && searchData.value == "") {
+            bool = false;
+            $("#searchData").focus();
+            $("#searchPren").focus();
+            $("#erroreSearchPren").text("Il campo non può essere vuoto.");
+        } else if (str == "Per id utente" && searchPren.value != "") {
+            if (!searchPren.value.match(regex)) {
+                $("#searchPren").focus();
+                $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
+                bool = false;
+            }
+        } else if (str == "Per codice" && searchPren.value != "") {
+            if (!searchPren.value.match(regex)) {
+                $("#searchPren").focus();
+                $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
+                bool = false;
+            }
+        }
+        if (bool == true) {
+            $("cercaPren").submit();
+        }
+    }
+</script>
 
-        <%@include file="../skeleton-pages/footer.jsp" %>
-    </body>
+<%@include file="../skeleton-pages/footer.jsp" %>
+</body>
 </html>

@@ -48,16 +48,26 @@ public class RicercaPrenotazioniPerCriterioServlet extends HttpServlet {
         Criterio ricerca = null;
         Collection<Prenotazione> lista = new ArrayList<>();
         String criterio = request.getParameter("criterio");
-        if (criterio.equals("Per id utente")) {
+        if (criterio.equals("utente")) {
             ricerca = new prenotazioniPerId(Integer.parseInt(request.getParameter("valore")));
-        } else if (criterio.equals("Per codice")) {
+        } else if (criterio.equals("codice")) {
             ricerca = new prenotazioniPerCodice(Integer.parseInt(request.getParameter("valore")));
-        } else if (criterio.equals("Per data di consegna")) {
-            ricerca = new prenotazioniSuDataDiConsegna((GregorianCalendar) request.getAttribute("valore"));
-        } else if (criterio.equals("Per data di creazione")) {
-            ricerca = new prenotazioniSuDataDiCreazione((GregorianCalendar) request.getAttribute("valore"));
-        } else if (criterio.equals("Per data di scadenza")) {
-            ricerca = new prenotazioniSuDataDiScadenza((GregorianCalendar) request.getAttribute("valore"));
+        } else if (criterio.equals("ritiro")) {
+            String stringaData = request.getParameter("valore");
+            String[] dataArray = stringaData.split("-");
+            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1])-1, Integer.parseInt(dataArray[1]));
+            ricerca = new prenotazioniSuDataDiConsegna(data);
+        } else if (criterio.equals("creazione")) {
+            String stringaData = request.getParameter("valore");
+            String[] dataArray = stringaData.split("-");
+            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1])-1, Integer.parseInt(dataArray[1]));
+            ricerca = new prenotazioniSuDataDiCreazione(data);
+        } else if (criterio.equals("scadenza")) {
+            String stringaData = request.getParameter("valore");
+            String[] dataArray = stringaData.split("-");
+            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1])-1, Integer.parseInt(dataArray[1]));
+            ricerca = new prenotazioniSuDataDiScadenza(data);
+           
         }
 
         ManagerPrenotazione manPren = new ManagerPrenotazione();
@@ -69,6 +79,7 @@ public class RicercaPrenotazioniPerCriterioServlet extends HttpServlet {
         }
 
         request.setAttribute("message", message);
+        request.setAttribute("lista", lista);
         RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
         view.forward(request, response);
     }

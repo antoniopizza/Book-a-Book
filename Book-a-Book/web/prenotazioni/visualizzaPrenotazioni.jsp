@@ -10,6 +10,7 @@
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
 <% String nomePagina = "Informazioni Prenotazione";
+String pathServlet = application.getContextPath() + "/core.controllers/";
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -28,7 +29,7 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <li>
-                                        <a href="/prenotazioni/visualizzaPrenotazioni.jsp"> Prenotazioni</a>
+                                        <a href="<%=pathServlet%>VisualizzaPrenotazioni.java"> Prenotazioni</a>
                                     </li>
                                     <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
@@ -140,9 +141,13 @@
                             </div>
                             <%
                                 } //fine else più esterno
-                            %>
-                            </section>                 
+%>
+                        </div>
+                    </div>
+                </div>
 
-                            <%@include file="../skeleton-pages/footer.jsp" %>
-                            </body>
-                            </html>
+        </section>                 
+
+        <%@include file="../skeleton-pages/footer.jsp" %>
+    </body>
+</html>
