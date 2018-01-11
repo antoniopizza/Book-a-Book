@@ -5,30 +5,26 @@
  */
 package core.utils;
 
-import core.entities.Autore;
 import core.entities.Libro;
 
 /**
  *
- * @author manuel
+ * @author kliffom
  */
-public class CriterioPerAutore implements Criterio{
+public class CriterioPerEditore implements Criterio{
+    
+    private String editore;
 
-    private String autore;
-
-    public CriterioPerAutore(String autore) {
-        this.autore = autore;
+    public CriterioPerEditore(String editore) {
+        this.editore = editore;
     }
-    
-    
-    
+
     @Override
     public boolean isValid(Object ob) {
         Libro book = (Libro) ob;
-        for(Autore a : book.getAutori()){
-            if(a.getNome().toLowerCase().contains(autore.toLowerCase())){
-                return true;
-            }
+        
+        if (book.getEditore().toLowerCase().contains(editore.toLowerCase())) {
+            return true;
         }
         
         return false;
