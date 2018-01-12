@@ -55,6 +55,7 @@
                                     <label for="nome">Nome</label>
                                     <input type="text" class="form-control" name="nomeBibliotecario" required>
                                 </div>
+                                
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
@@ -71,7 +72,7 @@
                                 <!-- Campo Nascosto Isil Biblioteca -->
                                 <div class="form-group">
                                     <label for="isil" hidden="true">Isil</label>
-                                    <input type="text" class="form-control" name="isil" value="<%= ((Biblioteca) request.getSession().getAttribute("biblioteca")).getIsil()%>" hidden="true">
+                                    <input type="text" class="form-control" name="isil" value="<%= ((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIsil()%>" hidden="true">
                                 </div>
                                 
                                 <!-- Submit button -->

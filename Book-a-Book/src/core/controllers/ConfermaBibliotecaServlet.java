@@ -5,8 +5,6 @@
  */
 package core.controllers;
 
-import core.entities.Biblioteca;
-import core.entities.Bibliotecario;
 import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author salva
  */
-@WebServlet(name = "RegistraBibliotecaServlet", urlPatterns = {"/registrazione/registra-biblioteca"})
-public class RegistraBibliotecaServlet extends HttpServlet {
+@WebServlet(name = "ConfermaBibliotecaServlet", urlPatterns = {"/profilo/conferma-biblioteca"})
+public class ConfermaBibliotecaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,19 +33,18 @@ public class RegistraBibliotecaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RegistraBibliotecaServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RegistraBibliotecaServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
+        ManagerRegistrazione manager = new ManagerRegistrazione();
+        
+        String isil = request.getParameter("isil");
+        
+        manager.modificaStatoBiblioteca(isil, "Attiva");
+        
+        request.setAttribute("accettata", "true");
+        
+         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profilo/visualizza-richieste.jsp");
+        dispatcher.forward(request, response);
+       
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -76,35 +73,7 @@ public class RegistraBibliotecaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        ManagerRegistrazione mr = new ManagerRegistrazione();
-
-        //Dati Biblioteca
-        String isil = request.getParameter("isil");
-        String nomeBiblioteca = request.getParameter("nomeBiblioteca");
-        String provincia = request.getParameter("provincia");
-        String citta = request.getParameter("citta");
-        String via = request.getParameter("via");
-        String numeroCivico = request.getParameter("civico");
-        String CAP = request.getParameter("cap");
-        String numero = request.getParameter("numero");
-
-        //Dati Bibliotecario
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String nomeBibliotecario = request.getParameter("nomeBibliotecario");
-        String cognome = request.getParameter("cognome");
-     
-        String pathFoto = request.getParameter("foto");
-        
-        Biblioteca biblioteca = mr.registra(isil, nomeBiblioteca, via, citta, numeroCivico, provincia, CAP, numero);
-        Bibliotecario bibliotecario = mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password, pathFoto, "Responsabile");
-       
-       
-        request.getSession().setAttribute("bibliotecario", bibliotecario);
-        
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
-        dispatcher.forward(request, response);
+        processRequest(request, response);
     }
 
     /**

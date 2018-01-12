@@ -1,3 +1,5 @@
+<%@page import="core.entities.Bibliotecario"%>
+<%@page import="core.entities.Admin"%>
 <%@page import="core.entities.Biblioteca"%>
 <%@page import="core.entities.Persona"%>
 <section>
@@ -26,7 +28,7 @@
                         </ul>
                         <ul class="navbar-nav ml-auto mt-10">
                             <%
-                                if ((Persona) request.getSession().getAttribute("persona") == null && (Biblioteca) request.getSession().getAttribute("biblioteca") == null) {%>
+                                if ((Persona) request.getSession().getAttribute("persona") == null && (Bibliotecario) request.getSession().getAttribute("bibliotecario") == null && (Admin) request.getSession().getAttribute("admin") == null ) {%>
                             <li class="nav-item">
                                 <a class="nav-link login-button" href="index.jsp">Accedi</a>
                             </li>
@@ -43,21 +45,36 @@
                                 </a>
                                 <!-- Dropdown list -->
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="visualizzaProfiloPersonale.jsp">Profilo Utente</a>
+                                    <a class="dropdown-item" href="../profilo/profiloPersonale-Utente.jsp">Profilo Utente</a>
                                     <a class="dropdown-item" href="#">Impostazioni</a>
                                     <a class="dropdown-item" href="#">Logout</a>
                                 </div>
                             </li>
-                            <%   } else if ((Biblioteca) request.getSession().getAttribute("biblioteca") != null) {
+                            <%   } else if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
 
                             %> <li class="nav-link"> Benvenuta,</li>
                             <li class="nav-item dropdown dropdown-slide" style=" display: inline;">
                                 <a class="nav-link" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                   <%=((Biblioteca) request.getSession().getAttribute("biblioteca")).getNome()%><span> <i class="fa fa-angle-down"></i></span>
+                                    <%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getNome()%><span> <i class="fa fa-angle-down"></i></span>
                                 </a>
                                 <!-- Dropdown list -->
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="visualizzaProfiloPersonale.jsp">Profilo Biblioteca</a>
+                                    <a class="dropdown-item" href="../profilo/profiloPersonale-Bibliotecario.jsp">Profilo Biblioteca</a>
+                                    <a class="dropdown-item" href="#">Impostazioni</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </li>
+                            
+                            <%   } else if ((Admin) request.getSession().getAttribute("admin") != null) {
+
+                            %> <li class="nav-link"> Ciao,</li>
+                            <li class="nav-item dropdown dropdown-slide" style=" display: inline;">
+                                <a class="nav-link" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   <%=((Admin) request.getSession().getAttribute("admin")).getNome() %><span> <i class="fa fa-angle-down"></i></span>
+                                </a>
+                                <!-- Dropdown list -->
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="../profilo/profiloPersonale-Admin.jsp">Profilo Admin</a>
                                     <a class="dropdown-item" href="#">Impostazioni</a>
                                     <a class="dropdown-item" href="#">Logout</a>
                                 </div>
