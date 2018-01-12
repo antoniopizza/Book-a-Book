@@ -9,6 +9,7 @@ import core.DAO.BibliotecaDAO;
 import core.DAO.BibliotecaDAOStub;
 import core.DAO.LibroDAO;
 import core.DAO.PosizioneDAO;
+import core.entities.Copia;
 import core.entities.Libro;
 import core.managers.ManagerLibri;
 import java.io.IOException;
@@ -61,6 +62,8 @@ public class VisualizzaLibroServlet extends HttpServlet {
         else {
             message = "correct";
         }
+        
+        List<Copia> copie;
         
         request.setAttribute("message", message);
         request.setAttribute("libro", libro);

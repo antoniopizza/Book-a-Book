@@ -95,20 +95,17 @@
                                                     for (Autore aut : autori) {
                                                         if(i==0) {
                                                 %>
-                                                <span class="add-id"><strong>Autori: </strong>
+                                                <span class="add-id"><strong>Autori:</strong>
                                                     
                                                 <%
                                                         }
                                                         else {
                                                 %>
-                                                <span class="add-id"><strong style="color:rgba(0, 0, 0, 0);">Autori: </strong>
+                                                <span class="add-id"><strong style="color:rgba(0, 0, 0, 0);"></strong>
                                                 <%
                                                         }
                                                 %>
-
-                                                <%=aut.getNome()%>  
-                                                
-                                                
+                                                <%=aut.getNome()%>
                                             </span>
                                                 <%
                                                     i++;
