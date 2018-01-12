@@ -69,6 +69,7 @@ public class ManagerPrenotazione {
     public Prenotazione visualizzaPrenotazione(int idPrenotazione){
         PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAO();
         Prenotazione prenotazione = prenotazioneDAO.doRetriveById(idPrenotazione);
+        
         return prenotazione;
     }
 
