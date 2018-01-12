@@ -67,6 +67,7 @@ public class CercaDipendenteServlet extends HttpServlet {
             message = "Nessun dato corrispondente al criterio selezionato.";
         } else {
             message = "correct";
+            request.setAttribute("listaDipendenti", listaDipendenti);
         }
         
         request.setAttribute("message", message);

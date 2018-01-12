@@ -65,6 +65,7 @@ public class RicercaRegistratiServlet extends HttpServlet {
             message = "Nessun dato corrispondente al criterio selezionato.";
         } else {
             message = "correct";
+            request.setAttribute("listaUtenti", listaUtenti);
         }
         
         request.setAttribute("message", message);
