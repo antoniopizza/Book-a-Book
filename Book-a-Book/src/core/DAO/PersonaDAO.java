@@ -23,6 +23,7 @@ import java.util.List;
  * @author mirko
  */
 public class PersonaDAO extends AbstractDAO<Persona>{
+    private final String doDeleteQuery = "DELETE FROM Persona WHERE id = ?";
     private final String doRetriveByEmailQuery = "SELECT * FROM Persona WHERE email = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Persona WHERE id = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Persona";
@@ -238,6 +239,29 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             return -1;
         }
          
+    }
+    
+    public int doDelete(Persona persona) {
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setInt(1, persona.getId());
+
+            try {
+                prst.execute();
+                return 0;
+            } catch (SQLException e) {
+                con.rollback();
+            } finally {
+                prst.close();
+                con.commit();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException e) {
+            return -1;
+        }
+        return 0;
     }
     
 }

@@ -32,13 +32,14 @@ public class AccountDAOTest {
     public static Connection con;
     
     public AccountDAOTest() {
-        account = new Account("stefano-solda@hotmail.com", "ciaone", "ciaone", "Utente");
+        
         
         
     }
     
     @BeforeClass
     public static void setUpClass() throws SQLException {
+        account = new Account("stefano-solda@hotmail.com", "ciaone", "ciaone", "Utente");
         con = DriverManagerConnectionPool.getConnection();
         
     }

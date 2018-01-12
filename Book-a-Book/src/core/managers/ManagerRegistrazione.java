@@ -27,7 +27,7 @@ import java.util.List;
 public class ManagerRegistrazione {
     
     public Persona registra
-        (String nome,String cognome,String email,String numeroDocumento,String via,String citta,String numeroCivico,String password,String pathFoto, String provincia,String CAP,String numeroTelefono){
+       (String nome,String cognome,String email,String numeroDocumento,String via,String citta,String numeroCivico,String password,String pathFoto, String provincia,String CAP,String numeroTelefono){
         PersonaDAO personaDAO = new PersonaDAO();
         AccountDAO accountDAO = new AccountDAO();
         IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
@@ -50,38 +50,31 @@ public class ManagerRegistrazione {
     }
     
         
-    public Biblioteca registra(String isil,String nomeBiblioteca,String nomeBibliotecario,String via,String citta,String numeroCivico,String provincia, String CAP,String email,String password,String pathFoto,String tipo,String cognome,String numeroTelefono){
+    public Biblioteca registra(String isil,String nomeBiblioteca,String via,String citta,String numeroCivico,String provincia, String CAP,String numeroTelefono){
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
-        AccountDAO accountDAO = new AccountDAO();
-        BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
         TelefonoDAO telefonoDAO = new TelefonoDAO();
                 
         Indirizzo indirizzo = new Indirizzo(via, citta, numeroCivico, provincia, CAP);
-        Account account = new Account(email, password, pathFoto, "Bibliotecario");
         Biblioteca biblioteca = new Biblioteca(isil, nomeBiblioteca, "In Sospeso", indirizzo, null);
-        Bibliotecario bibliotecario = new Bibliotecario("In Sospeso","Responsabile",biblioteca,nomeBibliotecario,cognome,account);
         Telefono telefono = new Telefono("+39", numeroTelefono, null, biblioteca);
         //System.out.println(""+ account.toString());
-        indirizzoDAO.doInsert(indirizzo);
-        
-        accountDAO.doInsert(account);
+        indirizzoDAO.doInsert(indirizzo);        
         bibliotecaDAO.doInsert(biblioteca);
-        bibliotecarioDAO.doInsert(bibliotecario);
         telefonoDAO.doInsert(telefono);
         
         return biblioteca;
     }
     
     
-    public Bibliotecario registraDipendente(String isil,String nome,String cognome,String email,String password,String path_foto){
+    public Bibliotecario registraDipendente(String isil,String nome,String cognome,String email,String password,String path_foto,String tipo){
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
         AccountDAO accountDAO = new AccountDAO();
         
         Account account = new Account(email, password,path_foto ,"Bibliotecario");
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
-        Bibliotecario bibliotecario = new Bibliotecario("Accettato", "Dipendente", biblioteca,nome, cognome, account);
+        Bibliotecario bibliotecario = new Bibliotecario("Accettato", tipo, biblioteca,nome, cognome, account);
         
         
         accountDAO.doInsert(account);
@@ -110,11 +103,22 @@ public class ManagerRegistrazione {
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(idBiblioteca);
         
         biblioteca.setStatus(change);
-        if(bibliotecaDAO.doInsert(biblioteca)>=0) {
+        if(bibliotecaDAO.doUpdate(biblioteca)>=0) {
             return true;
         } else {
             return false;
         }
  }
+    
+    public Telefono recuperaTelefonoPersona(Persona persona) {
+        TelefonoDAO telefonoDAO = new TelefonoDAO();
+        return telefonoDAO.doRetriveByPersona(persona);
+    }
+    
+    public Telefono recuperaTelefonoBiblioteca(Biblioteca biblioteca) {
+        TelefonoDAO telefonoDAO = new TelefonoDAO();
+        return telefonoDAO.doRetriveByBiblioteca(biblioteca);
+    }
+    
     
 }

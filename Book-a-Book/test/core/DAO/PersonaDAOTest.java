@@ -43,17 +43,18 @@ public class PersonaDAOTest {
     public static int id;
     
     public PersonaDAOTest() {
-       // indirizzoDAO = new IndirizzoDAO();
+      
+    }
+    
+    @BeforeClass
+    public static void setUpClass() throws SQLException {
+         // indirizzoDAO = new IndirizzoDAO();
        // indirizzo = new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042");
        // indirizzoDAO.doInsert(indirizzo);
        // account = new Account("stefasolda@gmail.com", "ciaone", "isfhwfn", "Utente");
        // accountDAO = new AccountDAO();
        // accountDAO.doInsert(account);
         persona = new Persona("123456", new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042"), "Stefano", "Soldà", new Account("stefasolda@gmail.com", "ciaone", "ciaone", "Utente"));
-    }
-    
-    @BeforeClass
-    public static void setUpClass() throws SQLException {
         con = DriverManagerConnectionPool.getConnection();
     }
     

@@ -50,16 +50,16 @@ public class AdminDAO extends AbstractDAO<Admin>{
                 
                 if (rs.next()) {
                     AccountDAO account = new AccountDAO();
-                    Account account2 = account.doRetriveById(rs.getString("email"));
-                    
-                    admin = new Admin(rs.getString("nome"), rs.getString("cognome"), account2);
+                    Account account2 = account.doRetriveById(rs.getString("email"));                   
+                    admin = new Admin(rs.getString("nome"), rs.getString("cognome"), account2,idAdmin);
                 }
                 rs.close();
                 return admin;
 
             } catch (SQLException e) {
                 con.rollback();
-                
+                e.printStackTrace();
+                return null;
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -69,7 +69,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
             ex.printStackTrace();
             return null;
         }
-        return admin;
+        
     }
     
     public Admin doRetriveByEmail(String email) {
@@ -85,16 +85,21 @@ public class AdminDAO extends AbstractDAO<Admin>{
                 con.commit();
                 
                 if (rs.next()) {
-                    AccountDAO account = new AccountDAO();
-                    Account account2 = account.doRetriveById(rs.getString("email"));
                     
-                    admin = new Admin(rs.getString("nome"), rs.getString("cognome"), account2);
+                    AccountDAO account = new AccountDAO();
+                    Account account2 = account.doRetriveById(rs.getString("email"));                    
+                    admin = new Admin(rs.getString("nome"), rs.getString("cognome"), account2,rs.getInt("id"));
+                    //System.out.println(""+admin);
                 }
+                
                 rs.close();
                 return admin;
+                
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
+                return null;
                 
             } finally {
                 prst.close();
@@ -105,7 +110,6 @@ public class AdminDAO extends AbstractDAO<Admin>{
             ex.printStackTrace();
             return null;
         }
-        return admin;
     }
 
     @Override
@@ -121,8 +125,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
                 Admin admin = null;
                 while (rs.next()) {
                     AccountDAO account = new AccountDAO();
-                    Account account2 = account.doRetriveById(rs.getString("email"));
-                    
+                    Account account2 = account.doRetriveById(rs.getString("email")); 
                     admin = new Admin(rs.getString("nome"), rs.getString("cognome"), account2);
                     admins.add(admin);
                 }
@@ -131,6 +134,8 @@ public class AdminDAO extends AbstractDAO<Admin>{
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
+                return null;
                
             } finally {
                 prst.close();
@@ -141,7 +146,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
             ex.printStackTrace();
             return null;
         }
-       return admins;
+       
     }
 
     @Override

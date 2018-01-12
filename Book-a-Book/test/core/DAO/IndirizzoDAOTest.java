@@ -36,13 +36,14 @@ public class IndirizzoDAOTest {
     public static Indirizzo nuovoIndirizzo;
     
     public IndirizzoDAOTest() {
-        indirizzo = new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042");
-        nuovoIndirizzo = new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030");
+        
     }
     
     @BeforeClass
     public static void setUpClass() throws SQLException {
         con = DriverManagerConnectionPool.getConnection();
+        indirizzo = new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042");
+        nuovoIndirizzo = new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030");
     }
     
     @AfterClass

@@ -88,6 +88,12 @@ public class Bibliotecario extends Utente{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Bibliotecario{" + "status=" + status + ", tipo=" + tipo + ", biblioteca=" + biblioteca + '}';
+    }
+    
     
     
 }

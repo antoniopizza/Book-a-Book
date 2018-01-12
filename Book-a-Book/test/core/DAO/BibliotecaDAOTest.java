@@ -38,15 +38,16 @@ public class BibliotecaDAOTest {
     public static Indirizzo indirizzo;
     
     public BibliotecaDAOTest() {
-        indirizzoDAO = new IndirizzoDAO();
-        indirizzo = new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030");
-        indirizzoDAO.doInsert(indirizzo);
-        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", indirizzo, null);
     }
     
     @BeforeClass
     public static void setUpClass() throws SQLException {
        con = DriverManagerConnectionPool.getConnection();
+       indirizzoDAO = new IndirizzoDAO();
+        indirizzo = new Indirizzo("Via appia", "Pratola Serra", "19", "AV", "83030");
+        indirizzoDAO.doInsert(indirizzo);
+        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", indirizzo, null);
+    
     }
     
     @AfterClass

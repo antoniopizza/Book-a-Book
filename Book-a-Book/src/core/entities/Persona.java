@@ -15,7 +15,6 @@ public class Persona extends Utente{
 
     protected String numDocumento;
     protected Indirizzo indirizzo;
-    protected Telefono telefono;
 
     public Persona() {
         
@@ -30,7 +29,6 @@ public class Persona extends Utente{
         super(nome, cognome, account);
         this.numDocumento = numDocumento;
         this.indirizzo = indirizzo;
-        this.telefono = telefono;
         
     }
 

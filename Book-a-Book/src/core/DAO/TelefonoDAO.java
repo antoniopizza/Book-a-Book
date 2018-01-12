@@ -5,7 +5,9 @@
  */
 package core.DAO;
 
+import core.entities.Biblioteca;
 import core.entities.Indirizzo;
+import core.entities.Persona;
 import core.entities.Telefono;
 import core.utils.DriverManagerConnectionPool;
 import java.sql.Connection;
@@ -22,10 +24,12 @@ import java.util.List;
 public class TelefonoDAO extends AbstractDAO<Telefono>{
     private final String doDeleteQuery = "DELETE FROM Telefono WHERE prefisso = ? AND numero = ? ";
     private final String doRetriveByIdQuery = "SELECT * FROM Telefono WHERE prefisso = ? AND numero = ?";
+    private final String doRetriveByPersonaQuery = "SELECT * FROM Telefono WHERE id_persona = ?";
+    private final String doRetriveByBibliotecaQuery = "SELECT * FROM Telefono WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Telefono";
     private final String doInsertQuery = "INSERT INTO Telefono(prefisso,numero,id_persona,isil)" 
                                             + "VALUES(?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Telefono SET prefisso = ? , numero = ?, id_persona= ? , isil = ? WHERE prefisso = ? AND numero = ?";
+    private final String doUpdateQuery = "UPDATE Telefono SET prefisso = ? , numero = ? WHERE prefisso = ? AND numero = ?";
     /**
      * 
      * @param id[0] si aspetta il prefisso di un numero telefonico, id[1] si aspetta un numero di telefono
@@ -76,16 +80,17 @@ public class TelefonoDAO extends AbstractDAO<Telefono>{
         Telefono telefono = null;
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
+            PreparedStatement prst = con.prepareStatement(doRetriveAllQuery);
             
 
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                if (rs.next()) {
+                while(rs.next()) {
                     PersonaDAO personaDAO = new PersonaDAO();
                     BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
                     telefono = new Telefono(rs.getString("prefisso"), rs.getString("numero"), personaDAO.doRetriveByEmail(rs.getString("id_persona")), bibliotecaDAO.doRetriveById(rs.getString("isil")));
+                    telefoni.add(telefono);
                 }
                 rs.close();
                 return telefoni;
@@ -120,7 +125,6 @@ public class TelefonoDAO extends AbstractDAO<Telefono>{
             } else {            
             prst.setString(1, telefono.getPrefisso());
             prst.setString(2,telefono.getNumero());
-            //Integer id_persona = null;
             prst.setString(3,null);
             prst.setString(4,telefono.getBiblioteca().getIsil());
             }
@@ -149,13 +153,14 @@ public class TelefonoDAO extends AbstractDAO<Telefono>{
         try{
             Connection con = DriverManagerConnectionPool.getConnection();            
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
-            prst.setString(1, telefono.getPrefisso());
-            prst.setString(2,telefono.getNumero());
-            prst.setInt(3,telefono.getPersona().getId());
-            prst.setString(4, telefono.getBiblioteca().getIsil());
-           
-            prst.setString(5,nuovoTelefono.getPrefisso());
-            prst.setString(6, nuovoTelefono.getNumero());
+         
+            prst.setString(1, nuovoTelefono.getPrefisso());
+            prst.setString(2,nuovoTelefono.getNumero());
+            
+            prst.setString(3,telefono.getPrefisso());
+            prst.setString(4, telefono.getNumero());
+                
+            
             try{
                 prst.execute();
                 con.commit();
@@ -175,12 +180,115 @@ public class TelefonoDAO extends AbstractDAO<Telefono>{
         }
         
     }
+    
+    public Telefono doRetriveByPersona(Persona persona) {
+        int id_persona = persona.getId();
+        Telefono telefono = null;
+        
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetriveByPersonaQuery);
+            prst.setInt(1, id_persona);
+            
+
+            try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+                if (rs.next()) {
+                    PersonaDAO personaDAO = new PersonaDAO();
+                    telefono = new Telefono(rs.getString("prefisso"),rs.getString("numero"), persona, null);
+                }
+                rs.close();
+                return telefono;
+
+            } catch (SQLException e) {
+                con.rollback();
+                return null;
+                
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        
+        
+    }
+    
+    public Telefono doRetriveByBiblioteca(Biblioteca biblioteca) {
+        String isil = biblioteca.getIsil();
+        Telefono telefono = null;
+        
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetriveByBibliotecaQuery);
+            prst.setString(1, isil);
+            
+
+            try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+                if (rs.next()) {
+                    BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+                    telefono = new Telefono(rs.getString("prefisso"),rs.getString("numero"), null,biblioteca);
+                }
+                rs.close();
+                return telefono;
+
+            } catch (SQLException e) {
+                con.rollback();
+                return null;
+                
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        
+        
+    }
 
     @Override
     public int doUpdate(Telefono entity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    public int doDelete(Telefono telefono) {
+      try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1, telefono.getPrefisso());
+            prst.setString(2,telefono.getNumero());
+
+            try {
+                prst.execute();
+                return 0;
+            } catch (SQLException e) {
+                con.rollback();
+                e.printStackTrace();
+                return -1;
+            } finally {
+                prst.close();
+                con.commit();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException e) {
+            return -1;
+        }
+        
+    
+    
     }
+    
+}
     
     
 

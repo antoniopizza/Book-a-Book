@@ -9,14 +9,18 @@ import core.DAO.AccountDAO;
 import core.DAO.AdminDAO;
 import core.DAO.BibliotecaDAO;
 import core.DAO.BibliotecarioDAO;
+import core.DAO.IndirizzoDAO;
 import core.DAO.PersonaDAO;
+import core.DAO.TelefonoDAO;
 import core.entities.Account;
 import core.entities.Admin;
 import core.entities.Biblioteca;
 import core.entities.Bibliotecario;
 import core.entities.Indirizzo;
 import core.entities.Persona;
+import core.entities.Telefono;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -39,14 +43,19 @@ public class ManagerAccount {
     
     
     public Bibliotecario modificaDatiPersonali
-        (String vecchiaMail,String email,String provincia,String cap,String via,String numeroCivico,String citta){
+        (String vecchiaMail,String email,String path_foto)
+        {
          BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
          Bibliotecario bibliotecario = bibliotecarioDAO.doRetriveByEmail(vecchiaMail);
+         AccountDAO accountDAO = new AccountDAO();
+         Account account = new Account(email, bibliotecario.getAccount().getPassword(), path_foto, "Bibliotecario");
          
-         bibliotecario.getBiblioteca().setIndirizzo(new Indirizzo(via, citta, numeroCivico, provincia, cap));
+         
+         accountDAO.doUpdateEmail(vecchiaMail, email);
+         accountDAO.doUpdate(account);
+            
          bibliotecario.getAccount().setEmail(email);
-         
-         
+         bibliotecario.getAccount().setPathFoto(path_foto);
          bibliotecarioDAO.doUpdate(bibliotecario);
          
          return bibliotecario;
@@ -54,17 +63,41 @@ public class ManagerAccount {
 
         
     public Persona modificaDatiPersonali
-        (String vecchiaMail,String email, String nome,String cognome,String codiceFiscale,Calendar dataNascita,String provincia,String cap,String via,String numeroCivico,String citta,String recapitoTelefonico,String sesso){
+        (String vecchiaMail,String email, String nome,String cognome,String numDocumento,String provincia,String cap,String via,String numeroCivico,String citta,String recapitoTelefonico,String path_foto){
             PersonaDAO personaDAO = new PersonaDAO();
             Persona persona = personaDAO.doRetriveByEmail(vecchiaMail);
+            IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+            Indirizzo indirizzo = null;
+            AccountDAO accountDAO = new AccountDAO();
+            Account account = new Account(email, persona.getAccount().getPassword(), path_foto, "Persona");
+                    
+            if((indirizzo = indirizzoDAO.doRetriveById(via,citta,numeroCivico)) == null) {
+                indirizzoDAO.doInsert(new Indirizzo(via, citta, numeroCivico, provincia, cap));
+                
+            }
+            
+            accountDAO.doUpdateEmail(vecchiaMail, email);
+            accountDAO.doUpdate(account);
+            
+            
+            
+            
+            TelefonoDAO telefonoDAO = new TelefonoDAO();
+            Telefono telefono = telefonoDAO.doRetriveByPersona(persona);
+            Telefono telefonoNuovo = telefonoDAO.doRetriveByPersona(persona);
+            telefonoNuovo.setNumero(recapitoTelefonico);
+            telefonoDAO.doUpdate(telefono, telefonoNuovo);
             
             persona.setCognome(cognome);
             persona.setNome(nome);
-            persona.setNumDocumento(codiceFiscale);
+            persona.setNumDocumento(numDocumento);
             persona.setIndirizzo(new Indirizzo(via, citta, numeroCivico, provincia, cap));
             persona.getAccount().setEmail(email);
+            persona.getAccount().setPathFoto(path_foto);
             
             personaDAO.doUpdate(persona);
+            
+            
             return persona;
         }
         
@@ -72,18 +105,35 @@ public class ManagerAccount {
     public Admin modificaDatiPersonali(String vecchiaMail,String email,String nome,String cognome){
         AdminDAO adminDAO = new AdminDAO();
         Admin admin = adminDAO.doRetriveByEmail(vecchiaMail);
+        AccountDAO accountDAO = new AccountDAO();
+        
+        accountDAO.doUpdateEmail(admin.getAccount().getEmail(), email);
         
         admin.setNome(nome);
         admin.setCognome(cognome);
         admin.getAccount().setEmail(email);
         
         adminDAO.doUpdate(admin);
+        System.out.println(""+admin.toString());
         return admin;
     }
 
-    public Biblioteca modificaDatiBiblioteca(String isil,String nome,String via,String citta,String numeroCivico){
+    public Biblioteca modificaDatiBiblioteca(String isil,String nome,String via,String citta,String numeroCivico,String numeroTelefono,String provincia,String cap){
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
+        IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+        Indirizzo indirizzo = null;
+        
+        if((indirizzo = indirizzoDAO.doRetriveById(via,citta,numeroCivico)) == null) {
+                indirizzoDAO.doInsert(new Indirizzo(via, citta, numeroCivico, provincia, cap));
+        }
+        
+        
+        TelefonoDAO telefonoDAO = new TelefonoDAO();
+        Telefono telefono = telefonoDAO.doRetriveByBiblioteca(biblioteca);
+        Telefono telefonoNuovo = telefonoDAO.doRetriveByBiblioteca(biblioteca);
+        telefonoNuovo.setNumero(numeroTelefono);
+        telefonoDAO.doUpdate(telefono, telefonoNuovo);
         
         biblioteca.setNome(nome);
         biblioteca.getIndirizzo().setCitta(citta);
@@ -114,8 +164,7 @@ public class ManagerAccount {
     boolean richiestaRimozioneAccount(String isil){
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
-        
-        if(bibliotecaDAO.doDelete(isil) == 0 && bibliotecarioDAO.doDelete(isil) == 0) {
+        if(bibliotecarioDAO.doDelete(isil) == 0 && bibliotecaDAO.doDelete(isil) == 0) {
             return true;
         } else 
             return false;

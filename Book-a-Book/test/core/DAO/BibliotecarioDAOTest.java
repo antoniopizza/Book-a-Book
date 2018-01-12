@@ -41,14 +41,13 @@ public class BibliotecarioDAOTest {
     public static BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
     
     public BibliotecarioDAOTest() {
-        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042"), null);
-        
-        bibliotecaDAO.doInsert(biblioteca);
-        bibliotecario = new Bibliotecario("Accettato", "Dipendente", biblioteca, "Paolo", "Bilotto", new Account("stefasolda@gmail.com", "ciaone", "ciaone", "Utente"));
     }
     
     @BeforeClass
     public static void setUpClass() throws SQLException {
+        biblioteca = new Biblioteca("ITNA02", "Biblioteca di Marigliano", "Accettata", new Indirizzo("Via vincenzo vitale", "Atripalda", "117", "AV", "83042"), null);
+        bibliotecaDAO.doInsert(biblioteca);
+        bibliotecario = new Bibliotecario("Accettato", "Dipendente", biblioteca, "Paolo", "Bilotto", new Account("stefasolda@gmail.com", "ciaone", "ciaone", "Utente"));
         con = DriverManagerConnectionPool.getConnection();
     }
     

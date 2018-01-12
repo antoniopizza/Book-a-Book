@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -68,5 +70,30 @@ public class Telefono {
     public String toString() {
         return "Telefono{" + "prefisso=" + prefisso + ", numero=" + numero + ", persona=" + persona + ", biblioteca=" + biblioteca + '}';
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Telefono other = (Telefono) obj;
+        if (!Objects.equals(this.prefisso, other.prefisso)) {
+            return false;
+        }
+        if (!Objects.equals(this.numero, other.numero)) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    
     
 }
