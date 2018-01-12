@@ -75,11 +75,11 @@
                                         </div>
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-7 col-md-12">
-                                            <div style="position:relative" class="block d-flex">
-                                                <input style="position:absolute" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchData" name="valore" placeholder="Cerca la tua prenotazione">
+                                            <div  class="block d-flex">
+                                                <input style="display:none" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchData" name="valore" placeholder="Cerca la tua prenotazione">
                                             </div>
-                                            <div style="position:relative" class="block d-flex">
-                                                <input style="position:absolute" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchPren" name="valore" placeholder="Cerca la tua prenotazione">
+                                            <div  class="block d-flex">
+                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchPren" name="valore" placeholder="Cerca la tua prenotazione">
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-12">
@@ -132,7 +132,7 @@
                                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= data%></div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
-                                            <a class="btn btn-main" href="/prenotazioni/dettaglio-prenotazione?id=<%=lista.get(i).getId()%>">DETTAGLI</a> 
+                                                <a class="btn btn-main" href="dettaglio-prenotazioni?id=<%=lista.get(i).getId()%>">DETTAGLI</a> 
                                         </div>  
                                         </div>
                                     </div>
