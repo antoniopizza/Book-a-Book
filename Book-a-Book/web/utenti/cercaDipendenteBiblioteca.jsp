@@ -65,8 +65,8 @@
                                         </div>
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-7 col-md-12">
-                                            <div style="position:relative" class="block d-flex">
-                                                <input style="position:absolute" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" name="valore" placeholder="Cerca il dipendente desiderato">
+                                            <div  class="block d-flex">
+                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchDipendente" name="valore" placeholder="Cerca il dipendente desiderato">
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-12">
@@ -96,16 +96,13 @@
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
-                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center">
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             Cognome
                                         </div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             Nome
                                         </div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
-                                            Tipo
-                                        </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
                                             Email
                                         </div>
                                     </div>
@@ -118,7 +115,7 @@
                                         <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= listaDipendenti.get(i).getCognome()%> </div>
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center"> <%= listaDipendenti.get(i).getNome()%></div>
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center"> <%= listaDipendenti.get(i).getAccount().getEmail()%></div>
-                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center">
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
                                                 <a class="btn btn-main" href="EliminaDipendenteServlet">ELIMINA</a> 
                                             </div>  
@@ -135,9 +132,20 @@
 
         <script>
             $(document).ready(function () {
+                $("#select").change(function () {
+                    var str = "";
+                    $("#select option:selected").each(function () {
+                        str += $(this).text();
+                    });
+                });
+                $("#select").change(function () {
+                    $("#searchDipendente").val("");
+                });
+            });
+            
                 function controlloSearch() {
                     var bool = true;
-                    var search = document.getElementById("search");
+                    var search = document.getElementById("searchDipendente");
                     var str = "";
                     $("#select option:selected").each(function () {
                         str += $(this).text();
@@ -150,22 +158,22 @@
                         $("#erroreSearch").text("Il campo non può essere vuoto.");
                     } else if (str == "Per Cognome" && search.value != "") {
                         if (!search.value.match(regexLettere)) {
-                            $("#search").focus();
+                            $("#searchDipendente").focus();
                             $("#erroreSearch").text("Il campo può contenere solo lettere.");
                             bool = false;
                         }
                     } else if (str == "Per Email" && search.value != "") {
                         if (!search.value.match(reEmail)) {
-                            $("#search").focus();
+                            $("#searchDipendente").focus();
                             $("#erroreSearch").text("Il formato dell'email non è corretto.");
                             bool = false;
                         }
                     }
                     if (bool == true) {
-                        $("cerca").submit();
+                        $("cercaDipendente").submit();
                     }
                 }
-            });
+            
         </script>
 
         <%@include file="../skeleton-pages/footer.jsp" %>
