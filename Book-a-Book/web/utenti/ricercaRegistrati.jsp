@@ -66,8 +66,8 @@
                                         </div>
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-7 col-md-12">
-                                            <div style="position:relative" class="block d-flex">
-                                                <input style="position:absolute" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" name="valore" placeholder="Cerca l'utente desiderato">
+                                            <div  class="block d-flex">
+                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchUtenti" name="valore" placeholder="Cerca l'utente desiderato">
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-12">
@@ -97,21 +97,21 @@
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
-                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center">
+                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
                                             Cognome
                                         </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
+                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
                                             Nome
                                         </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
+                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
                                             Tipo
                                         </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             Email
                                         </div>
                                     </div>
                                 </div>
-                                <% 
+                                <%
                                     for (int i = 0; i < listaUtenti.size(); i++) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
@@ -137,43 +137,57 @@
 
         <script>
             $(document).ready(function () {
-                function controlloSearch() {
-                    var bool = true;
-                    var search = document.getElementById("search");
+
+                $("#select").change(function () {
                     var str = "";
                     $("#select option:selected").each(function () {
                         str += $(this).text();
                     });
-                    var regexLettere = /^[a-zA-Z]+$/;
-                    var reEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,3}(?:\.[a-z]{2,3})?)$/i;
-                    document.getElementById("erroreSearch").innerHTML = "";
-                    if (search.value == "") {
+                });
+                $("#select").change(function () {
+                    $("#searchUtenti").val("");
+                });
+
+            });
+
+            function controlloSearch() {
+                var bool = true;
+                var search = document.getElementById("searchUtenti");
+                var str = "";
+                $("#select option:selected").each(function () {
+                    str += $(this).text();
+                });
+                var regexLettere = /^[a-zA-Z]+$/;
+                var reEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,3}(?:\.[a-z]{2,3})?)$/i;
+                document.getElementById("erroreSearch").innerHTML = "";
+                if (search.value == "") {
+                    bool = false;
+                    $("#searchUtenti").focus();
+                    $("#erroreSearch").text("Il campo non può essere vuoto.");
+                } else if (str == "Per Cognome" && search.value != "") {
+                    if (!search.value.match(regexLettere)) {
+                        $("#searchUtenti").focus();
+                        $("#erroreSearch").text("Il campo può contenere solo lettere.");
                         bool = false;
-                        $("#erroreSearch").text("Il campo non può essere vuoto.");
-                    } else if (str == "Per Cognome" && search.value != "") {
-                        if (!search.value.match(regexLettere)) {
-                            $("#search").focus();
-                            $("#erroreSearch").text("Il campo può contenere solo lettere.");
-                            bool = false;
-                        }
-                    } else if (str == "Per Tipo" && search.value != "") {
-                        if (!search.value.match(regexLettere)) {
-                            $("#search").focus();
-                            $("#erroreSearch").text("Il campo può contenere solo lettere.");
-                            bool = false;
-                        }
-                    } else if (str == "Per Email" && search.value != "") {
-                        if (!search.value.match(reEmail)) {
-                            $("#search").focus();
-                            $("#erroreSearch").text("Il formato dell'email non è corretto.");
-                            bool = false;
-                        }
                     }
-                    if (bool == true) {
-                        $("cerca").submit();
+                } else if (str == "Per Tipo" && search.value != "") {
+                    if (!search.value.match(regexLettere)) {
+                        $("#searchUtenti").focus();
+                        $("#erroreSearch").text("Il campo può contenere solo lettere.");
+                        bool = false;
+                    }
+                } else if (str == "Per Email" && search.value != "") {
+                    if (!search.value.match(reEmail)) {
+                        $("#searchUtenti").focus();
+                        $("#erroreSearch").text("Il formato dell'email non è corretto.");
+                        bool = false;
                     }
                 }
-            });
+                if (bool == true) {
+                    $("cercaUtente").submit();
+                }
+            }
+
         </script>
 
         <%@include file="../skeleton-pages/footer.jsp" %>
