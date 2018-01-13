@@ -64,7 +64,7 @@
                                         <a href=""><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a>
                                     </li>
                                     <li>
-                                        <a href="rimozione-account?tipo=persona?email=<%= ((Persona) request.getSession().getAttribute("persona")).getAccount().getEmail()%>"><i class="fa fa-power-off"></i>Rimuovi Account</a>
+                                        <a href="../rimozione-account?tipo=persona&email=<%= ((Persona) request.getSession().getAttribute("persona")).getAccount().getEmail()%>"><i class="fa fa-power-off"></i>Rimuovi Account</a>
                                     </li>
                                 </ul>
                             </div>

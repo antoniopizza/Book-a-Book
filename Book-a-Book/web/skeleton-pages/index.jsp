@@ -23,9 +23,18 @@
             <%
                     request.getSession().removeAttribute("nuovoDipendente");
                 }
+
+                if (request.getSession().getAttribute("rimozioneU") != null) {
+            %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="rimozioneU">
+            <h5 style="color: white;">Account Rimosso con Successo </h5></div>
+            <%
+                    request.getSession().removeAttribute("rimozioneU");
+                }
+
                 List<Biblioteca> richieste = null;
                 if ((Admin) request.getSession().getAttribute("admin") != null) {
-                     richieste = ((new ManagerRegistrazione()).visualizzaRichieste());
+                    richieste = ((new ManagerRegistrazione()).visualizzaRichieste());
                 }
             %>
 
@@ -96,7 +105,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="rimozione-account?tipo=persona?email=<%= ((Persona) request.getSession().getAttribute("persona")).getAccount().getEmail() %>"><i class="fa fa-power-off"></i>Rimuovi Account</a>
+                                        <a href="../profilo/rimozione-account?tipo=persona&email=<%= ((Persona) request.getSession().getAttribute("persona")).getAccount().getEmail()%>"><i class="fa fa-power-off"></i>Rimuovi Account</a>
                                     </li>
                                     <%   } else if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
 
@@ -111,7 +120,7 @@
                                         <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
                                     </li>
                                     <li>
-                                        <a href="registrazione-scelta?tipo=bibliotecario"><i class="fa fa-pencil"></i> Registra Dipendente</a>
+                                        <a href="../registrazione-scelta?tipo=bibliotecario"><i class="fa fa-pencil"></i> Registra Dipendente</a>
                                     </li>
                                     <li>
                                         <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>
@@ -333,6 +342,10 @@
 
             $(document).ready(setTimeout(function () {
                 $("#nuovoDip").hide();
+            }, 3000));
+            
+             $(document).ready(setTimeout(function () {
+                $("#rimozioneU").hide();
             }, 3000));
 
         </script>

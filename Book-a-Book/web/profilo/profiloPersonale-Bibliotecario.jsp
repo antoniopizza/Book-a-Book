@@ -63,7 +63,7 @@
                                         <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
                                     </li>
                                     <li>
-                                        <a href="registrazione-scelta?tipo=bibliotecario"><i class="fa fa-pencil"></i> Registra Dipendente</a>
+                                        <a href="../registrazione-scelta?tipo=bibliotecario"><i class="fa fa-pencil"></i> Registra Dipendente</a>
                                     </li>
                                     <li>
                                         <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>

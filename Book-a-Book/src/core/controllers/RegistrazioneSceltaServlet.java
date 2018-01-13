@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author salva
  */
-@WebServlet(name = "RegistrazioneSceltaServlet", urlPatterns = {"/registrazione/registrazione-scelta"})
+@WebServlet(name = "RegistrazioneSceltaServlet", urlPatterns = {"/registrazione-scelta"})
 public class RegistrazioneSceltaServlet extends HttpServlet {
 
     /**

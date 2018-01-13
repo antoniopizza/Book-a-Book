@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg  navigation">
-                    <a class="navbar-brand" href="index.jsp">
+                    <a class="navbar-brand" href="../skeleton-pages/index.jsp">
                         <img src="../template/images/logo-with-name.png" alt="" height="38">
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,10 +30,10 @@
                             <%
                                 if ((Persona) request.getSession().getAttribute("persona") == null && (Bibliotecario) request.getSession().getAttribute("bibliotecario") == null && (Admin) request.getSession().getAttribute("admin") == null ) {%>
                             <li class="nav-item">
-                                <a class="nav-link login-button" href="index.jsp">Accedi</a>
+                                <a class="nav-link login-button" href="../skeleton-pages/index.jsp">Accedi</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link add-button" href="#"><i class="fa fa-plus-circle"></i> Registrati</a>
+                                <a class="nav-link add-button" href="../registrazione/scelta-registrazione.jsp"><i class="fa fa-plus-circle"></i> Registrati</a>
                             </li>
 
                             <% } else if ((Persona) request.getSession().getAttribute("persona") != null) {

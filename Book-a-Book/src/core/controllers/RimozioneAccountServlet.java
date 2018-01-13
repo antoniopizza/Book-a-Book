@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author salva
  */
-@WebServlet(name = "RimozioneAccountServlet", urlPatterns = {"/profilo/rimozione-account"})
+@WebServlet(name = "RimozioneAccountServlet", urlPatterns = {"/rimozione-account"})
 public class RimozioneAccountServlet extends HttpServlet {
 
     /**
@@ -37,6 +37,8 @@ public class RimozioneAccountServlet extends HttpServlet {
         ManagerAccount manager = new ManagerAccount();
         String url = "";
         if (request.getParameter("tipo").equals("persona")) {
+            
+            System.err.println("Vaffanculo gianfranco!!"+request.getParameter("email"));
 
             manager.rimozioneAccountUtente(request.getParameter("email"));
 
@@ -44,11 +46,13 @@ public class RimozioneAccountServlet extends HttpServlet {
 
                 request.getSession().removeAttribute("persona");
             }
-            url = "skeleton-pages/index.jsp";
+            url = "/skeleton-pages/index.jsp";
+            request.getSession().setAttribute("rimozioneU", "true");
 
         } else if (request.getParameter("tipo").equals("biblioteca")) {
 
             manager.richiestaRimozioneAccount(request.getParameter("isil"));
+            url = "/skeleton-pages/index.jsp";
         }
 
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
