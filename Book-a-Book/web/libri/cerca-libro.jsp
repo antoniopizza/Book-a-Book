@@ -1,8 +1,9 @@
+<%@page import="core.entities.Bibliotecario"%>
 <%@page import="core.entities.Autore"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="core.entities.Libro"%>
-<% String nomePagina = "Lista";
+<% String nomePagina = "Risultati Ricerca";
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -46,6 +47,8 @@
 
                             <%
                                 List<Libro> libri;
+                                List<Integer> disponibili;
+                                Bibliotecario bibliotecario = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
                                 String message = (String) request.getAttribute("message");
                                 if (!message.equals("correct")) {
 
@@ -56,6 +59,8 @@
 
                                 libri = new ArrayList<>();
                                 libri = (ArrayList<Libro>) request.getAttribute("libri");
+                                disponibili = new ArrayList<Integer>();
+                                disponibili = (ArrayList<Integer>) request.getAttribute("disponibili");
                             %>
 
                             <table class="table table-responsive product-dashboard-table">
@@ -74,6 +79,7 @@
                                         });
                                     </script>
                                     <%
+                                        int dispCounter = 0;
                                         for (Libro book : libri) {
                                             List<Autore> autori = book.getAutori();
                                     %>
@@ -113,18 +119,38 @@
                                                 %>
                                                 
                                             <span><strong>Editore: </strong><%= book.getEditore()%></span>
+                                            <%
+                                                if(disponibili.get(dispCounter) == 0) {
+                                                %>
+                                            <span style="color:red;"><strong>Disponibilità: </strong>Non disponibile</span>
+                                            <%
+                                                }
+                                                else {
+                                            %>
+                                                <span style="color:green;"><strong>Disponibilità: </strong>Disponibile</span>
+                                            <%
+                                                }
+                                            %>
 
                                         </td>                                       
                                         <td class="action" data-title="Action">
                                             <div class="">
                                                 <form action="<%=application.getContextPath()%>/libri/visualizza-libro" method="GET">
                                                     <input type="hidden" name="isbn" value="<%= book.getIsbn()%>">
+                                                    <%
+                                                        if(bibliotecario!=null) {
+                                                    %>
+                                                    <input type="hidden" name="isil" value="<%= bibliotecario.getBiblioteca().getIsil() %>">
+                                                    <%
+                                                    }
+                                                    %>
                                                     <button class="btn btn-main">Dettagli</button>
                                                 </form>
                                             </div>
                                         </td>
                                     </tr>                                   
                                     <%
+                                        dispCounter++;
                                         }
                                     %>
                                 </tbody>

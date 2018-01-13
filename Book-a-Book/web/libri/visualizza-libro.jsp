@@ -1,9 +1,21 @@
+<%@page import="core.entities.Persona"%>
+<%@page import="core.entities.Bibliotecario"%>
 <%@page import="java.util.List"%>
 <%@page import="core.entities.Autore"%>
 <%@page import="core.entities.Libro"%>
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
-<% String nomePagina = "Skeleton";
+<%
+    int copieDisponibili = (int) request.getAttribute("numCopieDisponibili");
+    String nomePagina;
+    Libro book;
+    book = (Libro) request.getAttribute("libro");
+    String message = (String) request.getAttribute("message");
+    if (!message.equals("correct")) {
+        nomePagina = "Libro non trovato";
+    } else {
+        nomePagina = book.getTitolo();
+    }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -46,18 +58,14 @@
                             <h3 class="widget-header"></h3>
 
                             <%
-                                Libro book;
-                                String message = (String) request.getAttribute("message");
-
                                 if (!message.equals("correct")) {
                             %>
                             <h3><%=message%></h3> <!-- Se c'è un errore, stampa il messaggio -->
                             <%
                             } else {
-                                book = (Libro) request.getAttribute("libro");
-
                             %>
                             <h3></h3>
+
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -129,10 +137,53 @@
                                                     <td><strong>Editore:</strong></td>
                                                     <td align="right"><p><%= book.getEditore()%></p></td>
                                                 </tr>
+                                                <tr>
+                                                    <td><strong>Disponibilità:</strong></td>
+                                                    <% 
+                                                    if(copieDisponibili>0) {
+                                                    %>
+                                                    <td align="right"><p style="color:green;">Disponibile</p></td>
+                                                    <%
+                                                    }
+                                                    else {
+                                                    %>
+                                                    <td align="right"><p style="color:red;">Non disponibile</p></td>
+                                                    <%
+                                                    }    
+                                                    %>
+                                                </tr>
                                             </table>
+
+                                            <%
+                                                if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
+                                                    //SEZIONE VISUALIZZATA SOLO SE BIBLIOTECARIO LOGGATO
+                                            %>
+                                            <br/>
+                                            <h3>Operazioni:</h3>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-md-12" align="center">
+
+                                                    <form action="#" method="GET">
+                                                        <input type="hidden" name="isbn" value="">
+                                                        <button class="btn btn-main">Elimina libro</button>
+                                                    </form>
+                                                    <br/>
+                                                    <form action="#" method="GET">
+                                                        <input type="hidden" name="isbn" value="">
+                                                        <button class="btn btn-main">Gestisci copie</button>
+                                                    </form>
+                                                    <br/>
+                                                    <form action="#" method="GET">
+                                                        <input type="hidden" name="isbn" value="">
+                                                        <button class="btn btn-main">Prenota</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <%
+                                                }
+                                            %>
                                         </div>
-
-
                                     </div>
 
                                 </div>
@@ -148,15 +199,142 @@
                                     </div>
                                 </div>
                             </div>
-                            <% }%>
 
+                            <%
+                                if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") == null) {
+                                    //SEZIONE VISUALIZZATA SOLO SE BIBLIOTECARIO NON LOGGATO
+                            %>
+                            <!-- div tabella biblioteche -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="advance-search">
+                                        <form action="#" id="search-form-biblioteca" method="GET">
+                                            <div class="row">
+                                                <!-- Ricerca biblioteca -->
+                                                <div class="col-lg-1"></div>
+                                                <div class="col-lg-2 col-md-12">
+                                                    <select class="form-control mb-2 mr-sm-2 mb-sm-0" name="criterio">
+                                                        <option>Filtro 1</option>
+                                                        <option>Filtro 2</option>
+                                                        <option>Filtro 3</option>
+                                                        <option>Filtro N</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
+                                                    <div class="block d-flex">
+                                                        <input type="text" minlength="2" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search-main" placeholder="Cerca il tuo libro" name="searchKey" required>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-md-12">
+                                                    <div class="block d-flex">
+                                                        <!-- Search Button -->
+                                                        <input type="submit" class="btn btn-main" value="CERCA">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1"></div>
+                                            </div>
+                                        </form>
+                                        <script>
+                                            $("#search-form-main").submit({
+                                            var text = $("#search-main").val().toString();
+                                            if (text.match("/^.{2,}$/")){
+                                            return true;
+                                            } else {
+                                            alert("Inserire almeno 2 caratteri");
+                                            $("#search-main").focus();
+                                            return false;
+                                            }
+                                            });
+                                        </script>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                    <table class="table table-hover">
+                                        <thead align="center">
+                                            <tr>
+                                                <th>
+                                                    ISIL
+                                                </th>
+                                                <th>
+                                                    Nome
+                                                </th>
+                                                <th>
+                                                    Indirizzo
+                                                </th>
+                                                <th>
+                                                    Copie disponibili
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody align="center">
+                                            <tr>
+                                                <td>
+                                                    IT-123
+                                                </td>
+                                                <td>
+                                                    Biblioteca Atripalda
+                                                </td>
+                                                <td>
+                                                    Via Manfredi 6, Atripalda
+                                                </td>
+                                                <td>
+                                                    15
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    IT-321
+                                                </td>
+                                                <td>
+                                                    Biblioteca Svevo
+                                                </td>
+                                                <td>
+                                                    Via Roma 21, Nocera Inferiore
+                                                </td>
+                                                <td>
+                                                    31
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                            <%
+                                if((Persona) request.getSession().getAttribute("persona") != null) {
+                                %>
+                            <div class="row">
+                                <div class="col-lg-10"></div>
+                                <div class="col-lg-2">
+                                    <form action="#" method="GET">
+                                        <input type="hidden" name="isil" value="">
+                                        <input type="hidden" name="isbn" value="">
+                                        <button class="btn btn-main">Prenota</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <%  
+                                    }
+                                }
+                            %>
 
 
                         </div>
+
+                        <% }%>
+
+
+
                     </div>
                 </div>
 
-            </div>
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>

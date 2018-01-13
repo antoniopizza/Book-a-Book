@@ -9,13 +9,16 @@ import core.DAO.BibliotecaDAO;
 import core.DAO.BibliotecaDAOStub;
 import core.DAO.LibroDAO;
 import core.DAO.PosizioneDAO;
+import core.entities.Biblioteca;
+import core.entities.Copia;
 import core.entities.Libro;
+import core.entities.Posizione;
 import core.managers.ManagerLibri;
 import core.utils.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -81,8 +84,40 @@ public class CercaLibroServlet extends HttpServlet {
             message = "correct";
         }
         
+        List<Biblioteca> biblioteche = bibliotecaDAO.doRetriveAll();
+        List<Integer> disponibili = new ArrayList<Integer>();
+        for(Libro l : libri) {
+            List<Posizione> posizioniTotali = new ArrayList<>();
+
+            for(Biblioteca b : biblioteche) {
+                List<Posizione> pos = (List<Posizione>) managerLibri.visualizzaPosizioniLibro(l.getIsbn(), b.getIsil());
+                posizioniTotali.addAll(pos);
+                //System.out.println("Aggiunte da: " + b.getIsil());
+            }
+            //System.out.println("Num posizioni:" + posizioniTotali.size());
+
+            List<Copia> copieTotali = new ArrayList<>();
+            for(Posizione p : posizioniTotali) {
+                List<Copia> copie = p.getCopie();
+                for(Copia c : copie) {
+                    if(c.getLibro().getIsbn().equals(l.getIsbn())) {
+                        if(c.getStatus().equals("Non Prenotato")) {
+                            copieTotali.add(c);
+                        }
+                    }
+                }
+            }
+            if(copieTotali.size() == 0) {
+                disponibili.add(0);
+            }
+            else {
+                disponibili.add(1);
+            }
+        }
+        
         request.setAttribute("message", message);
         request.setAttribute("libri", libri);
+        request.setAttribute("disponibili", disponibili);
         
         RequestDispatcher dispatcher = request.getRequestDispatcher("cerca-libro.jsp");
         dispatcher.forward(request, response);
