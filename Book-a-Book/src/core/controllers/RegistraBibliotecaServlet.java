@@ -6,6 +6,7 @@
 package core.controllers;
 
 import core.entities.Biblioteca;
+import core.entities.Bibliotecario;
 import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,9 +76,9 @@ public class RegistraBibliotecaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            
-        ManagerRegistrazione mr = new ManagerRegistrazione();
         
+        ManagerRegistrazione mr = new ManagerRegistrazione();
+
         //Dati Biblioteca
         String isil = request.getParameter("isil");
         String nomeBiblioteca = request.getParameter("nomeBiblioteca");
@@ -87,24 +88,23 @@ public class RegistraBibliotecaServlet extends HttpServlet {
         String numeroCivico = request.getParameter("civico");
         String CAP = request.getParameter("cap");
         String numero = request.getParameter("numero");
-        
+
         //Dati Bibliotecario
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String nomeBibliotecario = request.getParameter("nomeBibliotecario");
         String cognome = request.getParameter("cognome");
-        String tipo = request.getParameter("tipo");
+     
         String pathFoto = request.getParameter("foto");
- 
-               
-      
-      Biblioteca biblioteca = mr.registra(isil, nomeBiblioteca, nomeBibliotecario, via, citta, numeroCivico, provincia, CAP, email, password, pathFoto, tipo, cognome,numero);
+        
+        Biblioteca biblioteca = mr.registra(isil, nomeBiblioteca, via, citta, numeroCivico, provincia, CAP, numero);
+        Bibliotecario bibliotecario = mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password, pathFoto, "Responsabile");
        
        
-       request.getSession().setAttribute("biblioteca", biblioteca);
-       
-       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
-       dispatcher.forward(request, response);
+        request.getSession().setAttribute("bibliotecario", bibliotecario);
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**

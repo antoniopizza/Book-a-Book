@@ -26,8 +26,8 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
     private final String doDeleteQuery = "DELETE FROM Biblioteca WHERE isil = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Biblioteca WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";
-    private final String doInsertQuery = "INSERT INTO Biblioteca(isil,nome,status,via,citta,civico,id_admin)" 
-                                            + "VALUES(?,?,?,?,?,?,?);";
+    private final String doInsertQuery = "INSERT INTO Biblioteca(isil,nome,status,via,citta,civico)" 
+                                            + "VALUES(?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Biblioteca SET  nome = ?, status = ?, via = ?, citta = ?, civico = ? WHERE isil = ?";
     /**
      * 
@@ -52,8 +52,11 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                 AdminDAO adminDAO = new AdminDAO();
                 Indirizzo indirizzoB = null;
                 if (rs.next()) {
-                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico")),adminDAO.doRetriveById(rs.getInt("id_admin")));
-                    
+                    if((rs.getString("id_admin") == null)) {
+                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico")),null);
+                    } else {
+                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico")),adminDAO.doRetriveById(rs.getInt("id_admin"))); 
+                    }
                 }
                 rs.close();
                 return biblioteca;
@@ -93,9 +96,13 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                     //System.err.println("Voglio le biblio mlmlmlmlml");
                     Biblioteca biblioteca = null;
                     Indirizzo indirizzo = indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico"));
-                    System.out.println(""+indirizzo);
-                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,adminDAO.doRetriveById(rs.getString("id_admin")));
-                    System.out.println(""+biblioteca);
+                    //System.out.println(""+indirizzo);
+                    if((rs.getString("id_admin") == null)) {
+                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,null);
+                    //System.out.println(""+biblioteca);
+                    } else {
+                        biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,adminDAO.doRetriveById(rs.getString("id_admin")));
+                    }
                     biblioteche.add(biblioteca);
                 }
                 rs.close();
@@ -128,8 +135,8 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             prst.setString(4,biblioteca.getIndirizzo().getVia());
             prst.setString(5,biblioteca.getIndirizzo().getCitta());
             prst.setString(6, biblioteca.getIndirizzo().getCivico());
-            prst.setInt(7, biblioteca.getAdmin().getId());
-            System.out.println(""+biblioteca.toString());
+            
+           // System.out.println(""+biblioteca.toString());
             
             
            

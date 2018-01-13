@@ -75,8 +75,8 @@ public class ManagerAccountTest {
         persona = new Persona("123456", indirizzoPers, "Stefano", "rossi", account);
         personaMod = new Persona("123456", indirizzoPers, "CiaoneBello", "rossi", account);
         bibliotecaDAO = new BibliotecaDAO();
-        biblioteca = new Biblioteca("ITAN34", "Cicciono", "In Sospeso", indirizzoBiblio, admin);
-        bibliotecaMod = new Biblioteca("ITAN34", "Ciccionina", "In Sospeso", indirizzoBiblio, admin);
+        biblioteca = new Biblioteca("ITAN34", "Cicciono", "In Sospeso", indirizzoBiblio, null);
+        bibliotecaMod = new Biblioteca("ITAN34", "Ciccionina", "In Sospeso", indirizzoBiblio, null);
         bibliotecarioDAO = new BibliotecarioDAO();
         dipendente = new Bibliotecario("Accettato", "Dipendente", biblioteca, "Mario", "Rossi",accountDip);
         telefonoBiblio = new Telefono("+39", "3463202474", null, biblioteca);
@@ -177,8 +177,6 @@ public class ManagerAccountTest {
         ManagerAccount instance = new ManagerAccount();
         Admin expResult = admin;
         Admin result = instance.modificaDatiPersonali(vecchiaMail, email,admin.getNome(),admin.getCognome());
-        biblioteca.setAdmin(admin);
-        bibliotecaMod.setAdmin(admin);
         //System.out.println(""+admin);
         assertEquals(expResult, result);
         

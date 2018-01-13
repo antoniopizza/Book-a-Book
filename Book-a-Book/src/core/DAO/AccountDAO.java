@@ -198,6 +198,8 @@ public class AccountDAO extends AbstractDAO<Account> {
                 return 0;
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
+                return -1;
             } finally {
                 prst.close();
                 con.commit();
@@ -207,7 +209,7 @@ public class AccountDAO extends AbstractDAO<Account> {
         } catch (SQLException e) {
             return -1;
         }
-        return 0;
+        
     }
 
     public List<Account> doRetrivePersoneAndBibliotecari() {

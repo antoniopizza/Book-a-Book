@@ -80,7 +80,6 @@ public class RegistraUtenteServlet extends HttpServlet {
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String confermaPassword = request.getParameter("confermapass");
         String nome = request.getParameter("nome");
         String cognome = request.getParameter("cognome");
         String numeroDocumento = request.getParameter("documento");

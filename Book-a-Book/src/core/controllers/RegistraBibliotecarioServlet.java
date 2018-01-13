@@ -42,7 +42,7 @@ public class RegistraBibliotecarioServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegistrazioneBibliotecarioServlet</title>");            
+            out.println("<title>Servlet RegistrazioneBibliotecarioServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet RegistrazioneBibliotecarioServlet at " + request.getContextPath() + "</h1>");
@@ -77,10 +77,9 @@ public class RegistraBibliotecarioServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-         ManagerRegistrazione mr = new ManagerRegistrazione();
 
-        
+        ManagerRegistrazione mr = new ManagerRegistrazione();
+
         //Dati Bibliotecario
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -88,15 +87,16 @@ public class RegistraBibliotecarioServlet extends HttpServlet {
         String cognome = request.getParameter("cognome");
         String path_foto = request.getParameter("foto");
         String isil = request.getParameter("isil");
-       
-        System.out.println("isil="+isil);
-      
-       
+
+        System.out.println("isil=" + isil);
+
+        mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password, path_foto, "Dipendente");
         
-        mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password,path_foto);
-       
-       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
-       dispatcher.forward(request, response);
+
+        request.getSession().setAttribute("nuovoDip", "true");
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
+        dispatcher.forward(request, response);
     }
 
     /**

@@ -6,12 +6,14 @@
 package core.managers;
 
 import core.DAO.AccountDAO;
+import core.DAO.AdminDAO;
 import core.DAO.BibliotecaDAO;
 import core.DAO.BibliotecarioDAO;
 import core.DAO.IndirizzoDAO;
 import core.DAO.PersonaDAO;
 import core.DAO.TelefonoDAO;
 import core.entities.Account;
+import core.entities.Admin;
 import core.entities.Biblioteca;
 import core.entities.Bibliotecario;
 import core.entities.Indirizzo;
@@ -98,12 +100,15 @@ public class ManagerRegistrazione {
     }
     
     
-    public boolean modificaStatoBiblioteca(String idBiblioteca,String change){
+    public boolean modificaStatoBiblioteca(String idBiblioteca,String change,String id_admin){
+        AdminDAO adminDAO = new AdminDAO();
+        Admin admin = adminDAO.doRetriveById(id_admin);
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(idBiblioteca);
-        
+        biblioteca.setAdmin(admin);
         biblioteca.setStatus(change);
         if(bibliotecaDAO.doUpdate(biblioteca)>=0) {
+            
             return true;
         } else {
             return false;

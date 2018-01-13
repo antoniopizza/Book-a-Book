@@ -161,7 +161,7 @@ public class ManagerAccount {
     }
 
     
-    boolean richiestaRimozioneAccount(String isil){
+    public boolean richiestaRimozioneAccount(String isil){
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
         if(bibliotecarioDAO.doDelete(isil) == 0 && bibliotecaDAO.doDelete(isil) == 0) {
@@ -174,8 +174,14 @@ public class ManagerAccount {
     
     
     
-    boolean rimozioneAccountUtente(String email){
+    public boolean rimozioneAccountUtente(String email){
+        TelefonoDAO telefonoDAO = new TelefonoDAO();
+        PersonaDAO personaDAO = new PersonaDAO();
         AccountDAO accountDAO = new AccountDAO();
+        Persona persona = personaDAO.doRetriveByEmail(email);
+        Telefono telefono = telefonoDAO.doRetriveByPersona(persona);
+        telefonoDAO.doDelete(telefono);
+        personaDAO.doDelete(persona);
         if(accountDAO.doDelete(email) == 0) {
             return true;
         } else {

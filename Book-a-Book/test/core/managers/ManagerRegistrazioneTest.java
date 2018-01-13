@@ -41,12 +41,12 @@ public class ManagerRegistrazioneTest {
     
     @BeforeClass
     public static void setUpClass() {
-    persona = new Persona("123456", new Indirizzo("appia", "Atripalda", "117", "NA", "83030"), "Stefano", "rossi", new Account("chicco@chicchettino.com", "Ciaone96", "34567", "23456765"));
-        biblioteca = new Biblioteca("ITAN34", "Cicciono", "In Sospeso", new Indirizzo("via", "citta", "civico", "PR", "83042"), null);
-        dipendente = new Bibliotecario("Accettato", "Dipendente", biblioteca, "Mario", "Rossi", new Account("dipendente@biblio.org", "Ciaone95","bhinjuyi" , "Bibliotecario"));
-        Telefono telefonoBiblio = new Telefono("+39", "3463202474", null, biblioteca);
-        Telefono telefonoPers = new Telefono("+39","3456789091" , persona, null);
-        bibliotecario = new Bibliotecario("In Sospeso", "Responsabile", biblioteca, "Stefano", "Malato", new Account("bibliotecario@gmail.com", "Ciaone95", "5676567", "Bibliotecario"));
+    persona = new Persona("123456", new Indirizzo("appia", "Atripaldi", "117", "NA", "83030"), "Stefano", "rossi", new Account("chicco@chicchettino.com", "Ciaone96", "34567", "23456765"));
+        biblioteca = new Biblioteca("ITAD34", "Ciccionona", "In Sospeso", new Indirizzo("via", "cittta", "civico", "PR", "83042"), null);
+        dipendente = new Bibliotecario("Accettato", "Dipendente", biblioteca, "Mario", "Rossi", new Account("dipenddente@biblio.org", "Ciaone95","bhinjuyi" , "Bibliotecario"));
+        Telefono telefonoBiblio = new Telefono("+39", "3463252474", null, biblioteca);
+        Telefono telefonoPers = new Telefono("+39","3456789991" , persona, null);
+        bibliotecario = new Bibliotecario("In Sospeso", "Responsabile", biblioteca, "Stefano", "Malato", new Account("bibliotecarrio@gmail.com", "Ciaone95", "5676567", "Bibliotecario"));
     }
     
     @AfterClass
@@ -154,7 +154,7 @@ public class ManagerRegistrazioneTest {
         String change = "Accettata";
         ManagerRegistrazione instance = new ManagerRegistrazione();
         boolean expResult = true;
-        boolean result = instance.modificaStatoBiblioteca(idBiblioteca, change);
+        boolean result = instance.modificaStatoBiblioteca(idBiblioteca, change,"1");
         assertEquals(expResult, result);
     }
 
