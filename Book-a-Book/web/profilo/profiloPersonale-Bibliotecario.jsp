@@ -33,7 +33,7 @@
                     request.getSession().removeAttribute("richiestaR");
                 }
             %>
-        %>
+
 
 
 
@@ -66,9 +66,44 @@
                             </div>
                         </div>
                     </div>
-                                    <input type="text" value="<%= request.getParameter("pagina") %>" hidden id="pagina">
-                                    
+                    <input type="text" value="<%= request.getParameter("pagina")%>" hidden id="pagina">
+
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+
+                        <%
+                            if (((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getStatus().equals("Rimuovere")) {
+
+                        %>
+
+                        <div class="widget personal-info" id ="visualizzaDati">
+
+                            <h3 class="widget-header user" id="h3view">Stato della Tua Richiesta di Rimozione</h3>
+                            <p class="widget-header user" >
+                                Lo stato della tua richiesta di rimozione non è stato ancora Controllato.
+                            </p>
+                            <p class="widget-header user" style="color: red;">
+                                In caso venga accettata non ti verrà più permesso di accedere alla nostra piattaforma con queste credenziali.
+                            </p>
+
+                        </div>   
+                        <% } else if (request.getParameter("status") != null ) { %>
+
+
+                        <h3 class="widget-header user" id="h3view">Stato della Tua Richiesta di Registrazione</h3>
+                        <p class="widget-header user" >
+                            Lo stato della tua richiesta di registrazione non è stato ancora Controllato.
+                        </p>
+                        <p class="widget-header user" style="color: green;">
+                            In caso venga accettata non viusalizzerai più questa opzione.
+                        </p>
+                        
+                        <p class="widget-header user" style="color: red;">
+                            In caso non venga accettata non ti verrà più permesso di accedere alla nostra piattaforma con queste credenziali.
+                        </p>
+
+                        <%    } else {
+
+                        %>
 
                         <!-- View Personal Info -->
                         <div class="widget personal-info" id ="visualizzaDati">
@@ -108,6 +143,13 @@
                                 <label for="isil">Isil</label>
                                 <input type="text" class="form-control"  name ="isil"
                                        value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIsil()%>" disabled="true">
+                            </div>
+
+                            <!-- Nome Biblioteca -->
+                            <div class="form-group" id="nome">
+                                <label for="nome-Biblioteca" id="labelName" >Nome Biblioteca</label>
+                                <input type="text" class="form-control"  name ="nomeBiblioteca" disabled
+                                       value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getNome()%>">
                             </div>
 
                             <!-- Status-->
@@ -170,9 +212,12 @@
                             <% }
                             %>
 
+                            <% if (((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getStatus().equals("Attiva")) { %>
                             <div calss="row">
                                 <input type ="button" class="btn btn-transparent" onClick="modificaDati()" value="Modifca Dati" style="margin-left: 40%" >
                             </div>
+                            <% }%>
+
                         </div>
 
 
@@ -223,6 +268,8 @@
 
                                 %>
 
+                                <h3 class="widget-header user" id="h3mod">Modifica Dati Della Tua Biblioteca</h3>
+
                                 <!-- Nome Biblioteca -->
                                 <div class="form-group" id="nome">
                                     <label for="nome-Biblioteca" id="labelName" >Nome Biblioteca</label>
@@ -231,7 +278,7 @@
                                 </div>
 
                                 <!-- Isil -->
-                                <div class="form-group" >
+                                <div class="form-group" hidden >
                                     <label for="isil">Isil</label>
                                     <input type="text" class="form-control"  name ="isil"
                                            value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIsil()%>">
@@ -324,6 +371,8 @@
 
                         </div>
 
+                        <% }%>
+
                     </div>
                 </div>
             </div>
@@ -341,14 +390,14 @@
             $(document).ready(setTimeout(function () {
                 $("#richiesta").hide();
             }, 3000));
-            
-            if ((document.getElementById("pagina").value)=="modifica") {
-                
+
+            if ((document.getElementById("pagina").value) == "modifica") {
+
                 document.getElementById("visualizzaDati").setAttribute("hidden", "true");
                 document.getElementById("modificaDati").removeAttribute("hidden");
             }
 
-            
+
             function modificaDati() {
 
                 document.getElementById("visualizzaDati").setAttribute("hidden", "true");

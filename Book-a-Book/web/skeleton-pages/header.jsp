@@ -52,7 +52,7 @@
                             </li>
                             <%   } else if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
 
-                            %> <li class="nav-link"> Benvenuta,</li>
+                            %> <li class="nav-link"> Benvenuto,</li>
                             <li class="nav-item dropdown dropdown-slide" style=" display: inline;">
                                 <a class="nav-link" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getNome()%><span> <i class="fa fa-angle-down"></i></span>

@@ -18,7 +18,10 @@
         <%@include file="../skeleton-pages/header.jsp" %>
 
         <%  //admin fittizio 
-            request.getSession().setAttribute("admin", new Admin("Maurizio", "Sarri", new Account("maurizio.sarri@admin.it", "abc", "dasf", "admin")));
+           /* 
+            Admin admin =  new Admin("Maurizio", "Sarri", new Account("maurizio.sarri@admin.it", "abc", "dasf", "admin"));
+            admin.setId(1);
+            request.getSession().setAttribute("admin",admin);*/
         
             
            

@@ -5,6 +5,7 @@
  */
 package core.controllers;
 
+import core.DAO.BibliotecarioDAO;
 import core.managers.ManagerAccount;
 import core.managers.ManagerRegistrazione;
 import java.io.IOException;
@@ -55,20 +56,31 @@ public class RimozioneAccountServlet extends HttpServlet {
 
             man.modificaStatoBiblioteca(request.getParameter("isil"), "Rimuovere", Integer.parseInt(request.getParameter("idAdmin")));
             request.getSession().setAttribute("richiestaR", "true");
+            
+            String email = request.getParameter("email");
+            
+            request.getSession().setAttribute("bibliotecario", (new BibliotecarioDAO().doRetriveByEmail(email))); 
+            
             url = "/profilo/profiloPersonale-Bibliotecario.jsp";
+            
+            
             
 
         } else if (request.getParameter("tipo").equals("biblioteca")) {
             
 
+            
             manager.richiestaRimozioneAccount(request.getParameter("isil"));
 
             if (request.getSession().getAttribute("biliotecario") != null) {
                 request.getSession().removeAttribute("bibliotecario");
             }
-
+            
+        
             request.getSession().setAttribute("rimozioneB", "true");
             url = "/skeleton-pages/index.jsp";
+            
+             
             
         }
 

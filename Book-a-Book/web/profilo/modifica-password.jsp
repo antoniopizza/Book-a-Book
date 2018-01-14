@@ -182,6 +182,14 @@
                                 </div>
 
                             </form>
+                                
+                           <!--     <div class ="row">
+                                    <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0"></div>
+                                    <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+                                        <a class="user-profile " href="" style="color: lightseagreen"> password dimenticata? </a>
+                                    </div>
+                                    
+                                </div> -->
 
                         </div>
                     </div>

@@ -19,7 +19,7 @@
         <%            if (request.getSession().getAttribute("accettata") != null) {
         %>
         <div class="container" style="background-color: #59d659; text-align: center;" id="modifica">
-            <h5 style="color: white;">Biblioteche Confermate</h5></div>
+            <h5 style="color: white;">Biblioteca Confermata</h5></div>
             <%
                     request.getSession().removeAttribute("accettata");
                 }
@@ -110,7 +110,7 @@
                                             <ul class="list-inline justify-content-center">
 
                                                 <li class="list-inline-item">
-                                                    <a  title ="Conferma" class="edit" href="conferma-biblioteca?isil=<%=richieste.get(i).getIsil()%>">
+                                                    <a  title ="Conferma" class="edit" href="conferma-biblioteca?isil=<%=richieste.get(i).getIsil()%>&idAdmin=<%=((Admin) request.getSession().getAttribute("admin")).getId() %>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>		
                                                 </li>
@@ -144,7 +144,7 @@
 
             $(document).ready(setTimeout(function () {
                 $("#modifica").hide();
-            }, 3000));
+            }, 5000));
 
 
         </script>

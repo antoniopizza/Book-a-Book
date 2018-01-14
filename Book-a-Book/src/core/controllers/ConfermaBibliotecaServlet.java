@@ -37,10 +37,11 @@ public class ConfermaBibliotecaServlet extends HttpServlet {
         ManagerRegistrazione manager = new ManagerRegistrazione();
         
         String isil = request.getParameter("isil");
+        int idAdmin = Integer.parseInt( request.getParameter("idAdmin"));
         
-        manager.modificaStatoBiblioteca(isil, "Attiva",1);
+        manager.modificaStatoBiblioteca(isil, "Attiva",idAdmin);
         
-        request.setAttribute("accettata", "true");
+        request.getSession().setAttribute("accettata", "true");
         
          RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/profilo/visualizza-richieste.jsp");
         dispatcher.forward(request, response);
