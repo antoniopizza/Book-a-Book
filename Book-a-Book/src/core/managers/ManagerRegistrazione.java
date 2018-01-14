@@ -76,11 +76,13 @@ public class ManagerRegistrazione {
         
         Account account = new Account(email, password,path_foto ,"Bibliotecario");
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
-        Bibliotecario bibliotecario = new Bibliotecario("Accettato", tipo, biblioteca,nome, cognome, account);
+        Bibliotecario bibliotecario = new Bibliotecario(biblioteca.getStatus(), tipo, biblioteca,nome, cognome, account);
         
         
         accountDAO.doInsert(account);
-        bibliotecarioDAO.doInsert(bibliotecario);
+        
+          bibliotecario.setId(bibliotecarioDAO.doInsert(bibliotecario));
+        
         
         return bibliotecario;
     }
@@ -99,16 +101,49 @@ public class ManagerRegistrazione {
          
     }
     
+      public List<Biblioteca> visualizzaRichiesteRimozione(){
+         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+         List<Biblioteca> listBibliotecaTotale = bibliotecaDAO.doRetriveAll();
+         ArrayList<Biblioteca> listAttesa = new ArrayList<Biblioteca>();
+         for(Biblioteca b: listBibliotecaTotale) {
+             if(b.getStatus().equalsIgnoreCase("Rimuovere")) {
+                 listAttesa.add(b);
+             }
+         }
+         return listAttesa;
+         
+         
+    }
     
-    public boolean modificaStatoBiblioteca(String idBiblioteca,String change,String id_admin){
+    
+    public boolean modificaStatoBiblioteca(String idBiblioteca,String change,int id_admin){
         AdminDAO adminDAO = new AdminDAO();
+        BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
+        List<Bibliotecario> bibliotecari = bibliotecarioDAO.doRetriveAll();
+       
         Admin admin = adminDAO.doRetriveById(id_admin);
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(idBiblioteca);
+        
+        for(Bibliotecario b: bibliotecari){
+            if((b.getBiblioteca().getIsil()).equals(biblioteca.getIsil())){
+                
+               
+                b.setStatus(change);
+                b.getBiblioteca().setStatus(change);
+                b.getBiblioteca().setAdmin(admin);
+                
+                
+                bibliotecarioDAO.doUpdate(b);
+            }
+        }
+        
+         
         biblioteca.setAdmin(admin);
         biblioteca.setStatus(change);
         if(bibliotecaDAO.doUpdate(biblioteca)>=0) {
             
+             
             return true;
         } else {
             return false;

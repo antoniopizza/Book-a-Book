@@ -27,7 +27,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
     private final String doRetriveByIdQuery = "SELECT * FROM Bibliotecario WHERE id = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Bibliotecario";
     private final String doInsertQuery = "INSERT INTO Bibliotecario(nome,cognome,status,email,isil,tipo) VALUES(?,?,?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Bibliotecario SET nome = ?, cognome = ?, status = ?,email = ?, isil = ?, tipo = ? WHERE id = ?";
+    private final String doUpdateQuery = "UPDATE Bibliotecario SET nome = ?, cognome = ?, status = ?,email = ?, tipo = ? WHERE id = ?";
     /**
      * 
      * @param id[0] si aspetta un codice identificativo numerico di un bibliotecario
@@ -135,7 +135,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
                     Biblioteca biblioteca2 = biblioteca.doRetriveById(rs.getString("isil"));
                     Account account2 = account.doRetriveById(rs.getString("email"));
                     
-                    bibliotecario = new Bibliotecario(rs.getString("status"), rs.getString("tipo"),biblioteca2,rs.getString("nome"),rs.getString("cognome"),account2);
+                    bibliotecario = new Bibliotecario(rs.getString("status"), rs.getString("tipo"),biblioteca2, rs.getInt("id"),rs.getString("nome"),rs.getString("cognome"),account2);
                     bibliotecari.add(bibliotecario);
                 }
                 rs.close();
@@ -198,18 +198,18 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
     @Override
     public int doUpdate(Bibliotecario bibliotecario) {
           try{
-            
+            //"UPDATE Bibliotecario SET nome = 1, cognome = 2, status = 3,email = 4, isil = 5, tipo = 6 WHERE id = 7";
             Connection con = DriverManagerConnectionPool.getConnection();            
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
             prst.setString(1, bibliotecario.getNome());
             prst.setString(2,bibliotecario.getCognome());
             prst.setString(3,bibliotecario.getStatus());
+            System.out.println("status biblio in DAO: "+bibliotecario.getStatus());
             prst.setString(4,bibliotecario.getAccount().getEmail());
-            prst.setString(5,bibliotecario.getBiblioteca().getIsil());
-            prst.setString(6, bibliotecario.getTipo());
+            prst.setString(5, bibliotecario.getTipo());
             
-            prst.setInt(7, bibliotecario.getId());
-           
+            prst.setInt(6, bibliotecario.getId());
+           System.out.println("status biblio in DAO: "+ bibliotecario.getId());
             try{
                 prst.execute();
                 con.commit();

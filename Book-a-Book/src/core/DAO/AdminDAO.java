@@ -36,7 +36,7 @@ public class AdminDAO extends AbstractDAO<Admin>{
 
     @Override
     public Admin doRetriveById(Object... id) {
-        int idAdmin = Integer.parseInt((String) id[0]);
+        int idAdmin =  (int) id[0];
         Admin admin = null;
         try {
             Connection con = DriverManagerConnectionPool.getConnection();

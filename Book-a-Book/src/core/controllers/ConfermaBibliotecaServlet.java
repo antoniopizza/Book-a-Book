@@ -38,7 +38,7 @@ public class ConfermaBibliotecaServlet extends HttpServlet {
         
         String isil = request.getParameter("isil");
         
-        manager.modificaStatoBiblioteca(isil, "Attiva",null);
+        manager.modificaStatoBiblioteca(isil, "Attiva",1);
         
         request.setAttribute("accettata", "true");
         

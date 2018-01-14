@@ -18,10 +18,10 @@
         <%@include file="../skeleton-pages/header.jsp" %>
 
         <%  //admin fittizio 
-            request.getSession().setAttribute("admin", new Admin("Maurizio", "Sarri", new Account("maurizio.sarri@admin.it", "dadfa", "dasf", "admin")));
+            request.getSession().setAttribute("admin", new Admin("Maurizio", "Sarri", new Account("maurizio.sarri@admin.it", "abc", "dasf", "admin")));
         
-            // lista di richieste per saperne il numero nella sezione visualizza richieste
-           List<Biblioteca> richieste = ((new ManagerRegistrazione()).visualizzaRichieste());
+            
+           
             
             if (request.getSession().getAttribute("modificato") != null) {
         %>
@@ -57,28 +57,16 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                    <li>
-                                        <a href="dashboard-my-ads.html"><i class="fa fa-user"></i> My Ads</a></li>
-                                    <li>
-                                        <a href="../profilo/visualizza-richieste.jsp"> Visualizza Richieste <span><%= richieste.size() %></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a>
-                                    </li>
-
-                                    <li>
-                                        <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>
-                                    </li>
+                                    <%@include file="../skeleton-pages/menuAdmin.jsp" %>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-
+                        
+                        <input type="text" value="<%= request.getParameter("pagina") %>" hidden id="pagina">
+                        
                         <!-- View Personal Info -->
                         <div class="widget personal-info" id ="visualizzaDati">
 
@@ -141,7 +129,7 @@
                                 <div class="row" id="submit">
 
 
-                                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
 
                                     </div>
 
@@ -151,14 +139,14 @@
                                         <input type="submit" 
                                                class="btn btn-transparent" 
                                                value="Conferma Modifiche"
-                                               style="margin-left: 25%; margin-right: 0%;  background-color: #59d659; border-color: #59d659; color: white;"
+                                               style="width: 100%; text-align: center;  background-color: #59d659; border-color: #59d659; color: white;"
 
                                                >
                                     </div>
 
-                                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                                    <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                         <input type ="button" class="btn btn-transparent" onClick="annulla()" value="Annulla" 
-                                               style="background-color: #ff6347; border-color: #ff6347; color: white;">
+                                               style="background-color: #ff6347; border-color: #ff6347; color: white; width: 100%; text-align: center;">
                                     </div>
 
 
@@ -181,6 +169,13 @@
             $(document).ready(setTimeout(function () {
                 $("#modifica").hide();
             }, 3000));
+
+
+            if ((document.getElementById("pagina").value)=="modifica") {
+                
+                document.getElementById("visualizzaDati").setAttribute("hidden", "true");
+                document.getElementById("modificaDati").removeAttribute("hidden");
+            }
 
 
 

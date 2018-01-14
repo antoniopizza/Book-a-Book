@@ -52,24 +52,13 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                    <li>
-                                        <a href=""><i class="fa fa-user"></i> My Ads</a></li>
-                                    <li>
-                                        <a href=""><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
-                                    </li>
-                                    <li>
-                                        <a href=""><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
-                                    <li>
-                                        <a href=""><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="../rimozione-account?tipo=persona&email=<%= ((Persona) request.getSession().getAttribute("persona")).getAccount().getEmail()%>"><i class="fa fa-power-off"></i>Rimuovi Account</a>
-                                    </li>
+                                    <%@include file="../skeleton-pages/menuPersona.jsp" %>
                                 </ul>
                             </div>
                         </div>
                     </div>
+                                
+                                <input type="text" value="<%= request.getParameter("pagina")%>" id="pagina" hidden>
 
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
 
@@ -259,7 +248,7 @@
                                 <div class="row" id="submit">
 
 
-                                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
 
                                     </div>
 
@@ -269,14 +258,14 @@
                                         <input type="submit" 
                                                class="btn btn-transparent" 
                                                value="Conferma Modifiche"
-                                               style="margin-left: 25%; margin-right: 0%;  background-color: #59d659; border-color: #59d659; color: white;"
+                                               style="width: 100%; text-align: center; background-color: #59d659; border-color: #59d659; color: white;"
 
                                                >
                                     </div>
 
-                                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                                    <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                         <input type ="button" class="btn btn-transparent" onClick="annulla()" value="Annulla" 
-                                               style="background-color: #ff6347; border-color: #ff6347; color: white;">
+                                               style="background-color: #ff6347; border-color: #ff6347; color: white; width: 100%; text-align: center;">
                                     </div>
 
 
@@ -295,11 +284,19 @@
         <%@include file="../skeleton-pages/footer.jsp" %>
 
         <script>
+            
+            
 
             $(document).ready(setTimeout(function () {
                 $("#modifica").hide();
             }, 3000));
 
+            
+            if ((document.getElementById("pagina").value)=="modifica") {
+                
+                document.getElementById("visualizzaDati").setAttribute("hidden", "true");
+                document.getElementById("modificaDati").removeAttribute("hidden");
+            }
 
 
             function modificaDati() {

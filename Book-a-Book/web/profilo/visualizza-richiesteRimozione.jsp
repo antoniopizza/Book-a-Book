@@ -4,9 +4,10 @@
     Author     : salva
 --%>
 
+<%@page import="core.entities.Biblioteca"%>
 <%@page import="java.util.List"%>
 <%@page import="core.managers.ManagerRegistrazione"%>
-<% String nomePagina = "visualizza-richieste";
+<% String nomePagina = "visualizza-richiesteRimozione";
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,14 +17,6 @@
     <body>
         <%@include file="../skeleton-pages/header.jsp" %>
 
-        <%            if (request.getSession().getAttribute("accettata") != null) {
-        %>
-        <div class="container" style="background-color: #59d659; text-align: center;" id="modifica">
-            <h5 style="color: white;">Biblioteche Confermate</h5></div>
-            <%
-                    request.getSession().removeAttribute("accettata");
-                }
-            %>
 
 
 
@@ -59,34 +52,34 @@
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
                         <!-- Recently Favorited -->
                         <div class="widget dashboard-container my-adslist">
-                            <h3 class="widget-header">Richieste </h3>
+                            <h3 class="widget-header">Richieste Rimozione </h3>
                             <table class="table table-responsive product-dashboard-table">
                                 <thead>
-
                                     <tr>
 
                                         <th class= "col-md-10 offset-md-1 col-lg-2 offset-lg-0">Info</th>
                                         <th class="text-center col-md-10 offset-md-1 col-lg-2 offset-lg-0">Action</th>
                                     </tr>
-
                                 </thead>
                                 <tbody>
-                                    <%
-                                        
 
-                                    if (richieste.size() == 0) { %>
-                                <td ><h3> Non Ci Sono Richieste di Registrazioni Presenti!! </h3></td>
+                                    <%                                        if (richiesteR.size() == 0) { %>
+                                <td >
+                                    <h3> Non Ci Sono Richieste di Rimozioni Presenti!! </h3>
+                                </td>
                                 <td>
                                     <a title="Back" class="active" href="../skeleton-pages/index.jsp">
-                                        <i class="fa fa-arrow-circle-left" style="color: #a84e00;"></i>
+                                        <i class="fa fa-arrow-circle-left" style="color: #a84e00; "></i>
                                     </a>
                                 </td>
+
                                 <%    }
 
                                 %>
 
 
-                                <% for (int i = 0; i < richieste.size(); i++) {
+
+                                <% for (int i = 0; i < richiesteR.size(); i++) {
 
 
                                 %>
@@ -94,29 +87,23 @@
                                 <tr>
 
 
-
                                     <td class="product-details">
-                                        <h3 class="title"><%=richieste.get(i).getNome()%></h3>
-                                        <span class="add-id"><strong>Isil:</strong> <%=richieste.get(i).getIsil()%></span>
+                                        <h3 class="title"><%=richiesteR.get(i).getNome()%></h3>
+                                        <span class="add-id"><strong>Isil:</strong> <%=richiesteR.get(i).getIsil()%></span>
 
-                                        <span class="status active" style="color: orange"><strong>Status:</strong><%=richieste.get(i).getStatus()%></span>
-                                        <span class="location"><strong>Location:</strong><%=richieste.get(i).getIndirizzo().getCitta()%>, <%=richieste.get(i).getIndirizzo().getProvincia()%></span>
+                                        <span class="status active" style="color: orange"><strong>Status:</strong><%=richiesteR.get(i).getStatus()%></span>
+                                        <span class="location"><strong>Location:</strong><%=richiesteR.get(i).getIndirizzo().getCitta()%>, <%=richiesteR.get(i).getIndirizzo().getProvincia()%></span>
                                     </td>
 
 
-
-                                    <td  class="action" data-title="Action">
+                                    <td class="action" data-title="Action">
                                         <div class="">
                                             <ul class="list-inline justify-content-center">
 
-                                                <li class="list-inline-item">
-                                                    <a  title ="Conferma" class="edit" href="conferma-biblioteca?isil=<%=richieste.get(i).getIsil()%>">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </a>		
-                                                </li>
+
 
                                                 <li class="list-inline-item">
-                                                    <a title = "Elimina" class="delete" href="rimozione-account?tipo=biblioteca&isil=<%=richieste.get(i).getIsil()%>">
+                                                    <a title="Elimina" class="delete" href="rimozione-account?tipo=biblioteca&isil=<%=richiesteR.get(i).getIsil()%>">
                                                         <i class="fa fa-trash"></i>
                                                     </a>		
                                                 </li>
@@ -139,15 +126,7 @@
 
         <%@include file="../skeleton-pages/footer.jsp" %>
 
-        <!-- Script --> 
-        <script>
 
-            $(document).ready(setTimeout(function () {
-                $("#modifica").hide();
-            }, 3000));
-
-
-        </script>
 
     </body>
 </html>

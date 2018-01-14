@@ -88,7 +88,7 @@ public class RegistraBibliotecarioServlet extends HttpServlet {
         String path_foto = request.getParameter("foto");
         String isil = request.getParameter("isil");
 
-        System.out.println("isil=" + isil);
+       
 
         mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password, path_foto, "Dipendente");
         

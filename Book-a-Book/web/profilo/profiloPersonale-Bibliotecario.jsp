@@ -25,7 +25,15 @@
             <%
                     request.getSession().removeAttribute("modificato");
                 }
+                if (request.getSession().getAttribute("richiestaR") != null) {
             %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="richiesta">
+            <h5 style="color: white;">Richiesta di Rimozione Inviata con Successo</h5></div>
+            <%
+                    request.getSession().removeAttribute("richiestaR");
+                }
+            %>
+        %>
 
 
 
@@ -52,50 +60,14 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                  <%  if (((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getTipo().equals("Responsabile")) {
-                                    %> 
-                                    <li>
-                                        <a href="dashboard-my-ads.html"><i class="fa fa-user"></i> My Ads</a></li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="../registrazione-scelta?tipo=bibliotecario"><i class="fa fa-pencil"></i> Registra Dipendente</a>
-                                    </li>
-                                    <li>
-                                        <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>
-                                    </li>
-                                    <% }
-                                        else if (((Bibliotecario
+                                    <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
 
-                                        ) request.getSession () 
-                                        
-                                        .getAttribute("bibliotecario")).getTipo().equals("Dipendente")) {%>
-
-                                    <li>
-                                        <a href="dashboard-my-ads.html"><i class="fa fa-user"></i> My Ads</a></li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
-
-                                    <li>
-                                        <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>
-                                    </li>
-
-                                    <% } %>
-
-                                   
                                 </ul>
                             </div>
                         </div>
                     </div>
-
+                                    <input type="text" value="<%= request.getParameter("pagina") %>" hidden id="pagina">
+                                    
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
 
                         <!-- View Personal Info -->
@@ -126,10 +98,8 @@
                                        value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getAccount().getPathFoto()%>" disabled="true" >
                             </div>
 
-                            <% if (((Bibliotecario
-
-                                ) request.getSession () 
-                                    .getAttribute("bibliotecario")).getTipo().equals("Responsabile")) {%>
+                            <% if (((Bibliotecario) request.getSession()
+                                        .getAttribute("bibliotecario")).getTipo().equals("Responsabile")) {%>
 
                             <h3 class="widget-header user" id="h3view">I Dati della Tua Biblioteca</h3>
 
@@ -248,10 +218,8 @@
                                            value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getAccount().getPathFoto()%>"  >
                                 </div>
 
-                                <% if (((Bibliotecario
-
-                                    ) request.getSession () 
-                                        .getAttribute("bibliotecario")).getTipo().equals("Responsabile")) {
+                                <% if (((Bibliotecario) request.getSession()
+                                            .getAttribute("bibliotecario")).getTipo().equals("Responsabile")) {
 
                                 %>
 
@@ -278,14 +246,14 @@
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="cap">Provincia</label>
                                             <input type="text" class="form-control" name="provincia" id="provincia"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getProvincia()%>" disabled="true"  pattern="[A-Z]{2,3}$">
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getProvincia()%>" pattern="[A-Z]{2,3}$">
                                         </div>  
 
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
                                             <input type="text" class="form-control" name="citta" id="citta"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>" disabled="true" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>"  >
                                         </div>
                                     </div>
                                     <div class="row">
@@ -293,19 +261,19 @@
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
                                             <input type="text" class="form-control" name="via" id="via"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" disabled="true">
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
                                             <input type="text" class="form-control" name="civico" id="civico"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>" disabled="true" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>"  >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">CAP</label>
                                             <input type="text" class="form-control" name="cap" id="cap"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCap()%>" disabled="true" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCap()%>"  >
                                         </div>    
                                     </div>
 
@@ -329,7 +297,7 @@
                                 <div class="row" id="submit">
 
 
-                                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
 
                                     </div>
 
@@ -339,14 +307,14 @@
                                         <input type="submit" 
                                                class="btn btn-transparent" 
                                                value="Conferma Modifiche"
-                                               style="margin-left: 25%; margin-right: 0%;  background-color: #59d659; border-color: #59d659; color: white;"
+                                               style="width: 100%; text-align: center;  background-color: #59d659; border-color: #59d659; color: white;"
 
                                                >
                                     </div>
 
-                                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
+                                    <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                         <input type ="button" class="btn btn-transparent" onClick="annulla()" value="Annulla" 
-                                               style="background-color: #ff6347; border-color: #ff6347; color: white;">
+                                               style="background-color: #ff6347; border-color: #ff6347; color: white; width: 100%; text-align: center;">
                                     </div>
 
 
@@ -370,8 +338,17 @@
                 $("#modifica").hide();
             }, 3000));
 
+            $(document).ready(setTimeout(function () {
+                $("#richiesta").hide();
+            }, 3000));
+            
+            if ((document.getElementById("pagina").value)=="modifica") {
+                
+                document.getElementById("visualizzaDati").setAttribute("hidden", "true");
+                document.getElementById("modificaDati").removeAttribute("hidden");
+            }
 
-
+            
             function modificaDati() {
 
                 document.getElementById("visualizzaDati").setAttribute("hidden", "true");

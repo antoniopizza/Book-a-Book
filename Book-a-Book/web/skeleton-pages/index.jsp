@@ -18,26 +18,35 @@
 
         <%  if (request.getSession().getAttribute("nuovoDip") != null) {
         %>
-        <div class="container" style="background-color: #59d659; text-align: center;" id="nuovoDip">
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
             <h5 style="color: white;">Nuovo Dipendente Aggiunto con Successo</h5></div>
             <%
-                    request.getSession().removeAttribute("nuovoDipendente");
+                    request.getSession().removeAttribute("nuovoDip");
                 }
 
                 if (request.getSession().getAttribute("rimozioneU") != null) {
             %>
-        <div class="container" style="background-color: #59d659; text-align: center;" id="rimozioneU">
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
             <h5 style="color: white;">Account Rimosso con Successo </h5></div>
             <%
                     request.getSession().removeAttribute("rimozioneU");
                 }
-
-                List<Biblioteca> richieste = null;
-                if ((Admin) request.getSession().getAttribute("admin") != null) {
-                    richieste = ((new ManagerRegistrazione()).visualizzaRichieste());
-                }
+                if (request.getSession().getAttribute("rimozioneB") != null) {
             %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
+            <h5 style="color: white;">Biblioteca Rimossa con Successo </h5></div>
+            <%
+                    request.getSession().removeAttribute("rimozioneB");
+                }
+                if (request.getSession().getAttribute("modificaPass") != null) {
+            %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
+            <h5 style="color: white;">Password Modificata Con Successo </h5></div>
+            <%
+                    request.getSession().removeAttribute("modificaPass");
+                }
 
+            %>
         <!--===============================
         =            Hero Area            =
         ================================-->
@@ -92,73 +101,20 @@
 
                                     <% } else if ((Persona) request.getSession().getAttribute("persona") != null) {
                                     %> 
-                                    <li>
-                                        <a href=""><i class="fa fa-user"></i> My Ads (Persona)</a></li>
-                                    <li>
-                                        <a href=""><i class="fa fa-bookmark-o"></i> Favourite Ads  <span>5</span></a>
-                                    </li>
-                                    <li>
-                                        <a href=""><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
-                                    <li>
-                                        <a href=""><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a>
-                                    </li>
 
-                                    <li>
-                                        <a href="../profilo/rimozione-account?tipo=persona&email=<%= ((Persona) request.getSession().getAttribute("persona")).getAccount().getEmail()%>"><i class="fa fa-power-off"></i>Rimuovi Account</a>
-                                    </li>
+                                    <%@include file="menuPersona.jsp" %>
+
                                     <%   } else if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
+                                    %>
 
-                                        if (((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getTipo().equals("Responsabile")) {
-                                    %> 
-                                    <li>
-                                        <a href="dashboard-my-ads.html"><i class="fa fa-user"></i> My Ads (Biblioteca Resp)</a></li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="../registrazione-scelta?tipo=bibliotecario"><i class="fa fa-pencil"></i> Registra Dipendente</a>
-                                    </li>
-                                    <li>
-                                        <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>
-                                    </li>
-                                    <% } else if (((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getTipo().equals("Dipendente")) {%>
 
-                                    <li>
-                                        <a href="dashboard-my-ads.html"><i class="fa fa-user"></i> My Ads (BibliotecaDip)</a></li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"><i class="fa fa-bookmark-o"></i> Favourite Ads <span>5</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
+                                    <%@include file="menuBibliotecario.jsp" %>
 
-                                    <li>
-                                        <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>
-                                    </li>
 
-                                    <% }
-                                    } else if ((Admin) request.getSession().getAttribute("admin") != null) {
+                                    <% } else if ((Admin) request.getSession().getAttribute("admin") != null) {
 
                                     %> 
-                                    <li>
-                                        <a href="dashboard-my-ads.html"><i class="fa fa-user"></i> My Ads (Admin)</a></li>
-                                    <li>
-                                        <a href="../profilo/visualizza-richieste.jsp"> Visualizza Richieste <span><%= richieste.size()%></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-archived-ads.html"><i class="fa fa-file-archive-o"></i>Archeved Ads <span>12</span></a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-pending-ads.html"><i class="fa fa-bolt"></i> Pending Approval<span>23</span></a>
-                                    </li>
-
-                                    <li>
-                                        <a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>
-                                    </li>
+                                    <%@include file="menuAdmin.jsp" %>
                                     <%                               }
                                     %>
                                 </ul>
@@ -341,12 +297,10 @@
         <script>
 
             $(document).ready(setTimeout(function () {
-                $("#nuovoDip").hide();
+                $("#someThing").hide();
             }, 3000));
+
             
-             $(document).ready(setTimeout(function () {
-                $("#rimozioneU").hide();
-            }, 3000));
 
         </script>
     </body>

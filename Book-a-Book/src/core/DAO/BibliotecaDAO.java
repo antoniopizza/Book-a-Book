@@ -28,7 +28,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";
     private final String doInsertQuery = "INSERT INTO Biblioteca(isil,nome,status,via,citta,civico)" 
                                             + "VALUES(?,?,?,?,?,?);";
-    private final String doUpdateQuery = "UPDATE Biblioteca SET  nome = ?, status = ?, via = ?, citta = ?, civico = ? WHERE isil = ?";
+    private final String doUpdateQuery = "UPDATE Biblioteca SET  nome = ?, status = ?, via = ?, citta = ?, civico = ?, id_admin = ? WHERE isil = ?";
     /**
      * 
      * @param id[0] si aspetta un codice isil per identificare una biblioteca
@@ -101,7 +101,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                     biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,null);
                     //System.out.println(""+biblioteca);
                     } else {
-                        biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,adminDAO.doRetriveById(rs.getString("id_admin")));
+                        biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,adminDAO.doRetriveById(rs.getInt("id_admin")));
                     }
                     biblioteche.add(biblioteca);
                 }
@@ -171,8 +171,9 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             prst.setString(3,biblioteca.getIndirizzo().getVia());
             prst.setString(4,biblioteca.getIndirizzo().getCitta());
             prst.setString(5, biblioteca.getIndirizzo().getCivico());
+            prst.setInt(6, biblioteca.getAdmin().getId());
             
-            prst.setString(6, biblioteca.getIsil());
+            prst.setString(7, biblioteca.getIsil());
             try{
                 prst.execute();
                 con.commit();
