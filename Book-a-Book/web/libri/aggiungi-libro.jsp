@@ -1,6 +1,8 @@
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
-<% String nomePagina = "Aggiunta Libro";
+<%
+    String nomePagina = "Aggiunta Libro";
+    String message = (String) request.getAttribute("message");
 
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -57,7 +59,14 @@
                                             <button type="button" id="verifica-isbn" class="btn btn-main">VERIFICA ISBN</button>
                                         </div>
 
-                                        <p id="isbn-message" class="alert"></p>
+                                        <p id="isbn-message" class="alert">
+                                            <% 
+                                                if(message != null){
+                                                    out.print(message);
+                                                }
+                                            
+                                            %>
+                                        </p>
 
                                         <label>Titolo</label>
                                         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 book-data" name="titolo" id="titolo" disabled>
@@ -228,11 +237,11 @@
                             }
                         }
                     }
-                    
-                    if(ok){
-                         $(".book-data").prop("disabled", false);
+
+                    if (ok) {
+                        $(".book-data").prop("disabled", false);
                     }
-                    
+
                     return ok;
 
                 });

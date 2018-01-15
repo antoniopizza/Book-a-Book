@@ -240,7 +240,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
             System.out.println(prst.toString());
             
             try {
-                prst.executeUpdate();
+                prst.execute();
                 con.commit();
                 return 0;
             }

@@ -8,16 +8,16 @@ package core.controllers;
 import core.DAO.BibliotecaDAOStub;
 import core.DAO.LibroDAO;
 import core.DAO.PosizioneDAO;
-import core.entities.Autore;
 import core.entities.Biblioteca;
+import core.entities.Copia;
 import core.entities.Libro;
+import core.entities.Posizione;
 import core.managers.ManagerLibri;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Enumeration;
 import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author manuel
  */
-@WebServlet(name = "AggiuntaLibroServlet", urlPatterns = {"/libri/aggiunta-libro"})
-public class AggiuntaLibroServlet extends HttpServlet {
+@WebServlet(name = "AggiuntaCopieServlet", urlPatterns = {"/libri/aggiunta-copie"})
+public class AggiuntaCopieServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,55 +43,52 @@ public class AggiuntaLibroServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        ManagerLibri manager = new ManagerLibri(new BibliotecaDAOStub(),new PosizioneDAO(),new LibroDAO());
+        try (PrintWriter out = response.getWriter()) {
 
-        boolean ignore = Boolean.parseBoolean(request.getParameter("ignore"));
-        String isbn = request.getParameter("isbn");
-        String titolo = request.getParameter("titolo");
-        String editore = request.getParameter("editore");
-        String pathFoto = request.getParameter("path_foto");
-        String descrizione = request.getParameter("descrizione");
-        String dataString = request.getParameter("data");
-
-        String[] dataArray = dataString.split("-");
-        GregorianCalendar dataPubblicazione = new GregorianCalendar();
-        dataPubblicazione.set(GregorianCalendar.DAY_OF_MONTH, Integer.parseInt(dataArray[0]));
-        dataPubblicazione.set(GregorianCalendar.MONTH, Integer.parseInt(dataArray[1]));
-        dataPubblicazione.set(GregorianCalendar.YEAR, Integer.parseInt(dataArray[2]));
-
-        List<Autore> autoriList = new ArrayList<>();
-        ManagerLibri manager = new ManagerLibri(new BibliotecaDAOStub(), new PosizioneDAO(), new LibroDAO());
-        Libro book;
-        Biblioteca b = (Biblioteca) request.getSession().getAttribute("biblioteca");
-        RequestDispatcher view;
-
-        if (!manager.visualizzaPosizioniLibro(isbn, b.getIsil()).isEmpty()) {
-            String message = "Libro già presente in biblioteca, DEMENTE !";
-            request.setAttribute("message", message);
-            view = request.getRequestDispatcher("aggiungi-libro.jsp");
-
-        } else {
-
-            if (!ignore) {
-
-                String[] autori = request.getParameterValues("autore");
-                for (String a : autori) {
-                    autoriList.add(new Autore(a));
+            //dati in sessione
+            Biblioteca biblio = (Biblioteca) request.getSession().getAttribute("biblioteca");
+            Libro book = (Libro) request.getSession().getAttribute("libro");
+            
+            int nScaffali = Integer.parseInt(request.getParameter("n-scaffali"));
+            
+            List<Posizione> posizioni = new ArrayList<>();
+            
+            for(int i = 0;i<nScaffali;i++){
+                //definizione scaffale
+                String etichettaScaffale = request.getParameter("etichetta-"+i);
+                int nCopie = Integer.parseInt(request.getParameter("n-copie-"+i));
+                out.print(etichettaScaffale+"<br>");
+                Posizione p = new Posizione(etichettaScaffale);
+                p.setBiblioteca(biblio);
+                                               
+                //definizione delle copie in uno scaffale
+                for(int j= 0; j<nCopie;j++){
+                    String codCopia = request.getParameter("copia-"+i+"-"+j);
+                    out.print(codCopia+"<br>");
+                    Copia c = new Copia(codCopia,Copia.STATUS_NON_PRENOTATO, Copia.DISPONIBILE_SI);
+                    p.addCopia(c);
                 }
-
-                book = manager.aggiuntaLibro(isbn, titolo, editore, dataPubblicazione, descrizione, pathFoto, autoriList);
-
+                
+                posizioni.add(p);
+                
+            }
+            
+            out.print(biblio.getIsil()+"<br>");
+            out.print(book.getIsbn()+"<br>");
+          
+            
+            if(manager.aggiungiLibroBiblioteca(biblio.getIsil(), book, posizioni)){
+                out.print("success");
             } else {
-                book = manager.visualizzaLibro(isbn);
+                out.print("s'è scassato qualcosa");
             }
 
-            request.getSession().setAttribute("libro", book);
-            view = request.getRequestDispatcher("aggiunta-copie.jsp");
         }
-
-        view.forward(request, response);
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
