@@ -47,14 +47,14 @@ public class Posizione {
     public void addCopia(Copia c){
         if(!copie.contains(c)){
             copie.add(c);
-            //c.setPosizione(this);
+            c.setPosizione(this);
         }        
     }
     
     public void removeCopia(Copia c){
         if(copie.contains(c)){
             copie.remove(c);
-            //c.setPosizione(null);
+            c.setPosizione(null);
         }
     }
 

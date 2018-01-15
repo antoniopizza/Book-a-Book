@@ -47,7 +47,7 @@ public class ManagerLibriTest {
     
     public ManagerLibriTest() {
         
-        biblioteca = new BibliotecaDAOStub().doRetriveById("12345");
+        biblioteca = new BibliotecaDAOStub().doRetriveById("IT-321");
         List<Copia> copie = new ArrayList<Copia>();
         
         posizione = new Posizione("Scaffale C");
@@ -249,6 +249,17 @@ public class ManagerLibriTest {
         assertEquals("Le dimensioni delle liste non sono uguali", 2, result.size());
     }
     
-    
+    @Test
+    public void test6xAggiuntaLibroBiblioteca(){
+        Libro b = libroDAO.doRetriveById("9780553103540");
+        ManagerLibri manager = new ManagerLibri(new BibliotecaDAOStub(), posizioneDAO, libroDAO);
+        List<Posizione> posizioni = new ArrayList<>();
+        Posizione p = new Posizione("AR1");
+        Copia c = new Copia("GOT1", Copia.STATUS_NON_PRENOTATO,Copia.DISPONIBILE_SI);
+        p.addCopia(c);
+        posizioni.add(p);
+        boolean result = manager.aggiungiLibroBiblioteca(biblioteca.getIsil(), b, posizioni);
+        assertEquals(true,result);
+    }
     
 }

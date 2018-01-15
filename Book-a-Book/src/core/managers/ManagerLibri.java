@@ -133,7 +133,8 @@ public class ManagerLibri {
                 if ((idAutore = autoreDAO.doInsert(a)) != -1) {
                     a.setId(idAutore);
                 } else {
-                    return null;
+                    book = null;
+                    break;
                 }
             } else {
                 a = retrived;
@@ -156,31 +157,35 @@ public class ManagerLibri {
      * @param isil
      * @param book
      * @param posizioni le posizioni da aggiungere NB devono avere le copie.
-     * @return
+     * @return true se va a buon fine, false altrimenti.
      */
     public boolean aggiungiLibroBiblioteca(String isil, Libro book, Collection<Posizione> posizioni) {
         Biblioteca biblio = bibliotecaDAO.doRetriveById(isil);
+        boolean toReturn = true;
 
         for (Posizione p : posizioni) {
-            p.setBiblioteca(biblio);
+            if (toReturn) {
+                p.setBiblioteca(biblio);
 
-            //inserisco la posizione
-            p = aggiungiPosizione(p.getEtichetta(), isil);
+                //controllo se esiste la posizione
+                if(posizioneDAO.doRetriveById(p.getEtichetta(),biblio.getIsil()) == null){
+                    //se non esiste la inserisco
+                    if (posizioneDAO.doInsert(p) == -1) {
+                        toReturn = false;
+                        break;
+                    }
+                }
 
-            if (p == null || p.getCopie() == null || p.getCopie().isEmpty()) {
-                return false;
-            }
-
-            for (Copia cop : p.getCopie()) {
-                cop.setLibro(book);
-                cop = aggiungiCopia(book.getIsbn(), isil, p.getEtichetta(), cop.getId());
-                if (cop == null) {
-                    return false;
+                for (Copia cop : p.getCopie()) {
+                    cop.setLibro(book);
+                    if (copiaDAO.doInsert(cop) == -1) {
+                        toReturn = false;
+                        break;
+                    }
                 }
             }
-
         }
-        return true;
+        return toReturn;
     }
 
     /**
