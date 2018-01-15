@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
-    private final String doInsertQuery = "INSERT INTO Prenotazione (data_creazione,data_scadenza,data_consegna,id_persona,isil,status,id_copia,isbn) VALUES (?,?,?,?,?,?,?,?)";
+    private final String doInsertQuery = "INSERT INTO Prenotazione (data_creazione, data_scadenza, data_consegna, id_persona, isil, status, id_copia, isbn) VALUES (?,?,?,?,?,?,?,?)";
     private final String doRetriveAllQuery = "SELECT * FROM Prenotazione";
     private final String doRetriveByIdQuery = "SELECT * FROM Prenotazione WHERE id = ? ORDER BY data_consegna DESC ";
     private final String doUpdateQuery = "UPDATE Prenotazione SET data_creazione = ?, data_scadenza = ?, data_consegna = ?, id_persona = ?, isil = ?, status = ?, id_copia = ?, isbn = ? WHERE id = ?";
@@ -161,33 +161,34 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
     @Override
     public int doInsert(Prenotazione prenotazione) {
-
+       
         try {
-            Connection con = null;
-            PreparedStatement stt = null;
-            con = (Connection) DriverManagerConnectionPool.getConnection();
-            stt = con.prepareStatement(doInsertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
-            stt.setDate(1, new Date(prenotazione.getDataCreazione().getTimeInMillis()));
-            stt.setDate(2, new Date(prenotazione.getDataScadenza().getTimeInMillis()));
-            stt.setDate(3, null);
-            stt.setInt(4, prenotazione.getPersona().getId());
-            stt.setString(5, prenotazione.getBiblioteca().getIsil());
-            stt.setString(6, prenotazione.getStatus());
-            stt.setString(7, prenotazione.getCopia().getId());
-            stt.setString(8, prenotazione.getCopia().getLibro().getIsbn());
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement stt = con.prepareStatement(doInsertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
 
             try {
+                stt.setDate(1, new Date(prenotazione.getDataCreazione().getTimeInMillis()));
+                stt.setDate(2, new Date(prenotazione.getDataScadenza().getTimeInMillis()));
+                stt.setDate(3, null);
+                stt.setInt(4, prenotazione.getPersona().getId());
+                stt.setString(5, prenotazione.getBiblioteca().getIsil());
+                stt.setString(6, prenotazione.getStatus());
+                stt.setString(7, prenotazione.getCopia().getId());
+                stt.setString(8, prenotazione.getCopia().getLibro().getIsbn());
                 stt.execute();
                 ResultSet rs = stt.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
+                rs.close();
                 stt.close();
                 con.commit();
                 DriverManagerConnectionPool.releaseConnection(con);
                 return id;
 
             } catch (SQLException e) {
+                e.printStackTrace();
                 con.rollback();
+                return -1;
             } finally {
                 stt.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -195,9 +196,10 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
         } catch (SQLException ex) {
             Logger.getLogger(PrenotazioneDAO.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            return -1;
         }
 
-        return -1;
     }
 
     @Override
