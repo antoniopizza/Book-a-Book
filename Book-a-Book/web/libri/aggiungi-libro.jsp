@@ -254,6 +254,10 @@
                             }
                         }
                     }
+                    
+                    if(!$("#n-autori").val().toString().match(/[0-9]/) || $("#n-autori").val() == ""){
+                       $("#n-autori").addClass("is-invalid").after(invalidFeedback.clone()); 
+                    }
 
                     if (ok) {
                         $(".book-data").prop("disabled", false);
