@@ -5,6 +5,7 @@
  */
 package core.entities;
 
+
 import java.util.List;
 import java.util.Objects;
 
@@ -103,6 +104,7 @@ public class Biblioteca {
         return "Biblioteca{" + "isil=" + isil + ", nome=" + nome + ", status=" + status + ", indirizzo=" + indirizzo + ", admin=" + admin + '}';
     }
 
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -133,6 +135,4 @@ public class Biblioteca {
         return true;
     }
 
-    
-    
 }

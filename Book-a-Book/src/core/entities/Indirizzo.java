@@ -76,7 +76,6 @@ public class Indirizzo {
         return "Indirizzo{" + "via=" + via + ", citta=" + citta + ", civico=" + civico + ", provincia=" + provincia + ", cap=" + cap + '}';
     }
 
-    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -106,8 +105,6 @@ public class Indirizzo {
         }
         return true;
     }
-    
-    
-    
+
         
 }
