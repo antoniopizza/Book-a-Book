@@ -59,12 +59,12 @@
                                             <button type="button" id="verifica-isbn" class="btn btn-main">VERIFICA ISBN</button>
                                         </div>
 
-                                        <p id="isbn-message" class="alert">
-                                            <% 
-                                                if(message != null){
+                                        <p id="isbn-message" class="alert  <% if(message != null) { out.print("alert-danger");}%>">
+                                            <%
+                                                if (message != null) {
                                                     out.print(message);
                                                 }
-                                            
+
                                             %>
                                         </p>
 
@@ -87,15 +87,19 @@
 
                                         <fieldset class="form-group" style="display: none" id="autori">
                                             <legend class="widget-header">Autori</legend>
-                                            <div class="form-group" id="input-autori">
-                                                <label>Autore</label>
-                                                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 author-data" name="autore"/> 
+                                            <div class="form-row form-group">
+                                                <div class="col-6">
+                                                    <label>Quanti autori ha il libro ?</label>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="text"  name="n-autori" id="n-autori" class="form-control mb-2 mr-sm-2 mb-sm-0" />
+                                                </div>
                                             </div>
-                                            <div class="block d-flex">
-                                                <!-- Search Button -->
 
-                                                <button type="button" class="btn btn-main" id="add-autore" >AGGIUNGI AUTORE</button>
+                                            <div class="form-group" id="input-autori">
+
                                             </div>
+
                                         </fieldset>
 
                                         <div class="row">
@@ -126,13 +130,26 @@
 
                 $("#data").datepicker({dateFormat: 'dd-mm-yy'});
 
+                $("#n-autori").keyup(function () {
 
+                    $("#input-autori").html("");
+                    $(".alert-danger").remove();
 
-                $("#add-autore").click(function () {
-                    var label = $("<label></label").text("Autore");
-                    var autoreInput = $("<input/>").attr({type: "text", name: "autore"}).toggleClass("form-control mb-2 mr-sm-2 mb-sm-0 author-data");
-                    $("#input-autori").append(label, autoreInput);
+                    var nAutori = $("#n-autori").val();
+                    if (nAutori.toString().match(/[0-9]/)) {
+                        if (nAutori <= 10) {
+                            for (var i = 0; i < nAutori; i++) {
+                                var label = $("<label></label").text("Autore");
+                                var autoreInput = $("<input/>").attr({type: "text", name: "autore"}).toggleClass("form-control mb-2 mr-sm-2 mb-sm-0 author-data");
+                                $("#input-autori").append(label, autoreInput);
+                            }
+                        } else {
+                            $("#autori").append($("<p></p>").addClass("alert alert-danger").attr({id: "#autori-message"}).text("MA VERAMENTE FAI?"));
+                        }
+                    }
                 });
+
+
 
 
                 $("#verifica-isbn").click(function () {

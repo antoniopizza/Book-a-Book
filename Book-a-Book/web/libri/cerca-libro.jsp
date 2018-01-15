@@ -71,13 +71,7 @@
                                         <th class="text-center">Azioni</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <script>
-                                        $( "img" )
-                                        .on("error", function() {
-                                        $( this ).attr( "src", "images/defaultBook.png" );
-                                        });
-                                    </script>
+                                <tbody>                                   
                                     <%
                                         int dispCounter = 0;
                                         for (Libro book : libri) {
@@ -87,50 +81,48 @@
 
                                     <tr>
                                         <td class="product-thumb">
-                                            
-                                            
+
+
                                             <img style="width:150px; height:auto" src="<%=book.getPathFoto()%>" alt="images/defaultBook.png" id="book-img"></td>
                                         <td class="product-details">
                                             <h3 class="title"><%= book.getTitolo()%> </h3>
                                             <span class="location"><strong>ISBN:</strong><%= book.getIsbn()%></span>
 
-                                            
-                                                
+
+
+                                            <%
+                                                int i = 0;
+                                                for (Autore aut : autori) {
+                                                    if (i == 0) {
+                                            %>
+                                            <span class="add-id"><strong>Autori:</strong>
+
                                                 <%
-                                                    int i=0;
-                                                    for (Autore aut : autori) {
-                                                        if(i==0) {
-                                                %>
-                                                <span class="add-id"><strong>Autori:</strong>
-                                                    
-                                                <%
-                                                        }
-                                                        else {
+                                                } else {
                                                 %>
                                                 <span class="add-id"><strong style="color:rgba(0, 0, 0, 0);"></strong>
-                                                <%
+                                                    <%
                                                         }
-                                                %>
-                                                <%=aut.getNome()%>
-                                            </span>
+                                                    %>
+                                                    <%=aut.getNome()%>
+                                                </span>
                                                 <%
-                                                    i++;
+                                                        i++;
                                                     }
                                                 %>
-                                                
-                                            <span><strong>Editore: </strong><%= book.getEditore()%></span>
-                                            <%
-                                                if(disponibili.get(dispCounter) == 0) {
+
+                                                <span><strong>Editore: </strong><%= book.getEditore()%></span>
+                                                <%
+                                                    if (disponibili.get(dispCounter) == 0) {
                                                 %>
-                                            <span style="color:red;"><strong>Disponibilità: </strong>Non disponibile</span>
-                                            <%
-                                                }
-                                                else {
-                                            %>
+                                                <span style="color:red;"><strong>Disponibilità: </strong>Non disponibile</span>
+                                                <%
+                                                } else {
+                                                %>
                                                 <span style="color:green;"><strong>Disponibilità: </strong>Disponibile</span>
-                                            <%
-                                                }
-                                            %>
+                                                <%
+                                                    }
+                                                %>
 
                                         </td>                                       
                                         <td class="action" data-title="Action">
@@ -138,11 +130,11 @@
                                                 <form action="<%=application.getContextPath()%>/libri/visualizza-libro" method="GET">
                                                     <input type="hidden" name="isbn" value="<%= book.getIsbn()%>">
                                                     <%
-                                                        if(bibliotecario!=null) {
+                                                        if (bibliotecario != null) {
                                                     %>
-                                                    <input type="hidden" name="isil" value="<%= bibliotecario.getBiblioteca().getIsil() %>">
+                                                    <input type="hidden" name="isil" value="<%= bibliotecario.getBiblioteca().getIsil()%>">
                                                     <%
-                                                    }
+                                                        }
                                                     %>
                                                     <button class="btn btn-main">Dettagli</button>
                                                 </form>
@@ -150,7 +142,7 @@
                                         </td>
                                     </tr>                                   
                                     <%
-                                        dispCounter++;
+                                            dispCounter++;
                                         }
                                     %>
                                 </tbody>
@@ -165,5 +157,11 @@
         </section>
 
         <%@include file="../skeleton-pages/footer.jsp" %>
+        <script>
+            $("img")
+                    .on("error", function () {
+                        $(this).attr("src", "images/defaultBook.png");
+                    });
+        </script>
     </body>
 </html>

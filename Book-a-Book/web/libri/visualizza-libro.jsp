@@ -338,5 +338,11 @@
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>
+         <script>
+            $("img")
+                    .on("error", function () {
+                        $(this).attr("src", "images/defaultBook.png");
+                    });
+        </script>
     </body>
 </html>
