@@ -13,3 +13,4 @@ public interface Criterio {
    
     public boolean isValid(Object ob);
 }
+

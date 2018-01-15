@@ -21,6 +21,7 @@ import java.util.List;
  *
  * @author mirko
  */
+
 public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
     private final String doDeleteQuery = "DELETE FROM Bibliotecario WHERE isil = ?";
     private final String doRetrieveByEmailQuery = "SELECT * FROM Bibliotecario WHERE email = ?";
@@ -29,8 +30,9 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
     private final String doInsertQuery = "INSERT INTO Bibliotecario(nome,cognome,status,email,isil,tipo) VALUES(?,?,?,?,?,?);";
     private final String doUpdateQuery = "UPDATE Bibliotecario SET nome = ?, cognome = ?, status = ?,email = ?, tipo = ? WHERE id = ?";
     /**
-     * 
-     * @param id[0] si aspetta un codice identificativo numerico di un bibliotecario
+     *
+     * @param id[0] si aspetta un codice identificativo numerico di un
+     * bibliotecario
      * @return un bibliotecario in base al codice id
      */
 
@@ -44,10 +46,10 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             prst.setInt(1,idBibliotecario) ;
            
 
+
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();
-                
                 if (rs.next()) {
                     BibliotecaDAO biblioteca = new BibliotecaDAO();
                     Biblioteca biblioteca2 = biblioteca.doRetriveById(rs.getString("isil"));
@@ -60,10 +62,8 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
 
             } catch (SQLException e) {
                 e.printStackTrace();
-                con.rollback();
-                
-                return null;
-                
+                con.rollback();                
+                return null;                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -73,7 +73,7 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
-        
+
     }
     
     public Bibliotecario doRetriveByEmail(String email) {
@@ -119,13 +119,13 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
      @Override
     public List<Bibliotecario> doRetriveAll() {
         List<Bibliotecario> bibliotecari = new ArrayList<Bibliotecario>();
-        
         Connection con;
         try {
             con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveAllQuery);
-            
-        try {
+
+            try {
+
                 ResultSet rs = prst.executeQuery();
                 con.commit();
                 Bibliotecario bibliotecario = null;
@@ -144,7 +144,6 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             } catch (SQLException e) {
                 con.rollback();
                 return null;
-                
             } finally {
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
@@ -154,25 +153,24 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             ex.printStackTrace();
             return null;
         }
-           
     }
 
 
 
     @Override
     public int doInsert(Bibliotecario bibliotecario) {
-      try{
-            
-            Connection con = DriverManagerConnectionPool.getConnection();            
-            PreparedStatement prst = con.prepareStatement(doInsertQuery,PreparedStatement.RETURN_GENERATED_KEYS);
+        try {
+
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doInsertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
             prst.setString(1, bibliotecario.getNome());
-            prst.setString(2,bibliotecario.getCognome());
-            prst.setString(3,bibliotecario.getStatus());
-            prst.setString(4,bibliotecario.getAccount().getEmail());
-            prst.setString(5,bibliotecario.getBiblioteca().getIsil());
+            prst.setString(2, bibliotecario.getCognome());
+            prst.setString(3, bibliotecario.getStatus());
+            prst.setString(4, bibliotecario.getAccount().getEmail());
+            prst.setString(5, bibliotecario.getBiblioteca().getIsil());
             prst.setString(6, bibliotecario.getTipo());
-           
-            try{
+
+            try {
                 prst.execute();
                 con.commit();
                 ResultSet rs = prst.getGeneratedKeys();
@@ -247,14 +245,52 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
                 prst.close();
                 DriverManagerConnectionPool.releaseConnection(con);
             }
-            
-            
-        } catch(SQLException e){
+
+        } catch (SQLException e) {
             return -1;
         }
-        
-   }
+
     }
     
-
+    public List<Bibliotecario> doRetriveDipendentiByIsil(String isil){
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            AccountDAO accountDAO = new AccountDAO();
+            BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+            List<Bibliotecario> bibliotecari = new ArrayList<Bibliotecario>();
+            Bibliotecario bibliotecario = null;
+            PreparedStatement prst = con.prepareStatement(doRetriveDipendentiByIsilQuery);
+            prst.setString(1, "Dipendente");
+            prst.setString(2, isil);
+            
+            try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+                
+                while (rs.next()) {
+                    bibliotecario = new Bibliotecario(rs.getString("status"), rs.getString("tipo"), rs.getString("nome"), rs.getString("cognome"));
+                    bibliotecario.setAccount(accountDAO.doRetriveById(rs.getString("email")));
+                    bibliotecario.setBiblioteca(bibliotecaDAO.doRetriveById(rs.getString("isil")));
+                    bibliotecari.add(bibliotecario);
+                }
+                
+                rs.close();
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+                return bibliotecari;
+                
+            } catch(SQLException e) {
+                con.rollback();
+                return null;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+            
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+}
 

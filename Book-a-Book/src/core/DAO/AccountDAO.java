@@ -209,7 +209,7 @@ public class AccountDAO extends AbstractDAO<Account> {
         } catch (SQLException e) {
             return -1;
         }
-        
+        return 0;
     }
 
     public List<Account> doRetrivePersoneAndBibliotecari() {
