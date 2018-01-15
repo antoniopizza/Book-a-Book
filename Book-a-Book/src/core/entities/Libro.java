@@ -87,14 +87,6 @@ public class Libro {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-
-    public List<Autore> getAutori() {
-        return autori;
-    }
-
-    public void setAutori(List<Autore> autori) {
-        this.autori = autori;
-    }
     
     public void addAutore(Autore a){
         if(!autori.contains(a)){
@@ -110,6 +102,16 @@ public class Libro {
         }
     }
 
+
+    public List<Autore> getAutori() {
+        return autori;
+    }
+
+    public void setAutori(List<Autore> autori) {
+        this.autori = autori;
+
+    }
+
     public String getPathFoto() {
         return pathFoto;
     }
@@ -122,7 +124,6 @@ public class Libro {
     public String toString() {
         return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", autori=" + autori + ", pathFoto=" + pathFoto + '}';
     }
- 
 
     @Override
     public boolean equals(Object obj) {
@@ -136,6 +137,7 @@ public class Libro {
             return false;
         }
         final Libro other = (Libro) obj;
+
         if (!Objects.equals(this.isbn, other.isbn)) {
             return false;
         }
@@ -158,9 +160,5 @@ public class Libro {
             return false;
         }
         return true;
-    }
-
-  
-    
-            
+    }          
 }

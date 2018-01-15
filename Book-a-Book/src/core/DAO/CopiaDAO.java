@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  *
+
  * @author kliffom
  */
 public class CopiaDAO extends AbstractDAO<Copia> {
@@ -333,4 +334,5 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         
         return -1;
     }
+
 }

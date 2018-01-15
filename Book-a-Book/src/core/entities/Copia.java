@@ -13,6 +13,7 @@ import java.util.Objects;
  */
 public class Copia {
     
+
     public static final String DISPONIBILE_SI = "Disponibile";
     public static final String DISPONIBILE_NO = "Non disponibile";
     public static final String STATUS_PRENOTATO = "Prenotato";
@@ -73,7 +74,7 @@ public class Copia {
     public Posizione getPosizione() {
         return posizione;
     }
-
+  
     public void setPosizione(Posizione newPosizione) {
         if(this.posizione != newPosizione){
             Posizione old = this.posizione;
@@ -102,8 +103,6 @@ public class Copia {
     public String toString() {
         return "Copia{" + "id=" + id + ", status=" + status + ", disponibilita=" + disponibilita + ", posizione=" + posizione + ", libro=" + libro + '}';
     }
-
-   
 
     @Override
     public boolean equals(Object obj) {
@@ -135,5 +134,5 @@ public class Copia {
         return true;
     }
     
-    
 }
+
