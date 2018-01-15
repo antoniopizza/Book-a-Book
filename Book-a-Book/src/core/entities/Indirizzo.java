@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -73,5 +75,37 @@ public class Indirizzo {
     public String toString() {
         return "Indirizzo{" + "via=" + via + ", citta=" + citta + ", civico=" + civico + ", provincia=" + provincia + ", cap=" + cap + '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Indirizzo other = (Indirizzo) obj;
+        if (!Objects.equals(this.via, other.via)) {
+            return false;
+        }
+        if (!Objects.equals(this.citta, other.citta)) {
+            return false;
+        }
+        if (!Objects.equals(this.civico, other.civico)) {
+            return false;
+        }
+        if (!Objects.equals(this.provincia, other.provincia)) {
+            return false;
+        }
+        if (!Objects.equals(this.cap, other.cap)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
         
 }

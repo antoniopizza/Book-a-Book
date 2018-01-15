@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -63,5 +65,34 @@ public class Account {
     public String toString() {
         return "Account{" + "email=" + email + ", password=" + password + ", pathFoto=" + pathFoto + ", tipo=" + tipo + '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Account other = (Account) obj;
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.pathFoto, other.pathFoto)) {
+            return false;
+        }
+        if (!Objects.equals(this.tipo, other.tipo)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

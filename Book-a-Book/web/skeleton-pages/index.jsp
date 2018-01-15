@@ -4,52 +4,49 @@
     Author     : mirko
 --%>
 
+<%@page import="core.managers.ManagerRegistrazione"%>
+<%@page import="java.util.List"%>
+<%@page import="core.entities.Bibliotecario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <% String nomePagina = "Home";%> <!-- Parametro che viene passato alla head che definisce il titolo. In questo caso sarà: Book a Book | Home -->
     <%@include file="head.jsp" %> <!-- Includere sempre al posto della head -->
     <body class="body-wrapper">
-        <!-- Barra di navigazione principale -->
-        <section>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <nav class="navbar navbar-expand-lg  navigation">
-                            <a class="navbar-brand" href="index.jsp">
-                                <img src="../template/images/logo-with-name.png" alt="" height="38">
-                            </a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav ml-auto main-nav ">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="index.jsp">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Informazioni</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Aiuto</a>
-                                    </li>
 
-                                </ul>
-                                <ul class="navbar-nav ml-auto mt-10">
-                                    <li class="nav-item">
-                                        <a class="nav-link login-button" href="index.jsp">Accedi</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link add-button" href="#"><i class="fa fa-plus-circle"></i> Registrati</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <%@include file="../skeleton-pages/header.jsp" %>
 
+        <%  if (request.getSession().getAttribute("nuovoDip") != null) {
+        %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
+            <h5 style="color: white;">Nuovo Dipendente Aggiunto con Successo</h5></div>
+            <%
+                    request.getSession().removeAttribute("nuovoDip");
+                }
+
+                if (request.getSession().getAttribute("rimozioneU") != null) {
+            %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
+            <h5 style="color: white;">Account Rimosso con Successo </h5></div>
+            <%
+                    request.getSession().removeAttribute("rimozioneU");
+                }
+                if (request.getSession().getAttribute("rimozioneB") != null) {
+            %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
+            <h5 style="color: white;">Biblioteca Rimossa con Successo </h5></div>
+            <%
+                    request.getSession().removeAttribute("rimozioneB");
+                }
+                if (request.getSession().getAttribute("modificaPass") != null) {
+            %>
+        <div class="container" style="background-color: #59d659; text-align: center;" id="someThing">
+            <h5 style="color: white;">Password Modificata Con Successo </h5></div>
+            <%
+                    request.getSession().removeAttribute("modificaPass");
+                }
+
+            %>
         <!--===============================
         =            Hero Area            =
         ================================-->
@@ -88,6 +85,7 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
+                                    <% if ((Persona) request.getSession().getAttribute("persona") == null && (Bibliotecario) request.getSession().getAttribute("bibliotecario") == null && (Admin) request.getSession().getAttribute("admin") == null) {%>
                                     <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
                                     </li>
@@ -100,6 +98,25 @@
                                     <li>
                                         <a href="dashboard-favourite-ads.html"></i> Popolari</a>
                                     </li>
+
+                                    <% } else if ((Persona) request.getSession().getAttribute("persona") != null) {
+                                    %> 
+
+                                    <%@include file="menuPersona.jsp" %>
+
+                                    <%   } else if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
+                                    %>
+
+
+                                    <%@include file="menuBibliotecario.jsp" %>
+
+
+                                    <% } else if ((Admin) request.getSession().getAttribute("admin") != null) {
+
+                                    %> 
+                                    <%@include file="menuAdmin.jsp" %>
+                                    <%                               }
+                                    %>
                                 </ul>
                             </div>
                         </div>
@@ -276,5 +293,15 @@
         </section>
 
         <%@include file="footer.jsp" %>
+
+        <script>
+
+            $(document).ready(setTimeout(function () {
+                $("#someThing").hide();
+            }, 3000));
+
+            
+
+        </script>
     </body>
 </html>

@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -79,5 +81,38 @@ public class Biblioteca {
     public String toString() {
         return "Biblioteca{" + "isil=" + isil + ", nome=" + nome + ", status=" + status + ", indirizzo=" + indirizzo + ", admin=" + admin + '}';
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Biblioteca other = (Biblioteca) obj;
+        if (!Objects.equals(this.isil, other.isil)) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.indirizzo, other.indirizzo)) {
+            return false;
+        }
+        if (!Objects.equals(this.admin, other.admin)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

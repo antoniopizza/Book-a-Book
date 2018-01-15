@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -63,4 +65,35 @@ public class Bibliotecario extends Utente{
         this.biblioteca = biblioteca;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Bibliotecario other = (Bibliotecario) obj;
+        if (!Objects.equals(this.status, other.status)) {
+            return false;
+        }
+        if (!Objects.equals(this.tipo, other.tipo)) {
+            return false;
+        }
+        if (!Objects.equals(this.biblioteca, other.biblioteca)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Bibliotecario{" + "status=" + status + ", tipo=" + tipo + ", biblioteca=" + biblioteca + '}';
+    }
+    
+    
+    
 }

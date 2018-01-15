@@ -5,6 +5,8 @@
  */
 package core.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -39,10 +41,12 @@ public class Utente {
     }
     
     public int getId() {
+       // System.out.println("Id di persona dentro getID: "+id);
         return id;
     }
 
     public void setId(int id) {
+        //System.out.println("Id dentro il setID: " + id);
         this.id = id;
     }
 
@@ -74,5 +78,34 @@ public class Utente {
     public String toString() {
         return this.getClass().getName();
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Utente other = (Utente) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+        if (!Objects.equals(this.cognome, other.cognome)) {
+            return false;
+        }
+        if (!Objects.equals(this.account, other.account)) {
+            return false;
+        }
+        return true;
+    }
         
+    
 }
