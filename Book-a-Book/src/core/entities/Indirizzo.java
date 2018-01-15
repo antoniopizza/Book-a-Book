@@ -105,7 +105,6 @@ public class Indirizzo {
         }
         return true;
     }
-    
-    
+
         
 }

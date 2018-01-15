@@ -7,8 +7,8 @@ package core.managers;
 
 import core.entities.Persona;
 import core.entities.Prenotazione;
-import core.utils.Criterio;
 import java.util.Collection;
+import core.utils.Criterio;
 
 /**
  *

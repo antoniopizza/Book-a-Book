@@ -5,7 +5,9 @@
  */
 package core.entities;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -15,22 +17,23 @@ public class Autore {
     
     protected int id;
     protected String nome;
-    protected Set<Libro> libri;
+    protected List<Libro> libri;
 
     public Autore() {
-        
+        this.libri = new ArrayList<>();
     }
 
     public Autore(String nome) {
         this.nome = nome;
+        this.libri = new ArrayList<>();
     }
 
-    public Autore(String nome, Set<Libro> libri) {
+    public Autore(String nome, List<Libro> libri) {
         this.nome = nome;
         this.libri = libri;
     }
 
-    public Autore(int id, String nome, Set<Libro> libri) {
+    public Autore(int id, String nome, List<Libro> libri) {
         this.id = id;
         this.nome = nome;
         this.libri = libri;
@@ -52,17 +55,56 @@ public class Autore {
         this.nome = nome;
     }
 
-    public Set<Libro> getLibri() {
+    public List<Libro> getLibri() {
         return libri;
     }
 
-    public void setLibri(Set<Libro> libri) {
+    public void setLibri(List<Libro> libri) {
         this.libri = libri;
+    }
+    
+    public void addLibro(Libro b){
+        if(!libri.contains(b)){
+            libri.add(b);
+            b.addAutore(this);
+        }
+    }
+    
+    public void removeLibro(Libro b){
+        if(libri.contains(b)){
+            libri.remove(b);
+            b.removeAutore(this);
+        }
     }
 
     @Override
     public String toString() {
-        return "Autore{" + "id=" + id + ", nome=" + nome + ", libri=" + libri + '}';
+        return "Autore{" + "id=" + id + ", nome=" + nome + '}';
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Autore other = (Autore) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
+            return false;
+        }
+       
+        return true;
+    }
+    
+    
     
 }

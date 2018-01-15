@@ -5,8 +5,10 @@
  */
 package core.entities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Set;
+import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -19,30 +21,31 @@ public class Libro {
     protected String editore;
     protected Calendar dataPubblicazione;
     protected String descrizione;
-    protected boolean disponibilta;
-    protected Set<Autore> autori;
+    protected List<Autore> autori;
+    protected String pathFoto;
 
     public Libro() {
-        
+        this.autori = new ArrayList<>();
     }
 
-    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta) {
+    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione,String pathFoto) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.editore = editore;
         this.dataPubblicazione = dataPubblicazione;
         this.descrizione = descrizione;
-        this.disponibilta = disponibilta;
+        this.pathFoto = pathFoto;
+        this.autori = new ArrayList<>();
     }
 
-    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta, Set<Autore> autori) {
+    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, List<Autore> autori,String pathFoto) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.editore = editore;
         this.dataPubblicazione = dataPubblicazione;
-        this.descrizione = descrizione;
-        this.disponibilta = disponibilta;
+        this.descrizione = descrizione;       
         this.autori = autori;
+        this.pathFoto = pathFoto;
     }
     
     public String getIsbn() {
@@ -85,25 +88,79 @@ public class Libro {
         this.descrizione = descrizione;
     }
 
-    public boolean isDisponibilta() {
-        return disponibilta;
-    }
-
-    public void setDisponibilta(boolean disponibilta) {
-        this.disponibilta = disponibilta;
-    }
-
-    public Set<Autore> getAutori() {
+    public List<Autore> getAutori() {
         return autori;
     }
 
-    public void setAutori(Set<Autore> autori) {
+    public void setAutori(List<Autore> autori) {
         this.autori = autori;
+    }
+    
+    public void addAutore(Autore a){
+        if(!autori.contains(a)){
+            autori.add(a);
+            a.addLibro(this);
+        }
+    }
+    
+    public void removeAutore(Autore a){
+        if(autori.contains(a)){
+            autori.remove(a);
+            a.removeLibro(this);
+        }
+    }
+
+    public String getPathFoto() {
+        return pathFoto;
+    }
+
+    public void setPathFoto(String pathFoto) {
+        this.pathFoto = pathFoto;
     }
 
     @Override
     public String toString() {
-        return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", disponibilta=" + disponibilta + ", autori=" + autori + '}';
+        return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", autori=" + autori + ", pathFoto=" + pathFoto + '}';
     }
+ 
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Libro other = (Libro) obj;
+        if (!Objects.equals(this.isbn, other.isbn)) {
+            return false;
+        }
+        if (!Objects.equals(this.titolo, other.titolo)) {
+            return false;
+        }
+        if (!Objects.equals(this.editore, other.editore)) {
+            return false;
+        }
+        if (!Objects.equals(this.descrizione, other.descrizione)) {
+            return false;
+        }
+        if (!Objects.equals(this.pathFoto, other.pathFoto)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataPubblicazione, other.dataPubblicazione)) {
+            return false;
+        }
+        if (!Objects.equals(this.autori, other.autori)) {
+            return false;
+        }
+        return true;
+    }
+
+  
+    
             
 }
