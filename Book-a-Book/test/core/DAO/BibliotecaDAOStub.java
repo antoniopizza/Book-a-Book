@@ -5,24 +5,26 @@
  */
 package core.DAO;
 
-import core.entities.Admin;
+
 import core.entities.Biblioteca;
 import core.entities.Indirizzo;
 
 /**
  *
- * @author Mery
+ * @author kliffom
  */
-public class BibliotecaDAOStub extends BibliotecaDAO{
-    
+public class BibliotecaDAOStub extends BibliotecaDAO {
+
     @Override
-    public Biblioteca doRetriveById(Object... id){
-        String isil = (String) id[0];
-        String nome = "biblioteche";
-        String status = "Accettato";
-        Indirizzo ind = new Indirizzo("via boh","citta boh","12","BO","09876");
-        return new Biblioteca(isil,nome,status,ind,null);
-        
+    public Biblioteca doRetriveById(Object... id) {
+        String isil = "IT-321";
+        String nome = "Biblioteca Svevo";
+        String status = "Accettata";
+        Indirizzo ind = new Indirizzo("via Roma", "Nocera Inferiore","21","SA", "84014");
+        return new Biblioteca(isil, nome, status,ind,null);
     }
     
+    
+
+  
 }

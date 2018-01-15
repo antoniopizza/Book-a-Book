@@ -1,5 +1,5 @@
 <div class="advance-search">
-    <form action="#" name="cercaLibro">
+    <form action="<%=application.getContextPath()%>/libri/cerca-libro" id="search-form-main" method="GET">
         <div class="row">
             <!-- Store Search -->
             <div class="col-lg-1"></div>
@@ -9,12 +9,13 @@
                     <option id="idAutore">Autore</option>
                     <option id="idEditore">Editore</option>
                     <option id="idIsbn">ISBN</option>
+
                 </select>
             </div>
             <div class="col-lg-7 col-md-12">
                 <div class="block d-flex">
-                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Cerca il tuo libro">
-                    
+                    <input type="text" minlength="2" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search-main" placeholder="Cerca il tuo libro" name="searchKey" required>
+
                 </div>
             </div>
             <div class="col-lg-2 col-md-12">
@@ -26,6 +27,18 @@
             <div class="col-lg-1"></div>
         </div>
     </form>
+    <script>
+        $("#search-form-main").submit({
+            var text = $("#search-main").val().toString();
+            if (text.match("/^.{2,}$/")){
+                return true;
+            } else {
+                alert("Inserire almeno 2 caratteri");
+                $("#search-main").focus();
+                return false;
+            }
+        });
+    </script>
 
 </div>
 <script>
@@ -41,7 +54,7 @@
         document.getElementById("erroreSearchLibro").innerHTML ="";
         if(search.value ==""){
             $("#search").focus();
-            $("#erroreSearchLibro").text("Il campo non può essere vuoto.");
+            $("#erroreSearchLibro").text("Il campo non puï¿½ essere vuoto.");
             boolean = false;
         }
         else if(autore.selected && search.value!= ""){
@@ -54,7 +67,7 @@
         else if(editore.selected && search.value != ""){
             if(!search.value.match(regexLettere)){
                 $("#search").focus();
-                $("#erroreSearchLibro").text("Il campo può contenere solo lettere.");
+                $("#erroreSearchLibro").text("Il campo puï¿½ contenere solo lettere.");
                 boolean = false;
             }
         }

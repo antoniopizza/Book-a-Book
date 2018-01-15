@@ -5,6 +5,10 @@
  */
 package core.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 /**
  *
  * @author mirko
@@ -12,27 +16,46 @@ package core.entities;
 public class Posizione {
     
     protected String etichetta;
-    protected int numCopie;
-    protected int numCopieTotali;
     protected Biblioteca biblioteca;
-    protected Libro libro;
+    
+    //realizza la relazione uno a molti con copia
+    protected List<Copia> copie;
 
     public Posizione() {
-        
+        this.copie = new ArrayList<>();
     }
 
-    public Posizione(String etichetta, int numCopie, int numCopieTotali) {
+    public Posizione(String etichetta) {
         this.etichetta = etichetta;
-        this.numCopie = numCopie;
-        this.numCopieTotali = numCopieTotali;
+        this.copie = new ArrayList<>();
     }
 
-    public Posizione(String etichetta, int numCopie, int numCopieTotali, Biblioteca biblioteca, Libro libro) {
+    public Posizione(String etichetta, Biblioteca biblioteca, List<Copia> copie) {
         this.etichetta = etichetta;
-        this.numCopie = numCopie;
-        this.numCopieTotali = numCopieTotali;
         this.biblioteca = biblioteca;
-        this.libro = libro;
+        this.copie = copie;
+    }
+
+    public List<Copia> getCopie() {
+        return copie;
+    }
+
+//    public void setCopie(List<Copia> copie) {
+//        this.copie = copie;
+//    }
+    
+    public void addCopia(Copia c){
+        if(!copie.contains(c)){
+            copie.add(c);
+            c.setPosizione(this);
+        }        
+    }
+    
+    public void removeCopia(Copia c){
+        if(copie.contains(c)){
+            copie.remove(c);
+            c.setPosizione(null);
+        }
     }
 
     public String getEtichetta() {
@@ -43,22 +66,6 @@ public class Posizione {
         this.etichetta = etichetta;
     }
 
-    public int getNumCopie() {
-        return numCopie;
-    }
-
-    public void setNumCopie(int numCopie) {
-        this.numCopie = numCopie;
-    }
-
-    public int getNumCopieTotali() {
-        return numCopieTotali;
-    }
-
-    public void setNumCopieTotali(int numCopieTotali) {
-        this.numCopieTotali = numCopieTotali;
-    }
-
     public Biblioteca getBiblioteca() {
         return biblioteca;
     }
@@ -67,17 +74,41 @@ public class Posizione {
         this.biblioteca = biblioteca;
     }
 
-    public Libro getLibro() {
-        return libro;
-    }
-
-    public void setLibro(Libro libro) {
-        this.libro = libro;
+    @Override
+    public String toString() {
+        return "Posizione{" + "etichetta=" + etichetta + ", biblioteca=" + biblioteca + '}';
     }
 
     @Override
-    public String toString() {
-        return "Posizione{" + "etichetta=" + etichetta + ", numCopie=" + numCopie + ", numCopieTotali=" + numCopieTotali + ", biblioteca=" + biblioteca + ", libro=" + libro + '}';
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.etichetta);
+        hash = 53 * hash + Objects.hashCode(this.biblioteca);
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Posizione other = (Posizione) obj;
+        if (!Objects.equals(this.etichetta, other.etichetta)) {
+            return false;
+        }
+        if (!Objects.equals(this.biblioteca, other.biblioteca)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+
     
 }

@@ -13,10 +13,21 @@ import java.util.Objects;
  */
 public class Copia {
     
+
+    public static final String DISPONIBILE_SI = "Disponibile";
+    public static final String DISPONIBILE_NO = "Non disponibile";
+    public static final String STATUS_PRENOTATO = "Prenotato";
+    public static final String STATUS_NON_PRENOTATO = "Non Prenotato";
+    public static final String STATUS_ELIMINATO = "Eliminato";
+    
     protected String id;
     protected String status;
     protected String disponibilita;
+    
+    //realizza la relazione molti-a-uno con posizione
     protected Posizione posizione;
+    
+    //realizza la relazione molti-a-uno con libro
     protected Libro libro;
 
     public Copia() {
@@ -63,9 +74,21 @@ public class Copia {
     public Posizione getPosizione() {
         return posizione;
     }
-
-    public void setPosizione(Posizione posizione) {
-        this.posizione = posizione;
+  
+    public void setPosizione(Posizione newPosizione) {
+        if(this.posizione != newPosizione){
+            Posizione old = this.posizione;
+            this.posizione = newPosizione;
+            
+            if(newPosizione != null){
+              posizione.addCopia(this);
+            }
+            
+            if(old != null){
+                old.removeCopia(this);
+            }
+        }       
+        
     }
 
     public Libro getLibro() {
@@ -111,5 +134,5 @@ public class Copia {
         return true;
     }
     
-    
 }
+

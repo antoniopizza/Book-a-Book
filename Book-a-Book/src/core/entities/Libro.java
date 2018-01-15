@@ -5,6 +5,7 @@
  */
 package core.entities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
@@ -20,31 +21,29 @@ public class Libro {
     protected String editore;
     protected Calendar dataPubblicazione;
     protected String descrizione;
-    protected boolean disponibilta;
     protected List<Autore> autori;
     protected String pathFoto;
 
     public Libro() {
-        
+        this.autori = new ArrayList<>();
     }
 
-    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta,String pathFoto) {
+    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione,String pathFoto) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.editore = editore;
         this.dataPubblicazione = dataPubblicazione;
         this.descrizione = descrizione;
-        this.disponibilta = disponibilta;
         this.pathFoto = pathFoto;
+        this.autori = new ArrayList<>();
     }
 
-    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, boolean disponibilta, List<Autore> autori,String pathFoto) {
+    public Libro(String isbn, String titolo, String editore, Calendar dataPubblicazione, String descrizione, List<Autore> autori,String pathFoto) {
         this.isbn = isbn;
         this.titolo = titolo;
         this.editore = editore;
         this.dataPubblicazione = dataPubblicazione;
-        this.descrizione = descrizione;
-        this.disponibilta = disponibilta;
+        this.descrizione = descrizione;       
         this.autori = autori;
         this.pathFoto = pathFoto;
     }
@@ -88,14 +87,21 @@ public class Libro {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-
-    public boolean isDisponibilta() {
-        return disponibilta;
+    
+    public void addAutore(Autore a){
+        if(!autori.contains(a)){
+            autori.add(a);
+            a.addLibro(this);
+        }
+    }
+    
+    public void removeAutore(Autore a){
+        if(autori.contains(a)){
+            autori.remove(a);
+            a.removeLibro(this);
+        }
     }
 
-    public void setDisponibilta(boolean disponibilta) {
-        this.disponibilta = disponibilta;
-    }
 
     public List<Autore> getAutori() {
         return autori;
@@ -103,6 +109,7 @@ public class Libro {
 
     public void setAutori(List<Autore> autori) {
         this.autori = autori;
+
     }
 
     public String getPathFoto() {
@@ -115,10 +122,9 @@ public class Libro {
 
     @Override
     public String toString() {
-        return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", disponibilta=" + disponibilta + ", autori=" + autori + ", pathFoto=" + pathFoto + '}';
+        return "Libro{" + "isbn=" + isbn + ", titolo=" + titolo + ", editore=" + editore + ", dataPubblicazione=" + dataPubblicazione + ", descrizione=" + descrizione + ", autori=" + autori + ", pathFoto=" + pathFoto + '}';
     }
 
-  
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -131,9 +137,7 @@ public class Libro {
             return false;
         }
         final Libro other = (Libro) obj;
-        if (this.disponibilta != other.disponibilta) {
-            return false;
-        }
+
         if (!Objects.equals(this.isbn, other.isbn)) {
             return false;
         }
@@ -156,8 +160,5 @@ public class Libro {
             return false;
         }
         return true;
-    }
-
-    
-            
+    }          
 }
