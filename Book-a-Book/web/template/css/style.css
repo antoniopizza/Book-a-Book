@@ -2504,4 +2504,8 @@ article.single-post p {
   text-decoration: none;
 }
 
+p.error{
+    color: red;
+    font-size: larger;
+}
 /*# sourceMappingURL=maps/style.css.map */

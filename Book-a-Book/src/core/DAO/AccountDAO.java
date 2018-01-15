@@ -198,6 +198,8 @@ public class AccountDAO extends AbstractDAO<Account> {
                 return 0;
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
+                return -1;
             } finally {
                 prst.close();
                 con.commit();
