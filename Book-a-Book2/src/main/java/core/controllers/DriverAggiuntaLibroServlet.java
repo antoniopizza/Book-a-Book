@@ -6,6 +6,8 @@
 package core.controllers;
 
 import core.DAO.BibliotecaDAOStub;
+import core.DAO.BibliotecarioDAO;
+import core.entities.Bibliotecario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,9 +35,10 @@ public class DriverAggiuntaLibroServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        BibliotecaDAOStub stub = new BibliotecaDAOStub();        
-        request.getSession().setAttribute("biblioteca",stub.doRetriveById("IT-123"));
-        response.sendRedirect("aggiungi-libro.jsp");
+        BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
+        Bibliotecario bibliotecario = bibliotecarioDAO.doRetriveById(1);        
+        request.getSession().setAttribute("bibliotecario",bibliotecario);
+        response.sendRedirect("../skeleton-pages/index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

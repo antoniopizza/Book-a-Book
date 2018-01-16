@@ -9,9 +9,9 @@
 <%    if ((((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getTipo().equals("Responsabile")) && !(((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getStatus().equals("Rimuovere"))) {
 %> 
     <li>
-        <a href="dashboard-my-ads.html"><i class="fa fa-user"></i> My Ads (Biblioteca Resp)</a></li>
+        <a href="<%=application.getContextPath()%>/libri/aggiungi-libro.jsp"><i class="fa fa-plus-square"></i>Aggiungi Libro (Biblioteca Resp)</a></li>
 
-    <li>
+    <li>    
         <a href="../profilo/modifica-password.jsp?tipo=bibliotecario"> Modifica Password </a>
     </li>
 
