@@ -44,11 +44,13 @@ public class ManagerAutenticazioneTest {
         admMail = "luca@admin.it";
         admPsw = "admin";
         
-        admin = new Admin("Luca", "Pangaro", new Account(admMail, admPsw, "path", Utente.TIPO_ADMIN));
+        admin = new Admin("Luca", "Pangaro", new Account(admMail, admPsw, "path", Utente.TIPO_ADMIN), 6);
         
         bibMail = "anita@bibliotecario.it";
         bibPsw = "bibliotecario";
-        Biblioteca biblio = new Biblioteca("IT-123", "Biblioteca Comunale di Atripalda", "Attiva");
+        Indirizzo indirizzo = new Indirizzo("via Manfredi", "Atripalda", "6", "AV", "83042");
+        Admin adminBib = new Admin("Stefano", "Solda'", new Account("stefano@admin.it", "admin", "path", Utente.TIPO_ADMIN), 3);
+        Biblioteca biblio = new Biblioteca("IT-123", "Biblioteca Comunale di Atripalda", "Attiva", indirizzo, adminBib);
         bibliotecario = new Bibliotecario("Attiva", "Responsabile", biblio, "Anita", "Bianchi", new Account(bibMail, bibPsw, "path", Utente.TIPO_BIBLIOTECARIO));
         
         
@@ -80,7 +82,7 @@ public class ManagerAutenticazioneTest {
      */
     @Test
     public void test1Login() {
-        System.out.println("login");
+        System.out.println("loginAdmin");
         
         ManagerAutenticazione instance = new ManagerAutenticazione();
         Utente expResult = admin;
@@ -93,7 +95,7 @@ public class ManagerAutenticazioneTest {
      */
     @Test
     public void test2Login() {
-        System.out.println("login");
+        System.out.println("loginBibliotecario");
         
         ManagerAutenticazione instance = new ManagerAutenticazione();
         Utente expResult = bibliotecario;
@@ -108,7 +110,7 @@ public class ManagerAutenticazioneTest {
      */
     @Test
     public void test3Login() {
-        System.out.println("login");
+        System.out.println("loginPersona");
         
         ManagerAutenticazione instance = new ManagerAutenticazione();
         Utente expResult = persona;

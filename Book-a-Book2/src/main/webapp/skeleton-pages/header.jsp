@@ -30,7 +30,7 @@
                             <%
                                 if ((Persona) request.getSession().getAttribute("persona") == null && (Bibliotecario) request.getSession().getAttribute("bibliotecario") == null && (Admin) request.getSession().getAttribute("admin") == null ) {%>
                             <li class="nav-item">
-                                <a class="nav-link login-button" href="../skeleton-pages/index.jsp">Accedi</a>
+                                <a class="nav-link login-button" href="../autenticazione/login.jsp">Accedi</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link add-button" href="../registrazione/scelta-registrazione.jsp"><i class="fa fa-plus-circle"></i> Registrati</a>
@@ -47,7 +47,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="../profilo/profiloPersonale-Utente.jsp">Profilo Utente</a>
                                     <a class="dropdown-item" href="#">Impostazioni</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="dropdown-item" href="<%=application.getContextPath()%>/autenticazione/logout">Logout</a>
                                 </div>
                             </li>
                             <%   } else if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
@@ -61,7 +61,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="../profilo/profiloPersonale-Bibliotecario.jsp">Profilo Biblioteca</a>
                                     <a class="dropdown-item" href="#">Impostazioni</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="dropdown-item" href="<%=application.getContextPath()%>/autenticazione/logout">Logout</a>
                                 </div>
                             </li>
                             
@@ -76,7 +76,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="../profilo/profiloPersonale-Admin.jsp">Profilo Admin</a>
                                     <a class="dropdown-item" href="#">Impostazioni</a>
-                                    <a class="dropdown-item" href="#">Logout</a>
+                                    <a class="dropdown-item" href="<%=application.getContextPath()%>/autenticazione/logout">Logout</a>
                                 </div>
                             </li>
                             
