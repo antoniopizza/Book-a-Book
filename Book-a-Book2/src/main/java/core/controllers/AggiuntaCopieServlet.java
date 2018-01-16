@@ -9,6 +9,7 @@ import core.DAO.BibliotecaDAOStub;
 import core.DAO.LibroDAO;
 import core.DAO.PosizioneDAO;
 import core.entities.Biblioteca;
+import core.entities.Bibliotecario;
 import core.entities.Copia;
 import core.entities.Libro;
 import core.entities.Posizione;
@@ -48,7 +49,7 @@ public class AggiuntaCopieServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
 
             //dati in sessione
-            Biblioteca biblio = (Biblioteca) request.getSession().getAttribute("biblioteca");
+            Biblioteca biblio = ((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca();
             Libro book = (Libro) request.getSession().getAttribute("libro");
             
             int nScaffali = Integer.parseInt(request.getParameter("n-scaffali"));
@@ -80,7 +81,8 @@ public class AggiuntaCopieServlet extends HttpServlet {
           
             
             if(manager.aggiungiLibroBiblioteca(biblio.getIsil(), book, posizioni)){
-                out.print("success");
+                request.setAttribute("libro",book);
+                request.getRequestDispatcher("visualizza-libro.jsp").forward(request, response);
             } else {
                 out.print("s'è scassato qualcosa");
             }

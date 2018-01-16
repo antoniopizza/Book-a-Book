@@ -5,22 +5,10 @@
  */
 package core.controllers;
 
-import core.DAO.BibliotecaDAO;
-import core.DAO.BibliotecaDAOStub;
-import core.DAO.LibroDAO;
-import core.DAO.PosizioneDAO;
-import core.entities.Biblioteca;
-import core.entities.Bibliotecario;
-import core.entities.Copia;
-import core.entities.Libro;
+import core.DAO.PersonaDAO;
 import core.entities.Persona;
-import core.entities.Posizione;
-import core.managers.ManagerLibri;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,10 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author kliffom
+ * @author manuel
  */
-@WebServlet(name = "VisualizzaLibroServlet", urlPatterns = {"/libri/visualizza-libro"})
-public class VisualizzaLibroServlet extends HttpServlet {
+@WebServlet(name = "DriverLoginUtente", urlPatterns = {"/DriverLoginUtente"})
+public class DriverLoginUtente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,40 +33,12 @@ public class VisualizzaLibroServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String isbn = (String) request.getParameter("isbn");        
-        String message;
-      
-        ManagerLibri managerLibri = new ManagerLibri();
-
-        //ManagerLibri managerLibri = new ManagerLibri();
-        Libro libro;
-        libro = managerLibri.visualizzaLibro(isbn);
-
-        if (libro == null) {
-            message = "Nessun libro corrisponde all'ISBN ricevuto.";
-        } else {
-            message = "correct";
-        }
-
-       request.setAttribute("libro", libro);
-       request.setAttribute("message", message);
-        /*System.out.println("Numero copie non prenotate per " + isbn + ": " + copieTotali.size());
         
         
-        request.setAttribute("numCopieDisponibili", copieTotali.size());
-
-        //valore per testing bibliotecario e persona loggati 
-        /*
-        Bibliotecario bibliotecario = new Bibliotecario();
-        request.getSession().setAttribute("bibliotecario", bibliotecario);
-         
-        Persona persona = new Persona();
-        request.getSession().setAttribute("persona", persona);
-        */
-        RequestDispatcher dispatcher = request.getRequestDispatcher("visualizza-libro.jsp");
-        dispatcher.forward(request, response);
+        Persona p = new PersonaDAO().doRetriveById(23);
+        request.getSession().setAttribute("persona", p);
+        response.sendRedirect("index.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

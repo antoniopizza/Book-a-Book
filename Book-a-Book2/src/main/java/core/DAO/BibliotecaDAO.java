@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * @author mirko
  */
 public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
-    private final String doRetriveIsilByCopiaQuery = "SELECT DISTINCT isil FROM Copia, Libro WHERE Copia.isbn = Libro.isbn AND Copia.isbn = ?";
+    private final String doRetriveBibliotecaByIsbn = "SELECT * FROM Biblioteca WHERE isil IN (SELECT DISTINCT isil FROM Copia, Libro WHERE Copia.isbn = Libro.isbn AND Copia.isbn = ?)";
     private final String doDeleteQuery = "DELETE FROM Biblioteca WHERE isil = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Biblioteca WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";
@@ -224,7 +224,7 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
 
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
-            PreparedStatement prst = con.prepareStatement(doRetriveIsilByCopiaQuery);
+            PreparedStatement prst = con.prepareStatement(doRetriveBibliotecaByIsbn);
             prst.setString(1, isbn);
             
             try {

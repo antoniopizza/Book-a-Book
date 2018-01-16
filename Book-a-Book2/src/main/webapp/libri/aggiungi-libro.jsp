@@ -29,8 +29,7 @@
                     <!-- main content -->
                     <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 
-                        <div class="widget dashboard-container my-adslist">
-                            <h3 class="widget-header">Cerca un libro</h3>
+                        <div class="widget dashboard-container my-adslist">                            
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <br>
                             <h3 class="widget-header">Inserisci un libro</h3>
