@@ -17,6 +17,9 @@ public class Utente {
     protected String nome;
     protected String cognome;
     protected Account account;
+    public static final String TIPO_ADMIN = "Admin";
+    public static final String TIPO_BIBLIOTECARIO = "Bibliotecario";
+    public static final String TIPO_PERSONA = "Persona";
 
     public Utente() {
         
