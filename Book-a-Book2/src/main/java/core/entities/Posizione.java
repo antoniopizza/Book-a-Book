@@ -36,9 +36,6 @@ public class Posizione {
         this.copie = copie;
     }
 
-    public Posizione(String a5, Biblioteca bib) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public List<Copia> getCopie() {
         return copie;
