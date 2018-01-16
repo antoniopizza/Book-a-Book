@@ -52,16 +52,16 @@ public class CercaLibroServlet extends HttpServlet {
         Collection<Libro> libri = new ArrayList<>();
         
         Criterio criterio = null;
-        if(criterioName.equals("Titolo")){
+        if(criterioName.equalsIgnoreCase("titolo")){
             criterio = new CriterioPerTitolo(searchKey);
         }
-        else if(criterioName.equals("Autore")){
+        else if(criterioName.equalsIgnoreCase("autore")){
             criterio = new CriterioPerAutore(searchKey);
         }
-        else if(criterioName.equals("Editore")){
+        else if(criterioName.equals("editore")){
             criterio = new CriterioPerEditore(searchKey);
         }
-        else if(criterioName.equals("ISBN")){
+        else if(criterioName.equals("isbn")){
             criterio = new CriterioPerIsbn(searchKey);
         }
         else {

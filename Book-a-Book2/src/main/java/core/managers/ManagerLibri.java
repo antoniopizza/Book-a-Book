@@ -55,13 +55,18 @@ public class ManagerLibri {
      * Metodo che ricerca un libro nel database
      *
      * @param c il criterio di ricerca usato
-     * @return una Collection di libri.
+     * @return una Collection di libri, null se c'è qualche 
+     * errore.
      */
     public Collection<Libro> cercaLibro(Criterio c) {
 
         List<Libro> listToReturn = new ArrayList<>();
-        List<Libro> allBooks = libroDAO.doRetriveAll();
+        List<Libro> allBooks = libroDAO.doRetriveAll();        
 
+        if(allBooks == null || allBooks.isEmpty()){
+            return null;
+        }
+        
         for (Libro b : allBooks) {
             if (c.isValid(b)) {
                 listToReturn.add(b);

@@ -5,10 +5,10 @@
             <div class="col-lg-1"></div>
             <div class="col-lg-2 col-md-12">
                 <select id="selected" class="form-control mb-2 mr-sm-2 mb-sm-0" name="criterio">
-                    <option id="idTitolo">Titolo</option>
-                    <option id="idAutore">Autore</option>
-                    <option id="idEditore">Editore</option>
-                    <option id="idIsbn">ISBN</option>
+                    <option id="idTitolo" value="titolo">Titolo</option>
+                    <option id="idAutore" value="autore">Autore</option>
+                    <option id="idEditore" value="editore">Editore</option>
+                    <option id="idIsbn" value="isbn">ISBN</option>
 
                 </select>
             </div>
