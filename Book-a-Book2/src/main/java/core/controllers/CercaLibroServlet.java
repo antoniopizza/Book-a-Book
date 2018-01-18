@@ -10,6 +10,7 @@ import core.DAO.BibliotecaDAOStub;
 import core.DAO.LibroDAO;
 import core.DAO.PosizioneDAO;
 import core.entities.Biblioteca;
+import core.entities.Bibliotecario;
 import core.entities.Copia;
 import core.entities.Libro;
 import core.entities.Posizione;
@@ -45,51 +46,74 @@ public class CercaLibroServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         String message;
         String searchKey = request.getParameter("searchKey");
         String criterioName = request.getParameter("criterio");
         Collection<Libro> libri = new ArrayList<>();
-        
+        Bibliotecario bibliotecario = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
+
         Criterio criterio = null;
-        if(criterioName.equalsIgnoreCase("titolo")){
-            criterio = new CriterioPerTitolo(searchKey);
-        }
-        else if(criterioName.equalsIgnoreCase("autore")){
-            criterio = new CriterioPerAutore(searchKey);
-        }
-        else if(criterioName.equals("editore")){
-            criterio = new CriterioPerEditore(searchKey);
-        }
-        else if(criterioName.equals("isbn")){
-            criterio = new CriterioPerIsbn(searchKey);
-        }
-        else {
+        if (criterioName.equalsIgnoreCase("titolo")) {
+            
+            if (bibliotecario == null) {
+                criterio = new CriterioPerTitolo(searchKey);
+            } else {
+                criterio = new CriterioPerTitoloBiblioteca(searchKey, bibliotecario.getBiblioteca());
+                System.out.println("Sono una biblioteca");
+            }
+            
+        } else if (criterioName.equalsIgnoreCase("autore")) {
+            
+            if (bibliotecario == null) {
+                criterio = new CriterioPerAutore(searchKey);
+            } else {
+                criterio = new CriterioPerAutoreBiblioteca(searchKey, bibliotecario.getBiblioteca());
+                System.out.println("Sono una biblioteca");
+            }
+            
+        } else if (criterioName.equals("editore")) {
+            
+            if (bibliotecario == null) {
+                criterio = new CriterioPerEditore(searchKey);
+            } else {
+                criterio = new CriterioPerEditoreBiblioteca(searchKey, bibliotecario.getBiblioteca());
+                System.out.println("Sono una biblioteca");
+            }
+            
+        } else if (criterioName.equals("isbn")) {
+            
+            if (bibliotecario == null) {
+                criterio = new CriterioPerIsbn(searchKey);
+            } else {
+                criterio = new CriterioPerIsbnBiblioteca(searchKey, bibliotecario.getBiblioteca());
+                System.out.println("Sono una biblioteca");
+            }
+            
+        } else {
             //YOU SHOULD NOT BE HERE!
         }
-        
+
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAOStub();
         PosizioneDAO posizioneDAO = new PosizioneDAO();
         LibroDAO libroDAO = new LibroDAO();
         ManagerLibri managerLibri = new ManagerLibri(bibliotecaDAO, posizioneDAO, libroDAO);
-        
+
         //ManagerLibri managerLibri = new ManagerLibri();
-        
         libri = managerLibri.cercaLibro(criterio);
-        
-        if(libri.isEmpty()){
+
+        if (libri.isEmpty()) {
             message = "Nessun libro corrispondente al criterio inserito.";
-        }
-        else {
+        } else {
             message = "correct";
         }
-        
+
         List<Biblioteca> biblioteche = bibliotecaDAO.doRetriveAll();
         List<Integer> disponibili = new ArrayList<Integer>();
-        for(Libro l : libri) {
+        for (Libro l : libri) {
             List<Posizione> posizioniTotali = new ArrayList<>();
 
-            for(Biblioteca b : biblioteche) {
+            for (Biblioteca b : biblioteche) {
                 List<Posizione> pos = (List<Posizione>) managerLibri.visualizzaPosizioniLibro(l.getIsbn(), b.getIsil());
                 posizioniTotali.addAll(pos);
                 //System.out.println("Aggiunte da: " + b.getIsil());
@@ -97,28 +121,27 @@ public class CercaLibroServlet extends HttpServlet {
             //System.out.println("Num posizioni:" + posizioniTotali.size());
 
             List<Copia> copieTotali = new ArrayList<>();
-            for(Posizione p : posizioniTotali) {
+            for (Posizione p : posizioniTotali) {
                 List<Copia> copie = p.getCopie();
-                for(Copia c : copie) {
-                    if(c.getLibro().getIsbn().equals(l.getIsbn())) {
-                        if(c.getStatus().equals("Non Prenotato")) {
+                for (Copia c : copie) {
+                    if (c.getLibro().getIsbn().equals(l.getIsbn())) {
+                        if (c.getStatus().equals("Non Prenotato")) {
                             copieTotali.add(c);
                         }
                     }
                 }
             }
-            if(copieTotali.size() == 0) {
+            if (copieTotali.size() == 0) {
                 disponibili.add(0);
-            }
-            else {
+            } else {
                 disponibili.add(1);
             }
         }
-        
+
         request.setAttribute("message", message);
         request.setAttribute("libri", libri);
         request.setAttribute("disponibili", disponibili);
-        
+
         RequestDispatcher dispatcher = request.getRequestDispatcher("cerca-libro.jsp");
         dispatcher.forward(request, response);
     }

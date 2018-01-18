@@ -10,6 +10,7 @@ import core.DAO.LibroDAO;
 import core.DAO.PosizioneDAO;
 import core.entities.Autore;
 import core.entities.Biblioteca;
+import core.entities.Bibliotecario;
 import core.entities.Libro;
 import core.managers.ManagerLibri;
 import java.io.IOException;
@@ -61,7 +62,8 @@ public class AggiuntaLibroServlet extends HttpServlet {
         List<Autore> autoriList = new ArrayList<>();
         ManagerLibri manager = new ManagerLibri(new BibliotecaDAOStub(), new PosizioneDAO(), new LibroDAO());
         Libro book;
-        Biblioteca b = (Biblioteca) request.getSession().getAttribute("biblioteca");
+        Bibliotecario utente = (Bibliotecario)  request.getSession().getAttribute("bibliotecario");
+        Biblioteca b = utente.getBiblioteca();
         RequestDispatcher view;
 
         if (!manager.visualizzaPosizioniLibro(isbn, b.getIsil()).isEmpty()) {
