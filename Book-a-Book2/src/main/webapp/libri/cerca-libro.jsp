@@ -39,8 +39,7 @@
                     </div>
                     <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
 
-                        <div class="widget dashboard-container my-adslist">
-                            <h3 class="widget-header">Cerca un libro</h3>
+                        <div class="widget dashboard-container my-adslist">                            
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <br>
                             <h3 class="widget-header"></h3>

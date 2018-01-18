@@ -68,7 +68,7 @@ public class VerificaIsbnServlet extends HttpServlet {
             o.put("titolo",b.getTitolo());
             o.put("editore",b.getEditore());
             o.put("data",b.getDataPubblicazione().get(GregorianCalendar.DAY_OF_MONTH)+"-"+
-                        b.getDataPubblicazione().get(GregorianCalendar.MONTH)+"-"+
+                        (b.getDataPubblicazione().get(GregorianCalendar.MONTH)+1)+"-"+
                         b.getDataPubblicazione().get(GregorianCalendar.YEAR));
             o.put("descrizione",b.getDescrizione());
             o.put("path_foto",b.getPathFoto());

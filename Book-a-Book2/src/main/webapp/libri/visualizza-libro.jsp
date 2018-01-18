@@ -6,10 +6,11 @@
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
 <%
-    int copieDisponibili = (int) request.getAttribute("numCopieDisponibili");
-    String nomePagina;
+   
+    
     Libro book;
     book = (Libro) request.getAttribute("libro");
+    String nomePagina;
     String message = (String) request.getAttribute("message");
     if (!message.equals("correct")) {
         nomePagina = "Libro non trovato";
@@ -28,31 +29,23 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                    <li>
-                                        <a href="dashboard-my-ads.html"> Biblioteche</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Novità</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Autori</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Popolari</a>
-                                    </li>
+                                    <%if (session.getAttribute("bibliotecario") != null){ %>
+                                    <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
+                                    <% } else {%>
+                                    <%@include file="../skeleton-pages/menuPersona.jsp" %>
+                                    <% } %>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 
-                        <div class="widget dashboard-container my-adslist">
-                            <h3 class="widget-header">Cerca un libro</h3>
+                        <div class="widget dashboard-container my-adslist">                            
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <br>
                             <h3 class="widget-header"></h3>
@@ -136,22 +129,7 @@
                                                 <tr>
                                                     <td><strong>Editore:</strong></td>
                                                     <td align="right"><p><%= book.getEditore()%></p></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><strong>Disponibilità:</strong></td>
-                                                    <% 
-                                                    if(copieDisponibili>0) {
-                                                    %>
-                                                    <td align="right"><p style="color:green;">Disponibile</p></td>
-                                                    <%
-                                                    }
-                                                    else {
-                                                    %>
-                                                    <td align="right"><p style="color:red;">Non disponibile</p></td>
-                                                    <%
-                                                    }    
-                                                    %>
-                                                </tr>
+                                                </tr>                                                
                                             </table>
 
                                             <%
@@ -308,8 +286,8 @@
 
                             </div>
                             <%
-                                if((Persona) request.getSession().getAttribute("persona") != null) {
-                                %>
+                                if ((Persona) request.getSession().getAttribute("persona") != null) {
+                            %>
                             <div class="row">
                                 <div class="col-lg-10"></div>
                                 <div class="col-lg-2">
@@ -320,7 +298,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <%  
+                            <%
                                     }
                                 }
                             %>
@@ -338,10 +316,10 @@
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>
-         <script>
+        <script>
             $("img")
                     .on("error", function () {
-                        $(this).attr("src", "images/defaultBook.png");
+                    $(this).attr("src", "images/defaultBook.png");
                     });
         </script>
     </body>

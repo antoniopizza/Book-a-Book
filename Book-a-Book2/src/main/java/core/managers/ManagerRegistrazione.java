@@ -39,12 +39,14 @@ public class ManagerRegistrazione {
         Account account = new Account(email, password, pathFoto, "Persona");
         Indirizzo indirizzo = new Indirizzo(via, citta, numeroCivico, provincia, CAP);
         Persona persona = new Persona(numeroDocumento, indirizzo, nome, cognome, account);
+        persona.setIndirizzo(indirizzo);
         
-        Telefono telefono = new Telefono("+39", numeroTelefono, persona, null);
+        Telefono telefono = new Telefono("+39", numeroTelefono, null, null);
         
         indirizzoDAO.doInsert(indirizzo);
         accountDAO.doInsert(account);
-        telefono.getPersona().setId(personaDAO.doInsert(persona));
+        persona.setId(personaDAO.doInsert(persona));
+        telefono.setPersona(persona);        
         telefonoDAO.doInsert(telefono);
         
         return persona;

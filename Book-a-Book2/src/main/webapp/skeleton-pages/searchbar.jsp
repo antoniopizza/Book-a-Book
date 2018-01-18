@@ -1,9 +1,14 @@
+<% if (request.getSession().getAttribute("bibliotecario") != null) { %>
+<h3 class="widget-header">Cerca libri nella tua biblioteca</h3>
+<% } else { %>
+<h3 class="widget-header">Cerca un libro</h3>
+<% }%>
 <div class="row">
     <div class="advance-search col-lg-12">
         <form action="<%=application.getContextPath()%>/libri/cerca-libro" id="search-form-main" method="GET">
             <div class="row">
                 <!-- Store Search -->
-                
+
                 <div class="col-lg-12">
                     <div class="form-row">
                         <div class="col-3">
