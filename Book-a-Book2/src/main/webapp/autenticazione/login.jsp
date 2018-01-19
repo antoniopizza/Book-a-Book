@@ -25,7 +25,7 @@
 
                             <h3 class="widget-header user">Login</h3>
 
-                            <form action="<%=application.getContextPath()%>/autenticazione/login" method="post">
+                            <form action="login" method="post">
 
                                 <!-- email -->
                                 <div class="form-group">
