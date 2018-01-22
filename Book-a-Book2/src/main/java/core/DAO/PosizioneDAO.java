@@ -30,7 +30,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
     private final String doRetriveAllIsilQuery = "SELECT * FROM Posizione WHERE isil = ?";
     private final String doInsertQuery = "INSERT INTO Posizione(etichetta, isil) VALUES (?, ?)";
 //    private final String doUpdateQuery = "UPDATE Posizione SET num_copie = ?, num_copie_totali = ? WHERE etichetta = ? AND isbn = ? AND isil = ?"; //NON IMPLEMENTATA AL MOMENTO
-    private final String doRetriveByLibroAndBibliotecaQuery = "SELECT DISTINCT * FROM Posizione p, Copia c WHERE c.isil = p.isil AND c.id_posizione = p.etichetta AND c.isil = ? AND c.isbn = ?";
+    private final String doRetriveByLibroAndBibliotecaQuery = "SELECT DISTINCT p.* FROM Posizione p, Copia c WHERE c.isil = p.isil AND c.id_posizione = p.etichetta AND c.isil = ? AND c.isbn = ?";
     
     BibliotecaDAO bibliotecaDAO;
     CopiaDAO copiaDAO;

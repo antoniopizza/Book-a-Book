@@ -442,7 +442,7 @@ button {
   border-radius: 4px;
 }
 
-.btn-main, .btn-main-sm {
+.btn-main,.btn-main:focus, .btn-main-sm {
   background: rgb(186, 106, 37);
   color: #fff;
 }
@@ -451,6 +451,8 @@ button {
   background: rgb(168, 78, 0);
   color: #fff;
 }
+
+
 
 .btn-main-sm {
   padding: 6px 20px;

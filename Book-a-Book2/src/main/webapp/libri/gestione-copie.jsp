@@ -16,6 +16,11 @@
     String nomePagina = "Gestisci copie";
     Collection<Posizione> posizioni = (Collection<Posizione>) request.getAttribute("posizioni");
     Biblioteca biblioteca = ((Bibliotecario) session.getAttribute("bibliotecario")).getBiblioteca();
+    String message = "";
+    if (request.getAttribute("message") != null) {
+        message = (String) request.getAttribute("message");
+    }
+
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -141,8 +146,21 @@
                             </div>
 
                             <div class="row dashboard-container">
+                                <% if (message.equals("error")) { %>
+                                <div class="alert alert-danger">
+                                    <p>Si è verificato un errore durante l'esecuzione dell'operazione</p>
+                                </div>
+                                <% } %>
                                 <div class="col-md-12">
-                                    <h2>Gestisci copie</h2>
+                                    <div class="row">
+                                        <div class="col-md-8"><h2>Gestisci copie</h2></div>
+                                        <div class="col-md">
+                                            <button type="button" class="btn btn-main"  data-toggle="modal" data-target="#form-aggiunta-modal" >
+                                                Aggiungi copia
+                                            </button>
+                                        </div>
+                                    </div>
+
                                     <div class="tab-content" id="pills-tabContent">
                                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                             <% for (Posizione p : posizioni) {%>
@@ -184,22 +202,13 @@
 
                                                                             <i class="fa fa-arrows"></i>
                                                                         </a>		
-                                                                    </li>
-                                                                    <li class="list-inline-item">
-                                                                        <a class="edit"
-                                                                           data-toggle="tooltip" 
-                                                                           data-placement="top" 
-                                                                           title="modifica disponibilità "
-                                                                           href="#">
-                                                                            <i class="fa fa-pencil"></i>
-                                                                        </a>		
-                                                                    </li>
+                                                                    </li>                                                                   
                                                                     <li class="list-inline-item">
                                                                         <a class="delete" 
                                                                            data-toggle="tooltip" 
                                                                            data-placement="top" 
                                                                            title="elimina copia"
-                                                                           href="#">
+                                                                           href="elimina-copia?isbn=<%= book.getIsbn()%>&isil=<%= biblioteca.getIsil()%>&etichetta=<%= p.getEtichetta()%>&id-copia=<%= c.getId()%>">
                                                                             <i class="fa fa-trash"></i>
                                                                         </a>
                                                                     </li>
@@ -208,11 +217,13 @@
                                                             </td>
                                                         </tr>
                                                         <% } %>
+
                                                     </tbody>
 
                                                 </table>
-                                                <br>
+                                                <br>                                                
                                             </div>
+
                                             <% }%>
                                         </div>
                                     </div>
@@ -230,9 +241,9 @@
 
                 <!-- Modal content-->
                 <div class="modal-content">
-                    <form method="GET" name="sposta-form" id="sposta-form" >
+                    <form method="GET" name="sposta-form" id="sposta-form" action="sposta-copie" >
                         <div class="modal-header">
-                            <h4 class="modal-title">Modal Header</h4>
+                            <h4 class="modal-title">Sposta copia</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>                        
                         </div>
                         <div class="modal-body">
@@ -264,24 +275,73 @@
             </div>
         </div>
 
+
+        <!-- Modal -->
+        <div id="form-aggiunta-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <form method="GET" name="sposta-form" id="aggiungi-form" action="aggiungi-copia" >
+                        <div class="modal-header">
+                            <h4 class="modal-title">Aggiungi copia</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>                        
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-row form-group">
+                                <div class="col-4">
+                                    <label>Codice della copia</label>
+                                </div>    
+                                <div class="col">
+                                    <input type="text" class="form-control"  name="id-copia" id="id-copia"/>
+                                </div>
+                            </div>
+                            <div class="form-row form-group">
+                                <div class="col-4">
+                                    <label>Scaffale</label>
+                                </div>
+                                <div class="col"> 
+                                    <select name="posizione">
+                                        <% for (Posizione p : biblioteca.getPosizioni()) {%>
+                                        <option value="<%= p.getEtichetta()%>"><%= p.getEtichetta()%></option>
+                                        <% }%>
+                                    </select>
+                                    <input type="hidden" name="isil" value="<%= biblioteca.getIsil()%>" />                                                                       
+                                    <input type="hidden" name="isbn" value="<%= book.getIsbn()%>" />
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-default" >Aggiungi</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
         <%@include file="../skeleton-pages/footer.jsp" %>
         <script>
             $(document).ready(function () {
                 $("img").on("error", function () {
                     $(this).attr("src", "images/defaultBook.png");
                 });
-                
-                
-                $(".sposta").click(function() {
-                    
-                    var idCopia     = $(this).attr("copia");
+
+
+                $(".sposta").click(function () {
+
+                    var idCopia = $(this).attr("copia");
                     var idPosizione = $(this).attr("posizione");
-                    
+
                     $("#vecchia-posizione").val(idPosizione);
                     $("#id-copia").val(idCopia);
-                    
+
                 });
-                
+
             });
         </script>
     </body>

@@ -394,11 +394,20 @@ public class ManagerLibri {
     public Collection<Posizione> visualizzaPosizioniLibro(String isbn, String isil) {
 
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
-        List<Posizione> posizioni = posizioneDAO.doRetriveByLibroAndBiblioteca(isbn, isil);
+        List<Posizione> posizioni = posizioneDAO.doRetriveByLibroAndBiblioteca(isbn, isil);        
         for(Posizione p : posizioni){
             p.setBiblioteca(biblioteca);
             for(Copia c : copiaDAO.doRetriveByPosizioneAndIsbn(p,isbn)){
-                p.addCopia(c);
+                if(!Copia.STATUS_ELIMINATO.equals(c.getStatus())){
+                   p.addCopia(c);
+                }
+            }
+        }
+        
+        for(Posizione p : posizioni){
+            System.out.println(p.getEtichetta());
+            for(Copia c : p.getCopie()){
+                System.out.println(c.getId()+" "+c.getStatus());
             }
         }
         return posizioni;

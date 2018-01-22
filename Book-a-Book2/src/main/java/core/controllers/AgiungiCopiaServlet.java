@@ -5,13 +5,9 @@
  */
 package core.controllers;
 
-import core.entities.Bibliotecario;
-import core.entities.Copia;
-import core.entities.Libro;
-import core.entities.Posizione;
 import core.managers.ManagerLibri;
 import java.io.IOException;
-import java.util.Collection;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author manuel
  */
-@WebServlet(name = "GestisciCopieServlet", urlPatterns = {"/libri/gestisci-copie"})
-public class GestisciCopieServlet extends HttpServlet {
+@WebServlet(name = "AgiungiCopiaServlet", urlPatterns = {"/libri/aggiungi-copia"})
+public class AgiungiCopiaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,20 +32,22 @@ public class GestisciCopieServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-      
         
-                
+        String isbn = request.getParameter("isbn");
+        String isil = request.getParameter("isil");
+        String etichetta = request.getParameter("posizione");
+        String idCopia = request.getParameter("id-copia");
+        String message;
         
-        String isbn = request.getParameter("isbn");      
-        ManagerLibri manager = new ManagerLibri();
-        String isil = ((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIsil();
-        Collection<Posizione> posizioni = manager.visualizzaPosizioniLibro(isbn, isil);        
-        Libro book = manager.visualizzaLibro(isbn);
-        request.setAttribute("libro", book);
-        request.setAttribute("posizioni",posizioni);
-        request.getRequestDispatcher("gestione-copie.jsp").forward(request, response);
+        ManagerLibri managerLibri = new ManagerLibri();
+        if(managerLibri.aggiungiCopia(isbn, isil, etichetta, idCopia) != null){
+            message = "success";
+        } else {
+            message = "error";
+        }
         
+        request.setAttribute("message",message);
+        request.getRequestDispatcher("gestisci-copie").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
