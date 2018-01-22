@@ -1082,7 +1082,7 @@ ul.pagination .active a {
   text-align: center;
 }
 
-.dashboard-container .product-dashboard-table .action a {
+.dashboard-container .product-dashboard-table .action a , .action a{
   width: 30px;
   height: 30px;
   border-radius: 40px;
@@ -1092,7 +1092,7 @@ ul.pagination .active a {
   display: inline-block;
 }
 
-.dashboard-container .product-dashboard-table .action a i {
+.dashboard-container .product-dashboard-table .action a i, .action a i {
   line-height: 30px;
 }
 
@@ -1100,15 +1100,15 @@ ul.pagination .active a {
   margin-right: 0px;
 }
 
-.dashboard-container .product-dashboard-table .action .edit {
+.dashboard-container .product-dashboard-table .action .edit, .edit {
   background: #59d659;
 }
 
-.dashboard-container .product-dashboard-table .action .view {
+.dashboard-container .product-dashboard-table .action .view, .view {
   background: #50c6e9;
 }
 
-.dashboard-container .product-dashboard-table .action .delete {
+.dashboard-container .product-dashboard-table .action .delete , .delete{
   background: #ff5252;
 }
 

@@ -6,8 +6,7 @@
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
 <%
-   
-    
+
     Libro book;
     book = (Libro) request.getAttribute("libro");
     String nomePagina;
@@ -34,11 +33,26 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                    <%if (session.getAttribute("bibliotecario") != null){ %>
+                                    <%if (session.getAttribute("bibliotecario") != null) {
+                                        %>
                                     <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
-                                    <% } else {%>
+                                    <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
-                                    <% } %>
+                                    <% } else { %>
+                                    <li>
+                                        <a href="dashboard-my-ads.html"> Biblioteche</a>
+                                    </li>
+                                    <li>
+                                        <a href="dashboard-favourite-ads.html"> Novità</a>
+                                    </li>
+                                    <li>
+                                        <a href="dashboard-favourite-ads.html"> Autori</a>
+                                    </li>
+                                    <li>
+                                        <a href="dashboard-favourite-ads.html"> Popolari</a>
+                                    </li>
+                                    <% }
+                                       %>
                                 </ul>
                             </div>
                         </div>
@@ -147,10 +161,9 @@
                                                         <button class="btn btn-main">Elimina libro</button>
                                                     </form>
                                                     <br/>
-                                                    <form action="#" method="GET">
-                                                        <input type="hidden" name="isbn" value="">
-                                                        <button class="btn btn-main">Gestisci copie</button>
-                                                    </form>
+                                                    
+                                                    <a class="btn btn-main" href="gestisci-copie?isbn=<%=book.getIsbn()%>">Gestisci copie</a>
+                                                    
                                                     <br/>
                                                     <form action="#" method="GET">
                                                         <input type="hidden" name="isbn" value="">
