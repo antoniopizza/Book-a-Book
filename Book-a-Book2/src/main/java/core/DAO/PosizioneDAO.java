@@ -30,7 +30,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
     private final String doRetriveAllIsilQuery = "SELECT * FROM Posizione WHERE isil = ?";
     private final String doInsertQuery = "INSERT INTO Posizione(etichetta, isil) VALUES (?, ?)";
 //    private final String doUpdateQuery = "UPDATE Posizione SET num_copie = ?, num_copie_totali = ? WHERE etichetta = ? AND isbn = ? AND isil = ?"; //NON IMPLEMENTATA AL MOMENTO
-    private final String doRetriveByLibroAndBibliotecaQuery = "SELECT * FROM Posizione WHERE etichetta IN (SELECT id_posizione FROM Copia WHERE isbn = ? AND isil = ?)";
+    private final String doRetriveByLibroAndBibliotecaQuery = "SELECT DISTINCT p.* FROM Posizione p, Copia c WHERE c.isil = p.isil AND c.id_posizione = p.etichetta AND c.isil = ? AND c.isbn = ?";
     
     BibliotecaDAO bibliotecaDAO;
     CopiaDAO copiaDAO;
@@ -190,7 +190,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                 while(rs.next()) {
                     Posizione posizione = new Posizione(rs.getString("etichetta"));
                     
-                    Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    /*Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
                     posizione.setBiblioteca(biblioteca);
                     List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
 
@@ -198,7 +198,7 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                    
                     for(Copia c : copie){
                         posizione.addCopia(c);
-                    }
+                    }*/
                     
                     posizioneList.add(posizione);
                 }
@@ -319,8 +319,9 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
             Connection con = DriverManagerConnectionPool.getConnection();
             
             PreparedStatement prst = con.prepareStatement(doRetriveByLibroAndBibliotecaQuery);
-            prst.setString(1,isbn);
-            prst.setString(2, isil);
+            prst.setString(2,isbn);
+            prst.setString(1, isil);
+            
             
             try {
                 ResultSet rs = prst.executeQuery();
@@ -329,14 +330,14 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                 while(rs.next()) {
                     Posizione posizione = new Posizione(rs.getString("etichetta"));
                     
-                    Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
-                    posizione.setBiblioteca(biblioteca);
-                    List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
+                    //Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    //posizione.setBiblioteca(biblioteca);
+                    //List<Copia> copie = copiaDAO.doRetriveByPosizioneAndIsbn(posizione,isbn);
                   
                    
-                    for(Copia c : copie){
-                        posizione.addCopia(c);
-                    }
+                    //for(Copia c : copie){
+                    //    posizione.addCopia(c);
+                    //}
                     
                     posizioneList.add(posizione);
                 }

@@ -5,15 +5,9 @@
  */
 package core.controllers;
 
-import core.entities.Admin;
-import core.entities.Bibliotecario;
-import core.entities.Persona;
-import core.entities.Utente;
-import core.managers.ManagerAutenticazione;
 import core.managers.ManagerLibri;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,10 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author kliffom
+ * @author manuel
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/autenticazione/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "AgiungiCopiaServlet", urlPatterns = {"/libri/aggiungi-copia"})
+public class AgiungiCopiaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,48 +32,22 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         
+        String isbn = request.getParameter("isbn");
+        String isil = request.getParameter("isil");
+        String etichetta = request.getParameter("posizione");
+        String idCopia = request.getParameter("id-copia");
         String message;
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        System.out.println("mail:" + email + ", pass: " + password);
         
-        ManagerAutenticazione managerAutenticazione = new ManagerAutenticazione();
-        Utente utente = managerAutenticazione.login(email, password);
-        
-        if(utente!=null) {
-            message = "correct";
-            
-            if(utente instanceof Persona) { //se l'Utente che si è loggato è una Persona
-                //System.out.println("Persona login.");
-                request.getSession().setAttribute("persona", utente);
-            }
-            else if(utente instanceof Admin) { //se l'Utente che si è loggato è un Admin
-                //System.out.println("Admin login.");
-                request.getSession().setAttribute("admin", utente);
-            }
-            else if(utente instanceof Bibliotecario){ //se l'Utente che si è loggato è un Bibliotecario
-            
-                request.getSession().setAttribute("bibliotecario", utente);
-                
-            }
-            else { //ehm...
-                System.err.println("You should not be here.");
-                message = "C'è stato un errore imprevisto. Contattare l'amministratore di sistema.";
-            }
-        }
-        else { //l'utente è null, quindi non è possibile effettuare il login
-            message = "Dati inseriti errati o non presenti.";
-            request.setAttribute("message", message);
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-            dispatcher.forward(request, response);
+        ManagerLibri managerLibri = new ManagerLibri();
+        if(managerLibri.aggiungiCopia(isbn, isil, etichetta, idCopia) != null){
+            message = "success";
+        } else {
+            message = "error";
         }
         
-        response.sendRedirect("../skeleton-pages/index.jsp");
-        
-        
+        request.setAttribute("message",message);
+        request.getRequestDispatcher("gestisci-copie").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

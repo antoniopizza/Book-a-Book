@@ -7,6 +7,7 @@ package core.DAO;
 
 import core.entities.Biblioteca;
 import core.entities.Indirizzo;
+import core.entities.Posizione;
 import core.utils.DriverManagerConnectionPool;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,6 +58,11 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                     } else {
                     biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico")),adminDAO.doRetriveById(rs.getInt("id_admin"))); 
                     }
+                    
+                    biblioteca.setPosizioni(new PosizioneDAO().doRetriveAllByIsil(rs.getString("isil")));
+                    
+                    
+                    
                 }
                 rs.close();
                 return biblioteca;

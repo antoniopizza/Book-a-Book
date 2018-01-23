@@ -26,6 +26,7 @@ public class CopiaDAO extends AbstractDAO<Copia> {
     private final String doRetriveByIdQuery = "SELECT * FROM Copia WHERE id = ? AND isbn = ? AND isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Copia";
     private final String doRetriveByPosizioneQuery = "SELECT * FROM Copia WHERE id_posizione = ? AND isil = ?";
+    private final String doRetriveByPosizioneIsbnQuery = "SELECT * FROM Copia WHERE id_posizione = ? AND isil = ? AND isbn = ?";
     private final String doDeleteQuery = "DELETE FROM Copia WHERE id = ? AND isbn = ? AND isil = ?";
     private final String doUpdatePosizioneQuery = "UPDATE Copia SET id_posizione = ? WHERE id = ? AND isbn = ? AND isil = ?";
     private final String doUpdate = "UPDATE Copia SET disponibilita = ? , status = ?  WHERE id = ? AND isbn = ? AND isil = ?";
@@ -239,6 +240,47 @@ public class CopiaDAO extends AbstractDAO<Copia> {
                     c.setStatus(rs.getString("status"));
                     c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
                     c.setPosizione(posizione);
+                    copie.add(c);
+                }
+
+                
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+
+        return copie;
+    }
+    
+    
+    public List<Copia> doRetriveByPosizioneAndIsbn(Posizione posizione,String isbn) {
+        List<Copia> copie = new ArrayList<>();
+        
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doRetriveByPosizioneIsbnQuery);
+            prst.setString(1, posizione.getEtichetta());
+            prst.setString(2, posizione.getBiblioteca().getIsil());
+            prst.setString(3, isbn);
+            
+            try (ResultSet rs = prst.executeQuery()) {
+                while (rs.next()) {
+                    con.commit();
+                    Copia c = new Copia();
+                    c.setId(rs.getString("id"));
+                    c.setDisponibilita(rs.getString("disponibilita"));
+                    c.setStatus(rs.getString("status"));
+                    c.setLibro(libroDao.doRetriveById(rs.getString("isbn")));
+                    //c.setPosizione(posizione);
                     copie.add(c);
                 }
 

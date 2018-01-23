@@ -60,7 +60,7 @@ public class ManagerAutenticazione {
                         break;
                         
                     case Utente.TIPO_BIBLIOTECARIO:
-                        utente = bibliotecarioDAO.doRetriveByEmail(email);
+                        utente = bibliotecarioDAO.doRetriveByEmail(email);                        
                         break;
                     
                     case Utente.TIPO_PERSONA:

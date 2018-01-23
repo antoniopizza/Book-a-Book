@@ -198,7 +198,7 @@ public class ManagerLibriTest {
         Posizione nuovaPosizione = posizioneNew;
         ManagerLibri instance = new ManagerLibri(new BibliotecaDAOStub(), posizioneDAO, libroDAO);
         boolean expResult = true;
-        boolean result = instance.spostaCopie(isbn, isil, idCopia, vecchiaPosizione, nuovaPosizione);
+        boolean result = instance.spostaCopie(isbn, isil, idCopia, vecchiaPosizione.getEtichetta(), nuovaPosizione.getEtichetta());
         
         assertEquals(expResult, result);
     }

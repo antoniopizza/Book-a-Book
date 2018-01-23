@@ -90,7 +90,12 @@ public class ManagerLibri {
             return false;
         }
 
-        List<Posizione> posizioni = posizioneDAO.doRetriveAllByIsil(idBiblioteca);
+        List<Posizione> posizioni = posizioneDAO.doRetriveByLibroAndBiblioteca(isbn,idBiblioteca);
+        for(Posizione p : posizioni){
+            for(Copia c : copiaDAO.doRetriveByPosizione(p)){
+                p.addCopia(c);
+            }
+        }
         if (posizioni == null || posizioni.isEmpty()) {
             return false;
         }
@@ -276,6 +281,11 @@ public class ManagerLibri {
         }
 
         List<Posizione> posizioni = posizioneDAO.doRetriveAllByIsil(isil);
+        for(Posizione p : posizioni){
+            for(Copia c : copiaDAO.doRetriveByPosizione(p)){
+                p.addCopia(c);
+            }
+        }
         if (posizioni == null || posizioni.isEmpty()) {
             return false;
         }
@@ -315,12 +325,12 @@ public class ManagerLibri {
      * vecchiaPosizione non corrisponde alla posizione attuale della Copia,
      * oppure se lo spostamento fallisce.
      */
-    public boolean spostaCopie(String isbn, String isil, String idCopia, Posizione vecchiaPosizione, Posizione nuovaPosizione) {
+    public boolean spostaCopie(String isbn, String isil, String idCopia, String idVecchiaPosizione, String idNuovaPosizione) {
 
         Copia copia = copiaDAO.doRetriveById(idCopia, isbn, isil);
 
-        if (copia.getPosizione().getEtichetta().equals(vecchiaPosizione.getEtichetta())) {   //controllo se la copia ricevuta ha la stessa etichetta della vecchia posizione ricevuta
-            if (copiaDAO.doUpdatePosizione(copia, nuovaPosizione.getEtichetta()) == -1) { //aggiorna la posizione della copia con la nuova posizione
+        if (copia.getPosizione().getEtichetta().equals(idVecchiaPosizione)) {   //controllo se la copia ricevuta ha la stessa etichetta della vecchia posizione ricevuta
+            if (copiaDAO.doUpdatePosizione(copia, idNuovaPosizione) == -1) { //aggiorna la posizione della copia con la nuova posizione
                 return false; //return false se la modifica fallisce
             }
         } else { //la vecchiaPosizione ricevuta non corrisponde alla posizione contenuta nella copia
@@ -383,7 +393,23 @@ public class ManagerLibri {
      */
     public Collection<Posizione> visualizzaPosizioniLibro(String isbn, String isil) {
 
-        List<Posizione> posizioni = posizioneDAO.doRetriveByLibroAndBiblioteca(isbn, isil);
+        Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
+        List<Posizione> posizioni = posizioneDAO.doRetriveByLibroAndBiblioteca(isbn, isil);        
+        for(Posizione p : posizioni){
+            p.setBiblioteca(biblioteca);
+            for(Copia c : copiaDAO.doRetriveByPosizioneAndIsbn(p,isbn)){
+                if(!Copia.STATUS_ELIMINATO.equals(c.getStatus())){
+                   p.addCopia(c);
+                }
+            }
+        }
+        
+        for(Posizione p : posizioni){
+            System.out.println(p.getEtichetta());
+            for(Copia c : p.getCopie()){
+                System.out.println(c.getId()+" "+c.getStatus());
+            }
+        }
         return posizioni;
     }
 
