@@ -65,9 +65,9 @@
                             </div>
 
                             <% if (message != null) {
-                                    if (message.equals("error")) { %>
+                                    if (!message.equals("success")) { %>
                             <div class="alert alert-danger">
-                                <p>Oops ! Qualcosa è andato storto</p>
+                                <p><%= message %></p>
                             </div>
                             <% } else { %>
                             <div class="alert alert-success">
@@ -106,6 +106,7 @@
                                                         <ul class="list-inline justify-content-center product-dashboard-table">                                                                                                                              
                                                             <li class="list-inline-item">
                                                                 <a class="delete" 
+                                                                   href="elimina-posizione?etichetta=<%= p.getEtichetta()%>&isil=<%= biblioteca.getIsil()%>"
                                                                    data-toggle="tooltip" 
                                                                    data-placement="top" 
                                                                    title="elimina copia">

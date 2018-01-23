@@ -414,6 +414,11 @@ public class ManagerLibri {
         return posizioni;
     }
     
+    /**
+     * Visualizza tutte gli scaffali di una biblioteca
+     * @param isil
+     * @return 
+     */
     public List<Posizione> visualizzaPosizioniBiblioteca(String isil){
         List<Posizione> posiziones = posizioneDAO.doRetriveAllByIsil(isil);
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
@@ -427,4 +432,36 @@ public class ManagerLibri {
         return posiziones;
     }
 
+    /**
+     * 
+     * @param etichetta
+     * @param isil
+     * @return 
+     */
+    public boolean eliminaPosizione(String etichetta, String isil){
+        
+        Posizione posizione = posizioneDAO.doRetriveById(etichetta,isil);
+        Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
+        posizione.setBiblioteca(biblioteca);
+        
+        for(Copia c : copiaDAO.doRetriveByPosizione(posizione)){
+            posizione.addCopia(c);
+        }
+        
+        if(posizione.getCopie().isEmpty()){
+            return posizioneDAO.doDelete(posizione);                            
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * 
+     * @param isbn
+     * @return 
+     */
+    public Collection<Biblioteca> getBibliotecheConLibro(String isbn){
+        return bibliotecaDAO.doRetriveByLibro(isbn);
+    }
+    
 }

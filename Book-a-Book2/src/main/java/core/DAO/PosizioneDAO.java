@@ -29,9 +29,9 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
     private final String doRetriveAllQuery = "SELECT * FROM Posizione";
     private final String doRetriveAllIsilQuery = "SELECT * FROM Posizione WHERE isil = ?";
     private final String doInsertQuery = "INSERT INTO Posizione(etichetta, isil) VALUES (?, ?)";
-//    private final String doUpdateQuery = "UPDATE Posizione SET num_copie = ?, num_copie_totali = ? WHERE etichetta = ? AND isbn = ? AND isil = ?"; //NON IMPLEMENTATA AL MOMENTO
+    private final String doDeleteQuery = "DELETE FROM Posizione WHERE etichetta = ? AND isil = ?";
     private final String doRetriveByLibroAndBibliotecaQuery = "SELECT DISTINCT p.* FROM Posizione p, Copia c WHERE c.isil = p.isil AND c.id_posizione = p.etichetta AND c.isil = ? AND c.isbn = ?";
-    
+        
     BibliotecaDAO bibliotecaDAO;
     CopiaDAO copiaDAO;
 
@@ -359,5 +359,38 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
         return posizioneList;
     }
     
+    /**
+     * Metodo che elimina una posizione priva di copie.
+     * 
+     * @param posizione
+     * @return true se tutto ok, false altrimenti.
+     */
+    public boolean doDelete(Posizione posizione){
+        
+        try{
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            prst.setString(1,posizione.getEtichetta());
+            prst.setString(2,posizione.getBiblioteca().getIsil());
+            
+            try {
+                prst.execute();
+                con.commit();
+                return true;
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                con.rollback();
+                return false;
+            } finally{
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+            
+        } catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        } 
+        
+    }
     
 }

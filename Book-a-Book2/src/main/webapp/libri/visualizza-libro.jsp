@@ -1,3 +1,4 @@
+<%@page import="java.util.Collection"%>
 <%@page import="core.entities.Persona"%>
 <%@page import="core.entities.Bibliotecario"%>
 <%@page import="java.util.List"%>
@@ -16,6 +17,8 @@
     } else {
         nomePagina = book.getTitolo();
     }
+    
+    Collection<Biblioteca> bibliotecheDisponibili = (Collection<Biblioteca>) request.getAttribute("biblioteche");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -154,21 +157,18 @@
                                             <h3>Operazioni:</h3>
                                             <br/>
                                             <div class="row">
-                                                <div class="col-md-12" align="center">
-
-                                                    <form action="#" method="GET">
-                                                        <input type="hidden" name="isbn" value="">
-                                                        <button class="btn btn-main">Elimina libro</button>
-                                                    </form>
-                                                    <br/>
+                                                <div class="col-md-12" align="center">                                                    
                                                     
-                                                    <a class="btn btn-main" href="gestisci-copie?isbn=<%=book.getIsbn()%>">Gestisci copie</a>
+                                                    <a class="btn btn-main" title="gestisci copie" href="gestisci-copie?isbn=<%=book.getIsbn()%>">
+                                                        <i class="fa fa-book"></i>
+                                                    </a>
                                                     
-                                                    <br/>
-                                                    <form action="#" method="GET">
-                                                        <input type="hidden" name="isbn" value="">
-                                                        <button class="btn btn-main">Prenota</button>
-                                                    </form>
+                                                    <a class="btn btn-success" title="prenota libro" href="gestisci-copie?isbn=<%=book.getIsbn()%>">
+                                                        <i class="fa fa-pencil-square-o"></i>
+                                                    </a>
+                                                   
+                                                    <a class="btn btn-danger" title="elimina libro" ><i class="fa fa-trash"></i></a>
+                                                    
                                                 </div>
                                             </div>
                                             <%
@@ -264,34 +264,21 @@
                                             </tr>
                                         </thead>
                                         <tbody align="center">
-                                            <tr>
-                                                <td>
-                                                    IT-123
-                                                </td>
-                                                <td>
-                                                    Biblioteca Atripalda
-                                                </td>
-                                                <td>
-                                                    Via Manfredi 6, Atripalda
-                                                </td>
-                                                <td>
-                                                    15
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    IT-321
-                                                </td>
-                                                <td>
-                                                    Biblioteca Svevo
-                                                </td>
-                                                <td>
-                                                    Via Roma 21, Nocera Inferiore
-                                                </td>
-                                                <td>
-                                                    31
-                                                </td>
-                                            </tr>
+                                            
+                                            <% if(bibliotecheDisponibili != null){
+                                                
+                                                for(Biblioteca b :bibliotecheDisponibili){ %>
+                                                    
+                                                <tr>
+                                                    <td><%= b.getIsil() %></td>
+                                                    <td><%= b.getNome() %></td>
+                                                    <td><%= b.getIndirizzo().getVia() + b.getIndirizzo().getCivico() + b.getIndirizzo().getCitta() + b.getIndirizzo().getProvincia() %></td>
+                                                    <td>NO</td>
+                                                </tr>
+                                                
+                                            <%    }
+                                                
+                                            } %>
                                         </tbody>
 
                                     </table>

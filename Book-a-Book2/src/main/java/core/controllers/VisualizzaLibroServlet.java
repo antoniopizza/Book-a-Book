@@ -5,21 +5,11 @@
  */
 package core.controllers;
 
-import core.DAO.BibliotecaDAO;
-import core.DAO.BibliotecaDAOStub;
-import core.DAO.LibroDAO;
-import core.DAO.PosizioneDAO;
 import core.entities.Biblioteca;
-import core.entities.Bibliotecario;
-import core.entities.Copia;
 import core.entities.Libro;
-import core.entities.Persona;
-import core.entities.Posizione;
 import core.managers.ManagerLibri;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,6 +50,12 @@ public class VisualizzaLibroServlet extends HttpServlet {
             message = "Nessun libro corrisponde all'ISBN ricevuto.";
         } else {
             message = "correct";
+            
+            if(request.getSession().getAttribute("persona") != null){
+                Collection<Biblioteca> bibliotecheConLibro = managerLibri.getBibliotecheConLibro(isbn);
+                request.setAttribute("biblioteche",bibliotecheConLibro);
+            }
+            
         }
 
        request.setAttribute("libro", libro);

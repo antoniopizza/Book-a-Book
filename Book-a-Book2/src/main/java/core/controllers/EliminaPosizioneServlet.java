@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author manuel
  */
-@WebServlet(name = "AggiuntaPosizioneServlet", urlPatterns = {"/libri/aggiunta-posizione"})
-public class AggiuntaPosizioneServlet extends HttpServlet {
+@WebServlet(name = "EliminaPosizioneServlet", urlPatterns = {"/libri/elimina-posizione"})
+public class EliminaPosizioneServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,20 +33,21 @@ public class AggiuntaPosizioneServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String isil = request.getParameter("isil");
         String etichetta = request.getParameter("etichetta");
+        String isil = request.getParameter("isil");
         String message;
         
         ManagerLibri manager = new ManagerLibri();
         
-        if(manager.aggiungiPosizione(etichetta, isil) != null){
+        if(manager.eliminaPosizione(etichetta, isil)){
             message = "success";
         } else {
-            message = "Errore nell'aggiunta dello scaffale. L'etichetta inserita può già essere presente.";
+            message = "Errore nell'eliminazione dello scaffale. Lo scaffale scelto potrebbe non essere vuoto";
         }
         
         request.setAttribute("message", message);
         request.getRequestDispatcher("visualizza-scaffali").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
