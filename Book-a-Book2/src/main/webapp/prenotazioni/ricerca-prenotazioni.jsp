@@ -205,7 +205,7 @@
                 $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
                 bool = false;
             }
-        }
+        }    
         if (bool == true) {
             $("cercaPren").submit();
         }

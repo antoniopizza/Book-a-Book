@@ -5,6 +5,8 @@
  */
 package core.controllers;
 
+import core.entities.Bibliotecario;
+import core.entities.Persona;
 import core.managers.ManagerPrenotazione;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -33,22 +35,32 @@ public class AnnullaPrenotazioneServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        String message;
-        
+
+        String message = null;
+
         int idPrenotazione = Integer.parseInt(request.getParameter("id_prenotazione"));
-        String email = request.getParameter("email");
         String status = "Annullata";
         ManagerPrenotazione manPren = new ManagerPrenotazione();
-        
-        if(manPren.controlloPrenotazione(idPrenotazione, email, status) == false){
-            message = "C'è stato un errore durante qualche operazione.";
-        } else {
-            message = "correct";
+
+        if (request.getSession().getAttribute("persona") != null) {
+            Persona p = (Persona) request.getSession().getAttribute("persona");
+            String email = p.getAccount().getEmail();
+            if (manPren.controlloPrenotazione(idPrenotazione, email, status) == false) {
+                message = "C'è stato un errore durante qualche operazione.";
+            } else {
+                message = "correct";
+            }
+        } else if (request.getSession().getAttribute("bibliotecario") != null) {
+            Bibliotecario b = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
+            String email = b.getAccount().getEmail();
+            if (manPren.controlloPrenotazione(idPrenotazione, email, status) == false) {
+                message = "C'è stato un errore durante qualche operazione.";
+            } else {
+                message = "correct";
+            }
         }
-        
+
         request.setAttribute("message", message);
-        //request.setAttribute("prenotazione", this);
         RequestDispatcher view = request.getRequestDispatcher("visualizzaPrenotazioni.jsp");
         view.forward(request, response);
     }
