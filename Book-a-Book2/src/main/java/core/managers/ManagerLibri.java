@@ -363,8 +363,7 @@ public class ManagerLibri {
      */
     public Posizione aggiungiPosizione(String etichetta, String isil) {
 
-        Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil); //prendo un oggetto biblioteca dalla DAO
-        List<Copia> copie = new ArrayList<>();
+        Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil); //prendo un oggetto biblioteca dalla DAO       
 
         Posizione posizione = new Posizione(etichetta);
         posizione.setBiblioteca(biblioteca);
@@ -374,6 +373,8 @@ public class ManagerLibri {
             if (posizioneDAO.doInsert(posizione) == -1) { //inserisce la posizione nel db
                 return null; //nel caso non riesca ad inserire il metodo restituisce null
             }
+        } else {
+            posizione = null;
         }
 
         return posizione; //restituisce la posizione inserita
@@ -411,6 +412,19 @@ public class ManagerLibri {
             }
         }
         return posizioni;
+    }
+    
+    public List<Posizione> visualizzaPosizioniBiblioteca(String isil){
+        List<Posizione> posiziones = posizioneDAO.doRetriveAllByIsil(isil);
+        Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
+        for(Posizione p : posiziones){
+            p.setBiblioteca(biblioteca);
+            for(Copia c : copiaDAO.doRetriveByPosizione(p)){
+                p.addCopia(c);
+            }
+        }
+        
+        return posiziones;
     }
 
 }
