@@ -10,7 +10,7 @@
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
 <% String nomePagina = "Informazioni Prenotazione";
-String pathServlet = application.getContextPath() + "/core.controllers/";
+    String pathServlet = application.getContextPath() + "/core.controllers/";
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -104,23 +104,23 @@ String pathServlet = application.getContextPath() + "/core.controllers/";
                                     if (prenotazione.getStatus().equals("Da ritirare")) {
                                         if (user instanceof Persona) {
                                 %>
-                                <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">
-                                    <form class="form-group" action="/prenotazioni/annulla-prenotazione">
-                                        <button class="btn btn-transparent">Annulla Prenotazione</button>
-                                    </form>
+                                <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">  
+                                    <div class="form-group">
+                                        <a class="btn btn-transparent" href="annulla-prenotazione?id_prenotaione=<%= prenotazione.getId()%>">Annulla Prenotazione</a> 
+                                    </div> 
                                 </div>
                                 <%
                                 } else if (user instanceof Bibliotecario) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                    <form class="form-group" action="/prenotazioni/annulla-prenotazione">
-                                        <button class="btn btn-transparent">Annulla Prenotazione</button>
-                                    </form>
+                                    <div class="form-group">
+                                        <a class="btn btn-transparent" href="annulla-prenotazione?id_prenotazione=<%= prenotazione.getId()%>">Annulla Prenotazione</a> 
+                                    </div> 
                                 </div>
                                 <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                    <form class="form-group" action="/prenotazioni/conferma-ritiro">
-                                        <button class="btn btn-transparent">Ritira</button>
-                                    </form>
+                                    <div class="form-group">
+                                            <a class="btn btn-transparent" href="conferma-ritiro?id_prenotazione=<%= prenotazione.getId()%>">Ritira</a> 
+                                        </div> 
                                 </div>
                                 <%
                                     }
@@ -131,9 +131,9 @@ String pathServlet = application.getContextPath() + "/core.controllers/";
 
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">
-                                    <form class="form-group" action="/prenotazioni/conferma-restituzione">
-                                        <button class="btn btn-transparent">Restituisci</button>
-                                    </form>
+                                   <div class="form-group">
+                                            <a class="btn btn-transparent" href="conferma-restituzione?id_prenotazione=<%= prenotazione.getId()%>">Restituisci</a> 
+                                        </div> 
                                 </div>    
                                 <%                                                    }
                                     }

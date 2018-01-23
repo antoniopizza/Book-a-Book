@@ -82,7 +82,7 @@ public class ManagerPrenotazioneTest {
         String isil = bib.getIsil();
         ManagerPrenotazione instance = new ManagerPrenotazione();
         boolean expResult = false;
-        boolean result = instance.prenotareLibro(p, copia, isil);
+        boolean result = instance.prenotareLibro(p, libro.getIsbn(), isil);
         assertEquals(expResult, result);
     }
 

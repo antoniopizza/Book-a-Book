@@ -5,6 +5,7 @@
  */
 package core.controllers;
 
+import core.entities.Bibliotecario;
 import core.managers.ManagerPrenotazione;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -34,17 +35,20 @@ public class ConfermaRestituzioneLibroServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        String message;
+        String message = null;
         
         int idPrenotazione = Integer.parseInt(request.getParameter("id_prenotazione"));
-        String email = request.getParameter("email");
         String status = "Restituito";
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         
-        if(manPren.controlloPrenotazione(idPrenotazione, email, status) == false){
-            message = "C'è stato un errore durante qualche operazione.";
-        } else {
-            message = "correct";
+        if (request.getSession().getAttribute("bibliotecario") != null) {
+            Bibliotecario b = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
+            String email = b.getAccount().getEmail();
+            if (manPren.controlloPrenotazione(idPrenotazione, email, status) == false) {
+                message = "C'è stato un errore durante qualche operazione.";
+            } else {
+                message = "correct";
+            }
         }
         
         request.setAttribute("message", message);

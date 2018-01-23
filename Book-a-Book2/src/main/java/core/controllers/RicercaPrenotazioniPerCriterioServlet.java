@@ -49,31 +49,39 @@ public class RicercaPrenotazioniPerCriterioServlet extends HttpServlet {
         Collection<Prenotazione> lista = new ArrayList<>();
         String criterio = request.getParameter("criterio");
         if (criterio.equals("utente")) {
+
             ricerca = new prenotazioniPerId(Integer.parseInt(request.getParameter("valore")));
         } else if (criterio.equals("codice")) {
+
             ricerca = new prenotazioniPerCodice(Integer.parseInt(request.getParameter("valore")));
         } else if (criterio.equals("ritiro")) {
+
             String stringaData = request.getParameter("valore");
             String[] dataArray = stringaData.split("-");
-            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1])-1, Integer.parseInt(dataArray[1]));
+            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[1]));
             ricerca = new prenotazioniSuDataDiConsegna(data);
+
         } else if (criterio.equals("creazione")) {
+
             String stringaData = request.getParameter("valore");
             String[] dataArray = stringaData.split("-");
-            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1])-1, Integer.parseInt(dataArray[1]));
+            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[1]));
             ricerca = new prenotazioniSuDataDiCreazione(data);
+
         } else if (criterio.equals("scadenza")) {
+
             String stringaData = request.getParameter("valore");
             String[] dataArray = stringaData.split("-");
-            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1])-1, Integer.parseInt(dataArray[1]));
+            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[1]));
             ricerca = new prenotazioniSuDataDiScadenza(data);
-           
+
         }
 
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         lista = manPren.visualizzaPrenotazioni(ricerca);
         if (lista.isEmpty()) {
             message = "Nessun dato corrispondente al criterio selezionato.";
+
         } else {
             message = "correct";
         }

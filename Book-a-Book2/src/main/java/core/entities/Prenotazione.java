@@ -14,6 +14,12 @@ import java.util.Objects;
  */
 public class Prenotazione {
     
+    public static final String DA_RITIRARE ="Da ritirare";
+    public static final String RITIRATO ="Ritirato";
+    public static final String RESTITUITO ="Restituito";
+    public static final String ANNULLATA = "Annullata";
+    public static final String OLTRE_SCADENZA="Oltre scadenza";
+    
     protected int id;
     protected Calendar dataCreazione;
     protected Calendar dataScadenza;

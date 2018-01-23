@@ -5,6 +5,9 @@
  */
 package core.controllers;
 
+import core.entities.Admin;
+import core.entities.Bibliotecario;
+import core.entities.Persona;
 import core.entities.Prenotazione;
 import core.entities.Utente;
 import core.managers.ManagerPrenotazione;
@@ -12,10 +15,8 @@ import core.utils.Criterio;
 import core.utils.prenotazioniPerId;
 import core.utils.prenotazioniPerIsil;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,30 +47,26 @@ public class VisualizzaPrenotazioni extends HttpServlet {
         String message;
         Collection<Prenotazione> lista = new ArrayList<>();
         Criterio cr;
-        int id_Persona = Integer.parseInt(request.getParameter("id_persona"));
-        String isil = request.getParameter("isil");
-        String user = request.getParameter("user");
         ManagerPrenotazione manPren = new ManagerPrenotazione();
-        //In questa servlet verra' passato L'id_persona, o il l'isil, e il tipo di utente(Persona,Biblioteca) con un setParameter.
-        if (user.equalsIgnoreCase("Biblioteca")) {
-            cr = new prenotazioniPerIsil(isil);
+
+        if (request.getSession().getAttribute("persona") != null) {
+            Persona p = (Persona) request.getSession().getAttribute("persona");
+            cr = new prenotazioniPerId(p.getId());
             lista = manPren.visualizzaPrenotazioni(cr);
-            if (lista.isEmpty()) {
-                message = "Nessun dato corrispondente.";
-            } else {
-                message = "correct";
-            }
-        } else if (user.equalsIgnoreCase("Persona")) {
-            cr = new prenotazioniPerId(id_Persona);
+        } else if (request.getSession().getAttribute("bibliotecario") != null) {
+            Bibliotecario b = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
+            cr = new prenotazioniPerIsil(b.getBiblioteca().getIsil());
             lista = manPren.visualizzaPrenotazioni(cr);
-            if (lista.isEmpty()) {
-                message = "Nessun dato corrispondente.";
-            } else {
-                message = "correct";
-            }
         } else {
             message = "Il tipo di utente non e' definito.";
         }
+
+        if (lista.isEmpty()) {
+            message = "Nessun dato corrispondente.";
+        } else {
+            message = "correct";
+        }
+
         request.setAttribute("lista", lista);
         request.setAttribute("message", message);
         RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
