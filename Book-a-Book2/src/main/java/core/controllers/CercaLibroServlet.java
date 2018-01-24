@@ -94,12 +94,9 @@ public class CercaLibroServlet extends HttpServlet {
             //YOU SHOULD NOT BE HERE!
         }
 
-        BibliotecaDAO bibliotecaDAO = new BibliotecaDAOStub();
-        PosizioneDAO posizioneDAO = new PosizioneDAO();
-        LibroDAO libroDAO = new LibroDAO();
-        ManagerLibri managerLibri = new ManagerLibri(bibliotecaDAO, posizioneDAO, libroDAO);
+        
 
-        //ManagerLibri managerLibri = new ManagerLibri();
+        ManagerLibri managerLibri = new ManagerLibri();
         libri = managerLibri.cercaLibro(criterio);
 
         if (libri.isEmpty()) {
@@ -107,40 +104,40 @@ public class CercaLibroServlet extends HttpServlet {
         } else {
             message = "correct";
         }
-
-        List<Biblioteca> biblioteche = bibliotecaDAO.doRetriveAll();
-        List<Integer> disponibili = new ArrayList<Integer>();
-        for (Libro l : libri) {
-            List<Posizione> posizioniTotali = new ArrayList<>();
-
-            for (Biblioteca b : biblioteche) {
-                List<Posizione> pos = (List<Posizione>) managerLibri.visualizzaPosizioniLibro(l.getIsbn(), b.getIsil());
-                posizioniTotali.addAll(pos);
-                //System.out.println("Aggiunte da: " + b.getIsil());
-            }
-            //System.out.println("Num posizioni:" + posizioniTotali.size());
-
-            List<Copia> copieTotali = new ArrayList<>();
-            for (Posizione p : posizioniTotali) {
-                List<Copia> copie = p.getCopie();
-                for (Copia c : copie) {
-                    if (c.getLibro().getIsbn().equals(l.getIsbn())) {
-                        if (c.getStatus().equals("Non Prenotato")) {
-                            copieTotali.add(c);
-                        }
-                    }
-                }
-            }
-            if (copieTotali.size() == 0) {
-                disponibili.add(0);
-            } else {
-                disponibili.add(1);
-            }
-        }
+//
+//        List<Biblioteca> biblioteche = bibliotecaDAO.doRetriveAll();
+//        List<Integer> disponibili = new ArrayList<Integer>();
+//        for (Libro l : libri) {
+//            List<Posizione> posizioniTotali = new ArrayList<>();
+//
+//            for (Biblioteca b : biblioteche) {
+//                List<Posizione> pos = (List<Posizione>) managerLibri.visualizzaPosizioniLibro(l.getIsbn(), b.getIsil());
+//                posizioniTotali.addAll(pos);
+//                //System.out.println("Aggiunte da: " + b.getIsil());
+//            }
+//            //System.out.println("Num posizioni:" + posizioniTotali.size());
+//
+//            List<Copia> copieTotali = new ArrayList<>();
+//            for (Posizione p : posizioniTotali) {
+//                List<Copia> copie = p.getCopie();
+//                for (Copia c : copie) {
+//                    if (c.getLibro().getIsbn().equals(l.getIsbn())) {
+//                        if (c.getStatus().equals("Non Prenotato")) {
+//                            copieTotali.add(c);
+//                        }
+//                    }
+//                }
+//            }
+//            if (copieTotali.size() == 0) {
+//                disponibili.add(0);
+//            } else {
+//                disponibili.add(1);
+//            }
+//        }
 
         request.setAttribute("message", message);
         request.setAttribute("libri", libri);
-        request.setAttribute("disponibili", disponibili);
+//        request.setAttribute("disponibili", disponibili);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("cerca-libro.jsp");
         dispatcher.forward(request, response);

@@ -223,11 +223,11 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
         return 0;
    }
    
-   public List<Biblioteca> doRetriveIsilByCopia(String isbn) {
-        Biblioteca biblioteca;
-        BibliotecaDAO bibliotecaDAO = null;
+   public List<Biblioteca> doRetriveByLibro(String isbn) {          
         List<Biblioteca> listaBiblioteche = new ArrayList<Biblioteca>();
-
+        IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+        AdminDAO adminDAO = new AdminDAO();
+        
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveBibliotecaByIsbn);
@@ -237,9 +237,17 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
                 ResultSet rs = prst.executeQuery();
                 con.commit();
                 
-                while(rs.next()){
-                    String isil = rs.getString("isil");
-                    biblioteca = bibliotecaDAO.doRetriveById(isil);
+               while(rs.next()) {
+                    //System.err.println("Voglio le biblio mlmlmlmlml");
+                    Biblioteca biblioteca = null;
+                    Indirizzo indirizzo = indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico"));
+                    //System.out.println(""+indirizzo);
+                    if((rs.getString("id_admin") == null)) {
+                    biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,null);
+                    //System.out.println(""+biblioteca);
+                    } else {
+                        biblioteca = new Biblioteca(rs.getString("isil"), rs.getString("nome"), rs.getString("status"),indirizzo,adminDAO.doRetriveById(rs.getInt("id_admin")));
+                    }
                     listaBiblioteche.add(biblioteca);
                 }
                 
