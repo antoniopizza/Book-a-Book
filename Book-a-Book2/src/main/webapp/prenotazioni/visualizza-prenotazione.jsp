@@ -105,22 +105,28 @@
                                         if (user instanceof Persona) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">  
-                                    <div class="form-group">
-                                        <a class="btn btn-transparent" href="annulla-prenotazione?id_prenotaione=<%= prenotazione.getId()%>">Annulla Prenotazione</a> 
-                                    </div> 
+                                    <div class="col-md">
+                                        <button type="button" class="btn btn-transparent"  data-toggle="modal" data-target="#modal-annullare" >
+                                            Annulla prenotazione
+                                        </button>
+                                    </div>
                                 </div>
                                 <%
                                 } else if (user instanceof Bibliotecario) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                    <div class="form-group">
-                                        <a class="btn btn-transparent" href="annulla-prenotazione?id_prenotazione=<%= prenotazione.getId()%>">Annulla Prenotazione</a> 
+                                    <div class="col-md">
+                                        <button type="button" class="btn btn-transparent"  data-toggle="modal" data-target="#modal-annullare" >
+                                            Annulla prenotazione
+                                        </button>
                                     </div> 
                                 </div>
                                 <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
-                                    <div class="form-group">
-                                            <a class="btn btn-transparent" href="conferma-ritiro?id_prenotazione=<%= prenotazione.getId()%>">Ritira</a> 
-                                        </div> 
+                                    <div class="col-md">
+                                        <button type="button" class="btn btn-transparent"  data-toggle="modal" data-target="#modal-ritiro" >
+                                            Ritira
+                                        </button>
+                                    </div>  
                                 </div>
                                 <%
                                     }
@@ -131,23 +137,100 @@
 
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">
-                                   <div class="form-group">
-                                            <a class="btn btn-transparent" href="conferma-restituzione?id_prenotazione=<%= prenotazione.getId()%>">Restituisci</a> 
-                                        </div> 
+                                    <div class="col-md">
+                                        <button type="button" class="btn btn-transparent"  data-toggle="modal" data-target="#modal-restituzione" >
+                                            Restituzione
+                                        </button>
+                                    </div> 
                                 </div>    
                                 <%                                                    }
                                     }
                                 %>
                             </div>
-                            <%
-                                } //fine else più esterno
-
-                            %>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Modal -->
+            <div class="modal fade" id="modal-annullare" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <form method="GET" name="annulla-form" id="annulla-form" action="annulla-prenotazione" >
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Annulla prenotazione</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Sei sicuro di voler annullare questa prenotazione?</p>
+                            </div>
+                            <input type="hidden" name="id_prenotazione" value="<%=prenotazione.getId()%>" />  
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-default">Si</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                            
+            <!-- Modal -->
+            <div class="modal fade" id="modal-ritiro" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <form method="GET" name="ritiro-form" id="ritiro-form" action="conferma-ritiro" >
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Ritira libro</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Sei sicuro di voler confermare il ritiro di questo libro?</p>
+                            </div>
+                            <input type="hidden" name="id_prenotazione" value="<%=prenotazione.getId()%>" />  
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-default">Si</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                            
+                            <!-- Modal -->
+            <div class="modal fade" id="modal-restituzione" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <form method="GET" name="restituzione-form" id="restituzione-form" action="conferma-restituzione" >
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Ritira libro</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Sei sicuro di voler confermare la restituzione di questo libro?</p>
+                            </div>
+                            <input type="hidden" name="id_prenotazione" value="<%=prenotazione.getId()%>" />  
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                <button type="submit" class="btn btn-default">Si</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+                            
+                            
+                            
+            <%
+                } //fine else più esterno
+
+            %>
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>
