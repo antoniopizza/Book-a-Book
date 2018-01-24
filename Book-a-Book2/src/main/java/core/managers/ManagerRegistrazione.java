@@ -28,16 +28,16 @@ import java.util.List;
  */
 public class ManagerRegistrazione {
     
-    public int checkEmail(String email) {
+   public int checkEmail(String email) {
         AccountDAO accountDAO = new AccountDAO();
         List<Account> accounts = accountDAO.doRetriveAll();
-        for(Account a:accounts) {
-            if(a.getEmail().equals(email)) {
-                return 0;
-            } else {
-                return 1;
+       
+            for(Account a:accounts) {
+                if(a.getEmail().equals(email)) {
+                    return 0;
+                }
             }
-        }
+          
         return 1;
     }
     

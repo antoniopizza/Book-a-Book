@@ -64,7 +64,7 @@
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
-                                            <input type="text" class="form-control" name="via" required pattern="[A-Za-z]{2,}$">
+                                            <input type="text" class="form-control" name="via" required pattern="[A-Z a-z]{2,}$">
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">

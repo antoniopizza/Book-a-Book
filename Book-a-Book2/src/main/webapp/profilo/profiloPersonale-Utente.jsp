@@ -27,6 +27,15 @@
                 }
             %>
 
+        <%   if (request.getSession().getAttribute("errore") != null) {
+        %>
+        <div class="container" style="background-color: #ff6347; text-align: center;" id="modifica">
+            <h5 style="color: white;"> Errore Email già presente!</h5></div>
+            <%
+                    request.getSession().removeAttribute("errore");
+                }
+            %>
+
 
 
 
@@ -57,8 +66,8 @@
                             </div>
                         </div>
                     </div>
-                                
-                                <input type="text" value="<%= request.getParameter("pagina")%>" id="pagina" hidden>
+
+                    <input type="text" value="<%= request.getParameter("pagina")%>" id="pagina" hidden>
 
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
 
@@ -212,7 +221,7 @@
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
                                             <input type="text" class="form-control" name="via" id="via" required
-                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getVia()%>" pattern="[A-Za-z]{2,}$">
+                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getVia()%>" pattern="[A-Z a-z]{2,}$">
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
@@ -284,16 +293,16 @@
         <%@include file="../skeleton-pages/footer.jsp" %>
 
         <script>
-            
-            
+
+
 
             $(document).ready(setTimeout(function () {
                 $("#modifica").hide();
             }, 3000));
 
-            
-            if ((document.getElementById("pagina").value)=="modifica") {
-                
+
+            if ((document.getElementById("pagina").value) == "modifica") {
+
                 document.getElementById("visualizzaDati").setAttribute("hidden", "true");
                 document.getElementById("modificaDati").removeAttribute("hidden");
             }

@@ -90,7 +90,7 @@ public class RegistraBibliotecarioServlet extends HttpServlet {
 
         String url = "";
 
-        if ((mr.checkEmail(email)) == 1) {
+        if ((mr.checkEmail(email)) == 0) {
 
             request.getSession().setAttribute("errore", "true");
             url = "/registrazione/registrazione-bibliotecario.jsp";

@@ -14,6 +14,8 @@
 
     <body>
         <%@include file="../skeleton-pages/header.jsp" %>
+        
+        
 
         <%            TelefonoDAO telefonoDAO = new TelefonoDAO();
             Telefono telefono = telefonoDAO.doRetriveByBiblioteca((((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca()));
@@ -33,6 +35,14 @@
                     request.getSession().removeAttribute("richiestaR");
                 }
             %>
+            <%   if (request.getSession().getAttribute("errore") != null) {
+        %>
+        <div class="container" style="background-color: #ff6347; text-align: center;" id="modifica">
+            <h5 style="color: white;"> Errore Email già presente!</h5></div>
+            <%
+                    request.getSession().removeAttribute("errore");
+                }
+                %>
 
 
 
@@ -308,7 +318,7 @@
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
                                             <input type="text" class="form-control" name="via" id="via" required
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" pattern="[A-Za-z]{2,}$" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" pattern="[A-Z a-z]{2,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
