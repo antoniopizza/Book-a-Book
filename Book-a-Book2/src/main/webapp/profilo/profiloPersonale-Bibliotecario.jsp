@@ -253,7 +253,7 @@
                                 <div class="form-group" >
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control"  name ="email"
-                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getAccount().getEmail()%>" >
+                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getAccount().getEmail()%>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 </div>
 
                                 <!-- Path Foto -->
@@ -274,7 +274,7 @@
                                 <div class="form-group" id="nome">
                                     <label for="nome-Biblioteca" id="labelName" >Nome Biblioteca</label>
                                     <input type="text" class="form-control"  name ="nomeBiblioteca"
-                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getNome()%>">
+                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getNome()%>" pattern="[a-zA-Z ]{2,}$">
                                 </div>
 
                                 <!-- Isil -->
@@ -300,7 +300,7 @@
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
                                             <input type="text" class="form-control" name="citta" id="citta"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>"  >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>" pattern="[A-Za-z]{2,}$" >
                                         </div>
                                     </div>
                                     <div class="row">
@@ -308,19 +308,19 @@
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
                                             <input type="text" class="form-control" name="via" id="via"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" pattern="[A-Za-z]{2,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
                                             <input type="text" class="form-control" name="civico" id="civico"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>"  >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>" pattern="[0-9]{1,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">CAP</label>
                                             <input type="text" class="form-control" name="cap" id="cap"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCap()%>"  >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCap()%>" pattern="[0-9]{5}$" >
                                         </div>    
                                     </div>
 

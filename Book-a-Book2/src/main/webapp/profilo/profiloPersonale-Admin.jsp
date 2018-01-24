@@ -105,13 +105,13 @@
                                 <div class="form-group" id="nome">
                                     <label for="first-name" id="labelName" >Nome</label>
                                     <input type="text" class="form-control"  name ="nome"
-                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getNome()%>">
+                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getNome()%>" pattern="[A-Za-z]{2,}$" >
                                 </div>
                                 <!-- Last Name -->
                                 <div class="form-group" >
                                     <label for="last-name" >Cognome</label>
                                     <input type="text" class="form-control"  name ="cognome"
-                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getCognome()%>">
+                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getCognome()%>" pattern="[A-Za-z]{2,}$" >
                                 </div>
 
                                 <!-- Old Email -->
@@ -124,7 +124,7 @@
                                 <div class="form-group" >
                                     <label for="email">Email</label>
                                     <input type="text" class="form-control"  name ="nuovaEmail" id="newEmail"
-                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getAccount().getEmail()%>">
+                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getAccount().getEmail()%>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" >
                                 </div>
 
             

@@ -26,13 +26,13 @@
                                 <!-- Isil -->
                                 <div class="form-group">
                                     <label for="isil">Isil</label>
-                                    <input type="text" class="form-control" name="isil" required>
+                                    <input type="text" class="form-control" name="isil" required pattern="[A-Za-z0-9._-]{5,13}$">
                                 </div> 
 
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome Biblioteca</label>
-                                    <input type="text" class="form-control" name="nomeBiblioteca" required>
+                                    <input type="text" class="form-control" name="nomeBiblioteca" required pattern="[a-zA-Z ]{2,}$">
                                 </div>
 
                                 <!-- Indirizzo -->
@@ -49,24 +49,24 @@
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
-                                            <input type="text" class="form-control" name="citta" required>
+                                            <input type="text" class="form-control" name="citta" required pattern="[A-Za-z]{2,}$">
                                         </div>
                                     </div>
                                     <div class="row">
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
-                                            <input type="text" class="form-control" name="via" required>
+                                            <input type="text" class="form-control" name="via" required pattern="[A-Za-z]{2,}$">
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
-                                            <input type="text" class="form-control" name="civico" required>
+                                            <input type="text" class="form-control" name="civico" required pattern="[0-9]{1,}$">
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">CAP</label>
-                                            <input type="text" class="form-control" name="cap" required>
+                                            <input type="text" class="form-control" name="cap" required pattern="[0-9]{4,5}$">
                                         </div>    
                                     </div>
 
@@ -115,12 +115,12 @@
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
-                                    <input type="text" class="form-control" name="nomeBibliotecario" required>
+                                    <input type="text" class="form-control" name="nomeBibliotecario" required pattern="[A-Za-z]{2,}$">
                                 </div>
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
-                                    <input type="text" class="form-control" name="cognome" required>
+                                    <input type="text" class="form-control" name="cognome" required pattern="[A-Za-z]{2,}$">
                                 </div>
                                 <!-- Foto -->
                                 <div class="form-group">

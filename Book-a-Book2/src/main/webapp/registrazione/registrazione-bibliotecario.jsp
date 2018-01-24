@@ -53,12 +53,12 @@
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
-                                    <input type="text" class="form-control" name="nomeBibliotecario" required>
+                                    <input type="text" class="form-control" name="nomeBibliotecario" required pattern="[A-Za-z]{2,}$">
                                 </div>
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
-                                    <input type="text" class="form-control" name="cognome" required>
+                                    <input type="text" class="form-control" name="cognome" required pattern="[A-Za-z]{2,}$">
                                 </div>
                                 
                                 

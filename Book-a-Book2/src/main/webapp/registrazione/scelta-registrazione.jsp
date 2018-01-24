@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
-                            <a class="btn btn-transparent" href="registrazione-scelta?tipo=utente" style=" font-size: 20px; padding: 15px 30px; // background-color: #0062cc;" >Utente</a>
+                            <a class="btn btn-transparent" href="registrazione-scelta?tipo=utente" style=" font-size: 20px; padding: 15px 30px;" >Utente</a>
                         </div>
 
                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
