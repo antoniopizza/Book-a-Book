@@ -10,9 +10,19 @@
 <%@page import="core.entities.Prenotazione"%>
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
-<% String nomePagina = "Ricerca Prenotazione";
+<% String nomePagina = "ricerca-prenotazioni";
     String pathPrenotazione = application.getContextPath() + "/prenotazioni/";
     String pathServlet = application.getContextPath() + "/core.controllers/";
+
+    int i;
+    String message = (String) request.getAttribute("message");
+    List<Prenotazione> lista = null;
+    if (!message.equals("correct")) {
+        out.println("<p>" + message + "</p>");
+    } else {
+        lista = new ArrayList<>();
+        lista = (ArrayList<Prenotazione>) request.getAttribute("lista");
+    }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,7 +41,7 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <li>
-                                        <a href="<%=pathServlet%>VisualizzaPrenotazioni.java"> Prenotazioni</a>
+                                        <a href="<%=pathServlet%>ricerca-prenotazioni.java"> Prenotazioni</a>
                                     </li>
                                     <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
@@ -97,17 +107,6 @@
                                 </br>
                             </div>
                             <div class = "row"> 
-                                <%
-                                    int i;
-                                    String message = (String) request.getAttribute("message");
-                                    List<Prenotazione> lista = null;
-                                    if (!message.equals("correct")) {
-                                        out.println("<p>" + message + "</p>");
-                                    } else {
-                                        lista = new ArrayList<>();
-                                        lista = (ArrayList<Prenotazione>) request.getAttribute("lista");
-                                    }
-                                %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
                                         <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center">
@@ -122,7 +121,7 @@
                                     </div>
                                 </div>
                                 <% for (i = 0; i < lista.size(); i++) {
-                                    String data = ""+lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH)+"-"+lista.get(i).getDataScadenza().get(Calendar.MONTH)+"-"+lista.get(i).getDataScadenza().get(Calendar.YEAR)+"";
+                                        String data = "" + lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + lista.get(i).getDataScadenza().get(Calendar.MONTH) + "-" + lista.get(i).getDataScadenza().get(Calendar.YEAR) + "";
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
@@ -133,13 +132,13 @@
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
                                                 <a class="btn btn-main" href="dettaglio-prenotazioni?id=<%=lista.get(i).getId()%>">DETTAGLI</a> 
-                                        </div>  
+                                            </div>  
                                         </div>
                                     </div>
                                 </div>
-                              <%    }%>
+                                <%    }%>
                             </div>
-                           
+
                         </div>
                     </div>
                 </div>
@@ -205,7 +204,7 @@
                 $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
                 bool = false;
             }
-        }    
+        }
         if (bool == true) {
             $("cercaPren").submit();
         }

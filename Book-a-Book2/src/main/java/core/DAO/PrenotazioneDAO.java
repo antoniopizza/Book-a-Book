@@ -32,40 +32,20 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
      * prenotazione.
      * @return una prenotazione in base al codice id
      */
-    PersonaDAO persDAO;
-    BibliotecaDAO bibDAO;
-    CopiaDAO copiaDAO;
-
-    public PersonaDAO getPersDAO() {
-        return persDAO;
-    }
-
-    public void setPersDAO(PersonaDAO persDAO) {
-        this.persDAO = persDAO;
-    }
-
-    public BibliotecaDAO getBibDAO() {
-        return bibDAO;
-    }
-
-    public void setBibDAO(BibliotecaDAO bibDAO) {
-        this.bibDAO = bibDAO;
-    }
-
-    public CopiaDAO getCopiaDAO() {
-        return copiaDAO;
-    }
-
-    public void setCopiaDAO(CopiaDAO copiaDAO) {
-        this.copiaDAO = copiaDAO;
-    }
-
     @Override
     public Prenotazione doRetriveById(Object... id) {
         int idPrenotazione = (int) id[0];
 
         Prenotazione prenotazione = null;
-
+        BibliotecaDAO bibDAO = new BibliotecaDAO();
+        PosizioneDAO posDAO = new PosizioneDAO();
+        posDAO.setBibliotecaDAO(bibDAO);
+        LibroDAO libroDAO = new LibroDAO();
+        CopiaDAO copiaDAO = new CopiaDAO(libroDAO,posDAO);
+        PersonaDAO persDAO = new PersonaDAO();
+        
+        
+        
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
@@ -114,7 +94,13 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
     @Override
     public List<Prenotazione> doRetriveAll() {
-        Prenotazione prenotazione;
+        Prenotazione prenotazione = null;
+        BibliotecaDAO bibDAO = new BibliotecaDAO();
+        PosizioneDAO posDAO = new PosizioneDAO();
+        posDAO.setBibliotecaDAO(bibDAO);
+        LibroDAO libroDAO = new LibroDAO();
+        CopiaDAO copiaDAO = new CopiaDAO(libroDAO,posDAO);
+        PersonaDAO persDAO = new PersonaDAO();
         ArrayList<Prenotazione> listaPrenotazioni = new ArrayList<Prenotazione>();
         try {
             Connection con = null;

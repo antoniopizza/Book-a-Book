@@ -24,18 +24,21 @@ public class ManagerPrenotazione {
 
     public boolean prenotareLibro(Persona p, String isbn, String isil) {
         
-        CopiaDAO copiaDAO = new CopiaDAO(new LibroDAO(), new PosizioneDAO());
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
-        PrenotazioneDAO prenDAO = new PrenotazioneDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
+        posDAO.setBibliotecaDAO(bibliotecaDAO);
+        CopiaDAO copiaDAO = posDAO.getCopiaDAO();
+        PrenotazioneDAO prenDAO = new PrenotazioneDAO();
         Calendar dataCreazione = new GregorianCalendar();
         Calendar dataScadenza = new GregorianCalendar();
         
+        Biblioteca bib = bibliotecaDAO.doRetriveById(isil);
         Copia copiaPrenotata = null;
         List<Posizione> listaPosizioniLibro;
         listaPosizioniLibro = posDAO.doRetriveByLibroAndBiblioteca(isbn, isil);
         
         for(Posizione pos: listaPosizioniLibro){
+            pos.setBiblioteca(bib);
             for(Copia c : copiaDAO.doRetriveByPosizioneAndIsbn(pos, isbn)){
                 if(c.getDisponibilita().equals(Copia.DISPONIBILE_SI) && c.getStatus().equals(Copia.STATUS_NON_PRENOTATO)){
                    copiaPrenotata = c;
@@ -50,10 +53,8 @@ public class ManagerPrenotazione {
         }
         
         dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
-        Biblioteca bib;
-        bib = bibliotecaDAO.doRetriveById(isil);
-        Prenotazione prenot;
-        prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, "Da ritirare", bib, copiaPrenotata);
+        
+        Prenotazione prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, "Da ritirare", bib, copiaPrenotata);
         prenDAO.doInsert(prenot);
         
         return true;

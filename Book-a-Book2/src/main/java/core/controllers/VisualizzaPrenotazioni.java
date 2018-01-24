@@ -5,11 +5,9 @@
  */
 package core.controllers;
 
-import core.entities.Admin;
 import core.entities.Bibliotecario;
 import core.entities.Persona;
 import core.entities.Prenotazione;
-import core.entities.Utente;
 import core.managers.ManagerPrenotazione;
 import core.utils.Criterio;
 import core.utils.prenotazioniPerId;

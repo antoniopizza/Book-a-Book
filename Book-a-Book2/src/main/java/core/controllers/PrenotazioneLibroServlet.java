@@ -5,7 +5,6 @@
  */
 package core.controllers;
 
-import core.entities.Copia;
 import core.entities.Indirizzo;
 import core.entities.Persona;
 import core.managers.ManagerPrenotazione;
@@ -38,12 +37,13 @@ public class PrenotazioneLibroServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String message = null;
+        String isil = request.getParameter("isil");
+        String isbn = request.getParameter("isbn");
+
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         if (request.getSession().getAttribute("persona") != null) {
             Persona p = (Persona) request.getSession().getAttribute("persona");
-            String isil = (String) request.getSession().getAttribute("isil");
-            String isbn = (String) request.getSession().getAttribute("isbn");
-            manPren.prenotareLibro(p, isbn, isil);
+
             if (manPren.prenotareLibro(p, isbn, isil) == false) {
                 message = "C'è stato un errore durante qualche operazione.";
             } else {
@@ -51,20 +51,19 @@ public class PrenotazioneLibroServlet extends HttpServlet {
             }
 
         } else if (request.getSession().getAttribute("bibliotecario") != null) {
-            String via = (String) request.getSession().getAttribute("via");
-            String citta = (String) request.getSession().getAttribute("citta");
-            String civico = (String) request.getSession().getAttribute("civico");
-            String provincia = (String) request.getSession().getAttribute("provincia");
-            String cap = (String) request.getSession().getAttribute("cap");
+            String via = request.getParameter("via");
+            String citta = request.getParameter("citta");
+            String civico = request.getParameter("civico");
+            String provincia = request.getParameter("provincia");
+            String cap =  request.getParameter("cap");
             Indirizzo ind = new Indirizzo(via, citta, civico, provincia, cap);
 
-            String numDoc = (String) request.getSession().getAttribute("numDoc");
-            String nome = (String) request.getSession().getAttribute("nome");
-            String cognome = (String) request.getSession().getAttribute("cognome");
+            String numDoc =  request.getParameter("numDoc");
+            String nome = request.getParameter("nome");
+            String cognome =  request.getParameter("cognome");
             Persona p = new Persona(numDoc, ind, nome, cognome, null);
 
-            String isil = (String) request.getSession().getAttribute("isil");
-            String isbn = (String) request.getSession().getAttribute("isbn");
+            
             if (manPren.prenotareLibro(p, isbn, isil) == false) {
                 message = "C'è stato un errore durante qualche operazione.";
             } else {
@@ -73,7 +72,7 @@ public class PrenotazioneLibroServlet extends HttpServlet {
         }
 
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("ricerca-prenotazioni.jsp");
         view.forward(request, response);
 
     }
