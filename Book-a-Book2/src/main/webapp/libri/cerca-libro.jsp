@@ -16,28 +16,36 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
+                                    <%if (session.getAttribute("bibliotecario") != null) {
+                                        %>
+                                    <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
+                                    <% } else if (session.getAttribute("persona") != null) {%>
+                                    <%@include file="../skeleton-pages/menuPersona.jsp" %>
+                                    <% } else { %>
                                     <li>
-                                        <a href="#"> Biblioteche</a>
+                                        <a href="dashboard-my-ads.html"> Biblioteche</a>
                                     </li>
                                     <li>
-                                        <a href="#"> Novità</a>
+                                        <a href="dashboard-favourite-ads.html"> Novità</a>
                                     </li>
                                     <li>
-                                        <a href="#"> Autori</a>
+                                        <a href="dashboard-favourite-ads.html"> Autori</a>
                                     </li>
                                     <li>
-                                        <a href="#"> Popolari</a>
+                                        <a href="dashboard-favourite-ads.html"> Popolari</a>
                                     </li>
+                                    <% }
+                                       %>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0 scroll-page">
 
                         <div class="widget dashboard-container my-adslist">                            
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
@@ -46,7 +54,7 @@
 
                             <%
                                 List<Libro> libri;
-                                List<Integer> disponibili;
+                               
                                 Bibliotecario bibliotecario = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
                                 String message = (String) request.getAttribute("message");
                                 if (!message.equals("correct")) {
@@ -57,9 +65,7 @@
                             } else {
 
                                 libri = new ArrayList<>();
-                                libri = (ArrayList<Libro>) request.getAttribute("libri");
-                                disponibili = new ArrayList<Integer>();
-                                disponibili = (ArrayList<Integer>) request.getAttribute("disponibili");
+                                libri = (ArrayList<Libro>) request.getAttribute("libri");                                
                             %>
 
                             <table class="table table-responsive product-dashboard-table">
@@ -110,18 +116,7 @@
                                                     }
                                                 %>
 
-                                                <span><strong>Editore: </strong><%= book.getEditore()%></span>
-                                                <%
-                                                    if (disponibili.get(dispCounter) == 0) {
-                                                %>
-                                                <span style="color:red;"><strong>Disponibilità: </strong>Non disponibile</span>
-                                                <%
-                                                } else {
-                                                %>
-                                                <span style="color:green;"><strong>Disponibilità: </strong>Disponibile</span>
-                                                <%
-                                                    }
-                                                %>
+                                                <span><strong>Editore: </strong><%= book.getEditore()%></span>                                               
 
                                         </td>                                       
                                         <td class="action" data-title="Action">

@@ -17,7 +17,7 @@
     } else {
         nomePagina = book.getTitolo();
     }
-    
+
     Collection<Biblioteca> bibliotecheDisponibili = (Collection<Biblioteca>) request.getAttribute("biblioteche");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -37,7 +37,7 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <%if (session.getAttribute("bibliotecario") != null) {
-                                        %>
+                                    %>
                                     <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
                                     <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
@@ -55,7 +55,7 @@
                                         <a href="dashboard-favourite-ads.html"> Popolari</a>
                                     </li>
                                     <% }
-                                       %>
+                                    %>
                                 </ul>
                             </div>
                         </div>
@@ -158,17 +158,17 @@
                                             <br/>
                                             <div class="row">
                                                 <div class="col-md-12" align="center">                                                    
-                                                    
+
                                                     <a class="btn btn-main" title="gestisci copie" href="gestisci-copie?isbn=<%=book.getIsbn()%>">
                                                         <i class="fa fa-book"></i>
                                                     </a>
-                                                    
+
                                                     <a class="btn btn-success" title="prenota libro" href="gestisci-copie?isbn=<%=book.getIsbn()%>">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </a>
-                                                   
+
                                                     <a class="btn btn-danger" title="elimina libro" ><i class="fa fa-trash"></i></a>
-                                                    
+
                                                 </div>
                                             </div>
                                             <%
@@ -194,112 +194,57 @@
                             <%
                                 if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") == null) {
                                     //SEZIONE VISUALIZZATA SOLO SE BIBLIOTECARIO NON LOGGATO
-                            %>
-                            <!-- div tabella biblioteche -->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="advance-search">
-                                        <form action="#" id="search-form-biblioteca" method="GET">
-                                            <div class="row">
-                                                <!-- Ricerca biblioteca -->
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-2 col-md-12">
-                                                    <select class="form-control mb-2 mr-sm-2 mb-sm-0" name="criterio">
-                                                        <option>Filtro 1</option>
-                                                        <option>Filtro 2</option>
-                                                        <option>Filtro 3</option>
-                                                        <option>Filtro N</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-lg-6 col-md-12">
-                                                    <div class="block d-flex">
-                                                        <input type="text" minlength="2" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search-main" placeholder="Cerca il tuo libro" name="searchKey" required>
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2 col-md-12">
-                                                    <div class="block d-flex">
-                                                        <!-- Search Button -->
-                                                        <input type="submit" class="btn btn-main" value="CERCA">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1"></div>
-                                            </div>
-                                        </form>
-                                        <script>
-                                            $("#search-form-main").submit({
-                                            var text = $("#search-main").val().toString();
-                                            if (text.match("/^.{2,}$/")){
-                                            return true;
-                                            } else {
-                                            alert("Inserire almeno 2 caratteri");
-                                            $("#search-main").focus();
-                                            return false;
-                                            }
-                                            });
-                                        </script>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
+%>
+                            <!-- div tabella biblioteche -->                                                       
                             <div class="row">
 
-                                <div class="col-lg-12">
-                                    <table class="table table-hover">
-                                        <thead align="center">
-                                            <tr>
-                                                <th>
-                                                    ISIL
-                                                </th>
-                                                <th>
-                                                    Nome
-                                                </th>
-                                                <th>
-                                                    Indirizzo
-                                                </th>
-                                                <th>
-                                                    Copie disponibili
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody align="center">
-                                            
-                                            <% if(bibliotecheDisponibili != null){
-                                                
-                                                for(Biblioteca b :bibliotecheDisponibili){ %>
-                                                    
+                                <form id="form-prenotazione-cliente" action="<%= application.getContextPath()%>/prenotazioni/prenotazione-libro ">
+                                    <div class="col-lg-12">
+                                        <h3 class="widget-header">Biblioteche che hanno il libro che cerchi</h3>
+                                        <table class="table table-hover">
+                                            <thead align="center">
                                                 <tr>
-                                                    <td><%= b.getIsil() %></td>
-                                                    <td><%= b.getNome() %></td>
-                                                    <td><%= b.getIndirizzo().getVia() + b.getIndirizzo().getCivico() + b.getIndirizzo().getCitta() + b.getIndirizzo().getProvincia() %></td>
-                                                    <td>NO</td>
+                                                    <th>
+                                                        ISIL
+                                                    </th>
+                                                    <th>
+                                                        Nome
+                                                    </th>
+                                                    <th>
+                                                        Indirizzo
+                                                    </th>
+                                                    <th>
+                                                        Copie disponibili
+                                                    </th>
                                                 </tr>
-                                                
-                                            <%    }
-                                                
-                                            } %>
-                                        </tbody>
+                                            </thead>
+                                            <tbody align="center">
 
-                                    </table>
-                                </div>
+                                                <% if (bibliotecheDisponibili != null) {
 
-                            </div>
+                                                        for (Biblioteca b : bibliotecheDisponibili) {%>
+
+                                                <tr>
+                                                    <td><%= b.getIsil()%></td>
+                                                    <td><%= b.getNome()%></td>
+                                                    <td><%= b.getIndirizzo().getVia() + " " + b.getIndirizzo().getCivico() + " " + b.getIndirizzo().getCitta() + " " + b.getIndirizzo().getProvincia()%></td>
+                                                    <td><input type="radio" name="isil" class="isil-scelta" value="<%= b.getIsil()%>"/> </td>
+                                                </tr>
+
+                                                <%    }
+
+                                                    }%>
+                                            </tbody>
+
+                                        </table>
+                                        <input type="hidden" name="isbn" value="<%= book.getIsbn()%>">
+                                        <button type="submit" class="btn btn-main">Prenota</button>
+                                    </div>
+
+                                </form>
+                            </div>                           
                             <%
-                                if ((Persona) request.getSession().getAttribute("persona") != null) {
-                            %>
-                            <div class="row">
-                                <div class="col-lg-10"></div>
-                                <div class="col-lg-2">
-                                    <form action="#" method="GET">
-                                        <input type="hidden" name="isil" value="">
-                                        <input type="hidden" name="isbn" value="">
-                                        <button class="btn btn-main">Prenota</button>
-                                    </form>
-                                </div>
-                            </div>
-                            <%
-                                    }
+
                                 }
                             %>
 
@@ -313,14 +258,64 @@
                     </div>
                 </div>
 
+                <!-- Modal -->
+                <div id="error-modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">                                
+                                <h4 class="modal-title">Attenzione !</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p id="modal-error-messsage">Nessuna biblioteca selezionata</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>
         <script>
+            var errorCounter = 0;
             $("img")
                     .on("error", function () {
-                    $(this).attr("src", "images/defaultBook.png");
+                        $(this).attr("src", "images/defaultBook.png");
                     });
+
+            $(document).on('input:radio[name="isil-scelta"]', "click", function () {
+
+                alert($(this).val());
+
+            });
+
+
+            $('#form-prenotazione-cliente').submit(function () {
+                if ($('input:radio', this).is(':checked')) {
+                    // everything's fine...
+                } else {
+
+                    if (errorCounter == 3) {
+                        $("#modal-error-messsage").text("Ma sei idiota ?");
+                    } else if (errorCounter == 4) {
+                        $("#modal-error-messsage").text("Ma veramente fai ?");
+                    } else if (errorCounter >= 5) {
+                        $("#modal-error-messsage").text("Scusa ma da dove minchia lo vuoi prenotare sto libro ?");
+                    }
+
+                    errorCounter++;
+                    $("#error-modal").modal('toggle');
+                    return false;
+                }
+            });
+
+
         </script>
     </body>
 </html>
