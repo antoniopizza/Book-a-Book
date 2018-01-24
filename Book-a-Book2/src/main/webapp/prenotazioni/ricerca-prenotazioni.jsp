@@ -161,12 +161,12 @@
             $("#select option:selected").each(function () {
                 str += $(this).text();
             });
-            if (str == "Per data di ritiro" || str == "Per data di scadenza" || str == "Per data di creazione") {
+            if (str.equals("Per data di ritiro") || str.equals("Per data di scadenza") || str.equals("Per data di creazione")) {
                 $("#searchPren").val("");
                 $("#searchData").val("");
                 $("#searchPren").hide();
                 $("#searchData").show();
-            } else if (str == "Per id utente" || str == "Per codice") {
+            } else if (str.equals("Per id utente") || str.equals("Per codice")) {
                 $("#searchPren").val("");
                 $("#searchData").val("");
                 $("#searchData").hide();
@@ -188,18 +188,18 @@
         });
         var regex = /^[0-9]+$/;
         document.getElementById("erroreSearchPren").innerHTML = "";
-        if (searchPren.value == "" && searchData.value == "") {
+        if (searchPren.value.equals("") && !(searchData.value.equals(""))) {
             bool = false;
             $("#searchData").focus();
             $("#searchPren").focus();
             $("#erroreSearchPren").text("Il campo non può essere vuoto.");
-        } else if (str == "Per id utente" && searchPren.value != "") {
+        } else if (str.equasl("Per id utente") && !(searchPren.value.equals(""))) {
             if (!searchPren.value.match(regex)) {
                 $("#searchPren").focus();
                 $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
                 bool = false;
             }
-        } else if (str == "Per codice" && searchPren.value != "") {
+        } else if (str.equals("Per codice") && !(searchPren.value.equals(""))) {
             if (!searchPren.value.match(regex)) {
                 $("#searchPren").focus();
                 $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
