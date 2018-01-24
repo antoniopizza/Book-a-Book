@@ -28,6 +28,19 @@ import java.util.List;
  */
 public class ManagerRegistrazione {
     
+    public int checkEmail(String email) {
+        AccountDAO accountDAO = new AccountDAO();
+        List<Account> accounts = accountDAO.doRetriveAll();
+        for(Account a:accounts) {
+            if(a.getEmail().equals(email)) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+        return 1;
+    }
+    
     public Persona registra
        (String nome,String cognome,String email,String numeroDocumento,String via,String citta,String numeroCivico,String password,String pathFoto, String provincia,String CAP,String numeroTelefono){
         PersonaDAO personaDAO = new PersonaDAO();

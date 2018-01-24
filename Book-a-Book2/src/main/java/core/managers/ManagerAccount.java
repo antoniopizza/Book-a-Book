@@ -94,19 +94,20 @@ public class ManagerAccount {
         return persona;
     }
 
-    public Admin modificaDatiPersonali(String vecchiaMail, String email, String nome, String cognome) {
+    public Admin modificaDatiPersonali(String vecchiaMail, String email) {
         AdminDAO adminDAO = new AdminDAO();
         Admin admin = adminDAO.doRetriveByEmail(vecchiaMail);
         AccountDAO accountDAO = new AccountDAO();
 
-        accountDAO.doUpdateEmail(admin.getAccount().getEmail(), email);
-
-        admin.setNome(nome);
-        admin.setCognome(cognome);
+        
         admin.getAccount().setEmail(email);
-
+        accountDAO.doInsert(admin.getAccount());
+        accountDAO.doUpdateEmail(admin.getAccount().getEmail(), email);
         adminDAO.doUpdate(admin);
-        System.out.println("" + admin.toString());
+        accountDAO.doDelete(vecchiaMail);
+        
+        
+        //System.out.println("" + admin.toString());
         return admin;
     }
 

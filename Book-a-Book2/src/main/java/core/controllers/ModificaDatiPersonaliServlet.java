@@ -141,11 +141,10 @@ public class ModificaDatiPersonaliServlet extends HttpServlet {
         } else if (request.getParameter("tipoUtente").equals("admin")) {
             
             String vecchiaEmail = request.getParameter("vecchiaEmail");
-            String email = request.getParameter("email");
-            String nome = request.getParameter("nome");
-            String cognome = request.getParameter("cognome");
+            String email = request.getParameter("nuovaEmail");
+          
 
-            Admin a = manager.modificaDatiPersonali(vecchiaEmail, email, nome, cognome);
+            Admin a = manager.modificaDatiPersonali(vecchiaEmail, email);
 
             if (request.getSession().getAttribute("admin") != null) {
                 request.getSession().removeAttribute("admin");

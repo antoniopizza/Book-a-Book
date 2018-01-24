@@ -88,14 +88,21 @@ public class RegistraBibliotecarioServlet extends HttpServlet {
         String path_foto = request.getParameter("foto");
         String isil = request.getParameter("isil");
 
-       
+        String url = "";
 
-        mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password, path_foto, "Dipendente");
-        
+        if ((mr.checkEmail(email)) == 1) {
 
-        request.getSession().setAttribute("nuovoDip", "true");
+            request.getSession().setAttribute("errore", "true");
+            url = "/registrazione/registrazione-bibliotecario.jsp";
 
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
+        } else {
+
+            mr.registraDipendente(isil, nomeBibliotecario, cognome, email, password, path_foto, "Dipendente");
+            request.getSession().setAttribute("nuovoDip", "true");
+            url = "/skeleton-pages/index.jsp";
+        }
+
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
     }
 

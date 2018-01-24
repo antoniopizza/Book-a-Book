@@ -91,16 +91,23 @@ public class RegistraUtenteServlet extends HttpServlet {
         String pathFoto = request.getParameter("foto");
         String numero = request.getParameter("numero");
         
-      //  System.out.println("String nome: "+nome+", String cognome: "+cognome+",String email: "+email+",String numeroDocumento: "+numeroDocumento+""
-      //                      + " ,String via: "+via+",String citta: "+citta+",String numeroCivico: "+numeroCivico+","
-      //                      + "String password: "+password+", String ConfermaPass: "+confermaPassword+",String pathFoto: "+pathFoto+""
-      //                      + ", String provincia: "+provincia+",String CAP: "+CAP+", String numero: "+numero);
+         String url="";
+        
+        if((mr.checkEmail(email))==1){
+            
+            request.getSession().setAttribute("errore", "true");
+            url = "/registrazione/registrazione-utente.jsp";
+            
+        }
+        else{
 
         Persona persona =  mr.registra(nome, cognome, email, numeroDocumento, via, citta, numeroCivico, password, pathFoto, provincia, CAP,numero);
-        
         request.getSession().setAttribute("persona", persona);
         
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/skeleton-pages/index.jsp");
+        url = "/skeleton-pages/index.jsp";
+        }
+        
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
 
     }
