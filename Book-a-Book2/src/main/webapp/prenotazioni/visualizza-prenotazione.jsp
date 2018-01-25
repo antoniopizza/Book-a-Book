@@ -10,7 +10,10 @@
 <!-- Questa pagina è lo scheletro per tutte le pagine da creare successivamente -->
 
 <% String nomePagina = "Informazioni Prenotazione";
-    String pathServlet = application.getContextPath() + "/core.controllers/";
+    String pathServlet = application.getContextPath();
+    Prenotazione prenotazione = (Prenotazione) request.getAttribute("prenotazione");
+    Libro libro = prenotazione.getCopia().getLibro();
+    Persona persona = (Persona) request.getSession().getAttribute("persona");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -23,7 +26,7 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
@@ -47,27 +50,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0 scroll-page">
 
                         <div class="widget dashboard-container my-adslist">
-                            <h3 class="widget-header">Cerca un libro</h3>
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <br>
-
-                            <h3 class="widget-header"></h3>
-
-
-                            <h3>Cerca la tua prenotazione</h3>
                             <%
                                 String message = (String) request.getAttribute("message");
 
-                                if (!message.equals("correct")) {
-                                    out.println("<p>" + message + "</p>");
-                                } else {
-                                    Prenotazione prenotazione = (Prenotazione) request.getAttribute("prenotazione");
-                                    Libro libro = (Libro) request.getAttribute("libro");
-                                    Persona persona = (Persona) request.getAttribute("persona");
+                                if (message != null && !message.equals("correct")) {
                             %>
+                            <div class="alert alert-success">
+                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                            </div>
+                           
+                            <h3 class="widget-header"></h3>
+                            <h3>Cerca la tua prenotazione</h3>
                             <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                 <img src="<%=libro.getPathFoto()%>" alt="">
                             </div>
@@ -147,6 +145,11 @@
                                     }
                                 %>
                             </div>
+                             <% } else{ %>
+                              <div class="alert alert-danger">
+                                <strong>Errore stronzo!</strong> 
+                            </div>
+                             <%}%>
                         </div>
                     </div>
                 </div>
@@ -176,7 +179,7 @@
                     </div>
                 </div>
             </div>
-                            
+
             <!-- Modal -->
             <div class="modal fade" id="modal-ritiro" role="dialog">
                 <div class="modal-dialog">
@@ -200,8 +203,8 @@
                     </div>
                 </div>
             </div>
-                            
-                            <!-- Modal -->
+
+            <!-- Modal -->
             <div class="modal fade" id="modal-restituzione" role="dialog">
                 <div class="modal-dialog">
 
@@ -224,13 +227,7 @@
                     </div>
                 </div>
             </div>
-                            
-                            
-                            
-            <%
-                } //fine else più esterno
 
-            %>
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>

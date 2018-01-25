@@ -12,17 +12,7 @@
 
 <% String nomePagina = "ricerca-prenotazioni";
     String pathPrenotazione = application.getContextPath() + "/prenotazioni/";
-    String pathServlet = application.getContextPath() + "/core.controllers/";
-
-    int i;
-    String message = (String) request.getAttribute("message");
-    List<Prenotazione> lista = null;
-    if (!message.equals("correct")) {
-        out.println("<p>" + message + "</p>");
-    } else {
-        lista = new ArrayList<>();
-        lista = (ArrayList<Prenotazione>) request.getAttribute("lista");
-    }
+    String pathServlet = application.getContextPath();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,13 +25,13 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <li>
-                                        <a href="<%=pathServlet%>ricerca-prenotazioni.java"> Prenotazioni</a>
+                                        <a href="<%=pathPrenotazione%>ricerca-prenotazioni.java"> Prenotazioni</a>
                                     </li>
                                     <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
@@ -59,15 +49,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0 scroll-page">
 
                         <div class="widget dashboard-container my-adslist">
-                            <h3>Cerca un libro</h3>
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <p id="erroreSearchLibro"></p>
                             <h3 class="widget-header"></h3>
-
-
+                            <%
+                                int i;
+                                String message = (String) request.getAttribute("message");
+                                ArrayList<Prenotazione> lista = null;
+                                if (!message.equals("correct")) {
+                                    out.println("<p>" + message + "</p>");
+                                } else {
+                                    lista = new ArrayList<>();
+                                    lista = (ArrayList<Prenotazione>) request.getAttribute("lista");
+                                }
+                            %>
                             <h3>Cerca la tua prenotazione</h3>
                             <div class="advance-search">
                                 <form id="cercaPren" name = "cercaPren" action="RicercaPrenotazioniPerCriterioServlet" method="post">

@@ -46,17 +46,11 @@ public class DettagliPrenotazioneServlet extends HttpServlet {
         pren = manPren.visualizzaPrenotazione(id);
         libro = pren.getCopia().getLibro();
         persona = pren.getPersona();
-        if (pren == null) {
-            message = "Nessun dato corrispondente.";
-        } else {
-            message = "correct";
-        }
 
         request.setAttribute("prenotazione", pren);
         request.setAttribute("libro", libro);
         request.setAttribute("persona", persona);
-        request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("visualizzaPrenotazioni.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
         view.forward(request, response);
     }
     

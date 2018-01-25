@@ -7,8 +7,10 @@ package core.controllers;
 
 import core.entities.Indirizzo;
 import core.entities.Persona;
+import core.entities.Prenotazione;
 import core.managers.ManagerPrenotazione;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,12 +41,12 @@ public class PrenotazioneLibroServlet extends HttpServlet {
         String message = null;
         String isil = request.getParameter("isil");
         String isbn = request.getParameter("isbn");
-
+        Prenotazione prenot = null;
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         if (request.getSession().getAttribute("persona") != null) {
             Persona p = (Persona) request.getSession().getAttribute("persona");
 
-            if (manPren.prenotareLibro(p, isbn, isil) == false) {
+            if ((prenot=manPren.prenotareLibro(p, isbn, isil)) == null) {
                 message = "C'è stato un errore durante qualche operazione.";
             } else {
                 message = "correct";
@@ -64,7 +66,7 @@ public class PrenotazioneLibroServlet extends HttpServlet {
             Persona p = new Persona(numDoc, ind, nome, cognome, null);
 
             
-            if (manPren.prenotareLibro(p, isbn, isil) == false) {
+            if ((prenot=manPren.prenotareLibro(p, isbn, isil)) == null) {
                 message = "C'è stato un errore durante qualche operazione.";
             } else {
                 message = "correct";
@@ -72,8 +74,13 @@ public class PrenotazioneLibroServlet extends HttpServlet {
         }
 
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("ricerca-prenotazioni.jsp");
-        view.forward(request, response);
+        request.setAttribute("prenotazione", prenot);
+        
+        PrintWriter out = response.getWriter();
+        
+        out.println(prenot+"<br>");
+        //RequestDispatcher view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
+        //view.forward(request, response);
 
     }
 
