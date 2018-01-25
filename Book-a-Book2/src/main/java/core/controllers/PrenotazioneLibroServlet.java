@@ -67,7 +67,7 @@ public class PrenotazioneLibroServlet extends HttpServlet {
 
             
             if ((prenot=manPren.prenotareLibro(p, isbn, isil)) == null) {
-                message = "C'è stato un errore durante qualche operazione.";
+                message = "error";
             } else {
                 message = "correct";
             }
@@ -76,11 +76,8 @@ public class PrenotazioneLibroServlet extends HttpServlet {
         request.setAttribute("message", message);
         request.setAttribute("prenotazione", prenot);
         
-        PrintWriter out = response.getWriter();
-        
-        out.println(prenot+"<br>");
-        //RequestDispatcher view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
-        //view.forward(request, response);
+        RequestDispatcher view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
+        view.forward(request, response);
 
     }
 

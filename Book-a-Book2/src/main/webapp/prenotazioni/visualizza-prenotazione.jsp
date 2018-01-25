@@ -14,6 +14,7 @@
     Prenotazione prenotazione = (Prenotazione) request.getAttribute("prenotazione");
     Libro libro = prenotazione.getCopia().getLibro();
     Persona persona = (Persona) request.getSession().getAttribute("persona");
+    Bibliotecario bibliotecario = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,9 +32,12 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                    <li>
-                                        <a href="<%=pathServlet%>VisualizzaPrenotazioni.java"> Prenotazioni</a>
-                                    </li>
+                                    <%if (session.getAttribute("bibliotecario") != null) {
+                                        %>
+                                    <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
+                                    <% } else if (session.getAttribute("persona") != null) {%>
+                                    <%@include file="../skeleton-pages/menuPersona.jsp" %>
+                                    <% } else { %>
                                     <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
                                     </li>
@@ -46,6 +50,8 @@
                                     <li>
                                         <a href="dashboard-favourite-ads.html"> Popolari</a>
                                     </li>
+                                    <% }
+                                       %>
                                 </ul>
                             </div>
                         </div>
@@ -58,12 +64,14 @@
                             <%
                                 String message = (String) request.getAttribute("message");
 
-                                if (message != null && !message.equals("correct")) {
+                                if (message != null) {
                             %>
+                            <% if(message.equals("correct")) { %>
                             <div class="alert alert-success">
-                                <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                <strong>Success!</strong> La tua prenotazione e' stata effettuata con successo.
                             </div>
-                           
+                            <% } %>
+                            
                             <h3 class="widget-header"></h3>
                             <h3>Cerca la tua prenotazione</h3>
                             <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
@@ -98,9 +106,9 @@
                                 %>
 
                                 <%
-                                    Utente user = (Utente) session.getAttribute("Utente");
+                                   
                                     if (prenotazione.getStatus().equals("Da ritirare")) {
-                                        if (user instanceof Persona) {
+                                        if (persona!=null) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">  
                                     <div class="col-md">
@@ -110,7 +118,7 @@
                                     </div>
                                 </div>
                                 <%
-                                } else if (user instanceof Bibliotecario) {
+                                } else if (bibliotecario!=null) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                     <div class="col-md">
@@ -131,7 +139,7 @@
                                 %>
                                 <%
                                 } else if (prenotazione.getStatus().equals("Ritirato")) {
-                                    if (user.equals((Utente) session.getAttribute("bibliotecario"))) {
+                                    if (bibliotecario!=null) {
 
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">
@@ -145,7 +153,7 @@
                                     }
                                 %>
                             </div>
-                             <% } else{ %>
+                                <% } else if(message.equals("error")){ %>
                               <div class="alert alert-danger">
                                 <strong>Errore stronzo!</strong> 
                             </div>
@@ -163,17 +171,16 @@
                     <div class="modal-content">
                         <form method="GET" name="annulla-form" id="annulla-form" action="annulla-prenotazione" >
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Annulla prenotazione</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <p>Sei sicuro di voler annullare questa prenotazione?</p>
                             </div>
                             <input type="hidden" name="id_prenotazione" value="<%=prenotazione.getId()%>" />  
                             <div class="modal-footer">
+                                 <button type="submit" class="btn btn-default">Si</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                                <button type="submit" class="btn btn-default">Si</button>
-
                             </div>
                         </form>
                     </div>
@@ -186,18 +193,18 @@
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <form method="GET" name="ritiro-form" id="ritiro-form" action="conferma-ritiro" >
+                        <form method="GET" name="ritiro-form" id="ritiro-form" action="prenotazioni/conferma-ritiro" >
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Ritira libro</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <p>Sei sicuro di voler confermare il ritiro di questo libro?</p>
                             </div>
                             <input type="hidden" name="id_prenotazione" value="<%=prenotazione.getId()%>" />  
                             <div class="modal-footer">
+                                 <button type="submit" class="btn btn-default">Si</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                                <button type="submit" class="btn btn-default">Si</button>
                             </div>
                         </form>
                     </div>
@@ -210,18 +217,18 @@
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <form method="GET" name="restituzione-form" id="restituzione-form" action="conferma-restituzione" >
+                        <form method="GET" name="restituzione-form" id="restituzione-form" action="prenotazioni/conferma-restituzione" >
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Ritira libro</h4>
+                                <h4 class="modal-title">Restituzione libro</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>      
                             </div>
                             <div class="modal-body">
                                 <p>Sei sicuro di voler confermare la restituzione di questo libro?</p>
                             </div>
                             <input type="hidden" name="id_prenotazione" value="<%=prenotazione.getId()%>" />  
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                                <button type="submit" class="btn btn-default">Si</button>
+                                 <button type="submit" class="btn btn-default">Si</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button> 
                             </div>
                         </form>
                     </div>

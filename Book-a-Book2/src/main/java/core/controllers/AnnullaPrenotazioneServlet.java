@@ -7,6 +7,7 @@ package core.controllers;
 
 import core.entities.Bibliotecario;
 import core.entities.Persona;
+import core.entities.Prenotazione;
 import core.managers.ManagerPrenotazione;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
@@ -39,7 +40,7 @@ public class AnnullaPrenotazioneServlet extends HttpServlet {
         String message = null;
 
         int idPrenotazione = Integer.parseInt(request.getParameter("id_prenotazione"));
-        String status = "Annullata";
+        String status = Prenotazione.ANNULLATA;
         ManagerPrenotazione manPren = new ManagerPrenotazione();
 
         if (request.getSession().getAttribute("persona") != null) {

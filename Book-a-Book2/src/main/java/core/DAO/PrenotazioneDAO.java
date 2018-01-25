@@ -5,6 +5,7 @@
  */
 package core.DAO;
 
+import core.entities.Libro;
 import core.entities.Prenotazione;
 import core.utils.DriverManagerConnectionPool;
 import java.sql.*;
@@ -37,12 +38,12 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
     public Prenotazione doRetriveById(Object... id) {
         int idPrenotazione = (int) id[0];
 
-        Prenotazione prenotazione = null;
+        Prenotazione prenotazione = null;  
         BibliotecaDAO bibDAO = new BibliotecaDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
         posDAO.setBibliotecaDAO(bibDAO);
+        CopiaDAO copiaDAO = posDAO.getCopiaDAO();
         LibroDAO libroDAO = new LibroDAO();
-        CopiaDAO copiaDAO = new CopiaDAO(libroDAO, posDAO);
         PersonaDAO persDAO = new PersonaDAO();
 
         try {
@@ -64,11 +65,11 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, dataConsegna, rs.getString("status"));
                     } else {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
-
                     }
+                    prenotazione.setId(rs.getInt("id"));
                     prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
+                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
                     prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
-                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn")));
                     System.out.println(prenotazione.getId() + " " + prenotazione.getDataCreazione());
                 }
 
@@ -93,16 +94,15 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
     @Override
     public List<Prenotazione> doRetriveAll() {
-        Prenotazione prenotazione = null;
-
+        Prenotazione prenotazione = null;  
         BibliotecaDAO bibDAO = new BibliotecaDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
         posDAO.setBibliotecaDAO(bibDAO);
+        CopiaDAO copiaDAO = posDAO.getCopiaDAO();
         LibroDAO libroDAO = new LibroDAO();
-        CopiaDAO copiaDAO = new CopiaDAO(libroDAO, posDAO);
         PersonaDAO persDAO = new PersonaDAO();
 
-        ArrayList<Prenotazione> listaPrenotazioni = null;
+        ArrayList<Prenotazione> listaPrenotazioni = new ArrayList<>();
         try {
             Connection con = null;
             con = (Connection) DriverManagerConnectionPool.getConnection();
@@ -112,10 +112,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
                 while (rs.next()) {
 
-                    prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
-                    prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
-                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
-
+                    
                     Calendar dataCreazione = new GregorianCalendar();
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
@@ -127,6 +124,10 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                     } else {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
                     }
+                    prenotazione.setId(rs.getInt("id"));
+                    prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
+                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
+                    prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
                     listaPrenotazioni.add(prenotazione);
                 }
 

@@ -30,9 +30,12 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                    <li>
-                                        <a href="<%=pathPrenotazione%>ricerca-prenotazioni.java"> Prenotazioni</a>
-                                    </li>
+                                    <%if (session.getAttribute("bibliotecario") != null) {
+                                        %>
+                                    <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
+                                    <% } else if (session.getAttribute("persona") != null) {%>
+                                    <%@include file="../skeleton-pages/menuPersona.jsp" %>
+                                    <% } else { %>
                                     <li>
                                         <a href="dashboard-my-ads.html"> Biblioteche</a>
                                     </li>
@@ -45,6 +48,8 @@
                                     <li>
                                         <a href="dashboard-favourite-ads.html"> Popolari</a>
                                     </li>
+                                    <% }
+                                       %>
                                 </ul>
                             </div>
                         </div>

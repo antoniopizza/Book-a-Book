@@ -60,7 +60,9 @@ public class ManagerPrenotazione {
         }
         dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
         Prenotazione prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, Prenotazione.DA_RITIRARE, bib, copiaPrenotata);
-        if(prenDAO.doInsert(prenot)!= -1){
+        int id;
+        if((id = prenDAO.doInsert(prenot))!= -1){
+            prenot.setId(id);
             copiaPrenotata.setStatus(Copia.STATUS_PRENOTATO);
             System.out.println(prenot);
             
@@ -80,7 +82,7 @@ public class ManagerPrenotazione {
         Collection<Prenotazione> lista = new ArrayList<>();
         List<Prenotazione> listaPrenotazione;
         listaPrenotazione = prenDAO.doRetriveAll();
-            for (int i = 0; i <= listaPrenotazione.size(); i++) {
+            for (int i = 0; i < listaPrenotazione.size(); i++) {
                 if (cp.isValid(listaPrenotazione.get(i))) {
                     lista.add(listaPrenotazione.get(i));
                 }
