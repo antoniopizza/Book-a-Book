@@ -105,9 +105,9 @@ public class PrenotazioneDAOTest {
     public void testDoRetriveById() {
         System.out.println("doRetriveById");
         PrenotazioneDAO instance = new PrenotazioneDAO();
-        instance.setBibDAO(new BibliotecaDAOStub());
-        instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), new PosizioneDAO()));
-        instance.setPersDAO(new PersonaDAOStub());
+        //instance.setBibDAO(new BibliotecaDAOStub());
+        //instance.setCopiaDAO(new CopiaDAO(new LibroDAO(), new PosizioneDAO()));
+        //instance.setPersDAO(new PersonaDAOStub());
         Prenotazione expResult = prenotazione;
         Prenotazione result = instance.doRetriveById(i);
         assertEquals(expResult, result);
