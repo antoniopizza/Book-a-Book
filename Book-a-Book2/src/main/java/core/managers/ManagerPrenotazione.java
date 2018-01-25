@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ManagerPrenotazione {
 
-    public boolean prenotareLibro(Persona p, String isbn, String isil) {
+    public Prenotazione prenotareLibro(Persona p, String isbn, String isil) {
         
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
@@ -31,6 +31,8 @@ public class ManagerPrenotazione {
         PrenotazioneDAO prenDAO = new PrenotazioneDAO();
         Calendar dataCreazione = new GregorianCalendar();
         Calendar dataScadenza = new GregorianCalendar();
+        Libro libro = new LibroDAO().doRetriveById(isbn);
+      
         
         Biblioteca bib = bibliotecaDAO.doRetriveById(isil);
         Copia copiaPrenotata = null;
@@ -42,6 +44,8 @@ public class ManagerPrenotazione {
             for(Copia c : copiaDAO.doRetriveByPosizioneAndIsbn(pos, isbn)){
                 if(c.getDisponibilita().equals(Copia.DISPONIBILE_SI) && c.getStatus().equals(Copia.STATUS_NON_PRENOTATO)){
                    copiaPrenotata = c;
+                   copiaPrenotata.setPosizione(pos);
+                   copiaPrenotata.setLibro(libro);
                    break;
                 }
                 
@@ -51,19 +55,30 @@ public class ManagerPrenotazione {
             }
             
         }
-        
+        if(copiaPrenotata==null){
+            return null;
+        }
         dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
-        
-        Prenotazione prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, "Da ritirare", bib, copiaPrenotata);
-        prenDAO.doInsert(prenot);
-        
-        return true;
+        Prenotazione prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, Prenotazione.DA_RITIRARE, bib, copiaPrenotata);
+        if(prenDAO.doInsert(prenot)!= -1){
+            copiaPrenotata.setStatus(Copia.STATUS_PRENOTATO);
+            System.out.println(prenot);
+            
+            if(copiaDAO.doUpdate(copiaPrenotata) != -1){
+                return prenot;
+            }else{
+                prenDAO.doDelete(prenot);
+                return null;
+            }
+        }else{
+            return null;
+        }
     }
 
     public Collection<Prenotazione> visualizzaPrenotazioni(Criterio cp) {
         PrenotazioneDAO prenDAO = new PrenotazioneDAO();
         Collection<Prenotazione> lista = new ArrayList<>();
-        List<Prenotazione> listaPrenotazione = new ArrayList<>();
+        List<Prenotazione> listaPrenotazione;
         listaPrenotazione = prenDAO.doRetriveAll();
             for (int i = 0; i <= listaPrenotazione.size(); i++) {
                 if (cp.isValid(listaPrenotazione.get(i))) {

@@ -14,7 +14,6 @@ import core.utils.prenotazioniPerId;
 import core.utils.prenotazioniPerIsil;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mery
  */
-@WebServlet(name = "VisualizzaPrenotazioni", urlPatterns = {"/VisualizzaPrenotazioni"})
+@WebServlet(name = "VisualizzaPrenotazioni", urlPatterns = {"/prenotazioni/ricerca-prenotazioni"})
 public class VisualizzaPrenotazioni extends HttpServlet {
 
     /**
@@ -43,31 +42,31 @@ public class VisualizzaPrenotazioni extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String message;
-        Collection<Prenotazione> lista = new ArrayList<>();
+        ArrayList<Prenotazione> lista = new ArrayList<>();
         Criterio cr;
         ManagerPrenotazione manPren = new ManagerPrenotazione();
 
         if (request.getSession().getAttribute("persona") != null) {
             Persona p = (Persona) request.getSession().getAttribute("persona");
             cr = new prenotazioniPerId(p.getId());
-            lista = manPren.visualizzaPrenotazioni(cr);
+            lista = (ArrayList<Prenotazione>) manPren.visualizzaPrenotazioni(cr);
         } else if (request.getSession().getAttribute("bibliotecario") != null) {
             Bibliotecario b = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
             cr = new prenotazioniPerIsil(b.getBiblioteca().getIsil());
-            lista = manPren.visualizzaPrenotazioni(cr);
+            lista = (ArrayList<Prenotazione>) manPren.visualizzaPrenotazioni(cr);
         } else {
             message = "Il tipo di utente non e' definito.";
         }
 
-        if (lista.isEmpty()) {
-            message = "Nessun dato corrispondente.";
-        } else {
+        if (!lista.isEmpty()) {
             message = "correct";
+        } else {
+             message = "Nessun dato corrispondente.";
         }
 
         request.setAttribute("lista", lista);
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("ricerca-prenotazioni.jsp");
         view.forward(request, response);
     }
 

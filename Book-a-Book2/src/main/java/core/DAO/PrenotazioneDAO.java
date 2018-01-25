@@ -25,6 +25,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
     private final String doRetriveAllQuery = "SELECT * FROM Prenotazione";
     private final String doRetriveByIdQuery = "SELECT * FROM Prenotazione WHERE id = ? ORDER BY data_consegna DESC ";
     private final String doUpdateQuery = "UPDATE Prenotazione SET data_creazione = ?, data_scadenza = ?, data_consegna = ?, id_persona = ?, isil = ?, status = ?, id_copia = ?, isbn = ? WHERE id = ?";
+    private final String doDeleteQuery = "DELETE FROM Prenotazione WHERE id=?";
 
     /**
      *
@@ -41,11 +42,9 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
         PosizioneDAO posDAO = new PosizioneDAO();
         posDAO.setBibliotecaDAO(bibDAO);
         LibroDAO libroDAO = new LibroDAO();
-        CopiaDAO copiaDAO = new CopiaDAO(libroDAO,posDAO);
+        CopiaDAO copiaDAO = new CopiaDAO(libroDAO, posDAO);
         PersonaDAO persDAO = new PersonaDAO();
-        
-        
-        
+
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
@@ -95,13 +94,15 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
     @Override
     public List<Prenotazione> doRetriveAll() {
         Prenotazione prenotazione = null;
+
         BibliotecaDAO bibDAO = new BibliotecaDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
         posDAO.setBibliotecaDAO(bibDAO);
         LibroDAO libroDAO = new LibroDAO();
-        CopiaDAO copiaDAO = new CopiaDAO(libroDAO,posDAO);
+        CopiaDAO copiaDAO = new CopiaDAO(libroDAO, posDAO);
         PersonaDAO persDAO = new PersonaDAO();
-        ArrayList<Prenotazione> listaPrenotazioni = new ArrayList<Prenotazione>();
+
+        ArrayList<Prenotazione> listaPrenotazioni = null;
         try {
             Connection con = null;
             con = (Connection) DriverManagerConnectionPool.getConnection();
@@ -110,6 +111,11 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                 ResultSet rs = stt.executeQuery();
 
                 while (rs.next()) {
+
+                    prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
+                    prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
+                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
+
                     Calendar dataCreazione = new GregorianCalendar();
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
@@ -121,9 +127,6 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                     } else {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
                     }
-                    prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
-                    prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
-                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
                     listaPrenotazioni.add(prenotazione);
                 }
 
@@ -147,7 +150,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
     @Override
     public int doInsert(Prenotazione prenotazione) {
-       
+
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement stt = con.prepareStatement(doInsertQuery, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -222,6 +225,30 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            return -1;
+        }
+    }
+
+    public int doDelete(Prenotazione prenotazione) {
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            PreparedStatement prst = con.prepareStatement(doDeleteQuery);
+            try {
+                prst.setInt(1, prenotazione.getId());
+                prst.execute();
+                con.commit();
+                return 0;
+            } catch (Exception e) {
+                e.printStackTrace();
+                con.rollback();
+                return -1;
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
             return -1;
         }
     }
