@@ -20,3 +20,8 @@
 <li>
     <a href="../profilo/rimozione-account?tipo=persona&email=<%= ((Persona) request.getSession().getAttribute("persona")).getAccount().getEmail()%>"><i class="fa fa-trash"></i>Rimuovi Account</a>
 </li>
+
+<li>
+    <a href="<%=application.getContextPath()%>/prenotazioni/ricerca-prenotazioni">
+        <i class="fa fa-list"></i>Visualizza Prenotazioni</a>
+</li>

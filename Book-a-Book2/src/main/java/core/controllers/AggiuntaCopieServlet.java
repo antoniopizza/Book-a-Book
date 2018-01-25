@@ -66,8 +66,7 @@ public class AggiuntaCopieServlet extends HttpServlet {
                                                
                 //definizione delle copie in uno scaffale
                 for(int j= 0; j<nCopie;j++){
-                    String codCopia = request.getParameter("copia-"+i+"-"+j);
-                    out.print(codCopia+"<br>");
+                    String codCopia = request.getParameter("copia-"+i+"-"+j);                   
                     Copia c = new Copia(codCopia,Copia.STATUS_NON_PRENOTATO, Copia.DISPONIBILE_SI);
                     p.addCopia(c);
                 }
@@ -75,16 +74,16 @@ public class AggiuntaCopieServlet extends HttpServlet {
                 posizioni.add(p);
                 
             }
-            
-            out.print(biblio.getIsil()+"<br>");
-            out.print(book.getIsbn()+"<br>");
+                        
           
             
             if(manager.aggiungiLibroBiblioteca(biblio.getIsil(), book, posizioni)){
                 request.setAttribute("libro",book);
+                request.setAttribute("message", "correct");
                 request.getRequestDispatcher("visualizza-libro.jsp").forward(request, response);
             } else {
-                out.print("s'è scassato qualcosa");
+                request.setAttribute("message", "error");
+                request.getRequestDispatcher("aggiunta-copie.jsp").forward(request, response);
             }
 
         }

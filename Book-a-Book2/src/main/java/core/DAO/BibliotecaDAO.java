@@ -6,6 +6,7 @@
 package core.DAO;
 
 import core.entities.Biblioteca;
+import core.entities.Copia;
 import core.entities.Indirizzo;
 import core.entities.Posizione;
 import core.utils.DriverManagerConnectionPool;
@@ -23,7 +24,7 @@ import java.util.logging.Logger;
  * @author mirko
  */
 public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
-    private final String doRetriveBibliotecaByIsbn = "SELECT * FROM Biblioteca WHERE isil IN (SELECT DISTINCT isil FROM Copia, Libro WHERE Copia.isbn = Libro.isbn AND Copia.isbn = ?)";
+    private final String doRetriveBibliotecaByIsbn = "SELECT * FROM Biblioteca WHERE isil IN (SELECT DISTINCT isil FROM Copia, Libro WHERE Copia.isbn = Libro.isbn AND Copia.isbn = ? AND Copia.status = ? AND Copia.disponibilita = ?)";
     private final String doDeleteQuery = "DELETE FROM Biblioteca WHERE isil = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Biblioteca WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";
@@ -232,6 +233,8 @@ public class BibliotecaDAO extends AbstractDAO<Biblioteca>{
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doRetriveBibliotecaByIsbn);
             prst.setString(1, isbn);
+            prst.setString(2,Copia.STATUS_NON_PRENOTATO);
+            prst.setString(3, Copia.DISPONIBILE_SI);
             
             try {
                 ResultSet rs = prst.executeQuery();

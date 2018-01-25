@@ -60,14 +60,14 @@ public class AggiuntaLibroServlet extends HttpServlet {
         dataPubblicazione.set(GregorianCalendar.YEAR, Integer.parseInt(dataArray[2]));
 
         List<Autore> autoriList = new ArrayList<>();
-        ManagerLibri manager = new ManagerLibri(new BibliotecaDAOStub(), new PosizioneDAO(), new LibroDAO());
+        ManagerLibri manager = new ManagerLibri();
         Libro book;
         Bibliotecario utente = (Bibliotecario)  request.getSession().getAttribute("bibliotecario");
         Biblioteca b = utente.getBiblioteca();
         RequestDispatcher view;
-
+        
         if (!manager.visualizzaPosizioniLibro(isbn, b.getIsil()).isEmpty()) {
-            String message = "Libro già presente in biblioteca, DEMENTE !";
+            String message = "Libro già presente in biblioteca !";
             request.setAttribute("message", message);
             view = request.getRequestDispatcher("aggiungi-libro.jsp");
 
