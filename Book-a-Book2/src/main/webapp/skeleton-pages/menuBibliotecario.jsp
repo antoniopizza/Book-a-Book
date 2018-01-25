@@ -32,6 +32,11 @@
                         </li>
 
                         <li>
+                            <a href="<%=application.getContextPath()%>/prenotazioni/ricerca-prenotazioni">
+                                <i class="fa fa-list"></i>Visualizza Prenotazioni</a>
+                        </li>
+                        
+                        <li>
                             <a href="<%=application.getContextPath()%>/libri/visualizza-scaffali?isil=<%= ((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIsil()%>">
                                 <i class="fa fa-archive"></i>Visualizza Scaffali</a>
                         </li>
@@ -41,6 +46,7 @@
                                 <i class="fa fa-trash"></i>Richiedi Rimozione Biblioteca</a>
                         </li>
 
+                        
 
             <% }
 

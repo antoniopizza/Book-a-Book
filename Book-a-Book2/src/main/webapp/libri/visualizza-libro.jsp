@@ -152,7 +152,7 @@
                                             <%
                                                 if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
                                                     //SEZIONE VISUALIZZATA SOLO SE BIBLIOTECARIO LOGGATO
-                                            %>
+%>
                                             <br/>
                                             <h3>Operazioni:</h3>
                                             <br/>
@@ -163,7 +163,7 @@
                                                         <i class="fa fa-book"></i>
                                                     </a>
 
-                                                    <a class="btn btn-success" title="prenota libro" href="gestisci-copie?isbn=<%=book.getIsbn()%>">
+                                                    <a class="btn btn-success" data-toggle="modal" data-target="#person-modal" title="prenota libro" href="#">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </a>
 
@@ -194,9 +194,9 @@
                             <%
                                 if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") == null) {
                                     //SEZIONE VISUALIZZATA SOLO SE BIBLIOTECARIO NON LOGGATO
-%>
+                            %>
                             <!-- div tabella biblioteche -->                                                       
-                            <div class="row">
+                            <div class="row table-responsive">
 
                                 <form id="form-prenotazione-cliente" action="<%= application.getContextPath()%>/prenotazioni/prenotazione-libro ">
                                     <div class="col-lg-12">
@@ -258,7 +258,7 @@
                     </div>
                 </div>
 
-                <!-- Modal -->
+                <!-- Modal errore -->
                 <div id="error-modal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
 
@@ -278,6 +278,63 @@
 
                     </div>
                 </div>
+
+                <% if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) { %>
+                <!-- Modal Persona -->
+                <div id="person-modal" class="modal fade" role="dialog">
+                    <form>
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">                                
+                                    <h4 class="modal-title">Inserisci dati persona</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+
+
+                                    <label>Nome</label>
+                                    <input name="nome" class="form-control" type="text" />
+
+                                    <label>Cognome</label>
+                                    <input name="cognome" type="text" class="form-control" />
+
+                                    <label>Numero Documento</label>
+                                    <input name="numDoc" type="text" class="form-control"/>
+
+                                    <label>Via</label>
+                                    <input name="via" type="text" class="form-control"/>
+                                    <label>Città</label>
+                                    <input name="citta" type="text" class="form-control"/>                                    
+                                    <div class="form-row">
+                                        <div class="col-4">
+                                            <label>CAP</label>
+                                            <input name="cap" type="text" class="form-control"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Numero civico</label>
+                                            <input name="civico" type="text" class="form-control"/>
+                                        </div>
+                                        <div class="col">
+                                            <label>Provincia</label>
+                                            <input name="provincia" type="text" class="form-control"/>                                    
+                                        </div>
+                                    </div>
+
+                                    <label>Telefono</label>
+                                    <input name="telefono" type="text" class="form-control"/>   
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+                <% }%>
 
         </section>                 
 

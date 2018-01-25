@@ -69,8 +69,13 @@
                             <br>
                             <h3 class="widget-header"></h3>                            
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-10">
                                     <h1 class="product-title"><%= book.getTitolo()%></h1>
+                                </div>
+                                <div class="col-md">
+                                    <a href="visualizza-libro?isbn=<%= book.getIsbn()%>&isil=<%= biblioteca.getIsil()%>" class="btn btn-main" title="torna ai dettagli del libro">
+                                        <i class="fa fa-reply" aria-hidden="true"></i>
+                                    </a>
                                 </div>
                             </div>
                             <br/>
@@ -138,7 +143,8 @@
                                                     <td><strong>Editore:</strong></td>
                                                     <td align="right"><p><%= book.getEditore()%></p></td>
                                                 </tr>                                                
-                                            </table>                                            
+                                            </table>  
+
                                         </div>
                                     </div>
 

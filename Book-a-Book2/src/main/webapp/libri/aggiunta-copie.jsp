@@ -3,6 +3,8 @@
 <% String nomePagina = "Aggiunta Copie";
     Libro book = (Libro) session.getAttribute("libro");
     int counter = 0;
+        
+    String message = (String) request.getAttribute("message");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,6 +32,12 @@
                         <div class="widget dashboard-container my-adslist">                            
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <br>
+                            
+                            <%if(message != null && message.equals("error")) { %>
+                            <div class="alert alert-danger">
+                                <p>Si è verificato un errore durante l'operazione. Riprova più tardi o contatta un amministratore</p>
+                            </div>
+                            <% } %>
                             
                             <div class="row">                                
                                 <div class="col-lg-2">
