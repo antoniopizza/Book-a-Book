@@ -52,7 +52,7 @@ public class ConfermaRestituzioneLibroServlet extends HttpServlet {
         }
         
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("visualizzaPrenotazioni.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("ricerca-prenotazioni");
         view.forward(request, response);
     }
 

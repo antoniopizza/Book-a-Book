@@ -64,7 +64,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 
                         <div class="widget dashboard-container my-adslist">
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
@@ -80,10 +80,10 @@
                             <% }%>
 
                             <h3 class="widget-header"></h3>
-                            <h3>Cerca la tua prenotazione</h3>
+                            <h3 class="widget-header">Dettagli della prenotazione</h3>
                             <div class="row">
                                 <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                                    <img src="<%=libro.getPathFoto()%>" alt="" style="height: 300px;">
+                                    <img src="<%=libro.getPathFoto()%>" alt="" style="height: 350px;">
                                 </div>
                                 <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
                                     <p><b>Codice prenotazione: <%=prenotazione.getId()%></b></p>
@@ -98,25 +98,25 @@
                                     %>
                                     <p>Casa Editrice: <%=libro.getEditore()%></p>
                                     <br>
+                                    <p><strong>Persona che ha preso in prestito il libro</strong></p>
                                     <p>Nome: <%=persona.getNome()%></p>
                                     <p>Cognome: <%=persona.getCognome()%></p>
                                     <p>N° Documento: <%=persona.getNumDocumento()%></p>
                                     <%
                                         if (prenotazione.getStatus().equals("Ritirato")) {
                                     %>
-                                    <p>Data di scadenza della prenotazione: <%=prenotazione.getDataScadenza()%></p>
+                                    <p><strong>Data di scadenza della prenotazione: <%=prenotazione.getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + (prenotazione.getDataScadenza().get(Calendar.MONTH) + 1) + "-" + prenotazione.getDataScadenza().get(Calendar.YEAR)%></strong></p>
                                     <%
                                     } else if (prenotazione.getStatus().equals("Restituito")) {
                                     %>
-                                    <p>Data di consegna del Libro: <%=prenotazione.getDataConsegna().get(Calendar.DAY_OF_MONTH) + "-" + (prenotazione.getDataConsegna().get(Calendar.MONTH) + 1) + "-" + prenotazione.getDataConsegna().get(Calendar.YEAR)%></p>
+                                    <p><strong>Data di consegna del Libro: <%=prenotazione.getDataConsegna().get(Calendar.DAY_OF_MONTH) + "-" + (prenotazione.getDataConsegna().get(Calendar.MONTH) + 1) + "-" + prenotazione.getDataConsegna().get(Calendar.YEAR)%></strong></p>
                                     <%
                                         }
                                     %>
-                                    <p><%=prenotazione.getStatus()%></p>
-                                    <%
 
+                                    <%
                                         if (prenotazione.getStatus().equals("Da ritirare")) {
-                                            if (persona != null) {
+                                            if (session.getAttribute("persona") != null) {
                                     %>
                                     <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">  
                                         <div class="col-md">
@@ -163,7 +163,7 @@
                             </div>
                             <% } else if (message.equals("error")) { %>
                             <div class="alert alert-danger">
-                                <strong>Errore stronzo!</strong> 
+                                <strong>Errore !</strong> 
                             </div>
                             <%}%>
                         </div>
@@ -201,7 +201,7 @@
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <form method="GET" name="ritiro-form" id="ritiro-form" action="prenotazioni/conferma-ritiro" >
+                        <form method="GET" name="ritiro-form" id="ritiro-form" action="conferma-ritiro" >
                             <div class="modal-header">
                                 <h4 class="modal-title">Ritira libro</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -225,7 +225,7 @@
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <form method="GET" name="restituzione-form" id="restituzione-form" action="prenotazioni/conferma-restituzione" >
+                        <form method="GET" name="restituzione-form" id="restituzione-form" action="conferma-restituzione" >
                             <div class="modal-header">
                                 <h4 class="modal-title">Restituzione libro</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>      
