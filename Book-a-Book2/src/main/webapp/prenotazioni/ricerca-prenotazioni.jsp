@@ -115,22 +115,23 @@
                                         <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center">
                                             Codice </div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
-                                            ISBN </div>
+                                            Titolo </div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
-                                            Titolo</div>
+                                            Status</div>
                                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
                                             Scadenza</div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"></div>
                                     </div>
                                 </div>
+                                <br><br>
                                 <% for (i = 0; i < lista.size(); i++) {
-                                        String data = "" + lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + lista.get(i).getDataScadenza().get(Calendar.MONTH) + "-" + lista.get(i).getDataScadenza().get(Calendar.YEAR) + "";
+                                        String data = "" + lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + (lista.get(i).getDataScadenza().get(Calendar.MONTH) +1) + "-" + lista.get(i).getDataScadenza().get(Calendar.YEAR) + "";
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
                                         <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= lista.get(i).getId()%> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getIsbn()%> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getTitolo()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getTitolo() %> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getStatus() %> </div>
                                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= data%></div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">

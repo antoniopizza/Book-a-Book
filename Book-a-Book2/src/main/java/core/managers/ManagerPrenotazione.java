@@ -23,7 +23,7 @@ import java.util.List;
 public class ManagerPrenotazione {
 
     public Prenotazione prenotareLibro(Persona p, String isbn, String isil) {
-        
+
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
         posDAO.setBibliotecaDAO(bibliotecaDAO);
@@ -32,47 +32,46 @@ public class ManagerPrenotazione {
         Calendar dataCreazione = new GregorianCalendar();
         Calendar dataScadenza = new GregorianCalendar();
         Libro libro = new LibroDAO().doRetriveById(isbn);
-      
-        
+
         Biblioteca bib = bibliotecaDAO.doRetriveById(isil);
         Copia copiaPrenotata = null;
         List<Posizione> listaPosizioniLibro;
         listaPosizioniLibro = posDAO.doRetriveByLibroAndBiblioteca(isbn, isil);
-        
-        for(Posizione pos: listaPosizioniLibro){
+
+        for (Posizione pos : listaPosizioniLibro) {
             pos.setBiblioteca(bib);
-            for(Copia c : copiaDAO.doRetriveByPosizioneAndIsbn(pos, isbn)){
-                if(c.getDisponibilita().equals(Copia.DISPONIBILE_SI) && c.getStatus().equals(Copia.STATUS_NON_PRENOTATO)){
-                   copiaPrenotata = c;
-                   copiaPrenotata.setPosizione(pos);
-                   copiaPrenotata.setLibro(libro);
-                   break;
+            for (Copia c : copiaDAO.doRetriveByPosizioneAndIsbn(pos, isbn)) {
+                if (c.getDisponibilita().equals(Copia.DISPONIBILE_SI) && c.getStatus().equals(Copia.STATUS_NON_PRENOTATO)) {
+                    copiaPrenotata = c;
+                    copiaPrenotata.setPosizione(pos);
+                    copiaPrenotata.setLibro(libro);
+                    break;
                 }
-                
+
             }
-            if(copiaPrenotata!=null){
+            if (copiaPrenotata != null) {
                 break;
             }
-            
+
         }
-        if(copiaPrenotata==null){
+        if (copiaPrenotata == null) {
             return null;
         }
-        dataScadenza.add(Calendar.DAY_OF_MONTH, 90);
+        dataScadenza.add(Calendar.DAY_OF_MONTH, 3);
         Prenotazione prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, Prenotazione.DA_RITIRARE, bib, copiaPrenotata);
         int id;
-        if((id = prenDAO.doInsert(prenot))!= -1){
+        if ((id = prenDAO.doInsert(prenot)) != -1) {
             prenot.setId(id);
             copiaPrenotata.setStatus(Copia.STATUS_PRENOTATO);
             System.out.println(prenot);
-            
-            if(copiaDAO.doUpdate(copiaPrenotata) != -1){
+
+            if (copiaDAO.doUpdate(copiaPrenotata) != -1) {
                 return prenot;
-            }else{
+            } else {
                 prenDAO.doDelete(prenot);
                 return null;
             }
-        }else{
+        } else {
             return null;
         }
     }
@@ -82,31 +81,48 @@ public class ManagerPrenotazione {
         Collection<Prenotazione> lista = new ArrayList<>();
         List<Prenotazione> listaPrenotazione;
         listaPrenotazione = prenDAO.doRetriveAll();
-            for (int i = 0; i < listaPrenotazione.size(); i++) {
-                if (cp.isValid(listaPrenotazione.get(i))) {
-                    lista.add(listaPrenotazione.get(i));
-                }
+        for (int i = 0; i < listaPrenotazione.size(); i++) {
+            if (cp.isValid(listaPrenotazione.get(i))) {
+                lista.add(listaPrenotazione.get(i));
             }
-        
+        }
+
         return lista;
     }
 
     public boolean controlloPrenotazione(int idPrenotazione, String email, String status) {
         PrenotazioneDAO prenDAO = new PrenotazioneDAO();
+        Calendar dataScadenza = new GregorianCalendar();
+        Calendar dataConsegna = new GregorianCalendar();
         Prenotazione prenotazione = prenDAO.doRetriveById(idPrenotazione);
         prenotazione.setStatus(status);
 
-        if (prenDAO.doUpdate(prenotazione) == -1) {
-            return false;
-        } else {
-            return true;
+        if (prenotazione.getStatus().equals(Prenotazione.RESTITUITO) || prenotazione.getStatus().equals(Prenotazione.ANNULLATA)) {
+            prenotazione.getCopia().setStatus(Copia.STATUS_NON_PRENOTATO);
+            
+            BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+            PosizioneDAO posDAO = new PosizioneDAO();
+            posDAO.setBibliotecaDAO(bibliotecaDAO);
+            CopiaDAO copiaDAO = posDAO.getCopiaDAO();
+            
+            copiaDAO.doUpdate(prenotazione.getCopia());
         }
+        
+        if(prenotazione.getStatus().equals(Prenotazione.RITIRATO)){
+            dataScadenza.add(Calendar.DAY_OF_MONTH, 30);
+            prenotazione.setDataScadenza(dataScadenza);
+        } else if(prenotazione.getStatus().equals(Prenotazione.RESTITUITO)){
+            dataConsegna.getTime();
+            prenotazione.setDataConsegna(dataConsegna);
+        }
+        
+        return prenDAO.doUpdate(prenotazione) != -1;
     }
-    
-    public Prenotazione visualizzaPrenotazione(int idPrenotazione){
+
+    public Prenotazione visualizzaPrenotazione(int idPrenotazione) {
         PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAO();
         Prenotazione prenotazione = prenotazioneDAO.doRetriveById(idPrenotazione);
-        
+
         return prenotazione;
     }
 

@@ -1,3 +1,4 @@
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.ArrayList"%>
@@ -63,7 +64,6 @@
                             <br>
                             <%
                                 String message = (String) request.getAttribute("message");
-
                                 if (message != null) {
                             %>
                             <% if(message.equals("correct")) { %>
@@ -100,11 +100,11 @@
                                 <%
                                 } else if (prenotazione.getStatus().equals("Restituito")) {
                                 %>
-                                <p>Data di consegna del Libro: <%=prenotazione.getDataConsegna()%></p>
+                                <p>Data di consegna del Libro: <%=prenotazione.getDataConsegna().get(Calendar.DAY_OF_MONTH) + "-" + (prenotazione.getDataConsegna().get(Calendar.MONTH)+1) + "-" + prenotazione.getDataConsegna().get(Calendar.YEAR)%></p>
                                 <%
                                     }
                                 %>
-
+                                <p><%=prenotazione.getStatus()%></p>
                                 <%
                                    
                                     if (prenotazione.getStatus().equals("Da ritirare")) {
@@ -140,7 +140,6 @@
                                 <%
                                 } else if (prenotazione.getStatus().equals("Ritirato")) {
                                     if (bibliotecario!=null) {
-
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0">
                                     <div class="col-md">

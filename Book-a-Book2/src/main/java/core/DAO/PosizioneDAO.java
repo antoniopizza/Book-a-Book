@@ -31,7 +31,8 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
     private final String doInsertQuery = "INSERT INTO Posizione(etichetta, isil) VALUES (?, ?)";
     private final String doDeleteQuery = "DELETE FROM Posizione WHERE etichetta = ? AND isil = ?";
     private final String doRetriveByLibroAndBibliotecaQuery = "SELECT DISTINCT p.* FROM Posizione p, Copia c WHERE c.isil = p.isil AND c.id_posizione = p.etichetta AND c.isil = ? AND c.isbn = ?";
-        
+    private final String doRetriveByCopiaAndBibliotecaQuery = "SELECT p.* FROM Posizione p, Copia c WHERE p.etichetta = c.id_posizione AND c.id = ? AND c.isil = ?";
+            
     BibliotecaDAO bibliotecaDAO;
     CopiaDAO copiaDAO;
 
@@ -193,7 +194,6 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
                     /*Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
                     posizione.setBiblioteca(biblioteca);
                     List<Copia> copie = copiaDAO.doRetriveByPosizione(posizione);
-
                     
                    
                     for(Copia c : copie){
@@ -273,7 +273,6 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
         try {
             Connection con = DriverManagerConnectionPool.getConnection();
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
-
             prst.setInt(1, posizione.getNumCopie());
             prst.setInt(2, posizione.getNumCopieTotali());
             prst.setString(3, posizione.getEtichetta());
@@ -391,6 +390,52 @@ public class PosizioneDAO extends AbstractDAO<Posizione> {
             return false;
         } 
         
+    }
+    
+    public Posizione doRetriveByCopiaAndBiblioteca(String idCopia, String isil){
+          Posizione posizione = null;
+
+        try {
+            Connection con = DriverManagerConnectionPool.getConnection();
+            
+            PreparedStatement prst = con.prepareStatement(doRetriveByCopiaAndBibliotecaQuery);
+            prst.setString(2, idCopia);
+            prst.setString(1, isil);
+            
+            
+            try {
+                ResultSet rs = prst.executeQuery();
+                con.commit();
+                
+                if(rs.next()) {
+                    posizione = new Posizione(rs.getString("etichetta"));
+                    
+                    //Biblioteca biblioteca = bibliotecaDAO.doRetriveById(rs.getString("isil"));
+                    //posizione.setBiblioteca(biblioteca);
+                    //List<Copia> copie = copiaDAO.doRetriveByPosizioneAndIsbn(posizione,isbn);
+                  
+                   
+                    //for(Copia c : copie){
+                    //    posizione.addCopia(c);
+                    //}
+                    
+                }
+                rs.close();
+                return posizione;
+            }
+            catch (SQLException e) {
+                con.rollback();
+                e.printStackTrace();
+            } finally {
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        
+        return posizione;
     }
     
 }
