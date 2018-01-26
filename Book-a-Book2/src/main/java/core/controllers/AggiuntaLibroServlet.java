@@ -82,6 +82,12 @@ public class AggiuntaLibroServlet extends HttpServlet {
 
                 book = manager.aggiuntaLibro(isbn, titolo, editore, dataPubblicazione, descrizione, pathFoto, autoriList);
 
+                if(book == null){
+                    String message = "Qualcosa è andato storto";
+                    view = request.getRequestDispatcher("aggiungi-libro.jsp");
+                    view.forward(request, response);
+                }
+                
             } else {
                 book = manager.visualizzaLibro(isbn);
             }

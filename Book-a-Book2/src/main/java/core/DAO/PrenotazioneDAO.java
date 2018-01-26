@@ -179,10 +179,8 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                 ResultSet rs = stt.getGeneratedKeys();
                 rs.next();
                 int id = rs.getInt(1);
-                rs.close();
-                stt.close();
-                con.commit();
-                DriverManagerConnectionPool.releaseConnection(con);
+                rs.close();                
+                con.commit();               
                 return id;
 
             } catch (SQLException e) {
@@ -227,9 +225,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
                 prst.execute();
 
-                con.commit();
-                prst.close();
-                DriverManagerConnectionPool.releaseConnection(con);
+                con.commit();               
                 return 0;
             } catch (SQLException e) {
                 con.rollback();
