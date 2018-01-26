@@ -44,7 +44,7 @@ public class VerificaIsbnServlet extends HttpServlet {
 
         String isbn = request.getParameter("isbn");
         ManagerLibri manager = new ManagerLibri();
-        Collection<Libro> b = manager.cercaLibro(new CriterioPerIsbn(isbn));
+        Collection<Libro> b = manager.cercaLibro(new CriterioPerIsbn(isbn),0);
         String message;
 
        
