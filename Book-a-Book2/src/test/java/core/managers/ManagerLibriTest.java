@@ -93,7 +93,7 @@ public class ManagerLibriTest {
         System.out.println("cercaLibro");
         Criterio c = new CriterioPerAutore("Dan Brown");        
         ManagerLibri instance = new ManagerLibri();       
-        Collection<Libro> result = instance.cercaLibro(c);
+        Collection<Libro> result = instance.cercaLibro(c,0);
         assertFalse(result.isEmpty());
         assertTrue(result.size() == 1);
         assertTrue(result.contains(libro));

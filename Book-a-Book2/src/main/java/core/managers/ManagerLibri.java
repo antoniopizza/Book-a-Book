@@ -58,8 +58,8 @@ public class ManagerLibri {
      * @return una Collection di libri, null se c'è qualche 
      * errore.
      */
-    public Collection<Libro> cercaLibro(Criterio c) {
-
+    public Collection<Libro> cercaLibro(Criterio c, int offset) {
+        int limit = 0;
         List<Libro> listToReturn = new ArrayList<>();
         List<Libro> allBooks = libroDAO.doRetriveAll();        
 
@@ -67,9 +67,13 @@ public class ManagerLibri {
             return null;
         }
         
-        for (Libro b : allBooks) {
-            if (c.isValid(b)) {
-                listToReturn.add(b);
+        for (int i = offset; i < allBooks.size(); i++) {
+            if(limit == 3 ){
+                break;
+            }
+            if (c.isValid(allBooks.get(i))) {
+                listToReturn.add(allBooks.get(i));
+                limit++;
             }
         }
 

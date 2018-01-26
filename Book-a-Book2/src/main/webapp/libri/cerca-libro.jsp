@@ -4,6 +4,8 @@
 <%@page import="java.util.List"%>
 <%@page import="core.entities.Libro"%>
 <% String nomePagina = "Risultati Ricerca";
+    int offset = (int) request.getAttribute("offset");
+    List<Libro> libri = new ArrayList<>();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,7 +24,7 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <%if (session.getAttribute("bibliotecario") != null) {
-                                        %>
+                                    %>
                                     <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
                                     <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
@@ -40,12 +42,12 @@
                                         <a href="dashboard-favourite-ads.html"> Popolari</a>
                                     </li>
                                     <% }
-                                       %>
+                                    %>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 
                         <div class="widget dashboard-container my-adslist">                            
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
@@ -53,8 +55,6 @@
                             <h3 class="widget-header"></h3>
 
                             <%
-                                List<Libro> libri;
-                               
                                 Bibliotecario bibliotecario = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
                                 String message = (String) request.getAttribute("message");
                                 if (!message.equals("correct")) {
@@ -63,9 +63,8 @@
                             <h3 class="widget-header"><%=message%></h3>
                             <%
                             } else {
-
-                                libri = new ArrayList<>();
-                                libri = (ArrayList<Libro>) request.getAttribute("libri");                                
+                                
+                                libri = (ArrayList<Libro>) request.getAttribute("libri");
                             %>
 
                             <table class="table table-responsive product-dashboard-table">
@@ -78,7 +77,7 @@
                                 </thead>
                                 <tbody>                                   
                                     <%
-                                        int dispCounter = 0;
+                                        int pageIndex = 0;
                                         for (Libro book : libri) {
                                             List<Autore> autori = book.getAutori();
                                     %>
@@ -136,7 +135,7 @@
                                         </td>
                                     </tr>                                   
                                     <%
-                                            dispCounter++;
+                                            pageIndex++;
                                         }
                                     %>
                                 </tbody>
@@ -144,7 +143,25 @@
                             <%
                                 }
                             %>
+
+                            <div class="row">
+                                <div class="col-3">
+                                    <% if (offset > 0) {%>
+
+                                    <a class="btn-lg btn-transparent" href="cerca-libro?searchKey=<%=request.getParameter("searchKey")%>&criterio=<%=request.getParameter("criterio")%>&offset=<%=(offset - 3)%>">Precedente</a>
+
+                                    <% }%>
+                                </div>
+                                <div class="col"></div>
+                                <div class="col-3">
+                                    
+                                    <% if(libri.size() >= 3) { %>
+                                    <a class="btn-lg btn-transparent" href="cerca-libro?searchKey=<%=request.getParameter("searchKey")%>&criterio=<%=request.getParameter("criterio")%>&offset=<%=(offset + 3)%>">Successva</a>
+                                    <% } %>
+                                </div>
+                            </div>                            
                         </div>
+
                     </div>
                 </div>
             </div>

@@ -59,8 +59,7 @@ public class AggiuntaCopieServlet extends HttpServlet {
             for(int i = 0;i<nScaffali;i++){
                 //definizione scaffale
                 String etichettaScaffale = request.getParameter("etichetta-"+i);
-                int nCopie = Integer.parseInt(request.getParameter("n-copie-"+i));
-                out.print(etichettaScaffale+"<br>");
+                int nCopie = Integer.parseInt(request.getParameter("n-copie-"+i));               
                 Posizione p = new Posizione(etichettaScaffale);
                 p.setBiblioteca(biblio);
                                                
