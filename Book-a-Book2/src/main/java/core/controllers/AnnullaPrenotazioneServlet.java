@@ -60,9 +60,9 @@ public class AnnullaPrenotazioneServlet extends HttpServlet {
                 message = "correct";
             }
         }
-        request.setAttribute("prenotazione", manPren.visualizzaPrenotazione(idPrenotazione));
+
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("visualizzaPrenotazioni.jsp");
         view.forward(request, response);
     }
 

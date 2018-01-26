@@ -5,10 +5,7 @@
  */
 package core.DAO;
 
-import core.entities.Biblioteca;
-import core.entities.Copia;
 import core.entities.Libro;
-import core.entities.Posizione;
 import core.entities.Prenotazione;
 import core.utils.DriverManagerConnectionPool;
 import java.sql.*;
@@ -41,9 +38,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
     public Prenotazione doRetriveById(Object... id) {
         int idPrenotazione = (int) id[0];
 
-        String isbn, isil, idCopia;
-
-        Prenotazione prenotazione = null;
+        Prenotazione prenotazione = null;  
         BibliotecaDAO bibDAO = new BibliotecaDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
         posDAO.setBibliotecaDAO(bibDAO);
@@ -72,23 +67,15 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
                     }
                     prenotazione.setId(rs.getInt("id"));
-
-                    isbn = rs.getString("isbn");
-                    isil = rs.getString("isil");
-                    idCopia = rs.getString("id_copia");
-
                     prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
-                    //prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
-                    Copia copia = copiaDAO.doRetriveById(idCopia, isbn, isil);
-                    /*copia.setLibro(libroDAO.doRetriveById(isbn));
-                    Posizione posizione = posDAO.doRetriveByCopiaAndBiblioteca(idCopia, isil);
-                    copia.setPosizione(posizione);*/
-                    prenotazione.setCopia(copia);
-                    Biblioteca biblioteca = bibDAO.doRetriveById(isil);
-                    prenotazione.setBiblioteca(biblioteca);
+                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
+                    prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
+                    System.out.println(prenotazione.getId() + " " + prenotazione.getDataCreazione());
                 }
 
                 rs.close();
+                prst.close();
+                DriverManagerConnectionPool.releaseConnection(con);
                 return prenotazione;
 
             } catch (SQLException e) {
@@ -107,7 +94,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
     @Override
     public List<Prenotazione> doRetriveAll() {
-        Prenotazione prenotazione = null;
+        Prenotazione prenotazione = null;  
         BibliotecaDAO bibDAO = new BibliotecaDAO();
         PosizioneDAO posDAO = new PosizioneDAO();
         posDAO.setBibliotecaDAO(bibDAO);
@@ -125,6 +112,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
                 while (rs.next()) {
 
+                    
                     Calendar dataCreazione = new GregorianCalendar();
                     dataCreazione.setTimeInMillis(rs.getDate("data_creazione").getTime());
                     Calendar dataScadenza = new GregorianCalendar();
@@ -144,6 +132,8 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                 }
 
                 con.commit();
+                stt.close();
+                DriverManagerConnectionPool.releaseConnection(con);
                 return listaPrenotazioni;
 
             } catch (SQLException e) {
@@ -213,11 +203,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
                 prst.setDate(1, new Date(prenotazione.getDataCreazione().getTimeInMillis()));
                 prst.setDate(2, new Date(prenotazione.getDataScadenza().getTimeInMillis()));
-                if (prenotazione.getDataConsegna() == null) {
-                    prst.setNull(3, java.sql.Types.DATE);
-                }else {
-                    prst.setDate(3, new Date(prenotazione.getDataConsegna().getTimeInMillis()));
-                }
+                prst.setDate(3, null);
                 prst.setInt(4, prenotazione.getPersona().getId());
                 prst.setString(5, prenotazione.getBiblioteca().getIsil());
                 prst.setString(6, prenotazione.getStatus());

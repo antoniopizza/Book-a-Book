@@ -1,4 +1,3 @@
-<%@page import="java.util.Calendar"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.ArrayList"%>
@@ -101,11 +100,11 @@
                                 <%
                                 } else if (prenotazione.getStatus().equals("Restituito")) {
                                 %>
-                                <p>Data di consegna del Libro: <%=prenotazione.getDataConsegna().get(Calendar.DAY_OF_MONTH) + "-" + (prenotazione.getDataConsegna().get(Calendar.MONTH)+1) + "-" + prenotazione.getDataConsegna().get(Calendar.YEAR)%></p>
+                                <p>Data di consegna del Libro: <%=prenotazione.getDataConsegna()%></p>
                                 <%
                                     }
                                 %>
-                                <p><%=prenotazione.getStatus()%></p>
+
                                 <%
                                    
                                     if (prenotazione.getStatus().equals("Da ritirare")) {
