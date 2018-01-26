@@ -45,7 +45,7 @@ public class AggiuntaCopieServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        ManagerLibri manager = new ManagerLibri(new BibliotecaDAOStub(),new PosizioneDAO(),new LibroDAO());
+        ManagerLibri manager = new ManagerLibri();
         try (PrintWriter out = response.getWriter()) {
 
             //dati in sessione
