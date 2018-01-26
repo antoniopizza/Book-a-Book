@@ -29,6 +29,9 @@ public class ManagerPrenotazione {
         posDAO.setBibliotecaDAO(bibliotecaDAO);
         CopiaDAO copiaDAO = posDAO.getCopiaDAO();
         PrenotazioneDAO prenDAO = new PrenotazioneDAO();
+        PersonaDAO personaDAO = new PersonaDAO();
+        IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+        
         Calendar dataCreazione = new GregorianCalendar();
         Calendar dataScadenza = new GregorianCalendar();
         Libro libro = new LibroDAO().doRetriveById(isbn);
@@ -38,6 +41,7 @@ public class ManagerPrenotazione {
         List<Posizione> listaPosizioniLibro;
         listaPosizioniLibro = posDAO.doRetriveByLibroAndBiblioteca(isbn, isil);
 
+        // cerchiamo la prima copia disponibile
         for (Posizione pos : listaPosizioniLibro) {
             pos.setBiblioteca(bib);
             for (Copia c : copiaDAO.doRetriveByPosizioneAndIsbn(pos, isbn)) {
@@ -59,9 +63,28 @@ public class ManagerPrenotazione {
         }
         dataScadenza.add(Calendar.DAY_OF_MONTH, 3);
         Prenotazione prenot = new Prenotazione(dataCreazione, dataScadenza, null, p, Prenotazione.DA_RITIRARE, bib, copiaPrenotata);
-        int id;
-        if ((id = prenDAO.doInsert(prenot)) != -1) {
-            prenot.setId(id);
+        int idPrenotazione,idPersona;
+        
+        //CONTROLLO L'INDIRIZZO
+        
+        if(indirizzoDAO.doRetriveById(p.getIndirizzo().getVia(),p.getIndirizzo().getCitta(),p.getIndirizzo().getCivico()) == null){
+            if(indirizzoDAO.doInsert(p.getIndirizzo()) == -1){
+                return null;
+            }
+        }
+        
+        //controllo se esiste la persona 
+        if(p.getId() == 0 || p.getAccount() == null){
+            
+            if((idPersona = personaDAO.doInsert(p)) == -1){
+                return null;
+            } else {
+                p.setId(idPersona);
+            }
+        }
+        
+        if ((idPrenotazione = prenDAO.doInsert(prenot)) != -1) {
+            prenot.setId(idPrenotazione);
             copiaPrenotata.setStatus(Copia.STATUS_PRENOTATO);
             System.out.println(prenot);
 

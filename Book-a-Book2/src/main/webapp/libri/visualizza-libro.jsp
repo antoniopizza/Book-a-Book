@@ -238,7 +238,11 @@
 
                                         </table>
                                         <input type="hidden" name="isbn" value="<%= book.getIsbn()%>">
+                                        <% if(session.getAttribute("persona") != null){ %>
                                         <button type="submit" class="btn btn-main">Prenota</button>
+                                        <% } else { %>
+                                        <button type="button" data-toggle="modal" data-target="#non-logged-modal" class="btn btn-main">Prenota</button>
+                                        <% } %>
                                     </div>
 
                                 </form>
@@ -278,11 +282,32 @@
 
                     </div>
                 </div>
+                
+                 <!-- Modal errore -->
+                <div id="non-logged-modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">                                
+                                <h4 class="modal-title">Attenzione !</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p id="modal-error-messsage"> Bisogna effettuare il login per prenotare un libro</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
 
                 <% if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) { %>
                 <!-- Modal Persona -->
                 <div id="person-modal" class="modal fade" role="dialog">
-                    <form>
+                    <form action="<%= application.getContextPath()%>/prenotazioni/prenotazione-libro">
                         <div class="modal-dialog">
 
                             <!-- Modal content-->
@@ -323,9 +348,12 @@
                                     </div>
 
                                     <label>Telefono</label>
-                                    <input name="telefono" type="text" class="form-control"/>   
+                                    <input name="telefono" type="text" class="form-control"/>  
+                                    <input type="hidden" value="<%= book.getIsbn() %>" name="isbn" />
+                                    <input type="hidden" value="<%=  ((Bibliotecario) session.getAttribute("bibliotecario")).getBiblioteca().getIsil() %>" name="isil" />
                                 </div>
                                 <div class="modal-footer">
+                                    <button type="submit" class="btn btn-default">Prenota</button>
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
                             </div>

@@ -181,7 +181,11 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             
             prst.setString(1, persona.getNome());
             prst.setString(2,persona.getCognome());
-            prst.setString(3,persona.getAccount().getEmail());
+            if(persona.getAccount() == null){
+                prst.setNull(3, java.sql.Types.VARCHAR);
+            } else {
+                prst.setString(3,persona.getAccount().getEmail());
+            }
             prst.setString(4,persona.getNumDocumento());
             prst.setString(5,persona.getIndirizzo().getVia());
             prst.setString(6,persona.getIndirizzo().getCivico());
