@@ -43,13 +43,18 @@ public class DettagliPrenotazioneServlet extends HttpServlet {
         Persona persona;
         Libro libro;
         ManagerPrenotazione manPren = new ManagerPrenotazione();
-        pren = manPren.visualizzaPrenotazione(id);
+        if((pren = manPren.visualizzaPrenotazione(id))==null){
+            message="error";
+        }else{
+            message="ok";
+        }
         libro = pren.getCopia().getLibro();
         persona = pren.getPersona();
 
         request.setAttribute("prenotazione", pren);
         request.setAttribute("libro", libro);
         request.setAttribute("persona", persona);
+        request.setAttribute("message", message);
         RequestDispatcher view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
         view.forward(request, response);
     }
