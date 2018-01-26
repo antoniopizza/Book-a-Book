@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mery
  */
-@WebServlet(name = "RicercaPrenotazioniPerCriterioServlet", urlPatterns = {"/RicercaPrenotazioniPerCriterioServlet"})
+@WebServlet(name = "RicercaPrenotazioniPerCriterioServlet", urlPatterns = {"/prenotazioni/cerca-per-criterio"})
 public class RicercaPrenotazioniPerCriterioServlet extends HttpServlet {
 
     /**

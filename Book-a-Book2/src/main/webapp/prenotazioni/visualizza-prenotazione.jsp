@@ -79,7 +79,43 @@
                             </div>
                             <% }%>
 
-                            <h3 class="widget-header"></h3>
+                            <h3>Cerca la tua prenotazione</h3>
+                            <div class="advance-search">
+                                <form id="cercaPren" name = "cercaPren" action="cerca-per-criterio" method="post">
+                                    <div class="row">
+                                        <!-- Store Search -->
+
+                                        <div class="col-lg-2 col-md-12">
+                                            <select  id="select" name="criterio "class="form-control mb-2 mr-sm-2 mb-sm-0">
+                                                <% if (session.getAttribute("bibliotecario") != null) { %>
+                                                <option id="idUtente" value="utente">Per id utente</option>
+                                                <% }%>
+                                                <option id="idCodice" value="codice">Per codice</option>
+                                                <option id="dataRitiro" value="ritiro">Per data di ritiro</option>
+                                                <option id="dataCreazione" value="creazione">Per data di creazione</option>
+                                                <option id="dataScadenza" value="scadenza">Per data di scadenza</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-1"></div>
+                                        <div class="col-lg-7 col-md-12">
+                                            <div  class="block d-flex">
+                                                <input style="display:none" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchData" name="valore" placeholder="Cerca la tua prenotazione">
+                                            </div>
+                                            <div  class="block d-flex">
+                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchPren" name="valore" placeholder="Cerca la tua prenotazione">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-12">
+                                            <div class="block d-flex">
+                                                <!-- Search Button -->
+                                                <button type="button" class="btn btn-main" onclick="controlloSearch()">CERCA</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1"></div>
+                                    </div>
+                                </form>
+                            </div>
+
                             <h3 class="widget-header">Dettagli della prenotazione</h3>
                             <div class="row">
                                 <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
