@@ -9,15 +9,22 @@ import core.DAO.AccountDAO;
 import core.DAO.AdminDAO;
 import core.DAO.BibliotecaDAO;
 import core.DAO.BibliotecarioDAO;
+import core.DAO.CopiaDAO;
 import core.DAO.IndirizzoDAO;
+import core.DAO.LibroDAO;
 import core.DAO.PersonaDAO;
+import core.DAO.PosizioneDAO;
+import core.DAO.PrenotazioneDAO;
 import core.DAO.TelefonoDAO;
 import core.entities.Account;
 import core.entities.Admin;
 import core.entities.Biblioteca;
 import core.entities.Bibliotecario;
+import core.entities.Copia;
 import core.entities.Indirizzo;
 import core.entities.Persona;
+import core.entities.Posizione;
+import core.entities.Prenotazione;
 import core.entities.Telefono;
 import java.util.Calendar;
 import java.util.List;
@@ -154,27 +161,49 @@ public class ManagerAccount {
 
         BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
         BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
+        PrenotazioneDAO prenotazioneDAO = new PrenotazioneDAO();
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
         AccountDAO accountDAO = new AccountDAO();
         List<Bibliotecario> bibliotecari = bibliotecarioDAO.doRetriveAll();
+        PosizioneDAO posizioneDAO = new PosizioneDAO();
+        posizioneDAO.setBibliotecaDAO(bibliotecaDAO);
+        CopiaDAO copiaDAO = posizioneDAO.getCopiaDAO();
+        List<Prenotazione> prenotazioni = prenotazioneDAO.doRetriveAll();
+        if(prenotazioni != null) {
+        for(Prenotazione p: prenotazioni) {
+            if(p.getBiblioteca().getIsil().equals(isil)) {
+                prenotazioneDAO.doDelete(p);
+            }
+        }
+        }
+        
+        List<Posizione> posizioni = posizioneDAO.doRetriveAllByIsil(isil);
+        List<Copia> copie = null;
+        
+        for(Posizione p: posizioni) {
+            p.setBiblioteca(biblioteca);
+         copie = copiaDAO.doRetriveByPosizione(p);
+         for(Copia c: copie) {
+             p.addCopia(c);
+             copiaDAO.doDelete(c);
+         }
+         posizioneDAO.doDelete(p);
+        }
         
 
         TelefonoDAO telefonoDAO = new TelefonoDAO();
         Telefono telefono = telefonoDAO.doRetriveByBiblioteca(bibliotecaDAO.doRetriveById(isil));
         telefonoDAO.doDelete(telefono);
         if (bibliotecarioDAO.doDelete(isil) == 0 && bibliotecaDAO.doDelete(isil) == 0) {
-
-            
-            
             for (Bibliotecario b : bibliotecari) {
                 if (b.getBiblioteca().getIsil().equals(isil)) {
                     accountDAO.doDelete(b.getAccount().getEmail());
                 }
             }
 
-            IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
-            Indirizzo indirizzo = indirizzoDAO.doRetriveById(biblioteca.getIndirizzo().getVia(), biblioteca.getIndirizzo().getCitta(), biblioteca.getIndirizzo().getCivico());
-            indirizzoDAO.doDelete(indirizzo);
+            //IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+            //Indirizzo indirizzo = indirizzoDAO.doRetriveById(biblioteca.getIndirizzo().getVia(), biblioteca.getIndirizzo().getCitta(), biblioteca.getIndirizzo().getCivico());
+            //indirizzoDAO.doDelete(indirizzo);
 
             return true;
         } else {
@@ -190,11 +219,12 @@ public class ManagerAccount {
         Persona persona = personaDAO.doRetriveByEmail(email);
         Telefono telefono = telefonoDAO.doRetriveByPersona(persona);
         telefonoDAO.doDelete(telefono);
-        personaDAO.doDelete(persona);
+        persona.setAccount(null);
+        personaDAO.doUpdate(persona);
 
-        IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
-        Indirizzo indirizzo = indirizzoDAO.doRetriveById(persona.getIndirizzo().getVia(), persona.getIndirizzo().getCitta(), persona.getIndirizzo().getCivico());
-        indirizzoDAO.doDelete(indirizzo);
+        //IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
+        //Indirizzo indirizzo = indirizzoDAO.doRetriveById(persona.getIndirizzo().getVia(), persona.getIndirizzo().getCitta(), persona.getIndirizzo().getCivico());
+        //indirizzoDAO.doDelete(indirizzo);
 
         if (accountDAO.doDelete(email) == 0) {
             return true;

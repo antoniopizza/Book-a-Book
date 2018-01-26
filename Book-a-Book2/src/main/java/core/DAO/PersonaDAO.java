@@ -56,7 +56,10 @@ public class PersonaDAO extends AbstractDAO<Persona>{
                 TelefonoDAO telefonoDAO = new TelefonoDAO();
                 
                 if (rs.next()) {
-                    Account account = accountDAO.doRetriveById(rs.getString("email"));
+                    Account account = null;
+                    if(rs.getString("email") != null) {
+                        account = accountDAO.doRetriveById(rs.getString("email"));
+                    }
                     Indirizzo indirizzo = indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico"));
                     
                     persona = new Persona(rs.getString("num_documento"), indirizzo, idPersona, rs.getString("nome"), rs.getString("cognome"), account);
@@ -139,8 +142,11 @@ public class PersonaDAO extends AbstractDAO<Persona>{
                 Persona persona = null;
                 IndirizzoDAO indirizzoDAO = new IndirizzoDAO();
                 AccountDAO accountDAO = new AccountDAO();
-                if (rs.next()) {
-                    Account account = accountDAO.doRetriveById(rs.getString("email"));
+                while(rs.next()) {
+                    Account account = null;
+                    if(rs.getString("email") != null) {
+                        account = accountDAO.doRetriveById(rs.getString("email"));
+                    }
                     Indirizzo indirizzo = indirizzoDAO.doRetriveById(rs.getString("via"),rs.getString("citta"),rs.getString("civico"));
                     persona = new Persona(rs.getString("num_documento"), indirizzo, rs.getInt("id"), rs.getString("nome"), rs.getString("cognome"), account);
                     persone.add(persona);
@@ -214,7 +220,11 @@ public class PersonaDAO extends AbstractDAO<Persona>{
             PreparedStatement prst = con.prepareStatement(doUpdateQuery);
             prst.setString(1, persona.getNome());
             prst.setString(2,persona.getCognome());
-            prst.setString(3,persona.getAccount().getEmail());
+            if(persona.getAccount() == null ) {
+                prst.setNull(3, java.sql.Types.VARCHAR);
+            } else {
+                prst.setString(3, persona.getAccount().getEmail());
+            }
             prst.setString(4,persona.getNumDocumento());
             prst.setString(5, persona.getIndirizzo().getVia());
             prst.setString(6, persona.getIndirizzo().getCitta());

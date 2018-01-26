@@ -52,18 +52,35 @@ public class ManagerRegistrazione {
         Account account = new Account(email, password, pathFoto, "Persona");
         Indirizzo indirizzo = new Indirizzo(via, citta, numeroCivico, provincia, CAP);
         Persona persona = new Persona(numeroDocumento, indirizzo, nome, cognome, account);
-        persona.setIndirizzo(indirizzo);
+        
         
         Telefono telefono = new Telefono("+39", numeroTelefono, null, null);
         
-        indirizzoDAO.doInsert(indirizzo);
-        accountDAO.doInsert(account);
-        persona.setId(personaDAO.doInsert(persona));
-        telefono.setPersona(persona);        
-        telefonoDAO.doInsert(telefono);
-        
-        return persona;
-            
+        if(indirizzoDAO.doRetriveById(indirizzo.getVia(),indirizzo.getCitta(),indirizzo.getCivico()) == null) {
+        if(indirizzoDAO.doInsert(indirizzo) == -1) {
+            return null;
+        }   
+        }
+        if(accountDAO.doInsert(account) == 0) {
+            int id = personaDAO.doInsert(persona);
+                if(id != -1) {
+                    persona.setId(id);
+                    telefono.setPersona(persona);
+                if(telefonoDAO.doInsert(telefono) == 0) {
+                    return persona;
+                } else {
+                    personaDAO.doDelete(persona);
+                    accountDAO.doDelete(email);
+                    return null;
+                }
+            } else {
+                    accountDAO.doDelete(email);
+                    return null;
+                }
+        } else {
+            return null;
+        }
+               
     }
     
         
@@ -76,11 +93,23 @@ public class ManagerRegistrazione {
         Biblioteca biblioteca = new Biblioteca(isil, nomeBiblioteca, "In Sospeso", indirizzo, null);
         Telefono telefono = new Telefono("+39", numeroTelefono, null, biblioteca);
         //System.out.println(""+ account.toString());
-        indirizzoDAO.doInsert(indirizzo);        
-        bibliotecaDAO.doInsert(biblioteca);
-        telefonoDAO.doInsert(telefono);
+        if(indirizzoDAO.doRetriveById(indirizzo.getVia(),indirizzo.getCitta(),indirizzo.getCivico()) == null) {
+            if(indirizzoDAO.doInsert(indirizzo) != 0) {
+             return null;
+            }
+        } 
         
-        return biblioteca;
+        if(bibliotecaDAO.doInsert(biblioteca) == 0) {
+            if(telefonoDAO.doInsert(telefono) == 0) {
+            return biblioteca;
+            } else {
+                bibliotecaDAO.doDelete(isil);
+                return null;
+            }
+        } else {
+            return null;
+        }
+        
     }
     
     
@@ -93,13 +122,20 @@ public class ManagerRegistrazione {
         Biblioteca biblioteca = bibliotecaDAO.doRetriveById(isil);
         Bibliotecario bibliotecario = new Bibliotecario(biblioteca.getStatus(), tipo, biblioteca,nome, cognome, account);
         
+        if(accountDAO.doInsert(account) == 0) {
+            int id = bibliotecarioDAO.doInsert(bibliotecario);
+            if(id != -1) {
+                bibliotecario.setId(bibliotecarioDAO.doInsert(bibliotecario)); 
+                return bibliotecario;
+            } else {
+                accountDAO.doDelete(email);
+                return null;
+            }
+        } else {
+            return null;
+        }
         
-        accountDAO.doInsert(account);
-        
-          bibliotecario.setId(bibliotecarioDAO.doInsert(bibliotecario));
-        
-        
-        return bibliotecario;
+          
     }
 
     public List<Biblioteca> visualizzaRichieste(){
