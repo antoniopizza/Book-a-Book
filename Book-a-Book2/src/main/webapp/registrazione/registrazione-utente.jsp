@@ -12,6 +12,15 @@
 
     <body>
         <%@include file="../skeleton-pages/header.jsp" %>
+        
+         <%   if (request.getSession().getAttribute("errore") != null) {
+        %>
+        <div class="container" style="background-color: #ff6347; text-align: center;" id="modifica">
+            <h5 style="color: white;"> Errore Email già presente!</h5></div>
+            <%
+                    request.getSession().removeAttribute("errore");
+                }
+                %>
 
         <section class="dashboard section">
             <div class="container">
@@ -54,18 +63,18 @@
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
-                                    <input type="text" class="form-control" name="nome" required>
+                                    <input type="text" class="form-control" name="nome" required pattern="[A-Za-z]{2,}$">
                                 </div>
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
-                                    <input type="text" class="form-control" name="cognome" required>
+                                    <input type="text" class="form-control" name="cognome" required pattern="[A-Za-z]{2,}$">
                                 </div>
 
                                 <!-- Documento d'Identità -->
                                 <div class="form-group">
                                     <label for="documento">Documento di Identita'</label>
-                                    <input type="text" class="form-control" name="documento" required>
+                                    <input type="text" class="form-control" name="documento" required pattern="[A-Za-z0-9]{5,20}$">
                                 </div>
 
                                 <!-- Indirizzo -->
@@ -82,24 +91,24 @@
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
-                                            <input type="text" class="form-control" name="citta" required>
+                                            <input type="text" class="form-control" name="citta" required pattern="[A-Za-z]{2,}$">
                                         </div>
                                     </div>
                                     <div class="row">
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
-                                            <input type="text" class="form-control" name="via" required>
+                                            <input type="text" class="form-control" name="via" required pattern="[A-Z a-z]{2,}$">
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
-                                            <input type="text" class="form-control" name="civico" required>
+                                            <input type="text" class="form-control" name="civico" required pattern="[0-9]{1,4}$">
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">CAP</label>
-                                            <input type="text" class="form-control" name="cap" required>
+                                            <input type="text" class="form-control" name="cap" required pattern="[0-9]{5}$">
                                         </div>    
                                     </div>
 
@@ -109,7 +118,7 @@
                                 <!-- Path Foto -->
                                 <div class="form-group">
                                     <label for="foto">Path Foto</label>
-                                    <input type="text" class="form-control" name="foto" >
+                                    <input type="text" class="form-control" name="foto" required>
                                 </div>
 
                                 <!-- Number -->
@@ -140,6 +149,11 @@
         <%@include file="../skeleton-pages/footer.jsp" %>
 
         <script>
+            
+             $(document).ready(setTimeout(function () {
+                $("#modifica").hide();
+            }, 3000));
+            
             var password = document.getElementById("password");
             var confirm_password = document.getElementById("confermapass");
 

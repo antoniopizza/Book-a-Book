@@ -10,6 +10,7 @@ import core.entities.Biblioteca;
 import core.entities.Bibliotecario;
 import core.entities.Persona;
 import core.managers.ManagerAccount;
+import core.managers.ManagerRegistrazione;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -80,6 +81,7 @@ public class ModificaDatiPersonaliServlet extends HttpServlet {
             throws ServletException, IOException {
 
         ManagerAccount manager = new ManagerAccount();
+        ManagerRegistrazione mr = new ManagerRegistrazione();
         String url = "";
 
         if (request.getParameter("tipoUtente").equals("persona")) {
@@ -97,68 +99,87 @@ public class ModificaDatiPersonaliServlet extends HttpServlet {
             String pathFoto = request.getParameter("foto");
             String numeroTelefono = request.getParameter("numero");
 
-            Persona p = manager.modificaDatiPersonali(vecchiaEmail, email, nome, cognome, numeroDocumento, provincia, CAP, via, numeroCivico, citta, numeroTelefono, pathFoto);
+            if (((mr.checkEmail(email)) == 0) && !(email.equals(vecchiaEmail))) {
 
-            if (request.getSession().getAttribute("persona") != null) {
-                request.getSession().removeAttribute("persona");
+                request.getSession().setAttribute("errore", "true");
+                url = "/profilo/profiloPersonale-Utente.jsp";
+
+            } else {
+
+                Persona p = manager.modificaDatiPersonali(vecchiaEmail, email, nome, cognome, numeroDocumento, provincia, CAP, via, numeroCivico, citta, numeroTelefono, pathFoto);
+
+                if (request.getSession().getAttribute("persona") != null) {
+                    request.getSession().removeAttribute("persona");
+                }
+
+                request.getSession().setAttribute("persona", p);
+                request.getSession().setAttribute("modificato", "true");
+                url = "/profilo/profiloPersonale-Utente.jsp";
             }
-
-            request.getSession().setAttribute("persona", p);
-            request.getSession().setAttribute("modificato", "true");
-            url = "/profilo/profiloPersonale-Utente.jsp";
-
         } else if (request.getParameter("tipoUtente").equals("bibliotecario")) {
 
-            if (request.getParameter("tipoBibliotecario").equals("Responsabile")) {
-
-                String isil = request.getParameter("isil");
-                String nome = request.getParameter("nomeBiblioteca");
-                String provincia = request.getParameter("provincia");
-                String citta = request.getParameter("citta");
-                String via = request.getParameter("via");
-                String numeroCivico = request.getParameter("civico");
-                String CAP = request.getParameter("cap");
-                String numero = request.getParameter("numero");
-
-                manager.modificaDatiBiblioteca(isil, nome, via, citta, numeroCivico, numero, provincia, CAP);
-
-            }
             String vecchiaEmail = request.getParameter("vecchiaEmail");
             String email = request.getParameter("email");
             String pathFoto = request.getParameter("foto");
 
-            Bibliotecario b = manager.modificaDatiPersonali(vecchiaEmail, email,pathFoto);
+            if (((mr.checkEmail(email)) == 0) && !(email.equals(vecchiaEmail))) {
 
-            if (request.getSession().getAttribute("bibliotecario") != null) {
-                request.getSession().removeAttribute("bibliotecario");
+                request.getSession().setAttribute("errore", "true");
+                url = "/profilo/profiloPersonale-Bibliotecario.jsp";
+
+            } else {
+
+                if (request.getParameter("tipoBibliotecario").equals("Responsabile")) {
+
+                    String isil = request.getParameter("isil");
+                    String nome = request.getParameter("nomeBiblioteca");
+                    String provincia = request.getParameter("provincia");
+                    String citta = request.getParameter("citta");
+                    String via = request.getParameter("via");
+                    String numeroCivico = request.getParameter("civico");
+                    String CAP = request.getParameter("cap");
+                    String numero = request.getParameter("numero");
+
+                    manager.modificaDatiBiblioteca(isil, nome, via, citta, numeroCivico, numero, provincia, CAP);
+
+                }
+
+                Bibliotecario b = manager.modificaDatiPersonali(vecchiaEmail, email, pathFoto);
+
+                if (request.getSession().getAttribute("bibliotecario") != null) {
+                    request.getSession().removeAttribute("bibliotecario");
+                }
+
+                request.getSession().setAttribute("bibliotecario", b);
+                request.getSession().setAttribute("modificato", "true");
+
+                url = "/profilo/profiloPersonale-Bibliotecario.jsp";
             }
-
-            request.getSession().setAttribute("bibliotecario", b);
-            request.getSession().setAttribute("modificato", "true");
-
-            url = "/profilo/profiloPersonale-Bibliotecario.jsp";
-
         } else if (request.getParameter("tipoUtente").equals("admin")) {
-            
+
             String vecchiaEmail = request.getParameter("vecchiaEmail");
-            String email = request.getParameter("email");
-            String nome = request.getParameter("nome");
-            String cognome = request.getParameter("cognome");
+            String email = request.getParameter("nuovaEmail");
 
-            Admin a = manager.modificaDatiPersonali(vecchiaEmail, email, nome, cognome);
+            if (((mr.checkEmail(email)) == 0) && !(email.equals(vecchiaEmail))) {
 
-            if (request.getSession().getAttribute("admin") != null) {
-                request.getSession().removeAttribute("admin");
+                request.getSession().setAttribute("errore", "true");
+                url = "/profilo/profiloPersonale-Admin.jsp";
+
+            } else {
+
+                Admin a = manager.modificaDatiPersonali(vecchiaEmail, email);
+
+                if (request.getSession().getAttribute("admin") != null) {
+                    request.getSession().removeAttribute("admin");
+                }
+
+                request.getSession().setAttribute("admin", a);
+                request.getSession().setAttribute("modificato", "true");
+
+                url = "/profilo/profiloPersonale-Admin.jsp";
+
             }
-
-            request.getSession().setAttribute("admin", a);
-            request.getSession().setAttribute("modificato", "true");
-
-            url = "/profilo/profiloPersonale-Admin.jsp";
-  
-
         }
-
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(url);
         dispatcher.forward(request, response);
     }

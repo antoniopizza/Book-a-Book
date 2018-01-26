@@ -176,7 +176,7 @@ public class ManagerAccountTest {
         String email = admin.getAccount().getEmail();
         ManagerAccount instance = new ManagerAccount();
         Admin expResult = admin;
-        Admin result = instance.modificaDatiPersonali(vecchiaMail, email,admin.getNome(),admin.getCognome());
+        Admin result = instance.modificaDatiPersonali(vecchiaMail, email);
         //System.out.println(""+admin);
         assertEquals(expResult, result);
         

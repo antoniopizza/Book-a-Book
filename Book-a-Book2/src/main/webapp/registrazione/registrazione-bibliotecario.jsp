@@ -12,6 +12,15 @@
 
     <body>
         <%@include file="../skeleton-pages/header.jsp" %>
+        
+         <%   if (request.getSession().getAttribute("errore") != null) {
+        %>
+        <div class="container" style="background-color: #ff6347; text-align: center;" id="modifica">
+            <h5 style="color: white;"> Errore Email già presente!</h5></div>
+            <%
+                    request.getSession().removeAttribute("errore");
+                }
+                %>
 
         <section class="dashboard section">
             <div class="container">
@@ -53,12 +62,12 @@
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
-                                    <input type="text" class="form-control" name="nomeBibliotecario" required>
+                                    <input type="text" class="form-control" name="nomeBibliotecario" required pattern="[A-Za-z]{2,}$">
                                 </div>
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
-                                    <input type="text" class="form-control" name="cognome" required>
+                                    <input type="text" class="form-control" name="cognome" required pattern="[A-Za-z]{2,}$">
                                 </div>
                                 
                                 
@@ -96,6 +105,11 @@
         <%@include file="../skeleton-pages/footer.jsp" %>
 
         <script>
+            
+            $(document).ready(setTimeout(function () {
+                $("#modifica").hide();
+            }, 3000));
+            
             var password = document.getElementById("password");
             var confirm_password = document.getElementById("confermapass");
 

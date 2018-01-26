@@ -14,6 +14,8 @@
 
     <body>
         <%@include file="../skeleton-pages/header.jsp" %>
+        
+        
 
         <%            TelefonoDAO telefonoDAO = new TelefonoDAO();
             Telefono telefono = telefonoDAO.doRetriveByBiblioteca((((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca()));
@@ -33,6 +35,14 @@
                     request.getSession().removeAttribute("richiestaR");
                 }
             %>
+            <%   if (request.getSession().getAttribute("errore") != null) {
+        %>
+        <div class="container" style="background-color: #ff6347; text-align: center;" id="modifica">
+            <h5 style="color: white;"> Errore Email già presente!</h5></div>
+            <%
+                    request.getSession().removeAttribute("errore");
+                }
+                %>
 
 
 
@@ -252,14 +262,14 @@
                                 <!-- Email -->
                                 <div class="form-group" >
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control"  name ="email"
-                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getAccount().getEmail()%>" >
+                                    <input type="text" class="form-control"  name ="email" required
+                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getAccount().getEmail()%>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 </div>
 
                                 <!-- Path Foto -->
                                 <div class="form-group">
                                     <label for="foto">Path Foto</label>
-                                    <input type="text" class="form-control" name="foto" id="foto"
+                                    <input type="text" class="form-control" name="foto" id="foto" required
                                            value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getAccount().getPathFoto()%>"  >
                                 </div>
 
@@ -273,8 +283,8 @@
                                 <!-- Nome Biblioteca -->
                                 <div class="form-group" id="nome">
                                     <label for="nome-Biblioteca" id="labelName" >Nome Biblioteca</label>
-                                    <input type="text" class="form-control"  name ="nomeBiblioteca"
-                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getNome()%>">
+                                    <input type="text" class="form-control"  name ="nomeBiblioteca" required
+                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getNome()%>" pattern="[a-zA-Z]{2,}$">
                                 </div>
 
                                 <!-- Isil -->
@@ -292,35 +302,35 @@
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="cap">Provincia</label>
-                                            <input type="text" class="form-control" name="provincia" id="provincia"
+                                            <input type="text" class="form-control" name="provincia" id="provincia" required
                                                    value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getProvincia()%>" pattern="[A-Z]{2,3}$">
                                         </div>  
 
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
-                                            <input type="text" class="form-control" name="citta" id="citta"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>"  >
+                                            <input type="text" class="form-control" name="citta" id="citta" required
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>" pattern="[A-Za-z]{2,}$" >
                                         </div>
                                     </div>
                                     <div class="row">
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
-                                            <input type="text" class="form-control" name="via" id="via"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" >
+                                            <input type="text" class="form-control" name="via" id="via" required
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" pattern="[A-Z a-z]{2,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
-                                            <input type="text" class="form-control" name="civico" id="civico"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>"  >
+                                            <input type="text" class="form-control" name="civico" id="civico" required
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>" pattern="[0-9]{1,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">CAP</label>
-                                            <input type="text" class="form-control" name="cap" id="cap"
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCap()%>"  >
+                                            <input type="text" class="form-control" name="cap" id="cap" required
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCap()%>" pattern="[0-9]{5}$" >
                                         </div>    
                                     </div>
 
@@ -331,7 +341,7 @@
                                 <!-- Number -->
                                 <div class="form-group">
                                     <label for="numero">Numero di Telefono</label>
-                                    <input type="text" class="form-control" name="numero" id="numero"
+                                    <input type="text" class="form-control" name="numero" id="numero" required
                                            value="<%= telefono.getNumero()%>" pattern="[0-9]{9,11}$">
                                 </div>
 

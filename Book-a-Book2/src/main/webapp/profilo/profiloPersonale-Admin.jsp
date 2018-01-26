@@ -18,20 +18,25 @@
         <%@include file="../skeleton-pages/header.jsp" %>
 
         <%  //admin fittizio 
-           /* 
+            /* 
             Admin admin =  new Admin("Maurizio", "Sarri", new Account("maurizio.sarri@admin.it", "abc", "dasf", "admin"));
             admin.setId(1);
             request.getSession().setAttribute("admin",admin);*/
-        
-            
-           
-            
             if (request.getSession().getAttribute("modificato") != null) {
         %>
         <div class="container" style="background-color: #59d659; text-align: center;" id="modifica">
             <h5 style="color: white;">Modifiche Effettuate Con Successo</h5></div>
             <%
                     request.getSession().removeAttribute("modificato");
+                }
+            %>
+
+        <%   if (request.getSession().getAttribute("errore") != null) {
+        %>
+        <div class="container" style="background-color: #ff6347; text-align: center;" id="modifica">
+            <h5 style="color: white;"> Errore Email già presente!</h5></div>
+            <%
+                    request.getSession().removeAttribute("errore");
                 }
             %>
 
@@ -67,9 +72,9 @@
                     </div>
 
                     <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-                        
-                        <input type="text" value="<%= request.getParameter("pagina") %>" hidden id="pagina">
-                        
+
+                        <input type="text" value="<%= request.getParameter("pagina")%>" hidden id="pagina">
+
                         <!-- View Personal Info -->
                         <div class="widget personal-info" id ="visualizzaDati">
 
@@ -82,7 +87,7 @@
                                        value="<%=((Admin) request.getSession().getAttribute("admin")).getAccount().getEmail()%>" disabled="true">
                             </div>
 
-             
+
 
                             <div calss="row">
                                 <input type ="button" class="btn btn-transparent" onClick="modificaDati()" value="Modifca Dati" style="margin-left: 40%" >
@@ -101,18 +106,7 @@
                                     <input type="text" class="form-control"  name ="tipoUtente" value="admin">
                                 </div>
 
-                                <!-- First Name -->
-                                <div class="form-group" id="nome">
-                                    <label for="first-name" id="labelName" >Nome</label>
-                                    <input type="text" class="form-control"  name ="nome"
-                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getNome()%>">
-                                </div>
-                                <!-- Last Name -->
-                                <div class="form-group" >
-                                    <label for="last-name" >Cognome</label>
-                                    <input type="text" class="form-control"  name ="cognome"
-                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getCognome()%>">
-                                </div>
+
 
                                 <!-- Old Email -->
                                 <div class="form-group" hidden>
@@ -123,11 +117,11 @@
                                 <!-- Email -->
                                 <div class="form-group" >
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control"  name ="nuovaEmail" id="newEmail"
-                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getAccount().getEmail()%>">
+                                    <input type="text" class="form-control"  name ="nuovaEmail" id="newEmail" required
+                                           value="<%=((Admin) request.getSession().getAttribute("admin")).getAccount().getEmail()%>" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" >
                                 </div>
 
-            
+
 
                                 <div class="row" id="submit">
 
@@ -174,8 +168,8 @@
             }, 3000));
 
 
-            if ((document.getElementById("pagina").value)=="modifica") {
-                
+            if ((document.getElementById("pagina").value) == "modifica") {
+
                 document.getElementById("visualizzaDati").setAttribute("hidden", "true");
                 document.getElementById("modificaDati").removeAttribute("hidden");
             }
