@@ -45,7 +45,7 @@ public class SpostaCopieServlet extends HttpServlet {
         //eseguo operazioni e inoltro la richiesta
         String message = null;
         ManagerLibri managerLibri = new ManagerLibri();
-        if(managerLibri.spostaCopie(isbn, isil, codiceCopia, vecchiaPosizione, nuovaPosizione)){
+        if(managerLibri.spostaCopia(isbn, isil, codiceCopia, vecchiaPosizione, nuovaPosizione)){
             message = "success";
         } else {
             message = "error";
