@@ -31,7 +31,7 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <%if (session.getAttribute("bibliotecario") != null) {
-                                        %>
+                                    %>
                                     <%@include file="../skeleton-pages/menuBibliotecario.jsp" %>
                                     <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
@@ -49,7 +49,7 @@
                                         <a href="dashboard-favourite-ads.html"> Popolari</a>
                                     </li>
                                     <% }
-                                       %>
+                                    %>
                                 </ul>
                             </div>
                         </div>
@@ -73,13 +73,12 @@
                             %>
                             <h3>Cerca la tua prenotazione</h3>
                             <div class="advance-search">
-                                <form id="cercaPren" name = "cercaPren" action="RicercaPrenotazioniPerCriterioServlet" method="post">
+                                <form id="cercaPren" name = "cercaPren" action="prenotazioni-per-criterio" method="get">
                                     <div class="row">
                                         <!-- Store Search -->
 
                                         <div class="col-lg-2 col-md-12">
-                                            <select  id="select" name="criterio "class="form-control mb-2 mr-sm-2 mb-sm-0">
-                                                <option id="idUtente" value="utente">Per id utente</option>
+                                            <select  id="select" name="criterio"class="form-control mb-2 mr-sm-2 mb-sm-0">
                                                 <option id="idCodice" value="codice">Per codice</option>
                                                 <option id="dataRitiro" value="ritiro">Per data di ritiro</option>
                                                 <option id="dataCreazione" value="creazione">Per data di creazione</option>
@@ -89,16 +88,17 @@
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-7 col-md-12">
                                             <div  class="block d-flex">
-                                                <input style="display:none" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchData" name="valore" placeholder="Cerca la tua prenotazione">
+                                                <input style="display:none" type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchData" name="valore-data" placeholder="Cerca la tua prenotazione">
                                             </div>
                                             <div  class="block d-flex">
-                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchPren" name="valore" placeholder="Cerca la tua prenotazione">
+                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchPren" name="valore-codice" placeholder="Cerca la tua prenotazione">
+
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-12">
                                             <div class="block d-flex">
                                                 <!-- Search Button -->
-                                                <button type="button" class="btn btn-main" onclick="controlloSearch()">CERCA</button>
+                                                <button type="submit" class="btn btn-main" >CERCA</button>
                                             </div>
                                         </div>
                                         <div class="col-lg-1"></div>
@@ -106,7 +106,10 @@
                                 </form>
                             </div>
                             <div>
-                                <p id="erroreSearchPren"></p>
+                                <% if(message.equalsIgnoreCase("Empty")){    
+                                    %>
+                                <p class="alert alert-danger" id="erroreSearchPren">Nessun risultato corrispondente al criterio scelto.</p>
+                                <% }else{ %>
                                 </br>
                             </div>
                             <div class = "row"> 
@@ -125,13 +128,13 @@
                                 </div>
                                 <br><br>
                                 <% for (i = 0; i < lista.size(); i++) {
-                                        String data = "" + lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + (lista.get(i).getDataScadenza().get(Calendar.MONTH) +1) + "-" + lista.get(i).getDataScadenza().get(Calendar.YEAR) + "";
+                                        String data = "" + lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + (lista.get(i).getDataScadenza().get(Calendar.MONTH) + 1) + "-" + lista.get(i).getDataScadenza().get(Calendar.YEAR) + "";
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
                                         <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= lista.get(i).getId()%> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getTitolo() %> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getStatus() %> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getTitolo()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getStatus()%> </div>
                                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= data%></div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
@@ -140,7 +143,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <%    }%>
+                                <%    }
+                                   }%>
                             </div>
 
                         </div>
@@ -164,12 +168,12 @@
             $("#select option:selected").each(function () {
                 str += $(this).text();
             });
-            if (str.equals("Per data di ritiro") || str.equals("Per data di scadenza") || str.equals("Per data di creazione")) {
+            if (str == "Per data di ritiro" || str == "Per data di scadenza" || str == "Per data di creazione") {
                 $("#searchPren").val("");
                 $("#searchData").val("");
                 $("#searchPren").hide();
                 $("#searchData").show();
-            } else if (str.equals("Per id utente") || str.equals("Per codice")) {
+            } else if (str == "Per id utente" || str == "Per codice") {
                 $("#searchPren").val("");
                 $("#searchData").val("");
                 $("#searchData").hide();
@@ -179,40 +183,42 @@
         $("#selected").change(function () {
             $("#search").val("");
         });
-    });
-    function controlloSearch() {
-        var bool = true;
-        var searchPren = document.getElementById("searchPren");
-        var searchData = document.getElementById("searchData");
-        var date = new Date();
-        var str = "";
-        $("#select option:selected").each(function () {
-            str += $(this).text();
+
+        $("#cercaPren").submit(function () {
+            var bool = true;
+            var searchPren = document.getElementById("searchPren");
+            var searchData = document.getElementById("searchData");
+            var date = new Date();
+            var str = "";
+            $("#select option:selected").each(function () {
+                str += $(this).text();
+            });
+            var regex = /^[0-9]+$/;
+            document.getElementById("erroreSearchPren").innerHTML = "";
+            if (searchPren.value == "" && searchData.value == "") {
+                bool = false;
+                $("#searchData").focus();
+                $("#searchPren").focus();
+                $("#erroreSearchPren").text("Il campo non può essere vuoto.");
+            } else if (str == "Per id utente" && searchPren.value != "") {
+                if (!searchPren.value.match(regex)) {
+                    $("#searchPren").focus();
+                    $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
+                    bool = false;
+                }
+            } else if (str == "Per codice" && searchPren.value != "") {
+                if (!searchPren.value.match(regex)) {
+                    $("#searchPren").focus();
+                    $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
+                    bool = false;
+                }
+            }
+            return bool;
         });
-        var regex = /^[0-9]+$/;
-        document.getElementById("erroreSearchPren").innerHTML = "";
-        if (searchPren.value.equals("") && !(searchData.value.equals(""))) {
-            bool = false;
-            $("#searchData").focus();
-            $("#searchPren").focus();
-            $("#erroreSearchPren").text("Il campo non può essere vuoto.");
-        } else if (str.equasl("Per id utente") && !(searchPren.value.equals(""))) {
-            if (!searchPren.value.match(regex)) {
-                $("#searchPren").focus();
-                $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
-                bool = false;
-            }
-        } else if (str.equals("Per codice") && !(searchPren.value.equals(""))) {
-            if (!searchPren.value.match(regex)) {
-                $("#searchPren").focus();
-                $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
-                bool = false;
-            }
-        }
-        if (bool == true) {
-            $("cercaPren").submit();
-        }
-    }
+
+    });
+
+
 </script>
 
 <%@include file="../skeleton-pages/footer.jsp" %>

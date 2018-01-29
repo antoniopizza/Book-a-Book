@@ -12,22 +12,22 @@ import java.util.GregorianCalendar;
  *
  * @author Mery
  */
-//Questo metodo permette di visualizzare la prenotazione con l'Id che gli viene passato.
-public class prenotazioniPerId implements Criterio{
+//Questo metodo permette di visualizzare tutte le prenotazioni con la data di consegna che gli viene passata.
+public class PrenotazioniSuDataDiConsegna implements Criterio {
 
-    private int id;
+    private GregorianCalendar data;
 
-    public prenotazioniPerId(int id) {
-        this.id = id;
+    public PrenotazioniSuDataDiConsegna(GregorianCalendar data) {
+        this.data = data;
     }
 
-    public prenotazioniPerId() {
+    public PrenotazioniSuDataDiConsegna() {
         }
 
     @Override
     public boolean isValid(Object ob) {
         Prenotazione pren = (Prenotazione) ob;
-        if ((pren.getPersona().getId()) == id) {
+        if (pren.getDataScadenza().compareTo(data) == 0) {
             return true;
         }
         return false;

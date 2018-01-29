@@ -6,31 +6,30 @@
 package core.utils;
 
 import core.entities.Prenotazione;
-import java.util.GregorianCalendar;
 
 /**
  *
  * @author Mery
  */
-//Questo metodo permette di visualizzare tutte le prenotazioni con la data di consegna che gli viene passata.
-public class prenotazioniSuDataDiConsegna implements Criterio {
+public class PrenotazioniPerCodice implements Criterio{
 
-    private GregorianCalendar data;
+    private int id;
 
-    public prenotazioniSuDataDiConsegna(GregorianCalendar data) {
-        this.data = data;
+    public PrenotazioniPerCodice(int id) {
+        this.id = id;
     }
 
-    public prenotazioniSuDataDiConsegna() {
+    public PrenotazioniPerCodice() {
         }
 
     @Override
     public boolean isValid(Object ob) {
         Prenotazione pren = (Prenotazione) ob;
-        if (pren.getDataScadenza().compareTo(data) == 0) {
+        if ((pren.getId()) == id) {
             return true;
         }
         return false;
     }
+    
     
 }

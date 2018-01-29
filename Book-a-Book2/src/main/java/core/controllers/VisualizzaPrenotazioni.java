@@ -10,8 +10,8 @@ import core.entities.Persona;
 import core.entities.Prenotazione;
 import core.managers.ManagerPrenotazione;
 import core.utils.Criterio;
-import core.utils.prenotazioniPerId;
-import core.utils.prenotazioniPerIsil;
+import core.utils.PrenotazioniPerId;
+import core.utils.PrenotazioniPerIsil;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -48,11 +48,11 @@ public class VisualizzaPrenotazioni extends HttpServlet {
 
         if (request.getSession().getAttribute("persona") != null) {
             Persona p = (Persona) request.getSession().getAttribute("persona");
-            cr = new prenotazioniPerId(p.getId());
+            cr = new PrenotazioniPerId(p.getId());
             lista = (ArrayList<Prenotazione>) manPren.visualizzaPrenotazioni(cr);
         } else if (request.getSession().getAttribute("bibliotecario") != null) {
             Bibliotecario b = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
-            cr = new prenotazioniPerIsil(b.getBiblioteca().getIsil());
+            cr = new PrenotazioniPerIsil(b.getBiblioteca().getIsil());
             lista = (ArrayList<Prenotazione>) manPren.visualizzaPrenotazioni(cr);
         } else {
             message = "Il tipo di utente non e' definito.";

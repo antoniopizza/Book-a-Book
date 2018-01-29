@@ -15,7 +15,7 @@ import core.entities.Persona;
 import core.entities.Posizione;
 import core.entities.Prenotazione;
 import core.utils.Criterio;
-import core.utils.prenotazioniPerId;
+import core.utils.PrenotazioniPerId;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -92,7 +92,7 @@ public class ManagerPrenotazioneTest {
     @Test
     public void test4VisualizzaPrenotazioni() {
         System.out.println("visualizzaPrenotazioni");
-        Criterio cp = new prenotazioniPerId();
+        Criterio cp = new PrenotazioniPerId();
         ManagerPrenotazione instance = new ManagerPrenotazione();
         Collection<Prenotazione> expResult = listaPren;
         Collection<Prenotazione> result = instance.visualizzaPrenotazioni(cp);
