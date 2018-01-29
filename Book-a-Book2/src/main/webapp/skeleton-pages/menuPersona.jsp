@@ -5,16 +5,12 @@
 --%>
 
 <%@page import="core.entities.Persona"%>
-<li>
-    <a href=""><i class="fa fa-user"></i> My Ads (Persona)</a></li>
-<li>
-    <a href=""><i class="fa fa-bookmark-o"></i> Favourite Ads  <span>5</span></a>
-</li>
+
 <li>
     <a href="../profilo/profiloPersonale-Utente.jsp?pagina=modifica"><i class="fa fa-file-archive-o"></i> Modifica Dati </a>
 </li>
 <li>
-    <a href="../profilo/modifica-password.jsp?tipo=persona"> Modifica Password </a>
+    <a href="../profilo/modifica-password.jsp?tipo=persona"><i class="fa fa-pencil"></i> Modifica Password </a>
 </li>
 
 <li>

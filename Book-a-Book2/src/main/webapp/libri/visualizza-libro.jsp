@@ -152,7 +152,7 @@
                                             <%
                                                 if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {
                                                     //SEZIONE VISUALIZZATA SOLO SE BIBLIOTECARIO LOGGATO
-%>
+                                            %>
                                             <br/>
                                             <h3>Operazioni:</h3>
                                             <br/>
@@ -194,6 +194,7 @@
                             <%
                                 if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") == null) {
                                     //SEZIONE VISUALIZZATA SOLO SE BIBLIOTECARIO NON LOGGATO
+                                    if (!bibliotecheDisponibili.isEmpty()) {
                             %>
                             <!-- div tabella biblioteche -->                                                       
                             <div class="row table-responsive">
@@ -238,7 +239,7 @@
 
                                         </table>
                                         <input type="hidden" name="isbn" value="<%= book.getIsbn()%>">
-                                        <% if(session.getAttribute("persona") != null){ %>
+                                        <% if (session.getAttribute("persona") != null) { %>
                                         <button type="submit" class="btn btn-main">Prenota</button>
                                         <% } else { %>
                                         <button type="button" data-toggle="modal" data-target="#non-logged-modal" class="btn btn-main">Prenota</button>
@@ -248,7 +249,13 @@
                                 </form>
                             </div>                           
                             <%
+                            } else { %>
+                            <div class="alert alert-warning">
+                                <p>Il libro non è momentaneamente disponibile in alcuna biblioteca</p>
+                            </div>
 
+                            <%
+                                    }
                                 }
                             %>
 
@@ -282,8 +289,8 @@
 
                     </div>
                 </div>
-                
-                 <!-- Modal errore -->
+
+                <!-- Modal errore -->
                 <div id="non-logged-modal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
 
@@ -304,7 +311,7 @@
                     </div>
                 </div>
 
-                <% if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) { %>
+                <% if ((Bibliotecario) request.getSession().getAttribute("bibliotecario") != null) {%>
                 <!-- Modal Persona -->
                 <div id="person-modal" class="modal fade" role="dialog">
                     <form action="<%= application.getContextPath()%>/prenotazioni/prenotazione-libro">
@@ -349,8 +356,8 @@
 
                                     <label>Telefono</label>
                                     <input name="telefono" type="text" class="form-control"/>  
-                                    <input type="hidden" value="<%= book.getIsbn() %>" name="isbn" />
-                                    <input type="hidden" value="<%=  ((Bibliotecario) session.getAttribute("bibliotecario")).getBiblioteca().getIsil() %>" name="isil" />
+                                    <input type="hidden" value="<%= book.getIsbn()%>" name="isbn" />
+                                    <input type="hidden" value="<%=  ((Bibliotecario) session.getAttribute("bibliotecario")).getBiblioteca().getIsil()%>" name="isil" />
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-default">Prenota</button>
@@ -369,10 +376,9 @@
         <%@include file="../skeleton-pages/footer.jsp" %>
         <script>
             var errorCounter = 0;
-            $("img")
-                    .on("error", function () {
-                        $(this).attr("src", "images/defaultBook.png");
-                    });
+            $("img").on("error", function () {
+                $(this).attr("src", "images/defaultBook.png");
+            });
 
             $(document).on('input:radio[name="isil-scelta"]', "click", function () {
 

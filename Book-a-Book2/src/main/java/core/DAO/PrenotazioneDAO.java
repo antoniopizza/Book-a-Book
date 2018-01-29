@@ -159,6 +159,7 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
 
             } catch (SQLException e) {
                 con.rollback();
+                e.printStackTrace();
                 return null;
             } finally {
                 stt.close();

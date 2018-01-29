@@ -51,7 +51,7 @@ public class VisualizzaLibroServlet extends HttpServlet {
         } else {
             message = "correct";
             
-            if(request.getSession().getAttribute("persona") != null){
+            if(request.getSession().getAttribute("bibliotecario") == null){
                 Collection<Biblioteca> bibliotecheConLibro = managerLibri.getBibliotecheConLibro(isbn);
                 request.setAttribute("biblioteche",bibliotecheConLibro);
             }

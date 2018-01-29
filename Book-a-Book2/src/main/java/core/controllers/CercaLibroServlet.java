@@ -5,21 +5,13 @@
  */
 package core.controllers;
 
-import core.DAO.BibliotecaDAO;
-import core.DAO.BibliotecaDAOStub;
-import core.DAO.LibroDAO;
-import core.DAO.PosizioneDAO;
-import core.entities.Biblioteca;
 import core.entities.Bibliotecario;
-import core.entities.Copia;
 import core.entities.Libro;
-import core.entities.Posizione;
 import core.managers.ManagerLibri;
 import core.utils.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

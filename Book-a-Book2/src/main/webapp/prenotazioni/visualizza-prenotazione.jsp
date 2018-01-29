@@ -118,10 +118,10 @@
 
                             <h3 class="widget-header">Dettagli della prenotazione</h3>
                             <div class="row">
-                                <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
-                                    <img src="<%=libro.getPathFoto()%>" alt="" style="height: 350px;">
+                                <div class="col-md-10 offset-md-1 col-lg-5 offset-lg-0">
+                                    <img src="<%=libro.getPathFoto()%>" alt="" style="max-height: 350px;">
                                 </div>
-                                <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+                                <div class="col-md-10 offset-md-1 col-lg-7 offset-lg-0">
                                     <p><b>Codice prenotazione: <%=prenotazione.getId()%></b></p>
                                     <p>Stato: <%=prenotazione.getStatus()%></p>
                                     <br>
@@ -134,6 +134,11 @@
                                     %>
                                     <p>Casa Editrice: <%=libro.getEditore()%></p>
                                     <br>
+                                    <% if(session.getAttribute("bibliotecario") == null){ %>
+                                    <p><strong>Biblioteca in cui ritirare il libro</strong></p>
+                                    <p>Nome: <%= prenotazione.getBiblioteca().getNome() %></p>
+                                    <p>Indirizzo: <%= prenotazione.getBiblioteca().getIndirizzo().getVia() +" "+prenotazione.getBiblioteca().getIndirizzo().getCivico() + ", "+ prenotazione.getBiblioteca().getIndirizzo().getCitta() + "(" + prenotazione.getBiblioteca().getIndirizzo().getProvincia()+")" %> </p>
+                                    <% } %>
                                     <p><strong>Persona che ha preso in prestito il libro</strong></p>
                                     <p>Nome: <%=persona.getNome()%></p>
                                     <p>Cognome: <%=persona.getCognome()%></p>
@@ -282,6 +287,11 @@
         </section>                 
 
         <%@include file="../skeleton-pages/footer.jsp" %>
+        <script>
+            $("img").on("error", function () {
+                $(this).attr("src", "../libri/images/defaultBook.png");
+            });
+        </script>
     </body>
 
 </html>
