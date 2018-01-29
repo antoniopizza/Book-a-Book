@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 
                         <div class="widget dashboard-container my-adslist">
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
@@ -79,6 +79,9 @@
 
                                         <div class="col-lg-2 col-md-12">
                                             <select  id="select" name="criterio"class="form-control mb-2 mr-sm-2 mb-sm-0">
+                                                <% if(session.getAttribute("bibliotecario") != null) { %>
+                                                <option id="idUtente" value="utente">Per id utente</option>
+                                                <% } %>
                                                 <option id="idCodice" value="codice">Per codice</option>
                                                 <option id="dataRitiro" value="ritiro">Per data di ritiro</option>
                                                 <option id="dataCreazione" value="creazione">Per data di creazione</option>
@@ -157,6 +160,9 @@
 
 <script>
     $(document).ready(function () {
+        
+        var str;
+        
         $("#searchData").hide();
         $("#searchData").datepicker({dateFormat: "dd-mm-yy",
             onSelect: function () {
@@ -164,9 +170,10 @@
             }
         });
         $("#select").change(function () {
-            var str = "";
+           
             $("#select option:selected").each(function () {
-                str += $(this).text();
+                str = $(this).text();
+                console.log(str);
             });
             if (str == "Per data di ritiro" || str == "Per data di scadenza" || str == "Per data di creazione") {
                 $("#searchPren").val("");
@@ -186,28 +193,27 @@
 
         $("#cercaPren").submit(function () {
             var bool = true;
-            var searchPren = document.getElementById("searchPren");
-            var searchData = document.getElementById("searchData");
-            var date = new Date();
-            var str = "";
-            $("#select option:selected").each(function () {
-                str += $(this).text();
-            });
+            var searchPren = $("#searchPren").val();
+            console.log(searchPren);
+            var searchData = $("#searchData").val();
+            console.log(searchData);
+            
+            
             var regex = /^[0-9]+$/;
             document.getElementById("erroreSearchPren").innerHTML = "";
-            if (searchPren.value == "" && searchData.value == "") {
+            if (searchPren == "" && searchData == "") {
                 bool = false;
                 $("#searchData").focus();
                 $("#searchPren").focus();
                 $("#erroreSearchPren").text("Il campo non può essere vuoto.");
-            } else if (str == "Per id utente" && searchPren.value != "") {
-                if (!searchPren.value.match(regex)) {
+            } else if (str == "Per id utente" && searchPren != "") {
+                if (!searchPren.match(regex)) {
                     $("#searchPren").focus();
                     $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
                     bool = false;
                 }
-            } else if (str == "Per codice" && searchPren.value != "") {
-                if (!searchPren.value.match(regex)) {
+            } else if (str == "Per codice" && searchPren != "") {
+                if (!searchPren.match(regex)) {
                     $("#searchPren").focus();
                     $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
                     bool = false;
