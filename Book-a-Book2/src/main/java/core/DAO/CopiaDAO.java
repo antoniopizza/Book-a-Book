@@ -38,7 +38,7 @@ public class CopiaDAO extends AbstractDAO<Copia> {
         this.libroDao = libroDao;
         this.posizioneDAO = posizioneDAO;
     }
-    
+
     /**
      * Metodo che date delle stringhe identificantia i parametri di una copia, 
      * restituisce l'oggetto copia corrispodente a tali parametri

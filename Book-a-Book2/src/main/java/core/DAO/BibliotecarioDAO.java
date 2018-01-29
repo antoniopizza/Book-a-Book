@@ -49,8 +49,6 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
             PreparedStatement prst = con.prepareStatement(doRetriveByIdQuery);
             prst.setInt(1,idBibliotecario) ;
            
-
-
             try {
                 ResultSet rs = prst.executeQuery();
                 con.commit();

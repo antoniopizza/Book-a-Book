@@ -6,30 +6,31 @@
 package core.utils;
 
 import core.entities.Prenotazione;
+import java.util.GregorianCalendar;
 
 /**
  *
  * @author Mery
  */
-public class prenotazioniPerCodice implements Criterio{
+//Questo metodo permette di visualizzare la prenotazione con l'Id che gli viene passato.
+public class PrenotazioniPerId implements Criterio{
 
     private int id;
 
-    public prenotazioniPerCodice(int id) {
+    public PrenotazioniPerId(int id) {
         this.id = id;
     }
 
-    public prenotazioniPerCodice() {
+    public PrenotazioniPerId() {
         }
 
     @Override
     public boolean isValid(Object ob) {
         Prenotazione pren = (Prenotazione) ob;
-        if ((pren.getId()) == id) {
+        if ((pren.getPersona().getId()) == id) {
             return true;
         }
         return false;
     }
-    
     
 }

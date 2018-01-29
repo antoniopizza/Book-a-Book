@@ -156,7 +156,7 @@
                                 <div class="col-3">
                                     
                                     <% if(libri.size() >= 3) { %>
-                                    <a class="btn-lg btn-transparent" href="cerca-libro?searchKey=<%=request.getParameter("searchKey")%>&criterio=<%=request.getParameter("criterio")%>&offset=<%=(offset + 3)%>">Successva</a>
+                                    <a class="btn-lg btn-transparent" href="cerca-libro?searchKey=<%=request.getParameter("searchKey")%>&criterio=<%=request.getParameter("criterio")%>&offset=<%=(offset + 3)%>">Successiva</a>
                                     <% } %>
                                 </div>
                             </div>                            

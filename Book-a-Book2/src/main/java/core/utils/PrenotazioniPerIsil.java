@@ -11,15 +11,15 @@ import core.entities.Prenotazione;
  *
  * @author Mery
  */
-public class prenotazioniPerIsil implements Criterio {
+public class PrenotazioniPerIsil implements Criterio {
 
     private String isil;
 
-    public prenotazioniPerIsil(String isil) {
+    public PrenotazioniPerIsil(String isil) {
         this.isil = isil;
     }
 
-    public prenotazioniPerIsil() {
+    public PrenotazioniPerIsil() {
     }
 
     @Override

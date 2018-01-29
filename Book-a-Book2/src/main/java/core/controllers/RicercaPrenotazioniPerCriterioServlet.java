@@ -8,14 +8,15 @@ package core.controllers;
 import core.entities.Prenotazione;
 import core.managers.ManagerPrenotazione;
 import core.utils.Criterio;
-import core.utils.prenotazioniPerCodice;
-import core.utils.prenotazioniPerId;
-import core.utils.prenotazioniSuDataDiConsegna;
-import core.utils.prenotazioniSuDataDiCreazione;
-import core.utils.prenotazioniSuDataDiScadenza;
+import core.utils.PrenotazioniPerCodice;
+import core.utils.PrenotazioniPerId;
+import core.utils.PrenotazioniSuDataDiConsegna;
+import core.utils.PrenotazioniSuDataDiCreazione;
+import core.utils.PrenotazioniSuDataDiScadenza;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Mery
  */
-@WebServlet(name = "RicercaPrenotazioniPerCriterioServlet", urlPatterns = {"/prenotazioni/cerca-per-criterio"})
+@WebServlet(name = "RicercaPrenotazioniPerCriterioServlet", urlPatterns = {"/prenotazioni/prenotazioni-per-criterio"})
 public class RicercaPrenotazioniPerCriterioServlet extends HttpServlet {
 
     /**
@@ -46,50 +47,52 @@ public class RicercaPrenotazioniPerCriterioServlet extends HttpServlet {
 
         String message;
         Criterio ricerca = null;
-        Collection<Prenotazione> lista = new ArrayList<>();
+        Collection<Prenotazione> lista;
         String criterio = request.getParameter("criterio");
-        if (criterio.equals("utente")) {
-
-            ricerca = new prenotazioniPerId(Integer.parseInt(request.getParameter("valore")));
-        } else if (criterio.equals("codice")) {
-
-            ricerca = new prenotazioniPerCodice(Integer.parseInt(request.getParameter("valore")));
-        } else if (criterio.equals("ritiro")) {
-
-            String stringaData = request.getParameter("valore");
-            String[] dataArray = stringaData.split("-");
-            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[1]));
-            ricerca = new prenotazioniSuDataDiConsegna(data);
-
-        } else if (criterio.equals("creazione")) {
-
-            String stringaData = request.getParameter("valore");
-            String[] dataArray = stringaData.split("-");
-            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[1]));
-            ricerca = new prenotazioniSuDataDiCreazione(data);
-
-        } else if (criterio.equals("scadenza")) {
-
-            String stringaData = request.getParameter("valore");
-            String[] dataArray = stringaData.split("-");
-            GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[1]));
-            ricerca = new prenotazioniSuDataDiScadenza(data);
-
+        switch (criterio) {
+            case "utente":
+                ricerca = new PrenotazioniPerId(Integer.parseInt(request.getParameter("valore-codice")));
+                break;
+            case "codice":
+                ricerca = new PrenotazioniPerCodice(Integer.parseInt(request.getParameter("valore-codice")));
+                break;
+            case "ritiro": {
+                String stringaData = request.getParameter("valore-data");
+                String[] dataArray = stringaData.split("-");
+                GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[0]));
+                ricerca = new PrenotazioniSuDataDiConsegna(data);
+                break;
+            }
+            case "creazione": {
+                String stringaData = request.getParameter("valore-data");
+                String[] dataArray = stringaData.split("-");
+                GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[0]));
+                ricerca = new PrenotazioniSuDataDiCreazione(data);
+                break;
+            }
+            case "scadenza": {
+                String stringaData = request.getParameter("valore-data");
+                String[] dataArray = stringaData.split("-");
+                GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataArray[2]), Integer.parseInt(dataArray[1]) - 1, Integer.parseInt(dataArray[0]));
+                ricerca = new PrenotazioniSuDataDiScadenza(data);
+                break;
+            }
+            default:
+                break;
         }
 
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         lista = manPren.visualizzaPrenotazioni(ricerca);
         if (lista.isEmpty()) {
-            message = "Nessun dato corrispondente al criterio selezionato.";
-
+            message = "Empty";
         } else {
             message = "correct";
         }
 
         request.setAttribute("message", message);
         request.setAttribute("lista", lista);
-        RequestDispatcher view = request.getRequestDispatcher("ricercaPrenotazioni.jsp");
-        view.forward(request, response);
+        RequestDispatcher view = request.getRequestDispatcher("ricerca-prenotazioni.jsp");
+        view.forward(request, response); 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -137,9 +137,20 @@ public class PrenotazioneDAO extends AbstractDAO<Prenotazione> {
                         prenotazione = new Prenotazione(dataCreazione, dataScadenza, null, rs.getString("status"));
                     }
                     prenotazione.setId(rs.getInt("id"));
+
+                    String isbn = rs.getString("isbn");
+                    String isil = rs.getString("isil");
+                    String idCopia = rs.getString("id_copia");
+
                     prenotazione.setPersona(persDAO.doRetriveById(rs.getInt("id_persona")));
-                    prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
-                    prenotazione.setBiblioteca(bibDAO.doRetriveById(rs.getString("isil")));
+                    //prenotazione.setCopia(copiaDAO.doRetriveById(rs.getString("id_copia"), rs.getString("isbn"), rs.getString("isil")));
+                    Copia copia = copiaDAO.doRetriveById(idCopia, isbn, isil);
+                    /*copia.setLibro(libroDAO.doRetriveById(isbn));
+                    Posizione posizione = posDAO.doRetriveByCopiaAndBiblioteca(idCopia, isil);
+                    copia.setPosizione(posizione);*/
+                    prenotazione.setCopia(copia);
+                    Biblioteca biblioteca = bibDAO.doRetriveById(isil);
+                    prenotazione.setBiblioteca(biblioteca);
                     listaPrenotazioni.add(prenotazione);
                 }
 

@@ -12,24 +12,22 @@ import java.util.GregorianCalendar;
  *
  * @author Mery
  */
-
-//Questa classe ha il metodo che permette di trovare tutte le prenotazioni della data di scadenza passat come parametro.
-
-public class prenotazioniSuDataDiScadenza implements Criterio {
+//Questo metodo permette di visualizzare tutte le prenotazioni con la ata di creazione che gli viene passata.
+public class PrenotazioniSuDataDiCreazione implements Criterio {
 
     private GregorianCalendar data;
 
-    public prenotazioniSuDataDiScadenza(GregorianCalendar data) {
+    public PrenotazioniSuDataDiCreazione(GregorianCalendar data) {
         this.data = data;
     }
 
-    public prenotazioniSuDataDiScadenza() {
+    public PrenotazioniSuDataDiCreazione() {
          }
 
     @Override
     public boolean isValid(Object ob) {
         Prenotazione pren = (Prenotazione) ob;
-        if (pren.getDataScadenza().compareTo(data) == 0) {
+        if (pren.getDataCreazione().compareTo(data) == 0) {
             return true;
         }
         return false;
