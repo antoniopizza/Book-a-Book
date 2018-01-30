@@ -6,9 +6,11 @@
 package core.managers;
 
 import core.DAO.AccountDAO;
+import core.DAO.BibliotecaDAO;
 import core.DAO.BibliotecarioDAO;
 import core.DAO.PersonaDAO;
 import core.entities.Account;
+import core.entities.Biblioteca;
 import core.entities.Bibliotecario;
 import core.entities.Persona;
 import core.entities.Utente;
@@ -84,4 +86,10 @@ public class ManagerUtenti {
         return listaDipendenti;
     }
 
+    
+    public Collection<Biblioteca> visualizzaBiblioteche(){
+        
+        BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+        return bibliotecaDAO.doRetriveAll();        
+    }
 }

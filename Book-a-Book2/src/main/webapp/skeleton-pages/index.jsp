@@ -86,18 +86,7 @@
                             <div class="widget user-dashboard-menu">
                                 <ul>
                                     <% if ((Persona) request.getSession().getAttribute("persona") == null && (Bibliotecario) request.getSession().getAttribute("bibliotecario") == null && (Admin) request.getSession().getAttribute("admin") == null) {%>
-                                    <li>
-                                        <a href="dashboard-my-ads.html"> Biblioteche</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"></i> Novità</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"></i> Autori</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"></i> Popolari</a>
-                                    </li>
+                                     <%@include file="../skeleton-pages/menu-non-loggato.jsp" %>
 
                                     <% } else if ((Persona) request.getSession().getAttribute("persona") != null) {
                                     %> 

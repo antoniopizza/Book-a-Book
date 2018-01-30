@@ -468,4 +468,9 @@ public class ManagerLibri {
         return bibliotecaDAO.doRetriveByLibro(isbn);
     }
     
+    
+    public Collection<Autore> visualizzaAutori(){
+        return autoreDAO.doRetriveAll();
+    }
+    
 }
