@@ -186,7 +186,7 @@ public class ManagerLibriTest {
     }
 
     /**
-     * Test of spostaCopie method, of class ManagerLibri.
+     * Test of spostaCopia method, of class ManagerLibri.
      */
     @Test
     public void test4SpostaCopie() {
@@ -198,7 +198,7 @@ public class ManagerLibriTest {
         Posizione nuovaPosizione = posizioneNew;
         ManagerLibri instance = new ManagerLibri(new BibliotecaDAOStub(), posizioneDAO, libroDAO);
         boolean expResult = true;
-        boolean result = instance.spostaCopie(isbn, isil, idCopia, vecchiaPosizione.getEtichetta(), nuovaPosizione.getEtichetta());
+        boolean result = instance.spostaCopia(isbn, isil, idCopia, vecchiaPosizione.getEtichetta(), nuovaPosizione.getEtichetta());
         
         assertEquals(expResult, result);
     }

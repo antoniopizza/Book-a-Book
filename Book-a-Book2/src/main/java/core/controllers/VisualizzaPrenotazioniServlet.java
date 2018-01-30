@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Mery
  */
 @WebServlet(name = "VisualizzaPrenotazioni", urlPatterns = {"/prenotazioni/ricerca-prenotazioni"})
-public class VisualizzaPrenotazioni extends HttpServlet {
+public class VisualizzaPrenotazioniServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -61,9 +61,10 @@ public class VisualizzaPrenotazioni extends HttpServlet {
         if (!lista.isEmpty()) {
             message = "correct";
         } else {
-             message = "Nessun dato corrispondente.";
+             message = "Empty";
         }
 
+        System.out.println(lista.size());
         request.setAttribute("lista", lista);
         request.setAttribute("message", message);
         RequestDispatcher view = request.getRequestDispatcher("ricerca-prenotazioni.jsp");

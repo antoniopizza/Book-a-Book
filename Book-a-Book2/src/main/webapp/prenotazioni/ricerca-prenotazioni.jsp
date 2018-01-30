@@ -36,18 +36,7 @@
                                     <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
                                     <% } else { %>
-                                    <li>
-                                        <a href="dashboard-my-ads.html"> Biblioteche</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Novità</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Autori</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Popolari</a>
-                                    </li>
+                                     <%@include file="../skeleton-pages/menu-non-loggato.jsp" %>
                                     <% }
                                     %>
                                 </ul>
@@ -58,18 +47,14 @@
 
                         <div class="widget dashboard-container my-adslist">
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
-                            <p id="erroreSearchLibro"></p>
+
                             <h3 class="widget-header"></h3>
                             <%
                                 int i;
                                 String message = (String) request.getAttribute("message");
-                                ArrayList<Prenotazione> lista = null;
-                                if (!message.equals("correct")) {
-                                    out.println("<p>" + message + "</p>");
-                                } else {
-                                    lista = new ArrayList<>();
-                                    lista = (ArrayList<Prenotazione>) request.getAttribute("lista");
-                                }
+                                Collection<Prenotazione> lista = null;
+                                lista = (Collection<Prenotazione>) request.getAttribute("lista");
+
                             %>
                             <h3>Cerca la tua prenotazione</h3>
                             <div class="advance-search">
@@ -79,7 +64,7 @@
 
                                         <div class="col-lg-2 col-md-12">
                                             <select  id="select" name="criterio"class="form-control mb-2 mr-sm-2 mb-sm-0">
-                                                <% if(session.getAttribute("bibliotecario") != null) { %>
+                                                <% if (session.getAttribute("bibliotecario") != null) { %>
                                                 <option id="idUtente" value="utente">Per id utente</option>
                                                 <% } %>
                                                 <option id="idCodice" value="codice">Per codice</option>
@@ -107,14 +92,16 @@
                                         <div class="col-lg-1"></div>
                                     </div>
                                 </form>
+                                <div class="alert alert-danger" style="display: none" id="search-error"></div>
                             </div>
-                            <div>
-                                <% if(message.equalsIgnoreCase("Empty")){    
-                                    %>
-                                <p class="alert alert-danger" id="erroreSearchPren">Nessun risultato corrispondente al criterio scelto.</p>
-                                <% }else{ %>
-                                </br>
+
+                            <% if (message.equalsIgnoreCase("Empty") || lista == null) { %>
+                            <div class="alert alert-danger">
+                                <p  id="erroreSearchPren">Nessun risultato corrispondente al criterio scelto.</p>
                             </div>
+                            <% } else { %>
+                            </br>
+
                             <div class = "row"> 
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
@@ -130,24 +117,27 @@
                                     </div>
                                 </div>
                                 <br><br>
-                                <% for (i = 0; i < lista.size(); i++) {
-                                        String data = "" + lista.get(i).getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + (lista.get(i).getDataScadenza().get(Calendar.MONTH) + 1) + "-" + lista.get(i).getDataScadenza().get(Calendar.YEAR) + "";
+                                <%
+                                    if (lista != null && !lista.isEmpty()) {
+                                        for (Prenotazione p : lista) {
+                                            String data = "" + p.getDataScadenza().get(Calendar.DAY_OF_MONTH) + "-" + (p.getDataScadenza().get(Calendar.MONTH) + 1) + "-" + p.getDataScadenza().get(Calendar.YEAR) + "";
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
-                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= lista.get(i).getId()%> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getCopia().getLibro().getTitolo()%> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= lista.get(i).getStatus()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= p.getId()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= p.getCopia().getLibro().getTitolo()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= p.getStatus()%> </div>
                                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= data%></div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
-                                                <a class="btn btn-main" href="dettaglio-prenotazioni?id=<%=lista.get(i).getId()%>">DETTAGLI</a> 
+                                                <a class="btn btn-main" href="dettaglio-prenotazioni?id=<%=p.getId()%>">DETTAGLI</a> 
                                             </div>  
                                         </div>
                                     </div>
                                 </div>
-                                <%    }
-                                   }%>
+                                <%      } %>
+                                <%    } %>
+                                <%  }%>
                             </div>
 
                         </div>
@@ -160,9 +150,9 @@
 
 <script>
     $(document).ready(function () {
-        
-        var str;
-        
+
+        var str = "Per codice";
+
         $("#searchData").hide();
         $("#searchData").datepicker({dateFormat: "dd-mm-yy",
             onSelect: function () {
@@ -170,7 +160,7 @@
             }
         });
         $("#select").change(function () {
-           
+
             $("#select option:selected").each(function () {
                 str = $(this).text();
                 console.log(str);
@@ -192,31 +182,42 @@
         });
 
         $("#cercaPren").submit(function () {
+            $("#search-error").html(" ");
+            $("#search-error").hide();
             var bool = true;
-            var searchPren = $("#searchPren").val();
-            console.log(searchPren);
+            var searchPren = $("#searchPren").val();           
             var searchData = $("#searchData").val();
-            console.log(searchData);
-            
-            
+            console.log("searchData "+searchData);
+            console.log("searchPren "+searchPren);
+            console.log("str "+str);
+
             var regex = /^[0-9]+$/;
-            document.getElementById("erroreSearchPren").innerHTML = "";
+
             if (searchPren == "" && searchData == "") {
                 bool = false;
                 $("#searchData").focus();
                 $("#searchPren").focus();
-                $("#erroreSearchPren").text("Il campo non può essere vuoto.");
+                $("#search-error").text("Il campo non può essere vuoto.");
+                $("#search-error").show();                
             } else if (str == "Per id utente" && searchPren != "") {
-                if (!searchPren.match(regex)) {
+                if (!searchPren.toString().match(regex)) {
                     $("#searchPren").focus();
-                    $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
+                    $("#search-error").text("Il campo può contenere solo numeri.");
                     bool = false;
                 }
             } else if (str == "Per codice" && searchPren != "") {
-                if (!searchPren.match(regex)) {
+                if (!searchPren.toString().match(regex)) {
                     $("#searchPren").focus();
-                    $("#erroreSearchPren").text("Il campo può contenere solo numeri.");
+                    $("#search-error").text("Il campo può contenere solo numeri.");
+                    $("#search-error").show();
                     bool = false;
+                }
+            } else {
+                if(!searchData.toString().match(/^(([1-9]|0[1-9]|[12]\d|3[01])-([1-9]|0[1-9]|1[0-2])-[12]\d{3})$/)){
+                    bool = false;
+                    $("#searchData").focus();
+                    $("#search-error").text("Formato della data errato");
+                    $("#search-error").show();
                 }
             }
             return bool;

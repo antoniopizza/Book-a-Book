@@ -329,7 +329,7 @@ public class ManagerLibri {
      * vecchiaPosizione non corrisponde alla posizione attuale della Copia,
      * oppure se lo spostamento fallisce.
      */
-    public boolean spostaCopie(String isbn, String isil, String idCopia, String idVecchiaPosizione, String idNuovaPosizione) {
+    public boolean spostaCopia(String isbn, String isil, String idCopia, String idVecchiaPosizione, String idNuovaPosizione) {
 
         Copia copia = copiaDAO.doRetriveById(idCopia, isbn, isil);
 
@@ -466,6 +466,11 @@ public class ManagerLibri {
      */
     public Collection<Biblioteca> getBibliotecheConLibro(String isbn){
         return bibliotecaDAO.doRetriveByLibro(isbn);
+    }
+    
+    
+    public Collection<Autore> visualizzaAutori(){
+        return autoreDAO.doRetriveAll();
     }
     
 }

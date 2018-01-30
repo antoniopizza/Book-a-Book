@@ -29,18 +29,7 @@
                                     <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
                                     <% } else { %>
-                                    <li>
-                                        <a href="dashboard-my-ads.html"> Biblioteche</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Novità</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Autori</a>
-                                    </li>
-                                    <li>
-                                        <a href="dashboard-favourite-ads.html"> Popolari</a>
-                                    </li>
+                                    <%@include file="../skeleton-pages/menu-non-loggato.jsp" %>
                                     <% }
                                     %>
                                 </ul>

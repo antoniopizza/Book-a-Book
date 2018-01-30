@@ -104,6 +104,12 @@ public class ManagerPrenotazione {
         Collection<Prenotazione> lista = new ArrayList<>();
         List<Prenotazione> listaPrenotazione;
         listaPrenotazione = prenDAO.doRetriveAll();
+        
+        if(listaPrenotazione == null){
+            System.out.println("Something wrong happened");
+            return lista;            
+        }
+        
         for (int i = 0; i < listaPrenotazione.size(); i++) {
             if (cp.isValid(listaPrenotazione.get(i))) {
                 lista.add(listaPrenotazione.get(i));
