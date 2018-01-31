@@ -46,7 +46,6 @@
                                 <!-- Dropdown list -->
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="../profilo/profiloPersonale-Utente.jsp">Profilo Utente</a>
-                                    <a class="dropdown-item" href="#">Impostazioni</a>
                                     <a class="dropdown-item" href="<%=application.getContextPath()%>/autenticazione/logout">Logout</a>
                                 </div>
                             </li>
@@ -60,7 +59,6 @@
                                 <!-- Dropdown list -->
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="../profilo/profiloPersonale-Bibliotecario.jsp">Profilo Biblioteca</a>
-                                    <a class="dropdown-item" href="#">Impostazioni</a>
                                     <a class="dropdown-item" href="<%=application.getContextPath()%>/autenticazione/logout">Logout</a>
                                 </div>
                             </li>
@@ -75,7 +73,6 @@
                                 <!-- Dropdown list -->
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="../profilo/profiloPersonale-Admin.jsp">Profilo Admin</a>
-                                    <a class="dropdown-item" href="#">Impostazioni</a>
                                     <a class="dropdown-item" href="<%=application.getContextPath()%>/autenticazione/logout">Logout</a>
                                 </div>
                             </li>

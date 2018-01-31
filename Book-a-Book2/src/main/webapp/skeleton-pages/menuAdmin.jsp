@@ -31,7 +31,3 @@
 <li>
     <a href="../profilo/modifica-password.jsp?tipo=admin"> Modifica Password </a>
 </li>
-
-<li>
-    <a href="delete-account.html"><i class="fa fa-trash"></i>Delete Account</a>
-</li>

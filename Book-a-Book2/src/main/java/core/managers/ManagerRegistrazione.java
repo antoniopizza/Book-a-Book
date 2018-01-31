@@ -120,7 +120,7 @@ public class ManagerRegistrazione {
         if (accountDAO.doInsert(account) == 0) {
             int id = bibliotecarioDAO.doInsert(bibliotecario);
             if (id != -1) {
-                bibliotecario.setId(bibliotecarioDAO.doInsert(bibliotecario));
+                bibliotecario.getId();
                 return bibliotecario;
             } else {
                 accountDAO.doDelete(email);
