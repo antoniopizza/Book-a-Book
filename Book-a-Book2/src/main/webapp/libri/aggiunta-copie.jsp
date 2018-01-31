@@ -67,7 +67,7 @@
                                                 <label>In quante posizioni sono disposte le copie ?</label>
                                             </div>
                                             <div class="col">
-                                                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 book-data" name="n-scaffali" id="n-scaffali" />
+                                                <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 book-data" name="n-scaffali" id="n-scaffali" placeholder="Es. 2" />
                                             </div>                                            
                                         </div>
 
@@ -109,7 +109,7 @@
                             divLabelEtichetta.append(labelEtichetta);
 
                             var divInputEtichetta = $("<div></div>").addClass("col");
-                            var inputEtichetta = $("<input />").attr({type: "text", name: "etichetta-" + i, id: "etichetta-" + i}).addClass("form-control book-data");
+                            var inputEtichetta = $("<input />").attr({type: "text", name: "etichetta-" + i, id: "etichetta-" + i, placeholder: "Es. Scaffale A"}).addClass("form-control book-data");
                             divInputEtichetta.append(inputEtichetta)
 
                             divEtichetta.append(divLabelEtichetta, divInputEtichetta);
@@ -122,7 +122,7 @@
                             divLabelNcopie.append(labelNcopie);
 
                             var divInputNcopie = $("<div></div>").addClass("col");
-                            var inputCopie = $("<input />").attr({type: "text", name: "n-copie-" + i, id: "n-copie-" + i}).addClass("form-control book-data n-copie");
+                            var inputCopie = $("<input />").attr({type: "text", name: "n-copie-" + i, id: "n-copie-" + i, placeholder: "Es. 3"}).addClass("form-control book-data n-copie");
                             divInputNcopie.append(inputCopie);
 
                             divNCopie.append(divLabelNcopie, divInputNcopie);
