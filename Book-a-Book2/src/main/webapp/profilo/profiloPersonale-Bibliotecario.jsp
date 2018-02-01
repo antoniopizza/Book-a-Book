@@ -248,7 +248,18 @@
                                     <input type="text" class="form-control"  name ="tipoBibliotecario" value="<%= ((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getTipo()%>">
                                 </div>
 
-
+                                <!-- First Name -->
+                                <div class="form-group" id="nome">
+                                    <label for="first-name" id="labelName" >Nome</label>
+                                    <input type="text" class="form-control"  name ="nome" required
+                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getNome()%>" pattern="[A-Za-z' ]{2,}$">
+                                </div>
+                                <!-- Last Name -->
+                                <div class="form-group" >
+                                    <label for="last-name" >Cognome</label>
+                                    <input type="text" class="form-control"  name ="cognome" required
+                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getCognome()%>" pattern="[A-Za-z' ]{2,}$">
+                                </div>
 
                                 <!-- Email -->
                                 <div class="form-group" hidden >
@@ -284,7 +295,7 @@
                                 <div class="form-group" id="nome">
                                     <label for="nome-Biblioteca" id="labelName" >Nome Biblioteca</label>
                                     <input type="text" class="form-control"  name ="nomeBiblioteca" required
-                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getNome()%>" pattern="[a-zA-Z]{2,}$">
+                                           value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getNome()%>" pattern="[a-zA-Z'-_. ]{2,}$">
                                 </div>
 
                                 <!-- Isil -->
@@ -310,7 +321,7 @@
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
                                             <input type="text" class="form-control" name="citta" id="citta" required
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>" pattern="[A-Za-z]{2,}$" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCitta()%>" pattern="[A-Za-z-' ]{2,}$" >
                                         </div>
                                     </div>
                                     <div class="row">
@@ -318,13 +329,13 @@
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
                                             <input type="text" class="form-control" name="via" id="via" required
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" pattern="[A-Z a-z]{2,}$" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getVia()%>" pattern="[A-Z a-z'-' ]{2,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
                                             <input type="text" class="form-control" name="civico" id="civico" required
-                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>" pattern="[0-9]{1,}$" >
+                                                   value="<%=((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIndirizzo().getCivico()%>" pattern="[0-9A-Z]{1,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
@@ -342,7 +353,7 @@
                                 <div class="form-group">
                                     <label for="numero">Numero di Telefono</label>
                                     <input type="text" class="form-control" name="numero" id="numero" required
-                                           value="<%= telefono.getNumero()%>" pattern="[0-9]{9,11}$">
+                                           value="<%= telefono.getNumero()%>" pattern="[0-9]{9,10}$">
                                 </div>
 
 
