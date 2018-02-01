@@ -28,7 +28,11 @@
 </li>
 
 <li>
-    <a href="<%=application.getContextPath()%>/registrazione/registrazione-scelta?tipo=bibliotecario"><i class="fa fa-pencil"></i> Registra Dipendente</a>
+    <a href="<%=application.getContextPath()%>/registrazione/registrazione-scelta?tipo=bibliotecario"> Registra Dipendente</a>
+</li>
+
+<li>
+    <a href="<%=application.getContextPath()%>/utenti/cerca-dipendente"><i class="fa fa-pencil"></i> Cerca Dipendente</a>
 </li>
 
 <li>
