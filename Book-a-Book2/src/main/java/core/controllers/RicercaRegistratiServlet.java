@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mirko
  */
-@WebServlet(name = "RicercaRegistratiServlet", urlPatterns = {"/RicercaRegistratiServlet"})
+@WebServlet(name = "RicercaRegistratiServlet", urlPatterns = {"/utenti/ricerca-utenti"})
 public class RicercaRegistratiServlet extends HttpServlet {
 
     /**
@@ -42,32 +42,35 @@ public class RicercaRegistratiServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String message;
-        Criterio ricerca = null;
+        Criterio valore = null;
         
         Collection<Utente> listaUtenti = new ArrayList<Utente>();
         String criterio = request.getParameter("criterio");
         
-        if(criterio.equals("Per email")){
-             ricerca = new RegistratiPerEmail(request.getParameter("valore"));
-             
-        }else if(criterio.equals("Per codice")){
-            ricerca = new RegistratiPerTipo(request.getParameter("valore"));
-            
-        }else if(criterio.equals("Per cognome")){
-            ricerca = new RegistratiPerCognome(request.getParameter("valore"));
-            
+        switch (criterio) {
+            case "email":
+                valore = new RegistratiPerEmail(request.getParameter("valore"));
+                break;
+            case "tipo":
+                valore = new RegistratiPerTipo(request.getParameter("valore"));
+                break;
+            case "cognome":
+                valore = new RegistratiPerCognome(request.getParameter("valore"));
+                break;
+            default:
+                break;
         }
         
         ManagerUtenti manUtenti = new ManagerUtenti();
-        listaUtenti = manUtenti.visualizzaRegistrati(ricerca);
+        listaUtenti = manUtenti.visualizzaRegistrati(valore);
         
         if(listaUtenti.isEmpty()){
-            message = "Nessun dato corrispondente al criterio selezionato.";
+            message = "Empty";
         } else {
             message = "correct";
-            request.setAttribute("listaUtenti", listaUtenti);
         }
         
+        request.setAttribute("listaUtenti", listaUtenti);
         request.setAttribute("message", message);
         RequestDispatcher view = request.getRequestDispatcher("ricercaRegistrati.jsp");
         view.forward(request, response);

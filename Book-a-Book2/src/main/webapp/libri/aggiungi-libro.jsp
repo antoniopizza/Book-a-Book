@@ -234,7 +234,7 @@
                         var autori = $(".author-data").toArray();
 
                         for (var i = 0; i < autori.length; i++) {
-                            if (!autori[i].value.toString().match(/^[a-zA-Z][a-zA-Z ]{2,}$/g)) {
+                            if (!autori[i].value.toString().match(/^[a-zA-Z.][a-zA-Z. ]{2,}$/g)) {
                                 $(autori[i]).addClass("is-invalid").after(invalidFeedback.clone());
                                 ok = false;
                             } else {

@@ -1,3 +1,4 @@
+<%@page import="java.util.Collection"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="core.entities.Utente"%>
 <%@page import="java.util.List"%>
@@ -22,102 +23,100 @@
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
                                 <ul>
-                                    <%@include file="../skeleton-pages/menuAdmin.jsp.jsp" %>
+                                    <%@include file="../skeleton-pages/menuAdmin.jsp" %>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0">
 
                         <div class="widget dashboard-container my-adslist">
-                            <h3 class="widget-header">Cerca un libro</h3>
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
-                            <br>
+
                             <h3 class="widget-header"></h3>
+                            <%
+                                int i;
+                                String message = (String) request.getAttribute("message");
+                                Collection<Utente> listaUtenti = null;
+                                listaUtenti = (Collection<Utente>) request.getAttribute("listaUtenti");
 
-                            <!-- Da qui in poi puoi inserire codice per creare la pagina da questo scheletro -->                    
-
-                            <!--=================================
-                            =      Contenuto della pagine      =
-                            ==================================-->      
-                            <h3 class="widget-header">Cerca un Utente</h3>
+                            %>
+                            <h3>Cerca un Utente</h3>
                             <div class="advance-search">
-                                <form id="cercaUtente" name = "cercaUtente" action="RicercaRegistratiServlet" method="post">
+                                <form id="cerca" name = "cercaUtente" action="ricerca-utenti" method="get">
                                     <div class="row">
                                         <!-- Store Search -->
 
                                         <div class="col-lg-2 col-md-12">
-                                            <select  id="select" name="criterio "class="form-control mb-2 mr-sm-2 mb-sm-0">
-                                                <option id="Cognome" value="cognome">Per Cognome</option>
-                                                <option id="Tipo" value="tipo">Per Tipo</option>
-                                                <option id="Email" value="email">Per Email</option>
+                                            <select  id="select" name="criterio"class="form-control mb-2 mr-sm-2 mb-sm-0">
+                                                <option id="email" value="codice">Per E-mail</option>
+                                                <option id="tipo" value="ritiro">Per tipo</option>
+                                                <option id="cognome" value="creazione">Per cognome</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-1"></div>
                                         <div class="col-lg-7 col-md-12">
                                             <div  class="block d-flex">
-                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchUtenti" name="valore" placeholder="Cerca l'utente desiderato">
+                                                <input  type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="cerca" name="valore" placeholder="Cerca Utente">
+
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-12">
                                             <div class="block d-flex">
                                                 <!-- Search Button -->
-                                                <button type="button" class="btn btn-main" onclick="controlloSearch()">CERCA</button>
+                                                <button type="submit" class="btn btn-main" >CERCA</button>
                                             </div>
                                         </div>
                                         <div class="col-lg-1"></div>
                                     </div>
                                 </form>
+                                <div class="alert alert-danger" style="display: none" id="search-error"></div>
                             </div>
-                            <div>
-                                <p id="erroreSearch"></p>
-                                </br>
+
+                            <% if (message.equalsIgnoreCase("Empty") || listaUtenti == null) { %>
+                            <div class="alert alert-danger">
+                                <p  id="erroreSearchPren">Nessun risultato corrispondente al criterio scelto.</p>
                             </div>
+                            <% } else { %>
+                            </br>
+
                             <div class = "row"> 
-                                <%
-                                    String message = (String) request.getAttribute("message");
-                                    List<Utente> listaUtenti = null;
-                                    if (!message.equals("correct")) {
-                                        out.println("<p>" + message + "</p>");
-                                    } else {
-                                        listaUtenti = new ArrayList<>();
-                                        listaUtenti = (ArrayList<Utente>) request.getAttribute("listaUtenti");
-                                    }
-                                %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
-                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
-                                            Cognome
-                                        </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
-                                            Nome
-                                        </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
-                                            Tipo
-                                        </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center">
+                                            ID </div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
-                                            Email
-                                        </div>
+                                            E-mail </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
+                                            Tipo</div>
+                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center">
+                                            Cognome</div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"></div>
                                     </div>
                                 </div>
+                                <br><br>
                                 <%
-                                    for (int i = 0; i < listaUtenti.size(); i++) {
+                                    if (listaUtenti != null && !listaUtenti.isEmpty()) {
+                                        for (Utente u : listaUtenti) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
-                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= listaUtenti.get(i).getCognome()%> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= listaUtenti.get(i).getNome()%></div>
-                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= listaUtenti.get(i).getAccount().getEmail()%></div>
-                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= listaUtenti.get(i).getAccount().getTipo()%></div>
+                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= u.getId()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= u.getAccount().getEmail() %> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center"> <%= u.getAccount().getTipo() %> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= u.getCognome() %></div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
-                                                <a class="btn btn-main" href="RimozioneRegistratiServlet">ELIMINA</a> 
+                                                <a class="btn btn-main" href="#">">ELIMINA</a> 
                                             </div>  
                                         </div>
                                     </div>
                                 </div>
-                                <%    }%>
+                                <%      } %>
+                                <%    } %>
+                                <%  }%>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -133,15 +132,15 @@
                         str += $(this).text();
                     });
                 });
-                $("#select").change(function () {
-                    $("#searchUtenti").val("");
+                $("#selected").change(function () {
+                    $("#cerca").val("");
                 });
 
             });
 
             function controlloSearch() {
                 var bool = true;
-                var search = document.getElementById("searchUtenti");
+                var search = document.getElementById("cerca");
                 var str = "";
                 $("#select option:selected").each(function () {
                     str += $(this).text();
@@ -151,23 +150,23 @@
                 document.getElementById("erroreSearch").innerHTML = "";
                 if (search.value == "") {
                     bool = false;
-                    $("#searchUtenti").focus();
+                    $("#cerca").focus();
                     $("#erroreSearch").text("Il campo non può essere vuoto.");
                 } else if (str == "Per Cognome" && search.value != "") {
                     if (!search.value.match(regexLettere)) {
-                        $("#searchUtenti").focus();
+                        $("#cerca").focus();
                         $("#erroreSearch").text("Il campo può contenere solo lettere.");
                         bool = false;
                     }
                 } else if (str == "Per Tipo" && search.value != "") {
                     if (!search.value.match(regexLettere)) {
-                        $("#searchUtenti").focus();
+                        $("#cerca").focus();
                         $("#erroreSearch").text("Il campo può contenere solo lettere.");
                         bool = false;
                     }
                 } else if (str == "Per Email" && search.value != "") {
-                    if (!search.value.match(reEmail)) {
-                        $("#searchUtenti").focus();
+                    if (!search.cerca.match(reEmail)) {
+                        $("#cerca").focus();
                         $("#erroreSearch").text("Il formato dell'email non è corretto.");
                         bool = false;
                     }

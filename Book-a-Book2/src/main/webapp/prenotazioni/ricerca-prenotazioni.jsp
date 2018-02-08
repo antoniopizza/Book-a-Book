@@ -36,7 +36,7 @@
                                     <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
                                     <% } else { %>
-                                     <%@include file="../skeleton-pages/menu-non-loggato.jsp" %>
+                                    <%@include file="../skeleton-pages/menu-non-loggato.jsp" %>
                                     <% }
                                     %>
                                 </ul>
@@ -144,90 +144,88 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-<script>
-    $(document).ready(function () {
+        <script>
+            $(document).ready(function () {
 
-        var str = "Per codice";
+                var str = "Per codice";
 
-        $("#searchData").hide();
-        $("#searchData").datepicker({dateFormat: "dd-mm-yy",
-            onSelect: function () {
-                selectedDate = $.datepicker.formatDate("dd-mm-yy", $(this).datepicker('getDate'));
-            }
-        });
-        $("#select").change(function () {
-
-            $("#select option:selected").each(function () {
-                str = $(this).text();
-                console.log(str);
-            });
-            if (str == "Per data di ritiro" || str == "Per data di scadenza" || str == "Per data di creazione") {
-                $("#searchPren").val("");
-                $("#searchData").val("");
-                $("#searchPren").hide();
-                $("#searchData").show();
-            } else if (str == "Per id utente" || str == "Per codice") {
-                $("#searchPren").val("");
-                $("#searchData").val("");
                 $("#searchData").hide();
-                $("#searchPren").show();
-            }
-        });
-        $("#selected").change(function () {
-            $("#search").val("");
-        });
+                $("#searchData").datepicker({dateFormat: "dd-mm-yy",
+                    onSelect: function () {
+                        selectedDate = $.datepicker.formatDate("dd-mm-yy", $(this).datepicker('getDate'));
+                    }
+                });
+                $("#select").change(function () {
 
-        $("#cercaPren").submit(function () {
-            $("#search-error").html(" ");
-            $("#search-error").hide();
-            var bool = true;
-            var searchPren = $("#searchPren").val();           
-            var searchData = $("#searchData").val();
-            console.log("searchData "+searchData);
-            console.log("searchPren "+searchPren);
-            console.log("str "+str);
+                    $("#select option:selected").each(function () {
+                        str = $(this).text();
+                        console.log(str);
+                    });
+                    if (str == "Per data di ritiro" || str == "Per data di scadenza" || str == "Per data di creazione") {
+                        $("#searchPren").val("");
+                        $("#searchData").val("");
+                        $("#searchPren").hide();
+                        $("#searchData").show();
+                    } else if (str == "Per id utente" || str == "Per codice") {
+                        $("#searchPren").val("");
+                        $("#searchData").val("");
+                        $("#searchData").hide();
+                        $("#searchPren").show();
+                    }
+                });
+                $("#selected").change(function () {
+                    $("#search").val("");
+                });
 
-            var regex = /^[0-9]+$/;
+                $("#cercaPren").submit(function () {
+                    $("#search-error").html(" ");
+                    $("#search-error").hide();
+                    var bool = true;
+                    var searchPren = $("#searchPren").val();
+                    var searchData = $("#searchData").val();
+                    console.log("searchData " + searchData);
+                    console.log("searchPren " + searchPren);
+                    console.log("str " + str);
 
-            if (searchPren == "" && searchData == "") {
-                bool = false;
-                $("#searchData").focus();
-                $("#searchPren").focus();
-                $("#search-error").text("Il campo non può essere vuoto.");
-                $("#search-error").show();                
-            } else if (str == "Per id utente" && searchPren != "") {
-                if (!searchPren.toString().match(regex)) {
-                    $("#searchPren").focus();
-                    $("#search-error").text("Il campo può contenere solo numeri.");
-                    bool = false;
-                }
-            } else if (str == "Per codice" && searchPren != "") {
-                if (!searchPren.toString().match(regex)) {
-                    $("#searchPren").focus();
-                    $("#search-error").text("Il campo può contenere solo numeri.");
-                    $("#search-error").show();
-                    bool = false;
-                }
-            } else {
-                if(!searchData.toString().match(/^(([1-9]|0[1-9]|[12]\d|3[01])-([1-9]|0[1-9]|1[0-2])-[12]\d{3})$/)){
-                    bool = false;
-                    $("#searchData").focus();
-                    $("#search-error").text("Formato della data errato");
-                    $("#search-error").show();
-                }
-            }
-            return bool;
-        });
+                    var regex = /^[0-9]+$/;
 
-    });
+                    if (searchPren == "" && searchData == "") {
+                        bool = false;
+                        $("#searchData").focus();
+                        $("#searchPren").focus();
+                        $("#search-error").text("Il campo non può essere vuoto.");
+                        $("#search-error").show();
+                    } else if (str == "Per id utente" && searchPren != "") {
+                        if (!searchPren.toString().match(regex)) {
+                            $("#searchPren").focus();
+                            $("#search-error").text("Il campo può contenere solo numeri.");
+                            bool = false;
+                        }
+                    } else if (str == "Per codice" && searchPren != "") {
+                        if (!searchPren.toString().match(regex)) {
+                            $("#searchPren").focus();
+                            $("#search-error").text("Il campo può contenere solo numeri.");
+                            $("#search-error").show();
+                            bool = false;
+                        }
+                    } else {
+                        if (!searchData.toString().match(/^(([1-9]|0[1-9]|[12]\d|3[01])-([1-9]|0[1-9]|1[0-2])-[12]\d{3})$/)) {
+                            bool = false;
+                            $("#searchData").focus();
+                            $("#search-error").text("Formato della data errato");
+                            $("#search-error").show();
+                        }
+                    }
+                    return bool;
+                });
+
+            });
 
 
-</script>
+        </script>
 
-<%@include file="../skeleton-pages/footer.jsp" %>
-</body>
+        <%@include file="../skeleton-pages/footer.jsp" %>
+    </body>
 </html>

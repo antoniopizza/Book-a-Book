@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mirko
  */
-@WebServlet(name = "CercaDipendenteServlet", urlPatterns = {"/CercaDipendenteServlet"})
+@WebServlet(name = "CercaDipendenteServlet", urlPatterns = {"/utenti/cerca-dipendente"})
 public class CercaDipendenteServlet extends HttpServlet {
 
     /**

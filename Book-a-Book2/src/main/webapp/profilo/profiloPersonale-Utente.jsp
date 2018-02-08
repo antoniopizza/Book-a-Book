@@ -168,13 +168,13 @@
                                 <div class="form-group" id="nome">
                                     <label for="first-name" id="labelName" >Nome</label>
                                     <input type="text" class="form-control"  name ="nome" required
-                                           value="<%=((Persona) request.getSession().getAttribute("persona")).getNome()%>" pattern="[A-Za-z]{2,}$">
+                                           value="<%=((Persona) request.getSession().getAttribute("persona")).getNome()%>" pattern="[A-Za-z' ]{2,}$">
                                 </div>
                                 <!-- Last Name -->
                                 <div class="form-group" >
                                     <label for="last-name" >Cognome</label>
                                     <input type="text" class="form-control"  name ="cognome" required
-                                           value="<%=((Persona) request.getSession().getAttribute("persona")).getCognome()%>" pattern="[A-Za-z]{2,}$">
+                                           value="<%=((Persona) request.getSession().getAttribute("persona")).getCognome()%>" pattern="[A-Za-z' ]{2,}$">
                                 </div>
 
                                 <!-- Old Email -->
@@ -206,14 +206,14 @@
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="cap">Provincia</label>
                                             <input type="text" class="form-control" name="provincia" id="provincia" required
-                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getProvincia()%>"  pattern="[A-Z]{2,3}$">
+                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getProvincia()%>"  pattern="[A-Z]{2}$">
                                         </div>  
 
 
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="citta">Citta'</label>
                                             <input type="text" class="form-control" name="citta" id="citta" required
-                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getCitta()%>" pattern="[A-Za-z]{2,}$">
+                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getCitta()%>" pattern="[A-Za-z'-_ ]{2,}$">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -221,13 +221,13 @@
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="via">Via</label>
                                             <input type="text" class="form-control" name="via" id="via" required
-                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getVia()%>" pattern="[A-Z a-z]{2,}$">
+                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getVia()%>" pattern="[A-Z a-z'-_ ]{2,}$">
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
                                             <label for="cap">Numero Civico</label>
                                             <input type="text" class="form-control" name="civico" id="civico" required
-                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getCivico()%>" pattern="[0-9]{1,}$" >
+                                                   value="<%=((Persona) request.getSession().getAttribute("persona")).getIndirizzo().getCivico()%>" pattern="[0-9A-Z]{1,}$" >
                                         </div>
 
                                         <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
@@ -251,7 +251,7 @@
                                 <div class="form-group">
                                     <label for="numero">Numero di Telefono</label>
                                     <input type="text" class="form-control" name="numero" id="numero" required
-                                           value="<%= telefono.getNumero()%>"  pattern="[0-9]{9,11}$">
+                                           value="<%= telefono.getNumero()%>"  pattern="[0-9]{9,10}$">
                                 </div>
 
                                 <div class="row" id="submit">

@@ -38,7 +38,7 @@
                                 <!-- email -->
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                                    <input type="text" class="form-control" name="email" placeholder="Es. dipendente@biblioteca.dip" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 </div>
 
                                 <div class="form-group">
@@ -46,7 +46,7 @@
                                         <!-- Password -->
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="password">Password</label>
-                                            <input type="password" class="form-control" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                            <input type="password" class="form-control" name="password" placeholder="Mi raccomando. Difficile" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                                                    title="Deve avere una lunghezza di almeno 8 caratteri che devono essere almeno un numero, una letterea maiuscola ed una lettera minuscola."
                                                    id="password">
                                         </div>
@@ -54,7 +54,7 @@
                                         <!-- Conferma Password -->
                                         <div class="col-md-10 offset-md-1 col-lg-6 offset-lg-0">
                                             <label for="password">Conferma Password</label>
-                                            <input type="password" class="form-control" name="confermapass" required id="confermapass">
+                                            <input type="password" class="form-control" name="confermapass" placeholder="Come quella di prima" required id="confermapass">
                                         </div>
                                     </div>
                                 </div>
@@ -62,12 +62,12 @@
                                 <!-- Nome -->
                                 <div class="form-group">
                                     <label for="nome">Nome</label>
-                                    <input type="text" class="form-control" name="nomeBibliotecario" required pattern="[A-Za-z]{2,}$">
+                                    <input type="text" class="form-control" name="nomeBibliotecario" placeholder="Es. Monica" required pattern="[A-Za-z' ]{2,}$">
                                 </div>
                                 <!-- Cognome -->
                                 <div class="form-group">
                                     <label for="cognome">Cognome</label>
-                                    <input type="text" class="form-control" name="cognome" required pattern="[A-Za-z]{2,}$">
+                                    <input type="text" class="form-control" name="cognome" placeholder="Es. Di Monica" required pattern="[A-Za-z' ]{2,}$">
                                 </div>
                                 
                                 
@@ -89,8 +89,6 @@
                                        value="Invia"
                                        style="margin-left: 25%; margin-right: 0%; width:50%;"
                                        >
-
-
                             </form>
                         </div>
                     </div>
