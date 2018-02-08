@@ -24,7 +24,7 @@
     <a href="../profilo/visualizza-richiesteRimozione.jsp"> Visualizza Richieste Eliminazione <span><%= richiesteR.size()%></span></a>
 </li>
 <li>
-    <a href="<%=application.getContextPath()%>/utenti/ricerca-utenti"> Cerca Utenti </a>
+    <a href="<%=application.getContextPath()%>/utenti/ricerca-registrati.jsp"> Cerca Utenti </a>
 </li>
 <li>
     <a href="../profilo/profiloPersonale-Admin.jsp?pagina=modifica"><i class="fa fa-file-archive-o"></i>Modifica Dati </a>

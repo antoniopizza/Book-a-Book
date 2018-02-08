@@ -1,3 +1,4 @@
+<%@page import="java.util.Collection"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="core.entities.Utente"%>
 <%@page import="java.util.List"%>
@@ -17,7 +18,7 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0">
+                    <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0">
                         <div class="sidebar">
                             <!-- Dashboard Links -->
                             <div class="widget user-dashboard-menu">
@@ -27,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-10 offset-md-1 col-lg-10 offset-lg-0 scroll-page">
+                    <div class="col-md-10 offset-md-1 col-lg-9 offset-lg-0 scroll-page">
 
                         <div class="widget dashboard-container my-adslist">
                             <h3 class="widget-header">Cerca un libro</h3>
@@ -42,12 +43,12 @@
                             ==================================-->      
                             <h3 class="widget-header">Cerca un Utente</h3>
                             <div class="advance-search">
-                                <form id="cercaUtente" name = "cercaDipendente" action="CercaDipendenteServlet" method="post">
+                                <form id="cercaUtente" name = "cercaDipendente" action="cerca-dipendente" method="get">
                                     <div class="row">
                                         <!-- Store Search -->
 
                                         <div class="col-lg-2 col-md-12">
-                                            <select  id="select" name="criterio "class="form-control mb-2 mr-sm-2 mb-sm-0">
+                                            <select  id="select" name="criterio"class="form-control mb-2 mr-sm-2 mb-sm-0">
                                                 <option id="Cognome" value="cognome">Per Cognome</option>
                                                 <option id="Email" value="email">Per Email</option>
                                             </select>
@@ -61,7 +62,7 @@
                                         <div class="col-lg-2 col-md-12">
                                             <div class="block d-flex">
                                                 <!-- Search Button -->
-                                                <button type="button" class="btn btn-main" onclick="controlloSearch()">CERCA</button>
+                                                <button type="submit" class="btn btn-main" onclick="controlloSearch()">CERCA</button>
                                             </div>
                                         </div>
                                         <div class="col-lg-1"></div>
@@ -74,13 +75,21 @@
                             </div>
                             <div class = "row"> 
                                 <%
-                                    String message = (String) request.getAttribute("message");
-                                    List<Utente> listaDipendenti = null;
+                                    String message;
+                                    if(request.getAttribute("message") != null){                                    
+                                        message = (String) request.getAttribute("message");
+                                    } else {
+                                        message = "correct";
+                                    }
+                                        Collection<Bibliotecario> listaDipendenti = null;
                                     if (!message.equals("correct")) {
                                         out.println("<p>" + message + "</p>");
                                     } else {
-                                        listaDipendenti = new ArrayList<>();
-                                        listaDipendenti = (ArrayList<Utente>) request.getAttribute("listaDipendenti");
+                                        if( request.getAttribute("listaDipendenti") != null){
+                                            listaDipendenti = (Collection<Bibliotecario>) request.getAttribute("listaDipendenti");
+                                        } else {
+                                            listaDipendenti = new ArrayList<>();
+                                        }
                                     }
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
@@ -97,16 +106,16 @@
                                     </div>
                                 </div>
                                 <% 
-                                    for (int i = 0; i < listaDipendenti.size(); i++) {
+                                    for (Bibliotecario b : listaDipendenti) {
                                 %>
                                 <div class="col-md-10 offset-md-1 col-lg-12 offset-lg-0" align="center">
                                     <div class = "row"> 
-                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= listaDipendenti.get(i).getCognome()%> </div>
-                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center"> <%= listaDipendenti.get(i).getNome()%></div>
-                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center"> <%= listaDipendenti.get(i).getAccount().getEmail()%></div>
+                                        <div class="col-md-10 offset-md-1 col-lg-1 offset-lg-0" align="center"> <%= b.getCognome()%> </div>
+                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center"> <%= b.getNome()%></div>
+                                        <div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0" align="center"> <%= b.getAccount().getEmail()%></div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
-                                                <a class="btn btn-main" href="EliminaDipendenteServlet">ELIMINA</a> 
+                                                <a class="btn btn-main" href="elimina-dipendente?email=<%= b.getAccount().getEmail()%>">ELIMINA</a> 
                                             </div>  
                                         </div>
                                     </div>

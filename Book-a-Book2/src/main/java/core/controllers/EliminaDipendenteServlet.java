@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author mirko
  */
-@WebServlet(name = "EliminaDipendenteServlet", urlPatterns = {"/EliminaDipendenteServlet"})
+@WebServlet(name = "EliminaDipendenteServlet", urlPatterns = {"/utenti/elimina-dipendente"})
 public class EliminaDipendenteServlet extends HttpServlet {
 
     /**
@@ -45,7 +45,7 @@ public class EliminaDipendenteServlet extends HttpServlet {
         }
         
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("cercaDipendenteBiblioteca.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("cerca-dipendente-biblioteca.jsp");
         view.forward(request, response);
     }
 

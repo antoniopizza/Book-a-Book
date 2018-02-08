@@ -26,12 +26,12 @@ public class RegistratiPerTipo implements Criterio{
     @Override
     public boolean isValid(Object ob) {
         Utente user = (Utente) ob;
+        if(user.getAccount() != null){
+            return user.getAccount().getTipo().equalsIgnoreCase(tipo);
+        } else {
+            return false;
+        } 
         
-        if(user.getAccount().getTipo().equals(tipo)){
-            return true;
-        }
-        
-        return false;
     }
     
 }

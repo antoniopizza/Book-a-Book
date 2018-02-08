@@ -32,7 +32,7 @@
 </li>
 
 <li>
-    <a href="<%=application.getContextPath()%>/utenti/cerca-dipendente"><i class="fa fa-pencil"></i> Cerca Dipendente</a>
+    <a href="<%=application.getContextPath()%>/utenti/cerca-dipendente-biblioteca.jsp"><i class="fa fa-pencil"></i> Cerca Dipendente</a>
 </li>
 
 <li>

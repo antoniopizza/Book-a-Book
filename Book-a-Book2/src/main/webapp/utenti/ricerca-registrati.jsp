@@ -36,9 +36,20 @@
                             <h3 class="widget-header"></h3>
                             <%
                                 int i;
-                                String message = (String) request.getAttribute("message");
+                                String message;
+                                
+                                if(request.getAttribute("message") != null){
+                                    message = (String) request.getAttribute("message");
+                                } else {
+                                    message = "Empty";
+                                }
+                                
                                 Collection<Utente> listaUtenti = null;
-                                listaUtenti = (Collection<Utente>) request.getAttribute("listaUtenti");
+                                if(request.getAttribute("listaUtenti") != null){
+                                    listaUtenti = (Collection<Utente>) request.getAttribute("listaUtenti");
+                                } else {
+                                    listaUtenti = new ArrayList<Utente>();
+                                }
 
                             %>
                             <h3>Cerca un Utente</h3>
@@ -49,9 +60,9 @@
 
                                         <div class="col-lg-2 col-md-12">
                                             <select  id="select" name="criterio"class="form-control mb-2 mr-sm-2 mb-sm-0">
-                                                <option id="email" value="codice">Per E-mail</option>
-                                                <option id="tipo" value="ritiro">Per tipo</option>
-                                                <option id="cognome" value="creazione">Per cognome</option>
+                                                <option id="email" value="email">Per E-mail</option>
+                                                <option id="tipo" value="tipo">Per tipo</option>
+                                                <option id="cognome" value="cognome">Per cognome</option>
                                             </select>
                                         </div>
                                         <div class="col-lg-1"></div>
@@ -107,7 +118,7 @@
                                         <div class="col-md-10 offset-md-1 col-lg-2 offset-lg-0" align="center"> <%= u.getCognome() %></div>
                                         <div class="col-md-10 offset-md-1 col-lg-3 offset-lg-0" align="center">
                                             <div class="form-group">
-                                                <a class="btn btn-main" href="#">">ELIMINA</a> 
+                                                <a class="btn btn-main" href="#">ELIMINA</a> 
                                             </div>  
                                         </div>
                                     </div>

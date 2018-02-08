@@ -296,13 +296,11 @@ public class BibliotecarioDAO extends AbstractDAO<Bibliotecario>{
                 while (rs.next()) {
                     bibliotecario = new Bibliotecario(rs.getString("status"), rs.getString("tipo"), rs.getString("nome"), rs.getString("cognome"));
                     bibliotecario.setAccount(accountDAO.doRetriveById(rs.getString("email")));
-                    bibliotecario.setBiblioteca(bibliotecaDAO.doRetriveById(rs.getString("isil")));
+                    //bibliotecario.setBiblioteca(bibliotecaDAO.doRetriveById(rs.getString("isil")));
                     bibliotecari.add(bibliotecario);
                 }
                 
-                rs.close();
-                prst.close();
-                DriverManagerConnectionPool.releaseConnection(con);
+                rs.close();                
                 return bibliotecari;
                 
             } catch(SQLException e) {

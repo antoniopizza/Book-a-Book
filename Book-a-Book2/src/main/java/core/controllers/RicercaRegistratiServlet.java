@@ -42,27 +42,27 @@ public class RicercaRegistratiServlet extends HttpServlet {
             throws ServletException, IOException {
         
         String message;
-        Criterio valore = null;
+        Criterio ricerca = null;
         
         Collection<Utente> listaUtenti = new ArrayList<Utente>();
         String criterio = request.getParameter("criterio");
         
         switch (criterio) {
             case "email":
-                valore = new RegistratiPerEmail(request.getParameter("valore"));
+                ricerca = new RegistratiPerEmail(request.getParameter("valore"));
                 break;
             case "tipo":
-                valore = new RegistratiPerTipo(request.getParameter("valore"));
+                ricerca = new RegistratiPerTipo(request.getParameter("valore"));
                 break;
             case "cognome":
-                valore = new RegistratiPerCognome(request.getParameter("valore"));
+                ricerca = new RegistratiPerCognome(request.getParameter("valore"));
                 break;
             default:
                 break;
         }
         
         ManagerUtenti manUtenti = new ManagerUtenti();
-        listaUtenti = manUtenti.visualizzaRegistrati(valore);
+        listaUtenti = manUtenti.visualizzaRegistrati(ricerca);
         
         if(listaUtenti.isEmpty()){
             message = "Empty";
@@ -72,7 +72,7 @@ public class RicercaRegistratiServlet extends HttpServlet {
         
         request.setAttribute("listaUtenti", listaUtenti);
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("ricercaRegistrati.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("ricerca-registrati.jsp");
         view.forward(request, response);
     }
 

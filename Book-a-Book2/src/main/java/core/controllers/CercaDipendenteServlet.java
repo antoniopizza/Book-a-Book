@@ -44,24 +44,22 @@ public class CercaDipendenteServlet extends HttpServlet {
         
         String message;
         Criterio ricerca = null;
-        request.getParameter("email");
+         
         
-        Collection<Bibliotecario> listaDipendenti = new ArrayList<Bibliotecario>();
+        Collection<Bibliotecario> listaDipendenti = new ArrayList<>();
         String criterio = request.getParameter("criterio");
         
-        if(criterio.equals("Per email")){
-             ricerca = new RegistratiPerEmail(request.getParameter("valore"));
-             
-        }else if(criterio.equals("Per codice")){
-            ricerca = new RegistratiPerTipo(request.getParameter("valore"));
+        if(criterio.equals("email")){
+             ricerca = new RegistratiPerEmail(request.getParameter("valore"));                     
             
-        }else if(criterio.equals("Per cognome")){
+        }else if(criterio.equals("cognome")){
             ricerca = new RegistratiPerCognome(request.getParameter("valore"));
             
         }
         
         ManagerUtenti manUtenti = new ManagerUtenti();
-        listaDipendenti = manUtenti.visualizzaDipendenti(ricerca, "email");
+        String isil = ((Bibliotecario)request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIsil();
+        listaDipendenti = manUtenti.visualizzaDipendenti(ricerca,isil);
         
         if(listaDipendenti.isEmpty()){
             message = "Nessun dato corrispondente al criterio selezionato.";
@@ -71,7 +69,7 @@ public class CercaDipendenteServlet extends HttpServlet {
         }
         
         request.setAttribute("message", message);
-        RequestDispatcher view = request.getRequestDispatcher("cercaDipendenteBiblioteca.jsp");
+        RequestDispatcher view = request.getRequestDispatcher("cerca-dipendente-biblioteca.jsp");
         view.forward(request, response);
     }
 

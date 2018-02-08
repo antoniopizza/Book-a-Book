@@ -37,7 +37,7 @@ public class ManagerUtenti {
         lista.addAll(listaPersone);
         lista.addAll(listaBibliotecari);
 
-        for (int i = 0; i <= lista.size(); i++) {
+        for (int i = 0; i < lista.size(); i++) {
             if (cr.isValid(lista.get(i))) {
                 listaUtenti.add(lista.get(i));
             }
@@ -73,13 +73,12 @@ public class ManagerUtenti {
 
     public Collection<Bibliotecario> visualizzaDipendenti(Criterio cr, String isil) {
         BibliotecarioDAO bibliotecarioDAO = new BibliotecarioDAO();
-        Collection<Bibliotecario> listaDipendenti = new ArrayList<Bibliotecario>();
-        List<Bibliotecario> lista = new ArrayList<Bibliotecario>();
-        lista = bibliotecarioDAO.doRetriveDipendentiByIsil(isil);
+        Collection<Bibliotecario> listaDipendenti = new ArrayList<>();
+        List<Bibliotecario> lista = bibliotecarioDAO.doRetriveDipendentiByIsil(isil);
 
-        for (int i = 0; i <= lista.size(); i++) {
+        for (int i = 0; i < lista.size(); i++) {
             if (cr.isValid(lista.get(i))) {
-                lista.add(lista.get(i));
+                listaDipendenti.add(lista.get(i));
             }
         }
 
