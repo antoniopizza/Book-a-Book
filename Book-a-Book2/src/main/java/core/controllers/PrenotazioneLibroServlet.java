@@ -42,14 +42,17 @@ public class PrenotazioneLibroServlet extends HttpServlet {
         String isil = request.getParameter("isil");
         String isbn = request.getParameter("isbn");
         Prenotazione prenot = null;
+        RequestDispatcher view;
         ManagerPrenotazione manPren = new ManagerPrenotazione();
         if (request.getSession().getAttribute("persona") != null) {
             Persona p = (Persona) request.getSession().getAttribute("persona");
 
             if ((prenot=manPren.prenotareLibro(p, isbn, isil)) == null) {
-                message = "C'è stato un errore durante qualche operazione.";
+                message = "error";
+                view = request.getRequestDispatcher("errore.jsp");
             } else {
                 message = "correct";
+                view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
             }
 
         } else if (request.getSession().getAttribute("bibliotecario") != null) {
@@ -68,15 +71,21 @@ public class PrenotazioneLibroServlet extends HttpServlet {
             
             if ((prenot=manPren.prenotareLibro(p, isbn, isil)) == null) {
                 message = "error";
+                view = request.getRequestDispatcher("errore.jsp");
             } else {
                 message = "correct";
+                view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
             }
+        } else {
+            message = "error";
+            view = request.getRequestDispatcher("errore.jsp");
         }
 
         request.setAttribute("message", message);
         request.setAttribute("prenotazione", prenot);
         
-        RequestDispatcher view = request.getRequestDispatcher("visualizza-prenotazione.jsp");
+        
+         
         view.forward(request, response);
 
     }

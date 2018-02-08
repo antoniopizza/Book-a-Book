@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class BibliotecaDAO extends AbstractDAO<Biblioteca> {
 
-    private final String doRetriveBibliotecaByIsbn = "SELECT * FROM Biblioteca WHERE isil IN (SELECT DISTINCT isil FROM Copia, Libro WHERE Copia.isbn = Libro.isbn AND Copia.isbn = ? AND Copia.status = ? AND Copia.disponibilita = ?)";
+    private final String doRetriveBibliotecaByIsbn = "SELECT * FROM Biblioteca WHERE isil IN (SELECT DISTINCT isil FROM Copia WHERE Copia.isbn = ? AND Copia.status = ? AND Copia.disponibilita = ?)";
     private final String doDeleteQuery = "DELETE FROM Biblioteca WHERE isil = ?";
     private final String doRetriveByIdQuery = "SELECT * FROM Biblioteca WHERE isil = ?";
     private final String doRetriveAllQuery = "SELECT * FROM Biblioteca";

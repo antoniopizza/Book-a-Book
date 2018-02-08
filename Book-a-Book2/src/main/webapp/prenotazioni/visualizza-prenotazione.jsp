@@ -12,14 +12,20 @@
 
 <% String nomePagina = "Informazioni Prenotazione";
     String pathServlet = application.getContextPath();
-    Prenotazione prenotazione = (Prenotazione) request.getAttribute("prenotazione");
-    Libro libro = prenotazione.getCopia().getLibro();
-    Persona persona;
 
-    if (session.getAttribute("persona") == null) {
-        persona = (Persona) request.getAttribute("persona");
-    } else {
-        persona = prenotazione.getPersona();
+    Persona persona = null;
+    String message = (String) request.getAttribute("message");
+    Prenotazione prenotazione = null;
+    Libro libro = null;
+    if (message != null && message.equalsIgnoreCase("correct")) {
+        prenotazione= (Prenotazione) request.getAttribute("prenotazione");
+        libro = prenotazione.getCopia().getLibro();
+
+        if (session.getAttribute("persona") == null) {
+            persona = (Persona) request.getAttribute("persona");
+        } else {
+            persona = prenotazione.getPersona();
+        }
     }
 
     Bibliotecario bibliotecario = (Bibliotecario) request.getSession().getAttribute("bibliotecario");
@@ -46,7 +52,7 @@
                                     <% } else if (session.getAttribute("persona") != null) {%>
                                     <%@include file="../skeleton-pages/menuPersona.jsp" %>
                                     <% } else { %>
-                                     <%@include file="../skeleton-pages/menu-non-loggato.jsp" %>
+                                    <%@include file="../skeleton-pages/menu-non-loggato.jsp" %>
                                     <% }
                                     %>
                                 </ul>
@@ -59,7 +65,6 @@
                             <%@include file="../skeleton-pages/searchbar.jsp" %>
                             <br>
                             <%
-                                String message = (String) request.getAttribute("message");
                                 if (message != null) {
                             %>
                             <% if (message.equals("correct")) { %>
@@ -123,11 +128,11 @@
                                     %>
                                     <p>Casa Editrice: <%=libro.getEditore()%></p>
                                     <br>
-                                    <% if(session.getAttribute("bibliotecario") == null){ %>
+                                    <% if (session.getAttribute("bibliotecario") == null) {%>
                                     <p><strong>Biblioteca in cui ritirare il libro</strong></p>
-                                    <p>Nome: <%= prenotazione.getBiblioteca().getNome() %></p>
-                                    <p>Indirizzo: <%= prenotazione.getBiblioteca().getIndirizzo().getVia() +" "+prenotazione.getBiblioteca().getIndirizzo().getCivico() + ", "+ prenotazione.getBiblioteca().getIndirizzo().getCitta() + "(" + prenotazione.getBiblioteca().getIndirizzo().getProvincia()+")" %> </p>
-                                    <% } %>
+                                    <p>Nome: <%= prenotazione.getBiblioteca().getNome()%></p>
+                                    <p>Indirizzo: <%= prenotazione.getBiblioteca().getIndirizzo().getVia() + " " + prenotazione.getBiblioteca().getIndirizzo().getCivico() + ", " + prenotazione.getBiblioteca().getIndirizzo().getCitta() + "(" + prenotazione.getBiblioteca().getIndirizzo().getProvincia() + ")"%> </p>
+                                    <% }%>
                                     <p><strong>Persona che ha preso in prestito il libro</strong></p>
                                     <p>Nome: <%=persona.getNome()%></p>
                                     <p>Cognome: <%=persona.getCognome()%></p>
