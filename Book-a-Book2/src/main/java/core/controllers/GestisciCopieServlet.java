@@ -44,10 +44,12 @@ public class GestisciCopieServlet extends HttpServlet {
         String isbn = request.getParameter("isbn");      
         ManagerLibri manager = new ManagerLibri();
         String isil = ((Bibliotecario) request.getSession().getAttribute("bibliotecario")).getBiblioteca().getIsil();
-        Collection<Posizione> posizioni = manager.visualizzaPosizioniLibro(isbn, isil);        
+        Collection<Posizione> posizioni = manager.visualizzaPosizioniLibro(isbn, isil);
+        Collection<Posizione> posizioniDisponibili = manager.visualizzaPosizioniBiblioteca(isil);
         Libro book = manager.visualizzaLibro(isbn);
         request.setAttribute("libro", book);
         request.setAttribute("posizioni",posizioni);
+        request.setAttribute("posizioniDisponibili", posizioniDisponibili);
         request.getRequestDispatcher("gestione-copie.jsp").forward(request, response);
         
     }

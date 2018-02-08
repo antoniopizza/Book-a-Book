@@ -15,6 +15,7 @@
     book = (Libro) request.getAttribute("libro");
     String nomePagina = "Gestisci copie";
     Collection<Posizione> posizioni = (Collection<Posizione>) request.getAttribute("posizioni");
+    Collection<Posizione> posizioniDisponibili = (Collection<Posizione>) request.getAttribute("posizioniDisponibili");
     Biblioteca biblioteca = ((Bibliotecario) session.getAttribute("bibliotecario")).getBiblioteca();
     String message = "";
     if (request.getAttribute("message") != null) {
@@ -259,7 +260,7 @@
                                 </div>                                
                                 <div class="col-6"> 
                                     <select name="nuova-posizione">
-                                        <% for (Posizione p : biblioteca.getPosizioni()) {%>
+                                        <% for (Posizione p : posizioniDisponibili) {%>
                                         <option value="<%= p.getEtichetta()%>"><%= p.getEtichetta()%></option>
                                         <% }%>
                                     </select>
@@ -308,7 +309,7 @@
                                 </div>
                                 <div class="col"> 
                                     <select name="posizione">
-                                        <% for (Posizione p : biblioteca.getPosizioni()) {%>
+                                        <% for (Posizione p : posizioniDisponibili) {%>
                                         <option value="<%= p.getEtichetta()%>"><%= p.getEtichetta()%></option>
                                         <% }%>
                                     </select>
