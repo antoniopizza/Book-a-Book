@@ -46,7 +46,7 @@ public class DettagliPrenotazioneServlet extends HttpServlet {
         if((pren = manPren.visualizzaPrenotazione(id))==null){
             message="error";
         }else{
-            message="ok";
+            message="correct";
         }
         libro = pren.getCopia().getLibro();
         persona = pren.getPersona();

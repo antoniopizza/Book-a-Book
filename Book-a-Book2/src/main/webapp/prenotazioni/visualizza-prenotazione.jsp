@@ -17,7 +17,7 @@
     String message = (String) request.getAttribute("message");
     Prenotazione prenotazione = null;
     Libro libro = null;
-    if (message != null && message.equalsIgnoreCase("correct")) {
+    if (message != null && !message.equalsIgnoreCase("error")) {
         prenotazione= (Prenotazione) request.getAttribute("prenotazione");
         libro = prenotazione.getCopia().getLibro();
 
